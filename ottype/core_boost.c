@@ -3,6 +3,7 @@
 /* BEGIN: Cython Metadata
 {
     "distutils": {
+        "depends": [],
         "name": "ottype.core_boost",
         "sources": [
             "ottype/core_boost.pyx"
@@ -607,6 +608,9 @@ static CYTHON_INLINE float __PYX_NAN() {
 #define __PYX_HAVE__ottype__core_boost
 #define __PYX_HAVE_API__ottype__core_boost
 /* Early includes */
+#include <string.h>
+#include <stdio.h>
+#include "pythread.h"
 #ifdef _OPENMP
 #include <omp.h>
 #endif /* _OPENMP */
@@ -817,21 +821,34 @@ static const char *__pyx_filename;
 static const char *__pyx_f[] = {
   "ottype/core_boost.pyx",
   "stringsource",
+  "venv/lib/python3.7/site-packages/Cython/Includes/cpython/type.pxd",
+  "venv/lib/python3.7/site-packages/Cython/Includes/cpython/bool.pxd",
+  "venv/lib/python3.7/site-packages/Cython/Includes/cpython/complex.pxd",
 };
 
 /*--- Type declarations ---*/
-struct __pyx_obj_6ottype_10core_boost_OTType;
-struct __pyx_obj_6ottype_10core_boost_OTSkip;
-struct __pyx_obj_6ottype_10core_boost_OTInsert;
-struct __pyx_obj_6ottype_10core_boost_OTDelete;
 struct __pyx_obj_6ottype_10core_boost__Appender;
 struct __pyx_obj_6ottype_10core_boost__Taker;
 struct __pyx_opt_args_6ottype_10core_boost_6_Taker_take;
 
-/* "ottype/core_boost.pyx":110
+/* "ottype/core_boost.pyx":4
+ * from cpython cimport *
+ * 
+ * cdef enum OTTypeAction:             # <<<<<<<<<<<<<<
+ *     nop, skip, insert, delete
+ * 
+ */
+enum __pyx_t_6ottype_10core_boost_OTTypeAction {
+  __pyx_e_6ottype_10core_boost_nop,
+  __pyx_e_6ottype_10core_boost_skip,
+  __pyx_e_6ottype_10core_boost_insert,
+  __pyx_e_6ottype_10core_boost_delete
+};
+
+/* "ottype/core_boost.pyx":115
  *         self._offset = 0
  * 
- *     cdef OTType take(self, int n, int indivisable = 0):             # <<<<<<<<<<<<<<
+ *     cdef tuple take(self, int n, int indivisable = 0):             # <<<<<<<<<<<<<<
  *         # NOTE : indivisable (0 -> None, 1 -> Insert, 2 -> Delete)
  *         cdef:
  */
@@ -840,58 +857,7 @@ struct __pyx_opt_args_6ottype_10core_boost_6_Taker_take {
   int indivisable;
 };
 
-/* "ottype/core_boost.pyx":3
- * # cython: language_level=3
- * 
- * cdef class OTType:             # <<<<<<<<<<<<<<
- *     pass
- * 
- */
-struct __pyx_obj_6ottype_10core_boost_OTType {
-  PyObject_HEAD
-};
-
-
-/* "ottype/core_boost.pyx":7
- * 
- * 
- * cdef class OTSkip(OTType):             # <<<<<<<<<<<<<<
- *     cdef int arg
- * 
- */
-struct __pyx_obj_6ottype_10core_boost_OTSkip {
-  struct __pyx_obj_6ottype_10core_boost_OTType __pyx_base;
-  int arg;
-};
-
-
-/* "ottype/core_boost.pyx":18
- * 
- * 
- * cdef class OTInsert(OTType):             # <<<<<<<<<<<<<<
- *     cdef str arg
- * 
- */
-struct __pyx_obj_6ottype_10core_boost_OTInsert {
-  struct __pyx_obj_6ottype_10core_boost_OTType __pyx_base;
-  PyObject *arg;
-};
-
-
-/* "ottype/core_boost.pyx":29
- * 
- * 
- * cdef class OTDelete(OTType):             # <<<<<<<<<<<<<<
- *     cdef str arg
- * 
- */
-struct __pyx_obj_6ottype_10core_boost_OTDelete {
-  struct __pyx_obj_6ottype_10core_boost_OTType __pyx_base;
-  PyObject *arg;
-};
-
-
-/* "ottype/core_boost.pyx":70
+/* "ottype/core_boost.pyx":69
  * 
  * 
  * cdef class _Appender:             # <<<<<<<<<<<<<<
@@ -905,7 +871,7 @@ struct __pyx_obj_6ottype_10core_boost__Appender {
 };
 
 
-/* "ottype/core_boost.pyx":98
+/* "ottype/core_boost.pyx":103
  * 
  * 
  * cdef class _Taker:             # <<<<<<<<<<<<<<
@@ -922,7 +888,7 @@ struct __pyx_obj_6ottype_10core_boost__Taker {
 
 
 
-/* "ottype/core_boost.pyx":70
+/* "ottype/core_boost.pyx":69
  * 
  * 
  * cdef class _Appender:             # <<<<<<<<<<<<<<
@@ -931,12 +897,12 @@ struct __pyx_obj_6ottype_10core_boost__Taker {
  */
 
 struct __pyx_vtabstruct_6ottype_10core_boost__Appender {
-  void (*append)(struct __pyx_obj_6ottype_10core_boost__Appender *, struct __pyx_obj_6ottype_10core_boost_OTType *);
+  void (*append)(struct __pyx_obj_6ottype_10core_boost__Appender *, PyObject *);
 };
 static struct __pyx_vtabstruct_6ottype_10core_boost__Appender *__pyx_vtabptr_6ottype_10core_boost__Appender;
 
 
-/* "ottype/core_boost.pyx":98
+/* "ottype/core_boost.pyx":103
  * 
  * 
  * cdef class _Taker:             # <<<<<<<<<<<<<<
@@ -945,8 +911,8 @@ static struct __pyx_vtabstruct_6ottype_10core_boost__Appender *__pyx_vtabptr_6ot
  */
 
 struct __pyx_vtabstruct_6ottype_10core_boost__Taker {
-  struct __pyx_obj_6ottype_10core_boost_OTType *(*take)(struct __pyx_obj_6ottype_10core_boost__Taker *, int, struct __pyx_opt_args_6ottype_10core_boost_6_Taker_take *__pyx_optional_args);
-  struct __pyx_obj_6ottype_10core_boost_OTType *(*peak)(struct __pyx_obj_6ottype_10core_boost__Taker *);
+  PyObject *(*take)(struct __pyx_obj_6ottype_10core_boost__Taker *, int, struct __pyx_opt_args_6ottype_10core_boost_6_Taker_take *__pyx_optional_args);
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction (*peak_action)(struct __pyx_obj_6ottype_10core_boost__Taker *);
 };
 static struct __pyx_vtabstruct_6ottype_10core_boost__Taker *__pyx_vtabptr_6ottype_10core_boost__Taker;
 
@@ -1024,12 +990,11 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject
 /* GetBuiltinName.proto */
 static PyObject *__Pyx_GetBuiltinName(PyObject *name);
 
-/* PyErrExceptionMatches.proto */
-#if CYTHON_FAST_THREAD_STATE
-#define __Pyx_PyErr_ExceptionMatches(err) __Pyx_PyErr_ExceptionMatchesInState(__pyx_tstate, err)
-static CYTHON_INLINE int __Pyx_PyErr_ExceptionMatchesInState(PyThreadState* tstate, PyObject* err);
+/* PyObjectCall.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
 #else
-#define __Pyx_PyErr_ExceptionMatches(err)  PyErr_ExceptionMatches(err)
+#define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
 #endif
 
 /* PyThreadStateGet.proto */
@@ -1067,6 +1032,126 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
 #define __Pyx_ErrRestore(type, value, tb)  PyErr_Restore(type, value, tb)
 #define __Pyx_ErrFetch(type, value, tb)  PyErr_Fetch(type, value, tb)
 #endif
+
+/* RaiseException.proto */
+static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
+
+/* IncludeStringH.proto */
+#include <string.h>
+
+/* BytesEquals.proto */
+static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int equals);
+
+/* UnicodeEquals.proto */
+static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals);
+
+/* GetTopmostException.proto */
+#if CYTHON_USE_EXC_INFO_STACK
+static _PyErr_StackItem * __Pyx_PyErr_GetTopmostException(PyThreadState *tstate);
+#endif
+
+/* SaveResetException.proto */
+#if CYTHON_FAST_THREAD_STATE
+#define __Pyx_ExceptionSave(type, value, tb)  __Pyx__ExceptionSave(__pyx_tstate, type, value, tb)
+static CYTHON_INLINE void __Pyx__ExceptionSave(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb);
+#define __Pyx_ExceptionReset(type, value, tb)  __Pyx__ExceptionReset(__pyx_tstate, type, value, tb)
+static CYTHON_INLINE void __Pyx__ExceptionReset(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb);
+#else
+#define __Pyx_ExceptionSave(type, value, tb)   PyErr_GetExcInfo(type, value, tb)
+#define __Pyx_ExceptionReset(type, value, tb)  PyErr_SetExcInfo(type, value, tb)
+#endif
+
+/* PyErrExceptionMatches.proto */
+#if CYTHON_FAST_THREAD_STATE
+#define __Pyx_PyErr_ExceptionMatches(err) __Pyx_PyErr_ExceptionMatchesInState(__pyx_tstate, err)
+static CYTHON_INLINE int __Pyx_PyErr_ExceptionMatchesInState(PyThreadState* tstate, PyObject* err);
+#else
+#define __Pyx_PyErr_ExceptionMatches(err)  PyErr_ExceptionMatches(err)
+#endif
+
+/* RaiseTooManyValuesToUnpack.proto */
+static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected);
+
+/* RaiseNeedMoreValuesToUnpack.proto */
+static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index);
+
+/* RaiseNoneIterError.proto */
+static CYTHON_INLINE void __Pyx_RaiseNoneNotIterableError(void);
+
+/* None.proto */
+static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname);
+
+/* RaiseDoubleKeywords.proto */
+static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
+
+/* ParseKeywords.proto */
+static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
+    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
+    const char* function_name);
+
+/* RaiseArgTupleInvalid.proto */
+static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
+    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
+
+/* ArgTypeTest.proto */
+#define __Pyx_ArgTypeTest(obj, type, none_allowed, name, exact)\
+    ((likely((Py_TYPE(obj) == type) | (none_allowed && (obj == Py_None)))) ? 1 :\
+        __Pyx__ArgTypeTest(obj, type, name, exact))
+static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact);
+
+/* ListAppend.proto */
+#if CYTHON_USE_PYLIST_INTERNALS && CYTHON_ASSUME_SAFE_MACROS
+static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
+    PyListObject* L = (PyListObject*) list;
+    Py_ssize_t len = Py_SIZE(list);
+    if (likely(L->allocated > len) & likely(len > (L->allocated >> 1))) {
+        Py_INCREF(x);
+        PyList_SET_ITEM(list, len, x);
+        Py_SIZE(list) = len+1;
+        return 0;
+    }
+    return PyList_Append(list, x);
+}
+#else
+#define __Pyx_PyList_Append(L,x) PyList_Append(L,x)
+#endif
+
+/* GetItemInt.proto */
+#define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_Fast(o, (Py_ssize_t)i, is_list, wraparound, boundscheck) :\
+    (is_list ? (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL) :\
+               __Pyx_GetItemInt_Generic(o, to_py_func(i))))
+#define __Pyx_GetItemInt_List(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_List_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
+    (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL))
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
+                                                              int wraparound, int boundscheck);
+#define __Pyx_GetItemInt_Tuple(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_Tuple_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
+    (PyErr_SetString(PyExc_IndexError, "tuple index out of range"), (PyObject*)NULL))
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
+                                                              int wraparound, int boundscheck);
+static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
+                                                     int is_list, int wraparound, int boundscheck);
+
+/* SetItemInt.proto */
+#define __Pyx_SetItemInt(o, i, v, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_SetItemInt_Fast(o, (Py_ssize_t)i, v, is_list, wraparound, boundscheck) :\
+    (is_list ? (PyErr_SetString(PyExc_IndexError, "list assignment index out of range"), -1) :\
+               __Pyx_SetItemInt_Generic(o, to_py_func(i), v)))
+static int __Pyx_SetItemInt_Generic(PyObject *o, PyObject *j, PyObject *v);
+static CYTHON_INLINE int __Pyx_SetItemInt_Fast(PyObject *o, Py_ssize_t i, PyObject *v,
+                                               int is_list, int wraparound, int boundscheck);
+
+/* WriteUnraisableException.proto */
+static void __Pyx_WriteUnraisable(const char *name, int clineno,
+                                  int lineno, const char *filename,
+                                  int full_traceback, int nogil);
 
 /* GetAttr.proto */
 static CYTHON_INLINE PyObject *__Pyx_GetAttr(PyObject *, PyObject *);
@@ -1121,23 +1206,12 @@ static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_ve
 static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name);
 #endif
 
-/* RaiseDoubleKeywords.proto */
-static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
-
-/* ParseKeywords.proto */
-static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
-    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
-    const char* function_name);
-
-/* RaiseArgTupleInvalid.proto */
-static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
-    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
-
-/* ArgTypeTest.proto */
-#define __Pyx_ArgTypeTest(obj, type, none_allowed, name, exact)\
-    ((likely((Py_TYPE(obj) == type) | (none_allowed && (obj == Py_None)))) ? 1 :\
-        __Pyx__ArgTypeTest(obj, type, name, exact))
-static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact);
+/* PyCFunctionFastCall.proto */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
+#else
+#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
+#endif
 
 /* PyFunctionFastCall.proto */
 #if CYTHON_FAST_PYCALL
@@ -1162,17 +1236,23 @@ static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, 
     (assert(__pyx_pyframe_localsplus_offset), (PyObject **)(((char *)(frame)) + __pyx_pyframe_localsplus_offset))
 #endif
 
-/* PyObjectCall.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
-#else
-#define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
-#endif
-
 /* PyObjectCallMethO.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
 #endif
+
+/* PyObjectCallOneArg.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
+
+/* IterFinish.proto */
+static CYTHON_INLINE int __Pyx_IterFinish(void);
+
+/* UnpackItemEndCheck.proto */
+static int __Pyx_IternextUnpackEndCheck(PyObject *retval, Py_ssize_t expected);
+
+/* PyUnicode_Substring.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyUnicode_Substring(
+            PyObject* text, Py_ssize_t start, Py_ssize_t stop);
 
 /* PyObjectCallNoArg.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
@@ -1180,105 +1260,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
 #else
 #define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
 #endif
-
-/* RaiseException.proto */
-static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
-
-/* PyCFunctionFastCall.proto */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
-#else
-#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
-#endif
-
-/* PyObjectCallOneArg.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
-
-/* IncludeStringH.proto */
-#include <string.h>
-
-/* BytesEquals.proto */
-static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int equals);
-
-/* UnicodeEquals.proto */
-static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals);
-
-/* ListAppend.proto */
-#if CYTHON_USE_PYLIST_INTERNALS && CYTHON_ASSUME_SAFE_MACROS
-static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
-    PyListObject* L = (PyListObject*) list;
-    Py_ssize_t len = Py_SIZE(list);
-    if (likely(L->allocated > len) & likely(len > (L->allocated >> 1))) {
-        Py_INCREF(x);
-        PyList_SET_ITEM(list, len, x);
-        Py_SIZE(list) = len+1;
-        return 0;
-    }
-    return PyList_Append(list, x);
-}
-#else
-#define __Pyx_PyList_Append(L,x) PyList_Append(L,x)
-#endif
-
-/* GetTopmostException.proto */
-#if CYTHON_USE_EXC_INFO_STACK
-static _PyErr_StackItem * __Pyx_PyErr_GetTopmostException(PyThreadState *tstate);
-#endif
-
-/* SaveResetException.proto */
-#if CYTHON_FAST_THREAD_STATE
-#define __Pyx_ExceptionSave(type, value, tb)  __Pyx__ExceptionSave(__pyx_tstate, type, value, tb)
-static CYTHON_INLINE void __Pyx__ExceptionSave(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb);
-#define __Pyx_ExceptionReset(type, value, tb)  __Pyx__ExceptionReset(__pyx_tstate, type, value, tb)
-static CYTHON_INLINE void __Pyx__ExceptionReset(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb);
-#else
-#define __Pyx_ExceptionSave(type, value, tb)   PyErr_GetExcInfo(type, value, tb)
-#define __Pyx_ExceptionReset(type, value, tb)  PyErr_SetExcInfo(type, value, tb)
-#endif
-
-/* GetItemInt.proto */
-#define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_GetItemInt_Fast(o, (Py_ssize_t)i, is_list, wraparound, boundscheck) :\
-    (is_list ? (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL) :\
-               __Pyx_GetItemInt_Generic(o, to_py_func(i))))
-#define __Pyx_GetItemInt_List(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_GetItemInt_List_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
-    (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL))
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck);
-#define __Pyx_GetItemInt_Tuple(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_GetItemInt_Tuple_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
-    (PyErr_SetString(PyExc_IndexError, "tuple index out of range"), (PyObject*)NULL))
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck);
-static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
-                                                     int is_list, int wraparound, int boundscheck);
-
-/* ExtTypeTest.proto */
-static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
-
-/* SetItemInt.proto */
-#define __Pyx_SetItemInt(o, i, v, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_SetItemInt_Fast(o, (Py_ssize_t)i, v, is_list, wraparound, boundscheck) :\
-    (is_list ? (PyErr_SetString(PyExc_IndexError, "list assignment index out of range"), -1) :\
-               __Pyx_SetItemInt_Generic(o, to_py_func(i), v)))
-static int __Pyx_SetItemInt_Generic(PyObject *o, PyObject *j, PyObject *v);
-static CYTHON_INLINE int __Pyx_SetItemInt_Fast(PyObject *o, Py_ssize_t i, PyObject *v,
-                                               int is_list, int wraparound, int boundscheck);
-
-/* WriteUnraisableException.proto */
-static void __Pyx_WriteUnraisable(const char *name, int clineno,
-                                  int lineno, const char *filename,
-                                  int full_traceback, int nogil);
-
-/* PyUnicode_Substring.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyUnicode_Substring(
-            PyObject* text, Py_ssize_t start, Py_ssize_t stop);
 
 /* PyObjectGetMethod.proto */
 static int __Pyx_PyObject_GetMethod(PyObject *obj, PyObject *name, PyObject **method);
@@ -1360,14 +1341,25 @@ static PyObject* __Pyx_PyObject_GenericGetAttr(PyObject* obj, PyObject* attr_nam
 #define __Pyx_PyObject_GenericGetAttr PyObject_GenericGetAttr
 #endif
 
+/* SetVTable.proto */
+static int __Pyx_SetVtable(PyObject *dict, void *vtable);
+
 /* PyObjectGetAttrStrNoError.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStrNoError(PyObject* obj, PyObject* attr_name);
 
 /* SetupReduce.proto */
 static int __Pyx_setup_reduce(PyObject* type_obj);
 
-/* SetVTable.proto */
-static int __Pyx_SetVtable(PyObject *dict, void *vtable);
+/* TypeImport.proto */
+#ifndef __PYX_HAVE_RT_ImportType_proto
+#define __PYX_HAVE_RT_ImportType_proto
+enum __Pyx_ImportType_CheckSize {
+   __Pyx_ImportType_CheckSize_Error = 0,
+   __Pyx_ImportType_CheckSize_Warn = 1,
+   __Pyx_ImportType_CheckSize_Ignore = 2
+};
+static PyTypeObject *__Pyx_ImportType(PyObject* module, const char *module_name, const char *class_name, size_t size, enum __Pyx_ImportType_CheckSize check_size);
+#endif
 
 /* CLineInTraceback.proto */
 #ifdef CYTHON_CLINE_IN_TRACEBACK
@@ -1399,6 +1391,9 @@ static void __Pyx_AddTraceback(const char *funcname, int c_line,
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
 
 /* CIntToPy.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_enum____pyx_t_6ottype_10core_boost_OTTypeAction(enum __pyx_t_6ottype_10core_boost_OTTypeAction value);
+
+/* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
 /* CIntFromPy.proto */
@@ -1406,6 +1401,9 @@ static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
+
+/* CIntFromPy.proto */
+static CYTHON_INLINE enum __pyx_t_6ottype_10core_boost_OTTypeAction __Pyx_PyInt_As_enum____pyx_t_6ottype_10core_boost_OTTypeAction(PyObject *);
 
 /* FastTypeChecks.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
@@ -1426,24 +1424,100 @@ static int __Pyx_check_binary_version(void);
 /* InitStrings.proto */
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
-static void __pyx_f_6ottype_10core_boost_9_Appender_append(struct __pyx_obj_6ottype_10core_boost__Appender *__pyx_v_self, struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_v_ot); /* proto*/
-static struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_f_6ottype_10core_boost_6_Taker_take(struct __pyx_obj_6ottype_10core_boost__Taker *__pyx_v_self, int __pyx_v_n, struct __pyx_opt_args_6ottype_10core_boost_6_Taker_take *__pyx_optional_args); /* proto*/
-static struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_f_6ottype_10core_boost_6_Taker_peak(struct __pyx_obj_6ottype_10core_boost__Taker *__pyx_v_self); /* proto*/
+static void __pyx_f_6ottype_10core_boost_9_Appender_append(struct __pyx_obj_6ottype_10core_boost__Appender *__pyx_v_self, PyObject *__pyx_v_ot); /* proto*/
+static PyObject *__pyx_f_6ottype_10core_boost_6_Taker_take(struct __pyx_obj_6ottype_10core_boost__Taker *__pyx_v_self, int __pyx_v_n, struct __pyx_opt_args_6ottype_10core_boost_6_Taker_take *__pyx_optional_args); /* proto*/
+static enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_f_6ottype_10core_boost_6_Taker_peak_action(struct __pyx_obj_6ottype_10core_boost__Taker *__pyx_v_self); /* proto*/
+
+/* Module declarations from 'cpython.version' */
+
+/* Module declarations from '__builtin__' */
+
+/* Module declarations from 'cpython.type' */
+static PyTypeObject *__pyx_ptype_7cpython_4type_type = 0;
+
+/* Module declarations from 'libc.string' */
+
+/* Module declarations from 'libc.stdio' */
+
+/* Module declarations from 'cpython.object' */
+
+/* Module declarations from 'cpython.ref' */
+
+/* Module declarations from 'cpython.exc' */
+
+/* Module declarations from 'cpython.module' */
+
+/* Module declarations from 'cpython.mem' */
+
+/* Module declarations from 'cpython.tuple' */
+
+/* Module declarations from 'cpython.list' */
+
+/* Module declarations from 'cpython.sequence' */
+
+/* Module declarations from 'cpython.mapping' */
+
+/* Module declarations from 'cpython.iterator' */
+
+/* Module declarations from 'cpython.number' */
+
+/* Module declarations from 'cpython.int' */
+
+/* Module declarations from '__builtin__' */
+
+/* Module declarations from 'cpython.bool' */
+static PyTypeObject *__pyx_ptype_7cpython_4bool_bool = 0;
+
+/* Module declarations from 'cpython.long' */
+
+/* Module declarations from 'cpython.float' */
+
+/* Module declarations from '__builtin__' */
+
+/* Module declarations from 'cpython.complex' */
+static PyTypeObject *__pyx_ptype_7cpython_7complex_complex = 0;
+
+/* Module declarations from 'cpython.string' */
+
+/* Module declarations from 'cpython.unicode' */
+
+/* Module declarations from 'cpython.dict' */
+
+/* Module declarations from 'cpython.instance' */
+
+/* Module declarations from 'cpython.function' */
+
+/* Module declarations from 'cpython.method' */
+
+/* Module declarations from 'cpython.weakref' */
+
+/* Module declarations from 'cpython.getargs' */
+
+/* Module declarations from 'cpython.pythread' */
+
+/* Module declarations from 'cpython.pystate' */
+
+/* Module declarations from 'cpython.cobject' */
+
+/* Module declarations from 'cpython.oldbuffer' */
+
+/* Module declarations from 'cpython.set' */
+
+/* Module declarations from 'cpython.buffer' */
+
+/* Module declarations from 'cpython.bytes' */
+
+/* Module declarations from 'cpython.pycapsule' */
+
+/* Module declarations from 'cpython' */
 
 /* Module declarations from 'ottype.core_boost' */
-static PyTypeObject *__pyx_ptype_6ottype_10core_boost_OTType = 0;
-static PyTypeObject *__pyx_ptype_6ottype_10core_boost_OTSkip = 0;
-static PyTypeObject *__pyx_ptype_6ottype_10core_boost_OTInsert = 0;
-static PyTypeObject *__pyx_ptype_6ottype_10core_boost_OTDelete = 0;
 static PyTypeObject *__pyx_ptype_6ottype_10core_boost__Appender = 0;
 static PyTypeObject *__pyx_ptype_6ottype_10core_boost__Taker = 0;
-static struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_f_6ottype_10core_boost__resolve_ot(PyObject *); /*proto*/
-static PyObject *__pyx_f_6ottype_10core_boost__make_iter_ots(PyObject *); /*proto*/
+static CYTHON_INLINE PyObject *__pyx_f_6ottype_10core_boost__resolve_ot(PyObject *); /*proto*/
+static CYTHON_INLINE PyObject *__pyx_f_6ottype_10core_boost__make_iter_ots(PyObject *); /*proto*/
+static CYTHON_INLINE PyObject *__pyx_f_6ottype_10core_boost__to_ot_raw_list(PyObject *); /*proto*/
 static void __pyx_f_6ottype_10core_boost__trim(PyObject *); /*proto*/
-static PyObject *__pyx_f_6ottype_10core_boost___pyx_unpickle_OTType__set_state(struct __pyx_obj_6ottype_10core_boost_OTType *, PyObject *); /*proto*/
-static PyObject *__pyx_f_6ottype_10core_boost___pyx_unpickle_OTSkip__set_state(struct __pyx_obj_6ottype_10core_boost_OTSkip *, PyObject *); /*proto*/
-static PyObject *__pyx_f_6ottype_10core_boost___pyx_unpickle_OTInsert__set_state(struct __pyx_obj_6ottype_10core_boost_OTInsert *, PyObject *); /*proto*/
-static PyObject *__pyx_f_6ottype_10core_boost___pyx_unpickle_OTDelete__set_state(struct __pyx_obj_6ottype_10core_boost_OTDelete *, PyObject *); /*proto*/
 static PyObject *__pyx_f_6ottype_10core_boost___pyx_unpickle__Appender__set_state(struct __pyx_obj_6ottype_10core_boost__Appender *, PyObject *); /*proto*/
 static PyObject *__pyx_f_6ottype_10core_boost___pyx_unpickle__Taker__set_state(struct __pyx_obj_6ottype_10core_boost__Taker *, PyObject *); /*proto*/
 #define __Pyx_MODULE_NAME "ottype.core_boost"
@@ -1451,23 +1525,20 @@ extern int __pyx_module_is_main_ottype__core_boost;
 int __pyx_module_is_main_ottype__core_boost = 0;
 
 /* Implementation of 'ottype.core_boost' */
-static PyObject *__pyx_builtin_TypeError;
 static PyObject *__pyx_builtin_ValueError;
-static PyObject *__pyx_builtin_reversed;
 static PyObject *__pyx_builtin_range;
-static const char __pyx_k_[] = "";
+static PyObject *__pyx_builtin_TypeError;
+static PyObject *__pyx_builtin_reversed;
 static const char __pyx_k_d[] = "d";
-static const char __pyx_k_i[] = "i";
 static const char __pyx_k_n[] = "n";
+static const char __pyx_k__2[] = "";
 static const char __pyx_k_ot[] = "ot";
-static const char __pyx_k_arg[] = "arg";
 static const char __pyx_k_doc[] = "doc";
 static const char __pyx_k_get[] = "get";
 static const char __pyx_k_new[] = "__new__";
 static const char __pyx_k_ots[] = "ots";
 static const char __pyx_k_pop[] = "pop";
 static const char __pyx_k_pos[] = "pos";
-static const char __pyx_k_raw[] = "raw";
 static const char __pyx_k_dict[] = "__dict__";
 static const char __pyx_k_left[] = "left";
 static const char __pyx_k_main[] = "__main__";
@@ -1480,23 +1551,19 @@ static const char __pyx_k_check[] = "check";
 static const char __pyx_k_range[] = "range";
 static const char __pyx_k_right[] = "right";
 static const char __pyx_k_taker[] = "taker";
-static const char __pyx_k_OTSkip[] = "OTSkip";
-static const char __pyx_k_OTType[] = "OTType";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_offset[] = "offset";
+static const char __pyx_k_ot_arg[] = "ot_arg";
 static const char __pyx_k_ot_raw[] = "ot_raw";
 static const char __pyx_k_pickle[] = "pickle";
 static const char __pyx_k_reduce[] = "__reduce__";
 static const char __pyx_k_update[] = "update";
 static const char __pyx_k_compose[] = "compose";
-static const char __pyx_k_last_ot[] = "last_ot";
 static const char __pyx_k_new_doc[] = "new_doc";
 static const char __pyx_k_new_ots[] = "new_ots";
 static const char __pyx_k_old_doc[] = "old_doc";
-static const char __pyx_k_ot_skip[] = "ot_skip";
+static const char __pyx_k_ot_list[] = "ot_list";
 static const char __pyx_k_Appender[] = "_Appender";
-static const char __pyx_k_OTDelete[] = "OTDelete";
-static const char __pyx_k_OTInsert[] = "OTInsert";
 static const char __pyx_k_appender[] = "appender";
 static const char __pyx_k_chunk_ot[] = "chunk_ot";
 static const char __pyx_k_getstate[] = "__getstate__";
@@ -1506,8 +1573,7 @@ static const char __pyx_k_reversed[] = "reversed";
 static const char __pyx_k_setstate[] = "__setstate__";
 static const char __pyx_k_TypeError[] = "TypeError";
 static const char __pyx_k_normalize[] = "normalize";
-static const char __pyx_k_ot_delete[] = "ot_delete";
-static const char __pyx_k_ot_insert[] = "ot_insert";
+static const char __pyx_k_ot_action[] = "ot_action";
 static const char __pyx_k_pyx_state[] = "__pyx_state";
 static const char __pyx_k_reduce_ex[] = "__reduce_ex__";
 static const char __pyx_k_transform[] = "transform";
@@ -1517,73 +1583,71 @@ static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static const char __pyx_k_PickleError[] = "PickleError";
 static const char __pyx_k_invalid_OTs[] = "invalid OTs";
 static const char __pyx_k_ot_raw_list[] = "ot_raw_list";
-static const char __pyx_k_resolved_ot[] = "resolved_ot";
+static const char __pyx_k_chunk_ot_arg[] = "chunk_ot_arg";
 static const char __pyx_k_invalid_side[] = "invalid side";
 static const char __pyx_k_pyx_checksum[] = "__pyx_checksum";
 static const char __pyx_k_stringsource[] = "stringsource";
-static const char __pyx_k_chunk_ot_skip[] = "chunk_ot_skip";
 static const char __pyx_k_inverse_apply[] = "inverse_apply";
+static const char __pyx_k_ot_arg_as_int[] = "ot_arg_as_int";
+static const char __pyx_k_ot_arg_as_str[] = "ot_arg_as_str";
 static const char __pyx_k_ot_raw_list_1[] = "ot_raw_list_1";
 static const char __pyx_k_ot_raw_list_2[] = "ot_raw_list_2";
 static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
-static const char __pyx_k_chunk_ot_insert[] = "chunk_ot_insert";
-static const char __pyx_k_new_ot_raw_list[] = "new_ot_raw_list";
+static const char __pyx_k_invalid_OTSkip[] = "invalid OTSkip";
+static const char __pyx_k_last_ot_action[] = "last_ot_action";
+static const char __pyx_k_chunk_ot_action[] = "chunk_ot_action";
 static const char __pyx_k_pyx_PickleError[] = "__pyx_PickleError";
 static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
+static const char __pyx_k_invalid_OTDelete[] = "invalid OTDelete";
+static const char __pyx_k_invalid_OTInsert[] = "invalid OTInsert";
+static const char __pyx_k_check_unoptimized[] = "check_unoptimized";
 static const char __pyx_k_ottype_core_boost[] = "ottype.core_boost";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
-static const char __pyx_k_doc_must_be_string[] = "doc must be string";
-static const char __pyx_k_pyx_unpickle_OTSkip[] = "__pyx_unpickle_OTSkip";
-static const char __pyx_k_pyx_unpickle_OTType[] = "__pyx_unpickle_OTType";
+static const char __pyx_k_chunk_ot_arg_as_int[] = "chunk_ot_arg_as_int";
+static const char __pyx_k_chunk_ot_arg_as_str[] = "chunk_ot_arg_as_str";
 static const char __pyx_k_pyx_unpickle__Taker[] = "__pyx_unpickle__Taker";
 static const char __pyx_k_ottype_core_boost_pyx[] = "ottype/core_boost.pyx";
-static const char __pyx_k_pyx_unpickle_OTDelete[] = "__pyx_unpickle_OTDelete";
-static const char __pyx_k_pyx_unpickle_OTInsert[] = "__pyx_unpickle_OTInsert";
 static const char __pyx_k_pyx_unpickle__Appender[] = "__pyx_unpickle__Appender";
 static const char __pyx_k_skip_exceeds_doc_length[] = "skip exceeds doc length";
+static const char __pyx_k_unexpected_OT_structure[] = "unexpected OT structure";
 static const char __pyx_k_inconsistent_delete_doc_OT_arg[] = "inconsistent delete (doc, OT.arg)";
 static const char __pyx_k_Incompatible_checksums_s_vs_0x29[] = "Incompatible checksums (%s vs 0x29dfc19 = (_idx, _offset, ots))";
 static const char __pyx_k_Incompatible_checksums_s_vs_0x3b[] = "Incompatible checksums (%s vs 0x3b4622d = (ots))";
-static const char __pyx_k_Incompatible_checksums_s_vs_0x61[] = "Incompatible checksums (%s vs 0x61dd86c = (arg))";
-static const char __pyx_k_Incompatible_checksums_s_vs_0xd4[] = "Incompatible checksums (%s vs 0xd41d8cd = ())";
 static const char __pyx_k_inconsistent_delete_in_the_secon[] = "inconsistent delete in the seconds OTs (doc, OT.arg)";
-static PyObject *__pyx_kp_u_;
 static PyObject *__pyx_n_s_Appender;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x29;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x3b;
-static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x61;
-static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0xd4;
-static PyObject *__pyx_n_s_OTDelete;
-static PyObject *__pyx_n_s_OTInsert;
-static PyObject *__pyx_n_s_OTSkip;
-static PyObject *__pyx_n_s_OTType;
 static PyObject *__pyx_n_s_PickleError;
 static PyObject *__pyx_n_s_Taker;
 static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_n_s_ValueError;
+static PyObject *__pyx_kp_u__2;
 static PyObject *__pyx_n_s_appender;
 static PyObject *__pyx_n_s_apply;
-static PyObject *__pyx_n_s_arg;
 static PyObject *__pyx_n_s_check;
+static PyObject *__pyx_n_s_check_unoptimized;
 static PyObject *__pyx_n_s_chunk_ot;
-static PyObject *__pyx_n_s_chunk_ot_insert;
-static PyObject *__pyx_n_s_chunk_ot_skip;
+static PyObject *__pyx_n_s_chunk_ot_action;
+static PyObject *__pyx_n_s_chunk_ot_arg;
+static PyObject *__pyx_n_s_chunk_ot_arg_as_int;
+static PyObject *__pyx_n_s_chunk_ot_arg_as_str;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_compose;
 static PyObject *__pyx_n_u_d;
 static PyObject *__pyx_n_s_dict;
 static PyObject *__pyx_n_s_doc;
-static PyObject *__pyx_kp_u_doc_must_be_string;
 static PyObject *__pyx_n_s_get;
 static PyObject *__pyx_n_s_getstate;
-static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_kp_u_inconsistent_delete_doc_OT_arg;
 static PyObject *__pyx_kp_u_inconsistent_delete_in_the_secon;
+static PyObject *__pyx_kp_u_invalid_OTDelete;
+static PyObject *__pyx_kp_u_invalid_OTInsert;
+static PyObject *__pyx_kp_u_invalid_OTSkip;
 static PyObject *__pyx_kp_u_invalid_OTs;
 static PyObject *__pyx_kp_u_invalid_side;
 static PyObject *__pyx_n_s_inverse_apply;
-static PyObject *__pyx_n_s_last_ot;
+static PyObject *__pyx_n_s_last_ot_action;
 static PyObject *__pyx_n_s_last_pos;
 static PyObject *__pyx_n_u_left;
 static PyObject *__pyx_n_s_main;
@@ -1591,19 +1655,20 @@ static PyObject *__pyx_n_s_n;
 static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_new;
 static PyObject *__pyx_n_s_new_doc;
-static PyObject *__pyx_n_s_new_ot_raw_list;
 static PyObject *__pyx_n_s_new_ots;
 static PyObject *__pyx_n_s_normalize;
 static PyObject *__pyx_n_s_offset;
 static PyObject *__pyx_n_s_old_doc;
 static PyObject *__pyx_n_s_ot;
-static PyObject *__pyx_n_s_ot_delete;
-static PyObject *__pyx_n_s_ot_insert;
+static PyObject *__pyx_n_s_ot_action;
+static PyObject *__pyx_n_s_ot_arg;
+static PyObject *__pyx_n_s_ot_arg_as_int;
+static PyObject *__pyx_n_s_ot_arg_as_str;
+static PyObject *__pyx_n_s_ot_list;
 static PyObject *__pyx_n_s_ot_raw;
 static PyObject *__pyx_n_s_ot_raw_list;
 static PyObject *__pyx_n_s_ot_raw_list_1;
 static PyObject *__pyx_n_s_ot_raw_list_2;
-static PyObject *__pyx_n_s_ot_skip;
 static PyObject *__pyx_n_s_ots;
 static PyObject *__pyx_n_s_ottype_core_boost;
 static PyObject *__pyx_kp_s_ottype_core_boost_pyx;
@@ -1615,19 +1680,13 @@ static PyObject *__pyx_n_s_pyx_checksum;
 static PyObject *__pyx_n_s_pyx_result;
 static PyObject *__pyx_n_s_pyx_state;
 static PyObject *__pyx_n_s_pyx_type;
-static PyObject *__pyx_n_s_pyx_unpickle_OTDelete;
-static PyObject *__pyx_n_s_pyx_unpickle_OTInsert;
-static PyObject *__pyx_n_s_pyx_unpickle_OTSkip;
-static PyObject *__pyx_n_s_pyx_unpickle_OTType;
 static PyObject *__pyx_n_s_pyx_unpickle__Appender;
 static PyObject *__pyx_n_s_pyx_unpickle__Taker;
 static PyObject *__pyx_n_s_pyx_vtable;
 static PyObject *__pyx_n_s_range;
-static PyObject *__pyx_n_s_raw;
 static PyObject *__pyx_n_s_reduce;
 static PyObject *__pyx_n_s_reduce_cython;
 static PyObject *__pyx_n_s_reduce_ex;
-static PyObject *__pyx_n_s_resolved_ot;
 static PyObject *__pyx_n_s_reversed;
 static PyObject *__pyx_n_u_right;
 static PyObject *__pyx_n_s_setstate;
@@ -1638,1686 +1697,65 @@ static PyObject *__pyx_kp_s_stringsource;
 static PyObject *__pyx_n_s_taker;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_transform;
+static PyObject *__pyx_kp_u_unexpected_OT_structure;
 static PyObject *__pyx_n_s_update;
-static PyObject *__pyx_pf_6ottype_10core_boost_6OTType___reduce_cython__(struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6ottype_10core_boost_6OTType_2__setstate_cython__(struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
-static int __pyx_pf_6ottype_10core_boost_6OTSkip___init__(struct __pyx_obj_6ottype_10core_boost_OTSkip *__pyx_v_self, int __pyx_v_arg); /* proto */
-static PyObject *__pyx_pf_6ottype_10core_boost_6OTSkip_3raw___get__(struct __pyx_obj_6ottype_10core_boost_OTSkip *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6ottype_10core_boost_6OTSkip_2__reduce_cython__(struct __pyx_obj_6ottype_10core_boost_OTSkip *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6ottype_10core_boost_6OTSkip_4__setstate_cython__(struct __pyx_obj_6ottype_10core_boost_OTSkip *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
-static int __pyx_pf_6ottype_10core_boost_8OTInsert___init__(struct __pyx_obj_6ottype_10core_boost_OTInsert *__pyx_v_self, PyObject *__pyx_v_arg); /* proto */
-static PyObject *__pyx_pf_6ottype_10core_boost_8OTInsert_3raw___get__(struct __pyx_obj_6ottype_10core_boost_OTInsert *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6ottype_10core_boost_8OTInsert_2__reduce_cython__(struct __pyx_obj_6ottype_10core_boost_OTInsert *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6ottype_10core_boost_8OTInsert_4__setstate_cython__(struct __pyx_obj_6ottype_10core_boost_OTInsert *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
-static int __pyx_pf_6ottype_10core_boost_8OTDelete___init__(struct __pyx_obj_6ottype_10core_boost_OTDelete *__pyx_v_self, PyObject *__pyx_v_arg); /* proto */
-static PyObject *__pyx_pf_6ottype_10core_boost_8OTDelete_3raw___get__(struct __pyx_obj_6ottype_10core_boost_OTDelete *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6ottype_10core_boost_8OTDelete_2__reduce_cython__(struct __pyx_obj_6ottype_10core_boost_OTDelete *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6ottype_10core_boost_8OTDelete_4__setstate_cython__(struct __pyx_obj_6ottype_10core_boost_OTDelete *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_6ottype_10core_boost_9_Appender___init__(struct __pyx_obj_6ottype_10core_boost__Appender *__pyx_v_self, PyObject *__pyx_v_ots); /* proto */
 static PyObject *__pyx_pf_6ottype_10core_boost_9_Appender_2__reduce_cython__(struct __pyx_obj_6ottype_10core_boost__Appender *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6ottype_10core_boost_9_Appender_4__setstate_cython__(struct __pyx_obj_6ottype_10core_boost__Appender *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_6ottype_10core_boost_6_Taker___init__(struct __pyx_obj_6ottype_10core_boost__Taker *__pyx_v_self, PyObject *__pyx_v_ots); /* proto */
 static PyObject *__pyx_pf_6ottype_10core_boost_6_Taker_2__reduce_cython__(struct __pyx_obj_6ottype_10core_boost__Taker *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6ottype_10core_boost_6_Taker_4__setstate_cython__(struct __pyx_obj_6ottype_10core_boost__Taker *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_6ottype_10core_boost_check(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ot_raw_list); /* proto */
+static PyObject *__pyx_pf_6ottype_10core_boost_check(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ot_raw_list, PyBoolObject *__pyx_v_check_unoptimized); /* proto */
 static PyObject *__pyx_pf_6ottype_10core_boost_2apply(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_doc, PyObject *__pyx_v_ot_raw_list); /* proto */
 static PyObject *__pyx_pf_6ottype_10core_boost_4inverse_apply(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_doc, PyObject *__pyx_v_ot_raw_list); /* proto */
 static PyObject *__pyx_pf_6ottype_10core_boost_6normalize(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ot_raw_list); /* proto */
 static PyObject *__pyx_pf_6ottype_10core_boost_8transform(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ot_raw_list_1, PyObject *__pyx_v_ot_raw_list_2, PyObject *__pyx_v_side); /* proto */
 static PyObject *__pyx_pf_6ottype_10core_boost_10compose(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ot_raw_list_1, PyObject *__pyx_v_ot_raw_list_2); /* proto */
-static PyObject *__pyx_pf_6ottype_10core_boost_12__pyx_unpickle_OTType(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_6ottype_10core_boost_14__pyx_unpickle_OTSkip(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_6ottype_10core_boost_16__pyx_unpickle_OTInsert(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_6ottype_10core_boost_18__pyx_unpickle_OTDelete(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_6ottype_10core_boost_20__pyx_unpickle__Appender(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_6ottype_10core_boost_22__pyx_unpickle__Taker(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_tp_new_6ottype_10core_boost_OTType(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
-static PyObject *__pyx_tp_new_6ottype_10core_boost_OTSkip(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
-static PyObject *__pyx_tp_new_6ottype_10core_boost_OTInsert(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
-static PyObject *__pyx_tp_new_6ottype_10core_boost_OTDelete(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_pf_6ottype_10core_boost_12__pyx_unpickle__Appender(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_6ottype_10core_boost_14__pyx_unpickle__Taker(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_tp_new_6ottype_10core_boost__Appender(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_6ottype_10core_boost__Taker(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static __Pyx_CachedCFunction __pyx_umethod_PyList_Type_pop = {0, &__pyx_n_s_pop, 0, 0, 0};
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_43908121;
 static PyObject *__pyx_int_62153261;
-static PyObject *__pyx_int_102619244;
-static PyObject *__pyx_int_222419149;
-static PyObject *__pyx_tuple__2;
+static PyObject *__pyx_tuple_;
 static PyObject *__pyx_tuple__3;
 static PyObject *__pyx_tuple__4;
 static PyObject *__pyx_tuple__5;
 static PyObject *__pyx_tuple__6;
 static PyObject *__pyx_tuple__7;
+static PyObject *__pyx_tuple__8;
 static PyObject *__pyx_tuple__9;
-static PyObject *__pyx_tuple__11;
-static PyObject *__pyx_tuple__13;
-static PyObject *__pyx_tuple__15;
-static PyObject *__pyx_tuple__17;
-static PyObject *__pyx_tuple__19;
-static PyObject *__pyx_tuple__21;
-static PyObject *__pyx_tuple__23;
-static PyObject *__pyx_tuple__25;
-static PyObject *__pyx_tuple__27;
-static PyObject *__pyx_tuple__29;
-static PyObject *__pyx_codeobj__8;
-static PyObject *__pyx_codeobj__10;
-static PyObject *__pyx_codeobj__12;
-static PyObject *__pyx_codeobj__14;
-static PyObject *__pyx_codeobj__16;
-static PyObject *__pyx_codeobj__18;
-static PyObject *__pyx_codeobj__20;
-static PyObject *__pyx_codeobj__22;
-static PyObject *__pyx_codeobj__24;
-static PyObject *__pyx_codeobj__26;
-static PyObject *__pyx_codeobj__28;
-static PyObject *__pyx_codeobj__30;
+static PyObject *__pyx_tuple__10;
+static PyObject *__pyx_tuple__12;
+static PyObject *__pyx_tuple__14;
+static PyObject *__pyx_tuple__16;
+static PyObject *__pyx_tuple__18;
+static PyObject *__pyx_tuple__20;
+static PyObject *__pyx_tuple__22;
+static PyObject *__pyx_tuple__24;
+static PyObject *__pyx_codeobj__11;
+static PyObject *__pyx_codeobj__13;
+static PyObject *__pyx_codeobj__15;
+static PyObject *__pyx_codeobj__17;
+static PyObject *__pyx_codeobj__19;
+static PyObject *__pyx_codeobj__21;
+static PyObject *__pyx_codeobj__23;
+static PyObject *__pyx_codeobj__25;
 /* Late includes */
 
-/* "(tree fragment)":1
- * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
- *     cdef tuple state
- *     cdef object _dict
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6ottype_10core_boost_6OTType_1__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_6ottype_10core_boost_6OTType_1__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6ottype_10core_boost_6OTType___reduce_cython__(((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6ottype_10core_boost_6OTType___reduce_cython__(struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_v_self) {
-  PyObject *__pyx_v_state = 0;
-  PyObject *__pyx_v__dict = 0;
-  int __pyx_v_use_setstate;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_t_2;
-  int __pyx_t_3;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-
-  /* "(tree fragment)":5
- *     cdef object _dict
- *     cdef bint use_setstate
- *     state = ()             # <<<<<<<<<<<<<<
- *     _dict = getattr(self, '__dict__', None)
- *     if _dict is not None:
- */
-  __Pyx_INCREF(__pyx_empty_tuple);
-  __pyx_v_state = __pyx_empty_tuple;
-
-  /* "(tree fragment)":6
- *     cdef bint use_setstate
- *     state = ()
- *     _dict = getattr(self, '__dict__', None)             # <<<<<<<<<<<<<<
- *     if _dict is not None:
- *         state += (_dict,)
- */
-  __pyx_t_1 = __Pyx_GetAttr3(((PyObject *)__pyx_v_self), __pyx_n_s_dict, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 6, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v__dict = __pyx_t_1;
-  __pyx_t_1 = 0;
-
-  /* "(tree fragment)":7
- *     state = ()
- *     _dict = getattr(self, '__dict__', None)
- *     if _dict is not None:             # <<<<<<<<<<<<<<
- *         state += (_dict,)
- *         use_setstate = True
- */
-  __pyx_t_2 = (__pyx_v__dict != Py_None);
-  __pyx_t_3 = (__pyx_t_2 != 0);
-  if (__pyx_t_3) {
-
-    /* "(tree fragment)":8
- *     _dict = getattr(self, '__dict__', None)
- *     if _dict is not None:
- *         state += (_dict,)             # <<<<<<<<<<<<<<
- *         use_setstate = True
- *     else:
- */
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 8, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_INCREF(__pyx_v__dict);
-    __Pyx_GIVEREF(__pyx_v__dict);
-    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v__dict);
-    __pyx_t_4 = PyNumber_InPlaceAdd(__pyx_v_state, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 8, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_DECREF_SET(__pyx_v_state, ((PyObject*)__pyx_t_4));
-    __pyx_t_4 = 0;
-
-    /* "(tree fragment)":9
- *     if _dict is not None:
- *         state += (_dict,)
- *         use_setstate = True             # <<<<<<<<<<<<<<
- *     else:
- *         use_setstate = False
- */
-    __pyx_v_use_setstate = 1;
-
-    /* "(tree fragment)":7
- *     state = ()
- *     _dict = getattr(self, '__dict__', None)
- *     if _dict is not None:             # <<<<<<<<<<<<<<
- *         state += (_dict,)
- *         use_setstate = True
- */
-    goto __pyx_L3;
-  }
-
-  /* "(tree fragment)":11
- *         use_setstate = True
- *     else:
- *         use_setstate = False             # <<<<<<<<<<<<<<
- *     if use_setstate:
- *         return __pyx_unpickle_OTType, (type(self), 0xd41d8cd, None), state
- */
-  /*else*/ {
-    __pyx_v_use_setstate = 0;
-  }
-  __pyx_L3:;
-
-  /* "(tree fragment)":12
- *     else:
- *         use_setstate = False
- *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_OTType, (type(self), 0xd41d8cd, None), state
- *     else:
- */
-  __pyx_t_3 = (__pyx_v_use_setstate != 0);
-  if (__pyx_t_3) {
-
-    /* "(tree fragment)":13
- *         use_setstate = False
- *     if use_setstate:
- *         return __pyx_unpickle_OTType, (type(self), 0xd41d8cd, None), state             # <<<<<<<<<<<<<<
- *     else:
- *         return __pyx_unpickle_OTType, (type(self), 0xd41d8cd, state)
- */
-    __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pyx_unpickle_OTType); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_222419149);
-    __Pyx_GIVEREF(__pyx_int_222419149);
-    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_int_222419149);
-    __Pyx_INCREF(Py_None);
-    __Pyx_GIVEREF(Py_None);
-    PyTuple_SET_ITEM(__pyx_t_1, 2, Py_None);
-    __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
-    __Pyx_GIVEREF(__pyx_t_1);
-    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_1);
-    __Pyx_INCREF(__pyx_v_state);
-    __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_v_state);
-    __pyx_t_4 = 0;
-    __pyx_t_1 = 0;
-    __pyx_r = __pyx_t_5;
-    __pyx_t_5 = 0;
-    goto __pyx_L0;
-
-    /* "(tree fragment)":12
- *     else:
- *         use_setstate = False
- *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_OTType, (type(self), 0xd41d8cd, None), state
- *     else:
- */
-  }
-
-  /* "(tree fragment)":15
- *         return __pyx_unpickle_OTType, (type(self), 0xd41d8cd, None), state
- *     else:
- *         return __pyx_unpickle_OTType, (type(self), 0xd41d8cd, state)             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
- *     __pyx_unpickle_OTType__set_state(self, __pyx_state)
- */
-  /*else*/ {
-    __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pyx_unpickle_OTType); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_222419149);
-    __Pyx_GIVEREF(__pyx_int_222419149);
-    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_int_222419149);
-    __Pyx_INCREF(__pyx_v_state);
-    __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_v_state);
-    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_GIVEREF(__pyx_t_5);
-    PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5);
-    __Pyx_GIVEREF(__pyx_t_1);
-    PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_1);
-    __pyx_t_5 = 0;
-    __pyx_t_1 = 0;
-    __pyx_r = __pyx_t_4;
-    __pyx_t_4 = 0;
-    goto __pyx_L0;
-  }
-
-  /* "(tree fragment)":1
- * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
- *     cdef tuple state
- *     cdef object _dict
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("ottype.core_boost.OTType.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_state);
-  __Pyx_XDECREF(__pyx_v__dict);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "(tree fragment)":16
- *     else:
- *         return __pyx_unpickle_OTType, (type(self), 0xd41d8cd, state)
- * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_unpickle_OTType__set_state(self, __pyx_state)
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6ottype_10core_boost_6OTType_3__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_6ottype_10core_boost_6OTType_3__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6ottype_10core_boost_6OTType_2__setstate_cython__(((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6ottype_10core_boost_6OTType_2__setstate_cython__(struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-
-  /* "(tree fragment)":17
- *         return __pyx_unpickle_OTType, (type(self), 0xd41d8cd, state)
- * def __setstate_cython__(self, __pyx_state):
- *     __pyx_unpickle_OTType__set_state(self, __pyx_state)             # <<<<<<<<<<<<<<
- */
-  if (!(likely(PyTuple_CheckExact(__pyx_v___pyx_state))||((__pyx_v___pyx_state) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_v___pyx_state)->tp_name), 0))) __PYX_ERR(1, 17, __pyx_L1_error)
-  __pyx_t_1 = __pyx_f_6ottype_10core_boost___pyx_unpickle_OTType__set_state(__pyx_v_self, ((PyObject*)__pyx_v___pyx_state)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 17, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "(tree fragment)":16
- *     else:
- *         return __pyx_unpickle_OTType, (type(self), 0xd41d8cd, state)
- * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_unpickle_OTType__set_state(self, __pyx_state)
- */
-
-  /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("ottype.core_boost.OTType.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "ottype/core_boost.pyx":10
- *     cdef int arg
- * 
- *     def __init__(self, int arg):             # <<<<<<<<<<<<<<
- *         self.arg = arg
- * 
- */
-
-/* Python wrapper */
-static int __pyx_pw_6ottype_10core_boost_6OTSkip_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_pw_6ottype_10core_boost_6OTSkip_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  int __pyx_v_arg;
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_arg,0};
-    PyObject* values[1] = {0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_arg)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 10, __pyx_L3_error)
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-    }
-    __pyx_v_arg = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_arg == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 10, __pyx_L3_error)
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 10, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("ottype.core_boost.OTSkip.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return -1;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6ottype_10core_boost_6OTSkip___init__(((struct __pyx_obj_6ottype_10core_boost_OTSkip *)__pyx_v_self), __pyx_v_arg);
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_6ottype_10core_boost_6OTSkip___init__(struct __pyx_obj_6ottype_10core_boost_OTSkip *__pyx_v_self, int __pyx_v_arg) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__init__", 0);
-
-  /* "ottype/core_boost.pyx":11
- * 
- *     def __init__(self, int arg):
- *         self.arg = arg             # <<<<<<<<<<<<<<
- * 
- *     @property
- */
-  __pyx_v_self->arg = __pyx_v_arg;
-
-  /* "ottype/core_boost.pyx":10
- *     cdef int arg
- * 
- *     def __init__(self, int arg):             # <<<<<<<<<<<<<<
- *         self.arg = arg
- * 
- */
-
-  /* function exit code */
-  __pyx_r = 0;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "ottype/core_boost.pyx":14
- * 
- *     @property
- *     def raw(self):             # <<<<<<<<<<<<<<
- *         return self.arg
- * 
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6ottype_10core_boost_6OTSkip_3raw_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_6ottype_10core_boost_6OTSkip_3raw_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6ottype_10core_boost_6OTSkip_3raw___get__(((struct __pyx_obj_6ottype_10core_boost_OTSkip *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6ottype_10core_boost_6OTSkip_3raw___get__(struct __pyx_obj_6ottype_10core_boost_OTSkip *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("__get__", 0);
-
-  /* "ottype/core_boost.pyx":15
- *     @property
- *     def raw(self):
- *         return self.arg             # <<<<<<<<<<<<<<
+/* "ottype/core_boost.pyx":8
  * 
  * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->arg); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "ottype/core_boost.pyx":14
- * 
- *     @property
- *     def raw(self):             # <<<<<<<<<<<<<<
- *         return self.arg
- * 
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("ottype.core_boost.OTSkip.raw.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "(tree fragment)":1
- * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
- *     cdef tuple state
- *     cdef object _dict
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6ottype_10core_boost_6OTSkip_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_6ottype_10core_boost_6OTSkip_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6ottype_10core_boost_6OTSkip_2__reduce_cython__(((struct __pyx_obj_6ottype_10core_boost_OTSkip *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6ottype_10core_boost_6OTSkip_2__reduce_cython__(struct __pyx_obj_6ottype_10core_boost_OTSkip *__pyx_v_self) {
-  PyObject *__pyx_v_state = 0;
-  PyObject *__pyx_v__dict = 0;
-  int __pyx_v_use_setstate;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  int __pyx_t_3;
-  int __pyx_t_4;
-  PyObject *__pyx_t_5 = NULL;
-  __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-
-  /* "(tree fragment)":5
- *     cdef object _dict
- *     cdef bint use_setstate
- *     state = (self.arg,)             # <<<<<<<<<<<<<<
- *     _dict = getattr(self, '__dict__', None)
- *     if _dict is not None:
- */
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->arg); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 5, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 5, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
-  __pyx_t_1 = 0;
-  __pyx_v_state = ((PyObject*)__pyx_t_2);
-  __pyx_t_2 = 0;
-
-  /* "(tree fragment)":6
- *     cdef bint use_setstate
- *     state = (self.arg,)
- *     _dict = getattr(self, '__dict__', None)             # <<<<<<<<<<<<<<
- *     if _dict is not None:
- *         state += (_dict,)
- */
-  __pyx_t_2 = __Pyx_GetAttr3(((PyObject *)__pyx_v_self), __pyx_n_s_dict, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 6, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_v__dict = __pyx_t_2;
-  __pyx_t_2 = 0;
-
-  /* "(tree fragment)":7
- *     state = (self.arg,)
- *     _dict = getattr(self, '__dict__', None)
- *     if _dict is not None:             # <<<<<<<<<<<<<<
- *         state += (_dict,)
- *         use_setstate = True
- */
-  __pyx_t_3 = (__pyx_v__dict != Py_None);
-  __pyx_t_4 = (__pyx_t_3 != 0);
-  if (__pyx_t_4) {
-
-    /* "(tree fragment)":8
- *     _dict = getattr(self, '__dict__', None)
- *     if _dict is not None:
- *         state += (_dict,)             # <<<<<<<<<<<<<<
- *         use_setstate = True
- *     else:
- */
-    __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 8, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_INCREF(__pyx_v__dict);
-    __Pyx_GIVEREF(__pyx_v__dict);
-    PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v__dict);
-    __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_state, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 8, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_DECREF_SET(__pyx_v_state, ((PyObject*)__pyx_t_1));
-    __pyx_t_1 = 0;
-
-    /* "(tree fragment)":9
- *     if _dict is not None:
- *         state += (_dict,)
- *         use_setstate = True             # <<<<<<<<<<<<<<
- *     else:
- *         use_setstate = False
- */
-    __pyx_v_use_setstate = 1;
-
-    /* "(tree fragment)":7
- *     state = (self.arg,)
- *     _dict = getattr(self, '__dict__', None)
- *     if _dict is not None:             # <<<<<<<<<<<<<<
- *         state += (_dict,)
- *         use_setstate = True
- */
-    goto __pyx_L3;
-  }
-
-  /* "(tree fragment)":11
- *         use_setstate = True
- *     else:
- *         use_setstate = False             # <<<<<<<<<<<<<<
- *     if use_setstate:
- *         return __pyx_unpickle_OTSkip, (type(self), 0x61dd86c, None), state
- */
-  /*else*/ {
-    __pyx_v_use_setstate = 0;
-  }
-  __pyx_L3:;
-
-  /* "(tree fragment)":12
- *     else:
- *         use_setstate = False
- *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_OTSkip, (type(self), 0x61dd86c, None), state
- *     else:
- */
-  __pyx_t_4 = (__pyx_v_use_setstate != 0);
-  if (__pyx_t_4) {
-
-    /* "(tree fragment)":13
- *         use_setstate = False
- *     if use_setstate:
- *         return __pyx_unpickle_OTSkip, (type(self), 0x61dd86c, None), state             # <<<<<<<<<<<<<<
- *     else:
- *         return __pyx_unpickle_OTSkip, (type(self), 0x61dd86c, state)
- */
-    __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_pyx_unpickle_OTSkip); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_102619244);
-    __Pyx_GIVEREF(__pyx_int_102619244);
-    PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_int_102619244);
-    __Pyx_INCREF(Py_None);
-    __Pyx_GIVEREF(Py_None);
-    PyTuple_SET_ITEM(__pyx_t_2, 2, Py_None);
-    __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_GIVEREF(__pyx_t_1);
-    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
-    __Pyx_GIVEREF(__pyx_t_2);
-    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_2);
-    __Pyx_INCREF(__pyx_v_state);
-    __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_v_state);
-    __pyx_t_1 = 0;
-    __pyx_t_2 = 0;
-    __pyx_r = __pyx_t_5;
-    __pyx_t_5 = 0;
-    goto __pyx_L0;
-
-    /* "(tree fragment)":12
- *     else:
- *         use_setstate = False
- *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_OTSkip, (type(self), 0x61dd86c, None), state
- *     else:
- */
-  }
-
-  /* "(tree fragment)":15
- *         return __pyx_unpickle_OTSkip, (type(self), 0x61dd86c, None), state
- *     else:
- *         return __pyx_unpickle_OTSkip, (type(self), 0x61dd86c, state)             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
- *     __pyx_unpickle_OTSkip__set_state(self, __pyx_state)
- */
-  /*else*/ {
-    __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pyx_unpickle_OTSkip); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_102619244);
-    __Pyx_GIVEREF(__pyx_int_102619244);
-    PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_int_102619244);
-    __Pyx_INCREF(__pyx_v_state);
-    __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_v_state);
-    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_GIVEREF(__pyx_t_5);
-    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_5);
-    __Pyx_GIVEREF(__pyx_t_2);
-    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_2);
-    __pyx_t_5 = 0;
-    __pyx_t_2 = 0;
-    __pyx_r = __pyx_t_1;
-    __pyx_t_1 = 0;
-    goto __pyx_L0;
-  }
-
-  /* "(tree fragment)":1
- * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
- *     cdef tuple state
- *     cdef object _dict
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("ottype.core_boost.OTSkip.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_state);
-  __Pyx_XDECREF(__pyx_v__dict);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "(tree fragment)":16
- *     else:
- *         return __pyx_unpickle_OTSkip, (type(self), 0x61dd86c, state)
- * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_unpickle_OTSkip__set_state(self, __pyx_state)
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6ottype_10core_boost_6OTSkip_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_6ottype_10core_boost_6OTSkip_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6ottype_10core_boost_6OTSkip_4__setstate_cython__(((struct __pyx_obj_6ottype_10core_boost_OTSkip *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6ottype_10core_boost_6OTSkip_4__setstate_cython__(struct __pyx_obj_6ottype_10core_boost_OTSkip *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-
-  /* "(tree fragment)":17
- *         return __pyx_unpickle_OTSkip, (type(self), 0x61dd86c, state)
- * def __setstate_cython__(self, __pyx_state):
- *     __pyx_unpickle_OTSkip__set_state(self, __pyx_state)             # <<<<<<<<<<<<<<
- */
-  if (!(likely(PyTuple_CheckExact(__pyx_v___pyx_state))||((__pyx_v___pyx_state) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_v___pyx_state)->tp_name), 0))) __PYX_ERR(1, 17, __pyx_L1_error)
-  __pyx_t_1 = __pyx_f_6ottype_10core_boost___pyx_unpickle_OTSkip__set_state(__pyx_v_self, ((PyObject*)__pyx_v___pyx_state)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 17, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "(tree fragment)":16
- *     else:
- *         return __pyx_unpickle_OTSkip, (type(self), 0x61dd86c, state)
- * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_unpickle_OTSkip__set_state(self, __pyx_state)
- */
-
-  /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("ottype.core_boost.OTSkip.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "ottype/core_boost.pyx":21
- *     cdef str arg
- * 
- *     def __init__(self, str arg):             # <<<<<<<<<<<<<<
- *         self.arg = arg
- * 
- */
-
-/* Python wrapper */
-static int __pyx_pw_6ottype_10core_boost_8OTInsert_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_pw_6ottype_10core_boost_8OTInsert_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_arg = 0;
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_arg,0};
-    PyObject* values[1] = {0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_arg)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 21, __pyx_L3_error)
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-    }
-    __pyx_v_arg = ((PyObject*)values[0]);
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 21, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("ottype.core_boost.OTInsert.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return -1;
-  __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_arg), (&PyUnicode_Type), 1, "arg", 1))) __PYX_ERR(0, 21, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6ottype_10core_boost_8OTInsert___init__(((struct __pyx_obj_6ottype_10core_boost_OTInsert *)__pyx_v_self), __pyx_v_arg);
-
-  /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_6ottype_10core_boost_8OTInsert___init__(struct __pyx_obj_6ottype_10core_boost_OTInsert *__pyx_v_self, PyObject *__pyx_v_arg) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__init__", 0);
-
-  /* "ottype/core_boost.pyx":22
- * 
- *     def __init__(self, str arg):
- *         self.arg = arg             # <<<<<<<<<<<<<<
- * 
- *     @property
- */
-  __Pyx_INCREF(__pyx_v_arg);
-  __Pyx_GIVEREF(__pyx_v_arg);
-  __Pyx_GOTREF(__pyx_v_self->arg);
-  __Pyx_DECREF(__pyx_v_self->arg);
-  __pyx_v_self->arg = __pyx_v_arg;
-
-  /* "ottype/core_boost.pyx":21
- *     cdef str arg
- * 
- *     def __init__(self, str arg):             # <<<<<<<<<<<<<<
- *         self.arg = arg
- * 
- */
-
-  /* function exit code */
-  __pyx_r = 0;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "ottype/core_boost.pyx":25
- * 
- *     @property
- *     def raw(self):             # <<<<<<<<<<<<<<
- *         return self.arg
- * 
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6ottype_10core_boost_8OTInsert_3raw_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_6ottype_10core_boost_8OTInsert_3raw_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6ottype_10core_boost_8OTInsert_3raw___get__(((struct __pyx_obj_6ottype_10core_boost_OTInsert *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6ottype_10core_boost_8OTInsert_3raw___get__(struct __pyx_obj_6ottype_10core_boost_OTInsert *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__", 0);
-
-  /* "ottype/core_boost.pyx":26
- *     @property
- *     def raw(self):
- *         return self.arg             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_self->arg);
-  __pyx_r = __pyx_v_self->arg;
-  goto __pyx_L0;
-
-  /* "ottype/core_boost.pyx":25
- * 
- *     @property
- *     def raw(self):             # <<<<<<<<<<<<<<
- *         return self.arg
- * 
- */
-
-  /* function exit code */
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "(tree fragment)":1
- * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
- *     cdef tuple state
- *     cdef object _dict
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6ottype_10core_boost_8OTInsert_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_6ottype_10core_boost_8OTInsert_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6ottype_10core_boost_8OTInsert_2__reduce_cython__(((struct __pyx_obj_6ottype_10core_boost_OTInsert *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6ottype_10core_boost_8OTInsert_2__reduce_cython__(struct __pyx_obj_6ottype_10core_boost_OTInsert *__pyx_v_self) {
-  PyObject *__pyx_v_state = 0;
-  PyObject *__pyx_v__dict = 0;
-  int __pyx_v_use_setstate;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_t_2;
-  int __pyx_t_3;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-
-  /* "(tree fragment)":5
- *     cdef object _dict
- *     cdef bint use_setstate
- *     state = (self.arg,)             # <<<<<<<<<<<<<<
- *     _dict = getattr(self, '__dict__', None)
- *     if _dict is not None:
- */
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 5, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_v_self->arg);
-  __Pyx_GIVEREF(__pyx_v_self->arg);
-  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_self->arg);
-  __pyx_v_state = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* "(tree fragment)":6
- *     cdef bint use_setstate
- *     state = (self.arg,)
- *     _dict = getattr(self, '__dict__', None)             # <<<<<<<<<<<<<<
- *     if _dict is not None:
- *         state += (_dict,)
- */
-  __pyx_t_1 = __Pyx_GetAttr3(((PyObject *)__pyx_v_self), __pyx_n_s_dict, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 6, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v__dict = __pyx_t_1;
-  __pyx_t_1 = 0;
-
-  /* "(tree fragment)":7
- *     state = (self.arg,)
- *     _dict = getattr(self, '__dict__', None)
- *     if _dict is not None:             # <<<<<<<<<<<<<<
- *         state += (_dict,)
- *         use_setstate = True
- */
-  __pyx_t_2 = (__pyx_v__dict != Py_None);
-  __pyx_t_3 = (__pyx_t_2 != 0);
-  if (__pyx_t_3) {
-
-    /* "(tree fragment)":8
- *     _dict = getattr(self, '__dict__', None)
- *     if _dict is not None:
- *         state += (_dict,)             # <<<<<<<<<<<<<<
- *         use_setstate = True
- *     else:
- */
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 8, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_INCREF(__pyx_v__dict);
-    __Pyx_GIVEREF(__pyx_v__dict);
-    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v__dict);
-    __pyx_t_4 = PyNumber_InPlaceAdd(__pyx_v_state, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 8, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_DECREF_SET(__pyx_v_state, ((PyObject*)__pyx_t_4));
-    __pyx_t_4 = 0;
-
-    /* "(tree fragment)":9
- *     if _dict is not None:
- *         state += (_dict,)
- *         use_setstate = True             # <<<<<<<<<<<<<<
- *     else:
- *         use_setstate = self.arg is not None
- */
-    __pyx_v_use_setstate = 1;
-
-    /* "(tree fragment)":7
- *     state = (self.arg,)
- *     _dict = getattr(self, '__dict__', None)
- *     if _dict is not None:             # <<<<<<<<<<<<<<
- *         state += (_dict,)
- *         use_setstate = True
- */
-    goto __pyx_L3;
-  }
-
-  /* "(tree fragment)":11
- *         use_setstate = True
- *     else:
- *         use_setstate = self.arg is not None             # <<<<<<<<<<<<<<
- *     if use_setstate:
- *         return __pyx_unpickle_OTInsert, (type(self), 0x61dd86c, None), state
- */
-  /*else*/ {
-    __pyx_t_3 = (__pyx_v_self->arg != ((PyObject*)Py_None));
-    __pyx_v_use_setstate = __pyx_t_3;
-  }
-  __pyx_L3:;
-
-  /* "(tree fragment)":12
- *     else:
- *         use_setstate = self.arg is not None
- *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_OTInsert, (type(self), 0x61dd86c, None), state
- *     else:
- */
-  __pyx_t_3 = (__pyx_v_use_setstate != 0);
-  if (__pyx_t_3) {
-
-    /* "(tree fragment)":13
- *         use_setstate = self.arg is not None
- *     if use_setstate:
- *         return __pyx_unpickle_OTInsert, (type(self), 0x61dd86c, None), state             # <<<<<<<<<<<<<<
- *     else:
- *         return __pyx_unpickle_OTInsert, (type(self), 0x61dd86c, state)
- */
-    __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pyx_unpickle_OTInsert); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_102619244);
-    __Pyx_GIVEREF(__pyx_int_102619244);
-    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_int_102619244);
-    __Pyx_INCREF(Py_None);
-    __Pyx_GIVEREF(Py_None);
-    PyTuple_SET_ITEM(__pyx_t_1, 2, Py_None);
-    __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
-    __Pyx_GIVEREF(__pyx_t_1);
-    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_1);
-    __Pyx_INCREF(__pyx_v_state);
-    __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_v_state);
-    __pyx_t_4 = 0;
-    __pyx_t_1 = 0;
-    __pyx_r = __pyx_t_5;
-    __pyx_t_5 = 0;
-    goto __pyx_L0;
-
-    /* "(tree fragment)":12
- *     else:
- *         use_setstate = self.arg is not None
- *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_OTInsert, (type(self), 0x61dd86c, None), state
- *     else:
- */
-  }
-
-  /* "(tree fragment)":15
- *         return __pyx_unpickle_OTInsert, (type(self), 0x61dd86c, None), state
- *     else:
- *         return __pyx_unpickle_OTInsert, (type(self), 0x61dd86c, state)             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
- *     __pyx_unpickle_OTInsert__set_state(self, __pyx_state)
- */
-  /*else*/ {
-    __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pyx_unpickle_OTInsert); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_102619244);
-    __Pyx_GIVEREF(__pyx_int_102619244);
-    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_int_102619244);
-    __Pyx_INCREF(__pyx_v_state);
-    __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_v_state);
-    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_GIVEREF(__pyx_t_5);
-    PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5);
-    __Pyx_GIVEREF(__pyx_t_1);
-    PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_1);
-    __pyx_t_5 = 0;
-    __pyx_t_1 = 0;
-    __pyx_r = __pyx_t_4;
-    __pyx_t_4 = 0;
-    goto __pyx_L0;
-  }
-
-  /* "(tree fragment)":1
- * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
- *     cdef tuple state
- *     cdef object _dict
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("ottype.core_boost.OTInsert.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_state);
-  __Pyx_XDECREF(__pyx_v__dict);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "(tree fragment)":16
- *     else:
- *         return __pyx_unpickle_OTInsert, (type(self), 0x61dd86c, state)
- * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_unpickle_OTInsert__set_state(self, __pyx_state)
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6ottype_10core_boost_8OTInsert_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_6ottype_10core_boost_8OTInsert_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6ottype_10core_boost_8OTInsert_4__setstate_cython__(((struct __pyx_obj_6ottype_10core_boost_OTInsert *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6ottype_10core_boost_8OTInsert_4__setstate_cython__(struct __pyx_obj_6ottype_10core_boost_OTInsert *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-
-  /* "(tree fragment)":17
- *         return __pyx_unpickle_OTInsert, (type(self), 0x61dd86c, state)
- * def __setstate_cython__(self, __pyx_state):
- *     __pyx_unpickle_OTInsert__set_state(self, __pyx_state)             # <<<<<<<<<<<<<<
- */
-  if (!(likely(PyTuple_CheckExact(__pyx_v___pyx_state))||((__pyx_v___pyx_state) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_v___pyx_state)->tp_name), 0))) __PYX_ERR(1, 17, __pyx_L1_error)
-  __pyx_t_1 = __pyx_f_6ottype_10core_boost___pyx_unpickle_OTInsert__set_state(__pyx_v_self, ((PyObject*)__pyx_v___pyx_state)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 17, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "(tree fragment)":16
- *     else:
- *         return __pyx_unpickle_OTInsert, (type(self), 0x61dd86c, state)
- * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_unpickle_OTInsert__set_state(self, __pyx_state)
- */
-
-  /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("ottype.core_boost.OTInsert.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "ottype/core_boost.pyx":32
- *     cdef str arg
- * 
- *     def __init__(self, str arg):             # <<<<<<<<<<<<<<
- *         self.arg = arg
- * 
- */
-
-/* Python wrapper */
-static int __pyx_pw_6ottype_10core_boost_8OTDelete_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_pw_6ottype_10core_boost_8OTDelete_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_arg = 0;
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_arg,0};
-    PyObject* values[1] = {0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_arg)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 32, __pyx_L3_error)
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-    }
-    __pyx_v_arg = ((PyObject*)values[0]);
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 32, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("ottype.core_boost.OTDelete.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return -1;
-  __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_arg), (&PyUnicode_Type), 1, "arg", 1))) __PYX_ERR(0, 32, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6ottype_10core_boost_8OTDelete___init__(((struct __pyx_obj_6ottype_10core_boost_OTDelete *)__pyx_v_self), __pyx_v_arg);
-
-  /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_6ottype_10core_boost_8OTDelete___init__(struct __pyx_obj_6ottype_10core_boost_OTDelete *__pyx_v_self, PyObject *__pyx_v_arg) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__init__", 0);
-
-  /* "ottype/core_boost.pyx":33
- * 
- *     def __init__(self, str arg):
- *         self.arg = arg             # <<<<<<<<<<<<<<
- * 
- *     @property
- */
-  __Pyx_INCREF(__pyx_v_arg);
-  __Pyx_GIVEREF(__pyx_v_arg);
-  __Pyx_GOTREF(__pyx_v_self->arg);
-  __Pyx_DECREF(__pyx_v_self->arg);
-  __pyx_v_self->arg = __pyx_v_arg;
-
-  /* "ottype/core_boost.pyx":32
- *     cdef str arg
- * 
- *     def __init__(self, str arg):             # <<<<<<<<<<<<<<
- *         self.arg = arg
- * 
- */
-
-  /* function exit code */
-  __pyx_r = 0;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "ottype/core_boost.pyx":36
- * 
- *     @property
- *     def raw(self):             # <<<<<<<<<<<<<<
- *         return {'d': self.arg}
- * 
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6ottype_10core_boost_8OTDelete_3raw_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_6ottype_10core_boost_8OTDelete_3raw_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6ottype_10core_boost_8OTDelete_3raw___get__(((struct __pyx_obj_6ottype_10core_boost_OTDelete *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6ottype_10core_boost_8OTDelete_3raw___get__(struct __pyx_obj_6ottype_10core_boost_OTDelete *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("__get__", 0);
-
-  /* "ottype/core_boost.pyx":37
- *     @property
- *     def raw(self):
- *         return {'d': self.arg}             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_d, __pyx_v_self->arg) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "ottype/core_boost.pyx":36
- * 
- *     @property
- *     def raw(self):             # <<<<<<<<<<<<<<
- *         return {'d': self.arg}
- * 
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("ottype.core_boost.OTDelete.raw.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "(tree fragment)":1
- * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
- *     cdef tuple state
- *     cdef object _dict
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6ottype_10core_boost_8OTDelete_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_6ottype_10core_boost_8OTDelete_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6ottype_10core_boost_8OTDelete_2__reduce_cython__(((struct __pyx_obj_6ottype_10core_boost_OTDelete *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6ottype_10core_boost_8OTDelete_2__reduce_cython__(struct __pyx_obj_6ottype_10core_boost_OTDelete *__pyx_v_self) {
-  PyObject *__pyx_v_state = 0;
-  PyObject *__pyx_v__dict = 0;
-  int __pyx_v_use_setstate;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_t_2;
-  int __pyx_t_3;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-
-  /* "(tree fragment)":5
- *     cdef object _dict
- *     cdef bint use_setstate
- *     state = (self.arg,)             # <<<<<<<<<<<<<<
- *     _dict = getattr(self, '__dict__', None)
- *     if _dict is not None:
- */
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 5, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_v_self->arg);
-  __Pyx_GIVEREF(__pyx_v_self->arg);
-  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_self->arg);
-  __pyx_v_state = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* "(tree fragment)":6
- *     cdef bint use_setstate
- *     state = (self.arg,)
- *     _dict = getattr(self, '__dict__', None)             # <<<<<<<<<<<<<<
- *     if _dict is not None:
- *         state += (_dict,)
- */
-  __pyx_t_1 = __Pyx_GetAttr3(((PyObject *)__pyx_v_self), __pyx_n_s_dict, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 6, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v__dict = __pyx_t_1;
-  __pyx_t_1 = 0;
-
-  /* "(tree fragment)":7
- *     state = (self.arg,)
- *     _dict = getattr(self, '__dict__', None)
- *     if _dict is not None:             # <<<<<<<<<<<<<<
- *         state += (_dict,)
- *         use_setstate = True
- */
-  __pyx_t_2 = (__pyx_v__dict != Py_None);
-  __pyx_t_3 = (__pyx_t_2 != 0);
-  if (__pyx_t_3) {
-
-    /* "(tree fragment)":8
- *     _dict = getattr(self, '__dict__', None)
- *     if _dict is not None:
- *         state += (_dict,)             # <<<<<<<<<<<<<<
- *         use_setstate = True
- *     else:
- */
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 8, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_INCREF(__pyx_v__dict);
-    __Pyx_GIVEREF(__pyx_v__dict);
-    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v__dict);
-    __pyx_t_4 = PyNumber_InPlaceAdd(__pyx_v_state, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 8, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_DECREF_SET(__pyx_v_state, ((PyObject*)__pyx_t_4));
-    __pyx_t_4 = 0;
-
-    /* "(tree fragment)":9
- *     if _dict is not None:
- *         state += (_dict,)
- *         use_setstate = True             # <<<<<<<<<<<<<<
- *     else:
- *         use_setstate = self.arg is not None
- */
-    __pyx_v_use_setstate = 1;
-
-    /* "(tree fragment)":7
- *     state = (self.arg,)
- *     _dict = getattr(self, '__dict__', None)
- *     if _dict is not None:             # <<<<<<<<<<<<<<
- *         state += (_dict,)
- *         use_setstate = True
- */
-    goto __pyx_L3;
-  }
-
-  /* "(tree fragment)":11
- *         use_setstate = True
- *     else:
- *         use_setstate = self.arg is not None             # <<<<<<<<<<<<<<
- *     if use_setstate:
- *         return __pyx_unpickle_OTDelete, (type(self), 0x61dd86c, None), state
- */
-  /*else*/ {
-    __pyx_t_3 = (__pyx_v_self->arg != ((PyObject*)Py_None));
-    __pyx_v_use_setstate = __pyx_t_3;
-  }
-  __pyx_L3:;
-
-  /* "(tree fragment)":12
- *     else:
- *         use_setstate = self.arg is not None
- *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_OTDelete, (type(self), 0x61dd86c, None), state
- *     else:
- */
-  __pyx_t_3 = (__pyx_v_use_setstate != 0);
-  if (__pyx_t_3) {
-
-    /* "(tree fragment)":13
- *         use_setstate = self.arg is not None
- *     if use_setstate:
- *         return __pyx_unpickle_OTDelete, (type(self), 0x61dd86c, None), state             # <<<<<<<<<<<<<<
- *     else:
- *         return __pyx_unpickle_OTDelete, (type(self), 0x61dd86c, state)
- */
-    __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pyx_unpickle_OTDelete); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_102619244);
-    __Pyx_GIVEREF(__pyx_int_102619244);
-    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_int_102619244);
-    __Pyx_INCREF(Py_None);
-    __Pyx_GIVEREF(Py_None);
-    PyTuple_SET_ITEM(__pyx_t_1, 2, Py_None);
-    __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
-    __Pyx_GIVEREF(__pyx_t_1);
-    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_1);
-    __Pyx_INCREF(__pyx_v_state);
-    __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_v_state);
-    __pyx_t_4 = 0;
-    __pyx_t_1 = 0;
-    __pyx_r = __pyx_t_5;
-    __pyx_t_5 = 0;
-    goto __pyx_L0;
-
-    /* "(tree fragment)":12
- *     else:
- *         use_setstate = self.arg is not None
- *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_OTDelete, (type(self), 0x61dd86c, None), state
- *     else:
- */
-  }
-
-  /* "(tree fragment)":15
- *         return __pyx_unpickle_OTDelete, (type(self), 0x61dd86c, None), state
- *     else:
- *         return __pyx_unpickle_OTDelete, (type(self), 0x61dd86c, state)             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
- *     __pyx_unpickle_OTDelete__set_state(self, __pyx_state)
- */
-  /*else*/ {
-    __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pyx_unpickle_OTDelete); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_102619244);
-    __Pyx_GIVEREF(__pyx_int_102619244);
-    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_int_102619244);
-    __Pyx_INCREF(__pyx_v_state);
-    __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_v_state);
-    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_GIVEREF(__pyx_t_5);
-    PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5);
-    __Pyx_GIVEREF(__pyx_t_1);
-    PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_1);
-    __pyx_t_5 = 0;
-    __pyx_t_1 = 0;
-    __pyx_r = __pyx_t_4;
-    __pyx_t_4 = 0;
-    goto __pyx_L0;
-  }
-
-  /* "(tree fragment)":1
- * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
- *     cdef tuple state
- *     cdef object _dict
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("ottype.core_boost.OTDelete.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_state);
-  __Pyx_XDECREF(__pyx_v__dict);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "(tree fragment)":16
- *     else:
- *         return __pyx_unpickle_OTDelete, (type(self), 0x61dd86c, state)
- * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_unpickle_OTDelete__set_state(self, __pyx_state)
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6ottype_10core_boost_8OTDelete_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_6ottype_10core_boost_8OTDelete_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6ottype_10core_boost_8OTDelete_4__setstate_cython__(((struct __pyx_obj_6ottype_10core_boost_OTDelete *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6ottype_10core_boost_8OTDelete_4__setstate_cython__(struct __pyx_obj_6ottype_10core_boost_OTDelete *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-
-  /* "(tree fragment)":17
- *         return __pyx_unpickle_OTDelete, (type(self), 0x61dd86c, state)
- * def __setstate_cython__(self, __pyx_state):
- *     __pyx_unpickle_OTDelete__set_state(self, __pyx_state)             # <<<<<<<<<<<<<<
- */
-  if (!(likely(PyTuple_CheckExact(__pyx_v___pyx_state))||((__pyx_v___pyx_state) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_v___pyx_state)->tp_name), 0))) __PYX_ERR(1, 17, __pyx_L1_error)
-  __pyx_t_1 = __pyx_f_6ottype_10core_boost___pyx_unpickle_OTDelete__set_state(__pyx_v_self, ((PyObject*)__pyx_v___pyx_state)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 17, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "(tree fragment)":16
- *     else:
- *         return __pyx_unpickle_OTDelete, (type(self), 0x61dd86c, state)
- * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_unpickle_OTDelete__set_state(self, __pyx_state)
- */
-
-  /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("ottype.core_boost.OTDelete.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "ottype/core_boost.pyx":40
- * 
- * 
- * cdef OTType _resolve_ot(object ot_raw):             # <<<<<<<<<<<<<<
+ * cdef inline tuple _resolve_ot(object ot_raw):             # <<<<<<<<<<<<<<
  *     if isinstance(ot_raw, int):
  *         if ot_raw <= 0:
  */
 
-static struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_f_6ottype_10core_boost__resolve_ot(PyObject *__pyx_v_ot_raw) {
+static CYTHON_INLINE PyObject *__pyx_f_6ottype_10core_boost__resolve_ot(PyObject *__pyx_v_ot_raw) {
   PyObject *__pyx_v_s = NULL;
-  struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_r = NULL;
+  PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -3326,143 +1764,159 @@ static struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_f_6ottype_10core_boos
   int __pyx_t_5;
   __Pyx_RefNannySetupContext("_resolve_ot", 0);
 
-  /* "ottype/core_boost.pyx":41
+  /* "ottype/core_boost.pyx":9
  * 
- * cdef OTType _resolve_ot(object ot_raw):
+ * cdef inline tuple _resolve_ot(object ot_raw):
  *     if isinstance(ot_raw, int):             # <<<<<<<<<<<<<<
  *         if ot_raw <= 0:
- *             raise TypeError()
+ *             raise ValueError('invalid OTSkip')
  */
   __pyx_t_1 = PyInt_Check(__pyx_v_ot_raw); 
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "ottype/core_boost.pyx":42
- * cdef OTType _resolve_ot(object ot_raw):
+    /* "ottype/core_boost.pyx":10
+ * cdef inline tuple _resolve_ot(object ot_raw):
  *     if isinstance(ot_raw, int):
  *         if ot_raw <= 0:             # <<<<<<<<<<<<<<
- *             raise TypeError()
- *         return OTSkip(ot_raw)
+ *             raise ValueError('invalid OTSkip')
+ *         return OTTypeAction.skip, ot_raw
  */
-    __pyx_t_3 = PyObject_RichCompare(__pyx_v_ot_raw, __pyx_int_0, Py_LE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L1_error)
-    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 42, __pyx_L1_error)
+    __pyx_t_3 = PyObject_RichCompare(__pyx_v_ot_raw, __pyx_int_0, Py_LE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 10, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 10, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     if (unlikely(__pyx_t_2)) {
 
-      /* "ottype/core_boost.pyx":43
+      /* "ottype/core_boost.pyx":11
  *     if isinstance(ot_raw, int):
  *         if ot_raw <= 0:
- *             raise TypeError()             # <<<<<<<<<<<<<<
- *         return OTSkip(ot_raw)
+ *             raise ValueError('invalid OTSkip')             # <<<<<<<<<<<<<<
+ *         return OTTypeAction.skip, ot_raw
  *     elif isinstance(ot_raw, str):
  */
-      __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_builtin_TypeError); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 43, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 11, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __PYX_ERR(0, 43, __pyx_L1_error)
+      __PYX_ERR(0, 11, __pyx_L1_error)
 
-      /* "ottype/core_boost.pyx":42
- * cdef OTType _resolve_ot(object ot_raw):
+      /* "ottype/core_boost.pyx":10
+ * cdef inline tuple _resolve_ot(object ot_raw):
  *     if isinstance(ot_raw, int):
  *         if ot_raw <= 0:             # <<<<<<<<<<<<<<
- *             raise TypeError()
- *         return OTSkip(ot_raw)
+ *             raise ValueError('invalid OTSkip')
+ *         return OTTypeAction.skip, ot_raw
  */
     }
 
-    /* "ottype/core_boost.pyx":44
+    /* "ottype/core_boost.pyx":12
  *         if ot_raw <= 0:
- *             raise TypeError()
- *         return OTSkip(ot_raw)             # <<<<<<<<<<<<<<
+ *             raise ValueError('invalid OTSkip')
+ *         return OTTypeAction.skip, ot_raw             # <<<<<<<<<<<<<<
  *     elif isinstance(ot_raw, str):
  *         if ot_raw == '':
  */
-    __Pyx_XDECREF(((PyObject *)__pyx_r));
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost_OTSkip), __pyx_v_ot_raw); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 44, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_r);
+    __pyx_t_3 = __Pyx_PyInt_From_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_e_6ottype_10core_boost_skip); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 12, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_r = ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_3);
+    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 12, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
+    __Pyx_INCREF(__pyx_v_ot_raw);
+    __Pyx_GIVEREF(__pyx_v_ot_raw);
+    PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_v_ot_raw);
     __pyx_t_3 = 0;
+    __pyx_r = ((PyObject*)__pyx_t_4);
+    __pyx_t_4 = 0;
     goto __pyx_L0;
 
-    /* "ottype/core_boost.pyx":41
+    /* "ottype/core_boost.pyx":9
  * 
- * cdef OTType _resolve_ot(object ot_raw):
+ * cdef inline tuple _resolve_ot(object ot_raw):
  *     if isinstance(ot_raw, int):             # <<<<<<<<<<<<<<
  *         if ot_raw <= 0:
- *             raise TypeError()
+ *             raise ValueError('invalid OTSkip')
  */
   }
 
-  /* "ottype/core_boost.pyx":45
- *             raise TypeError()
- *         return OTSkip(ot_raw)
+  /* "ottype/core_boost.pyx":13
+ *             raise ValueError('invalid OTSkip')
+ *         return OTTypeAction.skip, ot_raw
  *     elif isinstance(ot_raw, str):             # <<<<<<<<<<<<<<
  *         if ot_raw == '':
- *             raise TypeError()
+ *             raise ValueError('invalid OTInsert')
  */
   __pyx_t_2 = PyUnicode_Check(__pyx_v_ot_raw); 
   __pyx_t_1 = (__pyx_t_2 != 0);
   if (__pyx_t_1) {
 
-    /* "ottype/core_boost.pyx":46
- *         return OTSkip(ot_raw)
+    /* "ottype/core_boost.pyx":14
+ *         return OTTypeAction.skip, ot_raw
  *     elif isinstance(ot_raw, str):
  *         if ot_raw == '':             # <<<<<<<<<<<<<<
- *             raise TypeError()
- *         return OTInsert(ot_raw)
+ *             raise ValueError('invalid OTInsert')
+ *         return OTTypeAction.insert, ot_raw
  */
-    __pyx_t_1 = (__Pyx_PyUnicode_Equals(__pyx_v_ot_raw, __pyx_kp_u_, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_1 = (__Pyx_PyUnicode_Equals(__pyx_v_ot_raw, __pyx_kp_u__2, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 14, __pyx_L1_error)
     if (unlikely(__pyx_t_1)) {
 
-      /* "ottype/core_boost.pyx":47
+      /* "ottype/core_boost.pyx":15
  *     elif isinstance(ot_raw, str):
  *         if ot_raw == '':
- *             raise TypeError()             # <<<<<<<<<<<<<<
- *         return OTInsert(ot_raw)
+ *             raise ValueError('invalid OTInsert')             # <<<<<<<<<<<<<<
+ *         return OTTypeAction.insert, ot_raw
  *     elif isinstance(ot_raw, dict):
  */
-      __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_builtin_TypeError); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_Raise(__pyx_t_3, 0, 0, 0);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __PYX_ERR(0, 47, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 15, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_Raise(__pyx_t_4, 0, 0, 0);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __PYX_ERR(0, 15, __pyx_L1_error)
 
-      /* "ottype/core_boost.pyx":46
- *         return OTSkip(ot_raw)
+      /* "ottype/core_boost.pyx":14
+ *         return OTTypeAction.skip, ot_raw
  *     elif isinstance(ot_raw, str):
  *         if ot_raw == '':             # <<<<<<<<<<<<<<
- *             raise TypeError()
- *         return OTInsert(ot_raw)
+ *             raise ValueError('invalid OTInsert')
+ *         return OTTypeAction.insert, ot_raw
  */
     }
 
-    /* "ottype/core_boost.pyx":48
+    /* "ottype/core_boost.pyx":16
  *         if ot_raw == '':
- *             raise TypeError()
- *         return OTInsert(ot_raw)             # <<<<<<<<<<<<<<
+ *             raise ValueError('invalid OTInsert')
+ *         return OTTypeAction.insert, ot_raw             # <<<<<<<<<<<<<<
  *     elif isinstance(ot_raw, dict):
  *         s = ot_raw.get('d', '')
  */
-    __Pyx_XDECREF(((PyObject *)__pyx_r));
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost_OTInsert), __pyx_v_ot_raw); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_r);
+    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_e_6ottype_10core_boost_insert); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 16, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 16, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_r = ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_3);
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4);
+    __Pyx_INCREF(__pyx_v_ot_raw);
+    __Pyx_GIVEREF(__pyx_v_ot_raw);
+    PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_ot_raw);
+    __pyx_t_4 = 0;
+    __pyx_r = ((PyObject*)__pyx_t_3);
     __pyx_t_3 = 0;
     goto __pyx_L0;
 
-    /* "ottype/core_boost.pyx":45
- *             raise TypeError()
- *         return OTSkip(ot_raw)
+    /* "ottype/core_boost.pyx":13
+ *             raise ValueError('invalid OTSkip')
+ *         return OTTypeAction.skip, ot_raw
  *     elif isinstance(ot_raw, str):             # <<<<<<<<<<<<<<
  *         if ot_raw == '':
- *             raise TypeError()
+ *             raise ValueError('invalid OTInsert')
  */
   }
 
-  /* "ottype/core_boost.pyx":49
- *             raise TypeError()
- *         return OTInsert(ot_raw)
+  /* "ottype/core_boost.pyx":17
+ *             raise ValueError('invalid OTInsert')
+ *         return OTTypeAction.insert, ot_raw
  *     elif isinstance(ot_raw, dict):             # <<<<<<<<<<<<<<
  *         s = ot_raw.get('d', '')
  *         if not isinstance(s, str) or s == '':
@@ -3471,27 +1925,27 @@ static struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_f_6ottype_10core_boos
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "ottype/core_boost.pyx":50
- *         return OTInsert(ot_raw)
+    /* "ottype/core_boost.pyx":18
+ *         return OTTypeAction.insert, ot_raw
  *     elif isinstance(ot_raw, dict):
  *         s = ot_raw.get('d', '')             # <<<<<<<<<<<<<<
  *         if not isinstance(s, str) or s == '':
- *             raise TypeError()
+ *             raise ValueError('invalid OTDelete')
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_ot_raw, __pyx_n_s_get); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 50, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_ot_raw, __pyx_n_s_get); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 18, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 50, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 18, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_s = __pyx_t_4;
     __pyx_t_4 = 0;
 
-    /* "ottype/core_boost.pyx":51
+    /* "ottype/core_boost.pyx":19
  *     elif isinstance(ot_raw, dict):
  *         s = ot_raw.get('d', '')
  *         if not isinstance(s, str) or s == '':             # <<<<<<<<<<<<<<
- *             raise TypeError()
- *         return OTDelete(s)
+ *             raise ValueError('invalid OTDelete')
+ *         return OTTypeAction.delete, s
  */
     __pyx_t_1 = PyUnicode_Check(__pyx_v_s); 
     __pyx_t_5 = ((!(__pyx_t_1 != 0)) != 0);
@@ -3500,73 +1954,81 @@ static struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_f_6ottype_10core_boos
       __pyx_t_2 = __pyx_t_5;
       goto __pyx_L7_bool_binop_done;
     }
-    __pyx_t_5 = (__Pyx_PyUnicode_Equals(__pyx_v_s, __pyx_kp_u_, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 51, __pyx_L1_error)
+    __pyx_t_5 = (__Pyx_PyUnicode_Equals(__pyx_v_s, __pyx_kp_u__2, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 19, __pyx_L1_error)
     __pyx_t_2 = __pyx_t_5;
     __pyx_L7_bool_binop_done:;
     if (unlikely(__pyx_t_2)) {
 
-      /* "ottype/core_boost.pyx":52
+      /* "ottype/core_boost.pyx":20
  *         s = ot_raw.get('d', '')
  *         if not isinstance(s, str) or s == '':
- *             raise TypeError()             # <<<<<<<<<<<<<<
- *         return OTDelete(s)
+ *             raise ValueError('invalid OTDelete')             # <<<<<<<<<<<<<<
+ *         return OTTypeAction.delete, s
  * 
  */
-      __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_builtin_TypeError); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 20, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_Raise(__pyx_t_4, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __PYX_ERR(0, 52, __pyx_L1_error)
+      __PYX_ERR(0, 20, __pyx_L1_error)
 
-      /* "ottype/core_boost.pyx":51
+      /* "ottype/core_boost.pyx":19
  *     elif isinstance(ot_raw, dict):
  *         s = ot_raw.get('d', '')
  *         if not isinstance(s, str) or s == '':             # <<<<<<<<<<<<<<
- *             raise TypeError()
- *         return OTDelete(s)
+ *             raise ValueError('invalid OTDelete')
+ *         return OTTypeAction.delete, s
  */
     }
 
-    /* "ottype/core_boost.pyx":53
+    /* "ottype/core_boost.pyx":21
  *         if not isinstance(s, str) or s == '':
- *             raise TypeError()
- *         return OTDelete(s)             # <<<<<<<<<<<<<<
+ *             raise ValueError('invalid OTDelete')
+ *         return OTTypeAction.delete, s             # <<<<<<<<<<<<<<
  * 
- *     raise TypeError()
+ *     raise ValueError('unexpected OT structure')
  */
-    __Pyx_XDECREF(((PyObject *)__pyx_r));
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost_OTDelete), __pyx_v_s); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_r);
+    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_e_6ottype_10core_boost_delete); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 21, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_r = ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_4);
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 21, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4);
+    __Pyx_INCREF(__pyx_v_s);
+    __Pyx_GIVEREF(__pyx_v_s);
+    PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_s);
     __pyx_t_4 = 0;
+    __pyx_r = ((PyObject*)__pyx_t_3);
+    __pyx_t_3 = 0;
     goto __pyx_L0;
 
-    /* "ottype/core_boost.pyx":49
- *             raise TypeError()
- *         return OTInsert(ot_raw)
+    /* "ottype/core_boost.pyx":17
+ *             raise ValueError('invalid OTInsert')
+ *         return OTTypeAction.insert, ot_raw
  *     elif isinstance(ot_raw, dict):             # <<<<<<<<<<<<<<
  *         s = ot_raw.get('d', '')
  *         if not isinstance(s, str) or s == '':
  */
   }
 
-  /* "ottype/core_boost.pyx":55
- *         return OTDelete(s)
+  /* "ottype/core_boost.pyx":23
+ *         return OTTypeAction.delete, s
  * 
- *     raise TypeError()             # <<<<<<<<<<<<<<
+ *     raise ValueError('unexpected OT structure')             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_builtin_TypeError); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 55, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_Raise(__pyx_t_4, 0, 0, 0);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_Raise(__pyx_t_3, 0, 0, 0);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __PYX_ERR(0, 23, __pyx_L1_error)
 
-  /* "ottype/core_boost.pyx":40
+  /* "ottype/core_boost.pyx":8
  * 
  * 
- * cdef OTType _resolve_ot(object ot_raw):             # <<<<<<<<<<<<<<
+ * cdef inline tuple _resolve_ot(object ot_raw):             # <<<<<<<<<<<<<<
  *     if isinstance(ot_raw, int):
  *         if ot_raw <= 0:
  */
@@ -3579,171 +2041,172 @@ static struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_f_6ottype_10core_boos
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_s);
-  __Pyx_XGIVEREF((PyObject *)__pyx_r);
+  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "ottype/core_boost.pyx":58
+/* "ottype/core_boost.pyx":26
  * 
  * 
- * cdef list _make_iter_ots(list ot_raw_list):             # <<<<<<<<<<<<<<
- *     cdef list ots = []
- * 
+ * cdef inline list _make_iter_ots(list ot_raw_list):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         Py_ssize_t ots_length, i
  */
 
-static PyObject *__pyx_f_6ottype_10core_boost__make_iter_ots(PyObject *__pyx_v_ot_raw_list) {
-  PyObject *__pyx_v_ots = 0;
-  PyObject *__pyx_v_ot_raw = NULL;
-  struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_v_resolved_ot = NULL;
+static CYTHON_INLINE PyObject *__pyx_f_6ottype_10core_boost__make_iter_ots(PyObject *__pyx_v_ot_raw_list) {
+  Py_ssize_t __pyx_v_ots_length;
+  Py_ssize_t __pyx_v_i;
+  PyObject *__pyx_v_ots = NULL;
+  PyObject *__pyx_v_resolved_ot = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
+  Py_ssize_t __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
-  Py_ssize_t __pyx_t_5;
-  PyObject *__pyx_t_6 = NULL;
-  int __pyx_t_7;
-  int __pyx_t_8;
+  PyObject *__pyx_t_5 = NULL;
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  PyObject *__pyx_t_8;
+  int __pyx_t_9;
   __Pyx_RefNannySetupContext("_make_iter_ots", 0);
 
-  /* "ottype/core_boost.pyx":59
+  /* "ottype/core_boost.pyx":30
+ *         Py_ssize_t ots_length, i
  * 
- * cdef list _make_iter_ots(list ot_raw_list):
- *     cdef list ots = []             # <<<<<<<<<<<<<<
+ *     ots_length = PyList_Size(ot_raw_list)             # <<<<<<<<<<<<<<
+ *     ots = PyList_New(ots_length)
+ * 
+ */
+  __pyx_t_1 = PyList_Size(__pyx_v_ot_raw_list); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1L))) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_v_ots_length = __pyx_t_1;
+
+  /* "ottype/core_boost.pyx":31
+ * 
+ *     ots_length = PyList_Size(ot_raw_list)
+ *     ots = PyList_New(ots_length)             # <<<<<<<<<<<<<<
  * 
  *     try:
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_ots = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
+  __pyx_t_2 = PyList_New(__pyx_v_ots_length); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_v_ots = ((PyObject*)__pyx_t_2);
+  __pyx_t_2 = 0;
 
-  /* "ottype/core_boost.pyx":61
- *     cdef list ots = []
+  /* "ottype/core_boost.pyx":33
+ *     ots = PyList_New(ots_length)
  * 
  *     try:             # <<<<<<<<<<<<<<
- *         for ot_raw in ot_raw_list:
- *             resolved_ot = _resolve_ot(ot_raw)
+ *         for i in range(ots_length):
+ *             resolved_ot = _resolve_ot(<object>PyList_GET_ITEM(ot_raw_list, i))
  */
   {
     __Pyx_PyThreadState_declare
     __Pyx_PyThreadState_assign
-    __Pyx_ExceptionSave(&__pyx_t_2, &__pyx_t_3, &__pyx_t_4);
-    __Pyx_XGOTREF(__pyx_t_2);
+    __Pyx_ExceptionSave(&__pyx_t_3, &__pyx_t_4, &__pyx_t_5);
     __Pyx_XGOTREF(__pyx_t_3);
     __Pyx_XGOTREF(__pyx_t_4);
+    __Pyx_XGOTREF(__pyx_t_5);
     /*try:*/ {
 
-      /* "ottype/core_boost.pyx":62
+      /* "ottype/core_boost.pyx":34
  * 
  *     try:
- *         for ot_raw in ot_raw_list:             # <<<<<<<<<<<<<<
- *             resolved_ot = _resolve_ot(ot_raw)
- *             ots.append(resolved_ot)
+ *         for i in range(ots_length):             # <<<<<<<<<<<<<<
+ *             resolved_ot = _resolve_ot(<object>PyList_GET_ITEM(ot_raw_list, i))
+ *             Py_INCREF(resolved_ot)
  */
-      if (unlikely(__pyx_v_ot_raw_list == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-        __PYX_ERR(0, 62, __pyx_L3_error)
-      }
-      __pyx_t_1 = __pyx_v_ot_raw_list; __Pyx_INCREF(__pyx_t_1); __pyx_t_5 = 0;
-      for (;;) {
-        if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_1)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_6 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_6); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 62, __pyx_L3_error)
-        #else
-        __pyx_t_6 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 62, __pyx_L3_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        #endif
-        __Pyx_XDECREF_SET(__pyx_v_ot_raw, __pyx_t_6);
-        __pyx_t_6 = 0;
+      __pyx_t_1 = __pyx_v_ots_length;
+      __pyx_t_6 = __pyx_t_1;
+      for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
+        __pyx_v_i = __pyx_t_7;
 
-        /* "ottype/core_boost.pyx":63
+        /* "ottype/core_boost.pyx":35
  *     try:
- *         for ot_raw in ot_raw_list:
- *             resolved_ot = _resolve_ot(ot_raw)             # <<<<<<<<<<<<<<
- *             ots.append(resolved_ot)
- *     except TypeError:
+ *         for i in range(ots_length):
+ *             resolved_ot = _resolve_ot(<object>PyList_GET_ITEM(ot_raw_list, i))             # <<<<<<<<<<<<<<
+ *             Py_INCREF(resolved_ot)
+ *             PyList_SET_ITEM(ots, i, resolved_ot)
  */
-        __pyx_t_6 = ((PyObject *)__pyx_f_6ottype_10core_boost__resolve_ot(__pyx_v_ot_raw)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 63, __pyx_L3_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_XDECREF_SET(__pyx_v_resolved_ot, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_6));
-        __pyx_t_6 = 0;
+        __pyx_t_8 = PyList_GET_ITEM(__pyx_v_ot_raw_list, __pyx_v_i);
+        __pyx_t_2 = __pyx_f_6ottype_10core_boost__resolve_ot(((PyObject *)__pyx_t_8)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L3_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_XDECREF_SET(__pyx_v_resolved_ot, ((PyObject*)__pyx_t_2));
+        __pyx_t_2 = 0;
 
-        /* "ottype/core_boost.pyx":64
- *         for ot_raw in ot_raw_list:
- *             resolved_ot = _resolve_ot(ot_raw)
- *             ots.append(resolved_ot)             # <<<<<<<<<<<<<<
- *     except TypeError:
+        /* "ottype/core_boost.pyx":36
+ *         for i in range(ots_length):
+ *             resolved_ot = _resolve_ot(<object>PyList_GET_ITEM(ot_raw_list, i))
+ *             Py_INCREF(resolved_ot)             # <<<<<<<<<<<<<<
+ *             PyList_SET_ITEM(ots, i, resolved_ot)
+ *     except ValueError:
+ */
+        Py_INCREF(__pyx_v_resolved_ot);
+
+        /* "ottype/core_boost.pyx":37
+ *             resolved_ot = _resolve_ot(<object>PyList_GET_ITEM(ot_raw_list, i))
+ *             Py_INCREF(resolved_ot)
+ *             PyList_SET_ITEM(ots, i, resolved_ot)             # <<<<<<<<<<<<<<
+ *     except ValueError:
  *         pass
  */
-        __pyx_t_7 = __Pyx_PyList_Append(__pyx_v_ots, ((PyObject *)__pyx_v_resolved_ot)); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 64, __pyx_L3_error)
-
-        /* "ottype/core_boost.pyx":62
- * 
- *     try:
- *         for ot_raw in ot_raw_list:             # <<<<<<<<<<<<<<
- *             resolved_ot = _resolve_ot(ot_raw)
- *             ots.append(resolved_ot)
- */
+        PyList_SET_ITEM(__pyx_v_ots, __pyx_v_i, __pyx_v_resolved_ot);
       }
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "ottype/core_boost.pyx":61
- *     cdef list ots = []
+      /* "ottype/core_boost.pyx":33
+ *     ots = PyList_New(ots_length)
  * 
  *     try:             # <<<<<<<<<<<<<<
- *         for ot_raw in ot_raw_list:
- *             resolved_ot = _resolve_ot(ot_raw)
+ *         for i in range(ots_length):
+ *             resolved_ot = _resolve_ot(<object>PyList_GET_ITEM(ot_raw_list, i))
  */
     }
-    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     goto __pyx_L8_try_end;
     __pyx_L3_error:;
-    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "ottype/core_boost.pyx":65
- *             resolved_ot = _resolve_ot(ot_raw)
- *             ots.append(resolved_ot)
- *     except TypeError:             # <<<<<<<<<<<<<<
+    /* "ottype/core_boost.pyx":38
+ *             Py_INCREF(resolved_ot)
+ *             PyList_SET_ITEM(ots, i, resolved_ot)
+ *     except ValueError:             # <<<<<<<<<<<<<<
  *         pass
- *     return ots
+ * 
  */
-    __pyx_t_8 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_TypeError);
-    if (__pyx_t_8) {
+    __pyx_t_9 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_ValueError);
+    if (__pyx_t_9) {
       __Pyx_ErrRestore(0,0,0);
       goto __pyx_L4_exception_handled;
     }
     goto __pyx_L5_except_error;
     __pyx_L5_except_error:;
 
-    /* "ottype/core_boost.pyx":61
- *     cdef list ots = []
+    /* "ottype/core_boost.pyx":33
+ *     ots = PyList_New(ots_length)
  * 
  *     try:             # <<<<<<<<<<<<<<
- *         for ot_raw in ot_raw_list:
- *             resolved_ot = _resolve_ot(ot_raw)
+ *         for i in range(ots_length):
+ *             resolved_ot = _resolve_ot(<object>PyList_GET_ITEM(ot_raw_list, i))
  */
-    __Pyx_XGIVEREF(__pyx_t_2);
     __Pyx_XGIVEREF(__pyx_t_3);
     __Pyx_XGIVEREF(__pyx_t_4);
-    __Pyx_ExceptionReset(__pyx_t_2, __pyx_t_3, __pyx_t_4);
+    __Pyx_XGIVEREF(__pyx_t_5);
+    __Pyx_ExceptionReset(__pyx_t_3, __pyx_t_4, __pyx_t_5);
     goto __pyx_L1_error;
     __pyx_L4_exception_handled:;
-    __Pyx_XGIVEREF(__pyx_t_2);
     __Pyx_XGIVEREF(__pyx_t_3);
     __Pyx_XGIVEREF(__pyx_t_4);
-    __Pyx_ExceptionReset(__pyx_t_2, __pyx_t_3, __pyx_t_4);
+    __Pyx_XGIVEREF(__pyx_t_5);
+    __Pyx_ExceptionReset(__pyx_t_3, __pyx_t_4, __pyx_t_5);
     __pyx_L8_try_end:;
   }
 
-  /* "ottype/core_boost.pyx":67
- *     except TypeError:
+  /* "ottype/core_boost.pyx":41
  *         pass
+ * 
  *     return ots             # <<<<<<<<<<<<<<
  * 
  * 
@@ -3753,30 +2216,259 @@ static PyObject *__pyx_f_6ottype_10core_boost__make_iter_ots(PyObject *__pyx_v_o
   __pyx_r = __pyx_v_ots;
   goto __pyx_L0;
 
-  /* "ottype/core_boost.pyx":58
+  /* "ottype/core_boost.pyx":26
  * 
  * 
- * cdef list _make_iter_ots(list ot_raw_list):             # <<<<<<<<<<<<<<
- *     cdef list ots = []
- * 
+ * cdef inline list _make_iter_ots(list ot_raw_list):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         Py_ssize_t ots_length, i
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_AddTraceback("ottype.core_boost._make_iter_ots", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_ots);
-  __Pyx_XDECREF(__pyx_v_ot_raw);
-  __Pyx_XDECREF((PyObject *)__pyx_v_resolved_ot);
+  __Pyx_XDECREF(__pyx_v_resolved_ot);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "ottype/core_boost.pyx":73
+/* "ottype/core_boost.pyx":44
+ * 
+ * 
+ * cdef inline list _to_ot_raw_list(list ots):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         Py_ssize_t ots_length, i
+ */
+
+static CYTHON_INLINE PyObject *__pyx_f_6ottype_10core_boost__to_ot_raw_list(PyObject *__pyx_v_ots) {
+  Py_ssize_t __pyx_v_ots_length;
+  Py_ssize_t __pyx_v_i;
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_v_ot_action;
+  PyObject *__pyx_v_ot_arg = 0;
+  PyObject *__pyx_v_ot_raw = 0;
+  PyObject *__pyx_v_ot_raw_list = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  Py_ssize_t __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  Py_ssize_t __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  PyObject *__pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_t_8;
+  __Pyx_RefNannySetupContext("_to_ot_raw_list", 0);
+
+  /* "ottype/core_boost.pyx":51
+ *         object ot_raw
+ * 
+ *     ots_length = PyList_Size(ots)             # <<<<<<<<<<<<<<
+ *     ot_raw_list = PyList_New(ots_length)
+ * 
+ */
+  __pyx_t_1 = PyList_Size(__pyx_v_ots); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1L))) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_v_ots_length = __pyx_t_1;
+
+  /* "ottype/core_boost.pyx":52
+ * 
+ *     ots_length = PyList_Size(ots)
+ *     ot_raw_list = PyList_New(ots_length)             # <<<<<<<<<<<<<<
+ * 
+ *     for i in range(ots_length):
+ */
+  __pyx_t_2 = PyList_New(__pyx_v_ots_length); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_v_ot_raw_list = ((PyObject*)__pyx_t_2);
+  __pyx_t_2 = 0;
+
+  /* "ottype/core_boost.pyx":54
+ *     ot_raw_list = PyList_New(ots_length)
+ * 
+ *     for i in range(ots_length):             # <<<<<<<<<<<<<<
+ *         ot_action, ot_arg = <tuple>PyList_GET_ITEM(ots, i)
+ *         if ot_action == OTTypeAction.skip:
+ */
+  __pyx_t_1 = __pyx_v_ots_length;
+  __pyx_t_3 = __pyx_t_1;
+  for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
+    __pyx_v_i = __pyx_t_4;
+
+    /* "ottype/core_boost.pyx":55
+ * 
+ *     for i in range(ots_length):
+ *         ot_action, ot_arg = <tuple>PyList_GET_ITEM(ots, i)             # <<<<<<<<<<<<<<
+ *         if ot_action == OTTypeAction.skip:
+ *             ot_raw = ot_arg
+ */
+    __pyx_t_5 = PyList_GET_ITEM(__pyx_v_ots, __pyx_v_i);
+    __pyx_t_2 = ((PyObject *)__pyx_t_5);
+    __Pyx_INCREF(__pyx_t_2);
+    if (likely(__pyx_t_2 != Py_None)) {
+      PyObject* sequence = __pyx_t_2;
+      Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
+      if (unlikely(size != 2)) {
+        if (size > 2) __Pyx_RaiseTooManyValuesError(2);
+        else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
+        __PYX_ERR(0, 55, __pyx_L1_error)
+      }
+      #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+      __pyx_t_6 = PyTuple_GET_ITEM(sequence, 0); 
+      __pyx_t_7 = PyTuple_GET_ITEM(sequence, 1); 
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_7);
+      #else
+      __pyx_t_6 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 55, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 55, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      #endif
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    } else {
+      __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(0, 55, __pyx_L1_error)
+    }
+    __pyx_t_8 = ((enum __pyx_t_6ottype_10core_boost_OTTypeAction)__Pyx_PyInt_As_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_t_6)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 55, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_v_ot_action = __pyx_t_8;
+    __Pyx_XDECREF_SET(__pyx_v_ot_arg, __pyx_t_7);
+    __pyx_t_7 = 0;
+
+    /* "ottype/core_boost.pyx":56
+ *     for i in range(ots_length):
+ *         ot_action, ot_arg = <tuple>PyList_GET_ITEM(ots, i)
+ *         if ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *             ot_raw = ot_arg
+ *         elif ot_action == OTTypeAction.insert:
+ */
+    switch (__pyx_v_ot_action) {
+      case __pyx_e_6ottype_10core_boost_skip:
+
+      /* "ottype/core_boost.pyx":57
+ *         ot_action, ot_arg = <tuple>PyList_GET_ITEM(ots, i)
+ *         if ot_action == OTTypeAction.skip:
+ *             ot_raw = ot_arg             # <<<<<<<<<<<<<<
+ *         elif ot_action == OTTypeAction.insert:
+ *             ot_raw = ot_arg
+ */
+      __Pyx_INCREF(__pyx_v_ot_arg);
+      __Pyx_XDECREF_SET(__pyx_v_ot_raw, __pyx_v_ot_arg);
+
+      /* "ottype/core_boost.pyx":56
+ *     for i in range(ots_length):
+ *         ot_action, ot_arg = <tuple>PyList_GET_ITEM(ots, i)
+ *         if ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *             ot_raw = ot_arg
+ *         elif ot_action == OTTypeAction.insert:
+ */
+      break;
+      case __pyx_e_6ottype_10core_boost_insert:
+
+      /* "ottype/core_boost.pyx":59
+ *             ot_raw = ot_arg
+ *         elif ot_action == OTTypeAction.insert:
+ *             ot_raw = ot_arg             # <<<<<<<<<<<<<<
+ *         elif ot_action == OTTypeAction.delete:
+ *             ot_raw = {'d': ot_arg}
+ */
+      __Pyx_INCREF(__pyx_v_ot_arg);
+      __Pyx_XDECREF_SET(__pyx_v_ot_raw, __pyx_v_ot_arg);
+
+      /* "ottype/core_boost.pyx":58
+ *         if ot_action == OTTypeAction.skip:
+ *             ot_raw = ot_arg
+ *         elif ot_action == OTTypeAction.insert:             # <<<<<<<<<<<<<<
+ *             ot_raw = ot_arg
+ *         elif ot_action == OTTypeAction.delete:
+ */
+      break;
+      case __pyx_e_6ottype_10core_boost_delete:
+
+      /* "ottype/core_boost.pyx":61
+ *             ot_raw = ot_arg
+ *         elif ot_action == OTTypeAction.delete:
+ *             ot_raw = {'d': ot_arg}             # <<<<<<<<<<<<<<
+ * 
+ *         Py_INCREF(ot_raw)
+ */
+      __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      if (PyDict_SetItem(__pyx_t_2, __pyx_n_u_d, __pyx_v_ot_arg) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
+      __Pyx_XDECREF_SET(__pyx_v_ot_raw, __pyx_t_2);
+      __pyx_t_2 = 0;
+
+      /* "ottype/core_boost.pyx":60
+ *         elif ot_action == OTTypeAction.insert:
+ *             ot_raw = ot_arg
+ *         elif ot_action == OTTypeAction.delete:             # <<<<<<<<<<<<<<
+ *             ot_raw = {'d': ot_arg}
+ * 
+ */
+      break;
+      default: break;
+    }
+
+    /* "ottype/core_boost.pyx":63
+ *             ot_raw = {'d': ot_arg}
+ * 
+ *         Py_INCREF(ot_raw)             # <<<<<<<<<<<<<<
+ *         PyList_SET_ITEM(ot_raw_list, i, ot_raw)
+ * 
+ */
+    if (unlikely(!__pyx_v_ot_raw)) { __Pyx_RaiseUnboundLocalError("ot_raw"); __PYX_ERR(0, 63, __pyx_L1_error) }
+    Py_INCREF(__pyx_v_ot_raw);
+
+    /* "ottype/core_boost.pyx":64
+ * 
+ *         Py_INCREF(ot_raw)
+ *         PyList_SET_ITEM(ot_raw_list, i, ot_raw)             # <<<<<<<<<<<<<<
+ * 
+ *     return ot_raw_list
+ */
+    if (unlikely(!__pyx_v_ot_raw)) { __Pyx_RaiseUnboundLocalError("ot_raw"); __PYX_ERR(0, 64, __pyx_L1_error) }
+    PyList_SET_ITEM(__pyx_v_ot_raw_list, __pyx_v_i, __pyx_v_ot_raw);
+  }
+
+  /* "ottype/core_boost.pyx":66
+ *         PyList_SET_ITEM(ot_raw_list, i, ot_raw)
+ * 
+ *     return ot_raw_list             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_ot_raw_list);
+  __pyx_r = __pyx_v_ot_raw_list;
+  goto __pyx_L0;
+
+  /* "ottype/core_boost.pyx":44
+ * 
+ * 
+ * cdef inline list _to_ot_raw_list(list ots):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         Py_ssize_t ots_length, i
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_AddTraceback("ottype.core_boost._to_ot_raw_list", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_ot_arg);
+  __Pyx_XDECREF(__pyx_v_ot_raw);
+  __Pyx_XDECREF(__pyx_v_ot_raw_list);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "ottype/core_boost.pyx":72
  *     cdef list ots
  * 
  *     def __init__(self, list ots):             # <<<<<<<<<<<<<<
@@ -3810,7 +2502,7 @@ static int __pyx_pw_6ottype_10core_boost_9_Appender_1__init__(PyObject *__pyx_v_
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 73, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 72, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -3821,13 +2513,13 @@ static int __pyx_pw_6ottype_10core_boost_9_Appender_1__init__(PyObject *__pyx_v_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 73, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 72, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("ottype.core_boost._Appender.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ots), (&PyList_Type), 1, "ots", 1))) __PYX_ERR(0, 73, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ots), (&PyList_Type), 1, "ots", 1))) __PYX_ERR(0, 72, __pyx_L1_error)
   __pyx_r = __pyx_pf_6ottype_10core_boost_9_Appender___init__(((struct __pyx_obj_6ottype_10core_boost__Appender *)__pyx_v_self), __pyx_v_ots);
 
   /* function exit code */
@@ -3844,12 +2536,12 @@ static int __pyx_pf_6ottype_10core_boost_9_Appender___init__(struct __pyx_obj_6o
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "ottype/core_boost.pyx":74
+  /* "ottype/core_boost.pyx":73
  * 
  *     def __init__(self, list ots):
  *         self.ots = ots             # <<<<<<<<<<<<<<
  * 
- *     cdef void append(self, OTType ot):
+ *     cdef void append(self, tuple ot):
  */
   __Pyx_INCREF(__pyx_v_ots);
   __Pyx_GIVEREF(__pyx_v_ots);
@@ -3857,7 +2549,7 @@ static int __pyx_pf_6ottype_10core_boost_9_Appender___init__(struct __pyx_obj_6o
   __Pyx_DECREF(__pyx_v_self->ots);
   __pyx_v_self->ots = __pyx_v_ots;
 
-  /* "ottype/core_boost.pyx":73
+  /* "ottype/core_boost.pyx":72
  *     cdef list ots
  * 
  *     def __init__(self, list ots):             # <<<<<<<<<<<<<<
@@ -3871,37 +2563,43 @@ static int __pyx_pf_6ottype_10core_boost_9_Appender___init__(struct __pyx_obj_6o
   return __pyx_r;
 }
 
-/* "ottype/core_boost.pyx":76
+/* "ottype/core_boost.pyx":75
  *         self.ots = ots
  * 
- *     cdef void append(self, OTType ot):             # <<<<<<<<<<<<<<
- *         cdef OTType last_ot
- * 
+ *     cdef void append(self, tuple ot):             # <<<<<<<<<<<<<<
+ *         cdef:
+ *             OTTypeAction last_ot_action
  */
 
-static void __pyx_f_6ottype_10core_boost_9_Appender_append(struct __pyx_obj_6ottype_10core_boost__Appender *__pyx_v_self, struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_v_ot) {
-  struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_v_last_ot = 0;
+static void __pyx_f_6ottype_10core_boost_9_Appender_append(struct __pyx_obj_6ottype_10core_boost__Appender *__pyx_v_self, PyObject *__pyx_v_ot) {
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_v_last_ot_action;
+  PyObject *__pyx_v_last_ot_arg = 0;
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_v_ot_action;
+  PyObject *__pyx_v_ot_arg = 0;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
   int __pyx_t_3;
   PyObject *__pyx_t_4 = NULL;
-  int __pyx_t_5;
-  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_t_6;
+  PyObject *__pyx_t_7 = NULL;
+  int __pyx_t_8;
+  int __pyx_t_9;
   __Pyx_RefNannySetupContext("append", 0);
 
-  /* "ottype/core_boost.pyx":79
- *         cdef OTType last_ot
+  /* "ottype/core_boost.pyx":83
+ *             object ot_arg
  * 
  *         if ot is None:             # <<<<<<<<<<<<<<
  *             return
  * 
  */
-  __pyx_t_1 = (((PyObject *)__pyx_v_ot) == Py_None);
+  __pyx_t_1 = (__pyx_v_ot == ((PyObject*)Py_None));
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "ottype/core_boost.pyx":80
+    /* "ottype/core_boost.pyx":84
  * 
  *         if ot is None:
  *             return             # <<<<<<<<<<<<<<
@@ -3910,8 +2608,8 @@ static void __pyx_f_6ottype_10core_boost_9_Appender_append(struct __pyx_obj_6ott
  */
     goto __pyx_L0;
 
-    /* "ottype/core_boost.pyx":79
- *         cdef OTType last_ot
+    /* "ottype/core_boost.pyx":83
+ *             object ot_arg
  * 
  *         if ot is None:             # <<<<<<<<<<<<<<
  *             return
@@ -3919,7 +2617,7 @@ static void __pyx_f_6ottype_10core_boost_9_Appender_append(struct __pyx_obj_6ott
  */
   }
 
-  /* "ottype/core_boost.pyx":82
+  /* "ottype/core_boost.pyx":86
  *             return
  * 
  *         if not self.ots:             # <<<<<<<<<<<<<<
@@ -3930,7 +2628,7 @@ static void __pyx_f_6ottype_10core_boost_9_Appender_append(struct __pyx_obj_6ott
   __pyx_t_1 = ((!__pyx_t_2) != 0);
   if (__pyx_t_1) {
 
-    /* "ottype/core_boost.pyx":83
+    /* "ottype/core_boost.pyx":87
  * 
  *         if not self.ots:
  *             self.ots.append(ot)             # <<<<<<<<<<<<<<
@@ -3939,20 +2637,20 @@ static void __pyx_f_6ottype_10core_boost_9_Appender_append(struct __pyx_obj_6ott
  */
     if (unlikely(__pyx_v_self->ots == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-      __PYX_ERR(0, 83, __pyx_L1_error)
+      __PYX_ERR(0, 87, __pyx_L1_error)
     }
-    __pyx_t_3 = __Pyx_PyList_Append(__pyx_v_self->ots, ((PyObject *)__pyx_v_ot)); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 83, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyList_Append(__pyx_v_self->ots, __pyx_v_ot); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 87, __pyx_L1_error)
 
-    /* "ottype/core_boost.pyx":84
+    /* "ottype/core_boost.pyx":88
  *         if not self.ots:
  *             self.ots.append(ot)
  *             return             # <<<<<<<<<<<<<<
  * 
- *         last_ot = self.ots[-1]
+ *         ot_action, ot_arg = ot
  */
     goto __pyx_L0;
 
-    /* "ottype/core_boost.pyx":82
+    /* "ottype/core_boost.pyx":86
  *             return
  * 
  *         if not self.ots:             # <<<<<<<<<<<<<<
@@ -3961,172 +2659,252 @@ static void __pyx_f_6ottype_10core_boost_9_Appender_append(struct __pyx_obj_6ott
  */
   }
 
-  /* "ottype/core_boost.pyx":86
+  /* "ottype/core_boost.pyx":90
  *             return
  * 
- *         last_ot = self.ots[-1]             # <<<<<<<<<<<<<<
+ *         ot_action, ot_arg = ot             # <<<<<<<<<<<<<<
+ *         last_ot_action, last_ot_arg = <tuple>self.ots[-1]
  * 
- *         if isinstance(last_ot, OTSkip) and isinstance(ot, OTSkip):
+ */
+  if (likely(__pyx_v_ot != Py_None)) {
+    PyObject* sequence = __pyx_v_ot;
+    Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
+    if (unlikely(size != 2)) {
+      if (size > 2) __Pyx_RaiseTooManyValuesError(2);
+      else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
+      __PYX_ERR(0, 90, __pyx_L1_error)
+    }
+    #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    __pyx_t_4 = PyTuple_GET_ITEM(sequence, 0); 
+    __pyx_t_5 = PyTuple_GET_ITEM(sequence, 1); 
+    __Pyx_INCREF(__pyx_t_4);
+    __Pyx_INCREF(__pyx_t_5);
+    #else
+    __pyx_t_4 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 90, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_5 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 90, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    #endif
+  } else {
+    __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(0, 90, __pyx_L1_error)
+  }
+  __pyx_t_6 = ((enum __pyx_t_6ottype_10core_boost_OTTypeAction)__Pyx_PyInt_As_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_t_4)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 90, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_ot_action = __pyx_t_6;
+  __pyx_v_ot_arg = __pyx_t_5;
+  __pyx_t_5 = 0;
+
+  /* "ottype/core_boost.pyx":91
+ * 
+ *         ot_action, ot_arg = ot
+ *         last_ot_action, last_ot_arg = <tuple>self.ots[-1]             # <<<<<<<<<<<<<<
+ * 
+ *         if last_ot_action == OTTypeAction.skip and ot_action == OTTypeAction.skip:
  */
   if (unlikely(__pyx_v_self->ots == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 86, __pyx_L1_error)
+    __PYX_ERR(0, 91, __pyx_L1_error)
   }
-  __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_self->ots, -1L, long, 1, __Pyx_PyInt_From_long, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 86, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_6ottype_10core_boost_OTType))))) __PYX_ERR(0, 86, __pyx_L1_error)
-  __pyx_v_last_ot = ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_4);
-  __pyx_t_4 = 0;
-
-  /* "ottype/core_boost.pyx":88
- *         last_ot = self.ots[-1]
- * 
- *         if isinstance(last_ot, OTSkip) and isinstance(ot, OTSkip):             # <<<<<<<<<<<<<<
- *             self.ots[-1] = OTSkip((<OTSkip>last_ot).arg + (<OTSkip>ot).arg)
- *         elif isinstance(last_ot, OTInsert) and isinstance(ot, OTInsert):
- */
-  __pyx_t_2 = __Pyx_TypeCheck(((PyObject *)__pyx_v_last_ot), __pyx_ptype_6ottype_10core_boost_OTSkip); 
-  __pyx_t_5 = (__pyx_t_2 != 0);
-  if (__pyx_t_5) {
+  __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_v_self->ots, -1L, long, 1, __Pyx_PyInt_From_long, 1, 1, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_4 = __pyx_t_5;
+  __Pyx_INCREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (likely(__pyx_t_4 != Py_None)) {
+    PyObject* sequence = __pyx_t_4;
+    Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
+    if (unlikely(size != 2)) {
+      if (size > 2) __Pyx_RaiseTooManyValuesError(2);
+      else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
+      __PYX_ERR(0, 91, __pyx_L1_error)
+    }
+    #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    __pyx_t_5 = PyTuple_GET_ITEM(sequence, 0); 
+    __pyx_t_7 = PyTuple_GET_ITEM(sequence, 1); 
+    __Pyx_INCREF(__pyx_t_5);
+    __Pyx_INCREF(__pyx_t_7);
+    #else
+    __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 91, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 91, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    #endif
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   } else {
-    __pyx_t_1 = __pyx_t_5;
+    __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(0, 91, __pyx_L1_error)
+  }
+  __pyx_t_6 = ((enum __pyx_t_6ottype_10core_boost_OTTypeAction)__Pyx_PyInt_As_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_t_5)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 91, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_v_last_ot_action = __pyx_t_6;
+  __pyx_v_last_ot_arg = __pyx_t_7;
+  __pyx_t_7 = 0;
+
+  /* "ottype/core_boost.pyx":93
+ *         last_ot_action, last_ot_arg = <tuple>self.ots[-1]
+ * 
+ *         if last_ot_action == OTTypeAction.skip and ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *             self.ots[-1] = (OTTypeAction.skip, <int>last_ot_arg + <int>ot_arg)
+ *         elif last_ot_action == OTTypeAction.insert and ot_action == OTTypeAction.insert:
+ */
+  __pyx_t_2 = ((__pyx_v_last_ot_action == __pyx_e_6ottype_10core_boost_skip) != 0);
+  if (__pyx_t_2) {
+  } else {
+    __pyx_t_1 = __pyx_t_2;
     goto __pyx_L6_bool_binop_done;
   }
-  __pyx_t_5 = __Pyx_TypeCheck(((PyObject *)__pyx_v_ot), __pyx_ptype_6ottype_10core_boost_OTSkip); 
-  __pyx_t_2 = (__pyx_t_5 != 0);
+  __pyx_t_2 = ((__pyx_v_ot_action == __pyx_e_6ottype_10core_boost_skip) != 0);
   __pyx_t_1 = __pyx_t_2;
   __pyx_L6_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "ottype/core_boost.pyx":89
+    /* "ottype/core_boost.pyx":94
  * 
- *         if isinstance(last_ot, OTSkip) and isinstance(ot, OTSkip):
- *             self.ots[-1] = OTSkip((<OTSkip>last_ot).arg + (<OTSkip>ot).arg)             # <<<<<<<<<<<<<<
- *         elif isinstance(last_ot, OTInsert) and isinstance(ot, OTInsert):
- *             self.ots[-1] = OTInsert((<OTInsert>last_ot).arg + (<OTInsert>ot).arg)
+ *         if last_ot_action == OTTypeAction.skip and ot_action == OTTypeAction.skip:
+ *             self.ots[-1] = (OTTypeAction.skip, <int>last_ot_arg + <int>ot_arg)             # <<<<<<<<<<<<<<
+ *         elif last_ot_action == OTTypeAction.insert and ot_action == OTTypeAction.insert:
+ *             self.ots[-1] = (OTTypeAction.insert, <str>last_ot_arg + <str>ot_arg)
  */
-    __pyx_t_4 = __Pyx_PyInt_From_int((((struct __pyx_obj_6ottype_10core_boost_OTSkip *)__pyx_v_last_ot)->arg + ((struct __pyx_obj_6ottype_10core_boost_OTSkip *)__pyx_v_ot)->arg)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 89, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_e_6ottype_10core_boost_skip); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 94, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost_OTSkip), __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 89, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_8 = __Pyx_PyInt_As_int(__pyx_v_last_ot_arg); if (unlikely((__pyx_t_8 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 94, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_v_ot_arg); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 94, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyInt_From_int((((int)__pyx_t_8) + ((int)__pyx_t_9))); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 94, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 94, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_7);
+    __pyx_t_4 = 0;
+    __pyx_t_7 = 0;
     if (unlikely(__pyx_v_self->ots == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 89, __pyx_L1_error)
+      __PYX_ERR(0, 94, __pyx_L1_error)
     }
-    if (unlikely(__Pyx_SetItemInt(__pyx_v_self->ots, -1L, __pyx_t_6, long, 1, __Pyx_PyInt_From_long, 1, 1, 1) < 0)) __PYX_ERR(0, 89, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-
-    /* "ottype/core_boost.pyx":88
- *         last_ot = self.ots[-1]
- * 
- *         if isinstance(last_ot, OTSkip) and isinstance(ot, OTSkip):             # <<<<<<<<<<<<<<
- *             self.ots[-1] = OTSkip((<OTSkip>last_ot).arg + (<OTSkip>ot).arg)
- *         elif isinstance(last_ot, OTInsert) and isinstance(ot, OTInsert):
- */
-    goto __pyx_L5;
-  }
-
-  /* "ottype/core_boost.pyx":90
- *         if isinstance(last_ot, OTSkip) and isinstance(ot, OTSkip):
- *             self.ots[-1] = OTSkip((<OTSkip>last_ot).arg + (<OTSkip>ot).arg)
- *         elif isinstance(last_ot, OTInsert) and isinstance(ot, OTInsert):             # <<<<<<<<<<<<<<
- *             self.ots[-1] = OTInsert((<OTInsert>last_ot).arg + (<OTInsert>ot).arg)
- *         elif isinstance(last_ot, OTDelete) and isinstance(ot, OTDelete):
- */
-  __pyx_t_2 = __Pyx_TypeCheck(((PyObject *)__pyx_v_last_ot), __pyx_ptype_6ottype_10core_boost_OTInsert); 
-  __pyx_t_5 = (__pyx_t_2 != 0);
-  if (__pyx_t_5) {
-  } else {
-    __pyx_t_1 = __pyx_t_5;
-    goto __pyx_L8_bool_binop_done;
-  }
-  __pyx_t_5 = __Pyx_TypeCheck(((PyObject *)__pyx_v_ot), __pyx_ptype_6ottype_10core_boost_OTInsert); 
-  __pyx_t_2 = (__pyx_t_5 != 0);
-  __pyx_t_1 = __pyx_t_2;
-  __pyx_L8_bool_binop_done:;
-  if (__pyx_t_1) {
-
-    /* "ottype/core_boost.pyx":91
- *             self.ots[-1] = OTSkip((<OTSkip>last_ot).arg + (<OTSkip>ot).arg)
- *         elif isinstance(last_ot, OTInsert) and isinstance(ot, OTInsert):
- *             self.ots[-1] = OTInsert((<OTInsert>last_ot).arg + (<OTInsert>ot).arg)             # <<<<<<<<<<<<<<
- *         elif isinstance(last_ot, OTDelete) and isinstance(ot, OTDelete):
- *             self.ots[-1] = OTDelete((<OTDelete>last_ot).arg + (<OTDelete>ot).arg)
- */
-    __pyx_t_6 = __Pyx_PyUnicode_ConcatSafe(((struct __pyx_obj_6ottype_10core_boost_OTInsert *)__pyx_v_last_ot)->arg, ((struct __pyx_obj_6ottype_10core_boost_OTInsert *)__pyx_v_ot)->arg); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 91, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost_OTInsert), __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 91, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(__pyx_v_self->ots == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 91, __pyx_L1_error)
-    }
-    if (unlikely(__Pyx_SetItemInt(__pyx_v_self->ots, -1L, __pyx_t_4, long, 1, __Pyx_PyInt_From_long, 1, 1, 1) < 0)) __PYX_ERR(0, 91, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-    /* "ottype/core_boost.pyx":90
- *         if isinstance(last_ot, OTSkip) and isinstance(ot, OTSkip):
- *             self.ots[-1] = OTSkip((<OTSkip>last_ot).arg + (<OTSkip>ot).arg)
- *         elif isinstance(last_ot, OTInsert) and isinstance(ot, OTInsert):             # <<<<<<<<<<<<<<
- *             self.ots[-1] = OTInsert((<OTInsert>last_ot).arg + (<OTInsert>ot).arg)
- *         elif isinstance(last_ot, OTDelete) and isinstance(ot, OTDelete):
- */
-    goto __pyx_L5;
-  }
-
-  /* "ottype/core_boost.pyx":92
- *         elif isinstance(last_ot, OTInsert) and isinstance(ot, OTInsert):
- *             self.ots[-1] = OTInsert((<OTInsert>last_ot).arg + (<OTInsert>ot).arg)
- *         elif isinstance(last_ot, OTDelete) and isinstance(ot, OTDelete):             # <<<<<<<<<<<<<<
- *             self.ots[-1] = OTDelete((<OTDelete>last_ot).arg + (<OTDelete>ot).arg)
- *         else:
- */
-  __pyx_t_2 = __Pyx_TypeCheck(((PyObject *)__pyx_v_last_ot), __pyx_ptype_6ottype_10core_boost_OTDelete); 
-  __pyx_t_5 = (__pyx_t_2 != 0);
-  if (__pyx_t_5) {
-  } else {
-    __pyx_t_1 = __pyx_t_5;
-    goto __pyx_L10_bool_binop_done;
-  }
-  __pyx_t_5 = __Pyx_TypeCheck(((PyObject *)__pyx_v_ot), __pyx_ptype_6ottype_10core_boost_OTDelete); 
-  __pyx_t_2 = (__pyx_t_5 != 0);
-  __pyx_t_1 = __pyx_t_2;
-  __pyx_L10_bool_binop_done:;
-  if (__pyx_t_1) {
+    if (unlikely(__Pyx_SetItemInt(__pyx_v_self->ots, -1L, __pyx_t_5, long, 1, __Pyx_PyInt_From_long, 1, 1, 0) < 0)) __PYX_ERR(0, 94, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
     /* "ottype/core_boost.pyx":93
- *             self.ots[-1] = OTInsert((<OTInsert>last_ot).arg + (<OTInsert>ot).arg)
- *         elif isinstance(last_ot, OTDelete) and isinstance(ot, OTDelete):
- *             self.ots[-1] = OTDelete((<OTDelete>last_ot).arg + (<OTDelete>ot).arg)             # <<<<<<<<<<<<<<
- *         else:
- *             self.ots.append(ot)
- */
-    __pyx_t_4 = __Pyx_PyUnicode_ConcatSafe(((struct __pyx_obj_6ottype_10core_boost_OTDelete *)__pyx_v_last_ot)->arg, ((struct __pyx_obj_6ottype_10core_boost_OTDelete *)__pyx_v_ot)->arg); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 93, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost_OTDelete), __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 93, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(__pyx_v_self->ots == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 93, __pyx_L1_error)
-    }
-    if (unlikely(__Pyx_SetItemInt(__pyx_v_self->ots, -1L, __pyx_t_6, long, 1, __Pyx_PyInt_From_long, 1, 1, 1) < 0)) __PYX_ERR(0, 93, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-
-    /* "ottype/core_boost.pyx":92
- *         elif isinstance(last_ot, OTInsert) and isinstance(ot, OTInsert):
- *             self.ots[-1] = OTInsert((<OTInsert>last_ot).arg + (<OTInsert>ot).arg)
- *         elif isinstance(last_ot, OTDelete) and isinstance(ot, OTDelete):             # <<<<<<<<<<<<<<
- *             self.ots[-1] = OTDelete((<OTDelete>last_ot).arg + (<OTDelete>ot).arg)
- *         else:
+ *         last_ot_action, last_ot_arg = <tuple>self.ots[-1]
+ * 
+ *         if last_ot_action == OTTypeAction.skip and ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *             self.ots[-1] = (OTTypeAction.skip, <int>last_ot_arg + <int>ot_arg)
+ *         elif last_ot_action == OTTypeAction.insert and ot_action == OTTypeAction.insert:
  */
     goto __pyx_L5;
   }
 
   /* "ottype/core_boost.pyx":95
- *             self.ots[-1] = OTDelete((<OTDelete>last_ot).arg + (<OTDelete>ot).arg)
+ *         if last_ot_action == OTTypeAction.skip and ot_action == OTTypeAction.skip:
+ *             self.ots[-1] = (OTTypeAction.skip, <int>last_ot_arg + <int>ot_arg)
+ *         elif last_ot_action == OTTypeAction.insert and ot_action == OTTypeAction.insert:             # <<<<<<<<<<<<<<
+ *             self.ots[-1] = (OTTypeAction.insert, <str>last_ot_arg + <str>ot_arg)
+ *         elif last_ot_action == OTTypeAction.delete and ot_action == OTTypeAction.delete:
+ */
+  __pyx_t_2 = ((__pyx_v_last_ot_action == __pyx_e_6ottype_10core_boost_insert) != 0);
+  if (__pyx_t_2) {
+  } else {
+    __pyx_t_1 = __pyx_t_2;
+    goto __pyx_L8_bool_binop_done;
+  }
+  __pyx_t_2 = ((__pyx_v_ot_action == __pyx_e_6ottype_10core_boost_insert) != 0);
+  __pyx_t_1 = __pyx_t_2;
+  __pyx_L8_bool_binop_done:;
+  if (__pyx_t_1) {
+
+    /* "ottype/core_boost.pyx":96
+ *             self.ots[-1] = (OTTypeAction.skip, <int>last_ot_arg + <int>ot_arg)
+ *         elif last_ot_action == OTTypeAction.insert and ot_action == OTTypeAction.insert:
+ *             self.ots[-1] = (OTTypeAction.insert, <str>last_ot_arg + <str>ot_arg)             # <<<<<<<<<<<<<<
+ *         elif last_ot_action == OTTypeAction.delete and ot_action == OTTypeAction.delete:
+ *             self.ots[-1] = (OTTypeAction.delete, <str>last_ot_arg + <str>ot_arg)
+ */
+    __pyx_t_5 = __Pyx_PyInt_From_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_e_6ottype_10core_boost_insert); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 96, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_7 = __Pyx_PyUnicode_ConcatSafe(__pyx_v_last_ot_arg, __pyx_v_ot_arg); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 96, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 96, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_5);
+    PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5);
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_7);
+    __pyx_t_5 = 0;
+    __pyx_t_7 = 0;
+    if (unlikely(__pyx_v_self->ots == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(0, 96, __pyx_L1_error)
+    }
+    if (unlikely(__Pyx_SetItemInt(__pyx_v_self->ots, -1L, __pyx_t_4, long, 1, __Pyx_PyInt_From_long, 1, 1, 0) < 0)) __PYX_ERR(0, 96, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+    /* "ottype/core_boost.pyx":95
+ *         if last_ot_action == OTTypeAction.skip and ot_action == OTTypeAction.skip:
+ *             self.ots[-1] = (OTTypeAction.skip, <int>last_ot_arg + <int>ot_arg)
+ *         elif last_ot_action == OTTypeAction.insert and ot_action == OTTypeAction.insert:             # <<<<<<<<<<<<<<
+ *             self.ots[-1] = (OTTypeAction.insert, <str>last_ot_arg + <str>ot_arg)
+ *         elif last_ot_action == OTTypeAction.delete and ot_action == OTTypeAction.delete:
+ */
+    goto __pyx_L5;
+  }
+
+  /* "ottype/core_boost.pyx":97
+ *         elif last_ot_action == OTTypeAction.insert and ot_action == OTTypeAction.insert:
+ *             self.ots[-1] = (OTTypeAction.insert, <str>last_ot_arg + <str>ot_arg)
+ *         elif last_ot_action == OTTypeAction.delete and ot_action == OTTypeAction.delete:             # <<<<<<<<<<<<<<
+ *             self.ots[-1] = (OTTypeAction.delete, <str>last_ot_arg + <str>ot_arg)
+ *         else:
+ */
+  __pyx_t_2 = ((__pyx_v_last_ot_action == __pyx_e_6ottype_10core_boost_delete) != 0);
+  if (__pyx_t_2) {
+  } else {
+    __pyx_t_1 = __pyx_t_2;
+    goto __pyx_L10_bool_binop_done;
+  }
+  __pyx_t_2 = ((__pyx_v_ot_action == __pyx_e_6ottype_10core_boost_delete) != 0);
+  __pyx_t_1 = __pyx_t_2;
+  __pyx_L10_bool_binop_done:;
+  if (__pyx_t_1) {
+
+    /* "ottype/core_boost.pyx":98
+ *             self.ots[-1] = (OTTypeAction.insert, <str>last_ot_arg + <str>ot_arg)
+ *         elif last_ot_action == OTTypeAction.delete and ot_action == OTTypeAction.delete:
+ *             self.ots[-1] = (OTTypeAction.delete, <str>last_ot_arg + <str>ot_arg)             # <<<<<<<<<<<<<<
+ *         else:
+ *             self.ots.append(ot)
+ */
+    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_e_6ottype_10core_boost_delete); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 98, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyUnicode_ConcatSafe(__pyx_v_last_ot_arg, __pyx_v_ot_arg); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 98, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 98, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_7);
+    __pyx_t_4 = 0;
+    __pyx_t_7 = 0;
+    if (unlikely(__pyx_v_self->ots == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(0, 98, __pyx_L1_error)
+    }
+    if (unlikely(__Pyx_SetItemInt(__pyx_v_self->ots, -1L, __pyx_t_5, long, 1, __Pyx_PyInt_From_long, 1, 1, 0) < 0)) __PYX_ERR(0, 98, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+    /* "ottype/core_boost.pyx":97
+ *         elif last_ot_action == OTTypeAction.insert and ot_action == OTTypeAction.insert:
+ *             self.ots[-1] = (OTTypeAction.insert, <str>last_ot_arg + <str>ot_arg)
+ *         elif last_ot_action == OTTypeAction.delete and ot_action == OTTypeAction.delete:             # <<<<<<<<<<<<<<
+ *             self.ots[-1] = (OTTypeAction.delete, <str>last_ot_arg + <str>ot_arg)
+ *         else:
+ */
+    goto __pyx_L5;
+  }
+
+  /* "ottype/core_boost.pyx":100
+ *             self.ots[-1] = (OTTypeAction.delete, <str>last_ot_arg + <str>ot_arg)
  *         else:
  *             self.ots.append(ot)             # <<<<<<<<<<<<<<
  * 
@@ -4135,28 +2913,30 @@ static void __pyx_f_6ottype_10core_boost_9_Appender_append(struct __pyx_obj_6ott
   /*else*/ {
     if (unlikely(__pyx_v_self->ots == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-      __PYX_ERR(0, 95, __pyx_L1_error)
+      __PYX_ERR(0, 100, __pyx_L1_error)
     }
-    __pyx_t_3 = __Pyx_PyList_Append(__pyx_v_self->ots, ((PyObject *)__pyx_v_ot)); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 95, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyList_Append(__pyx_v_self->ots, __pyx_v_ot); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(0, 100, __pyx_L1_error)
   }
   __pyx_L5:;
 
-  /* "ottype/core_boost.pyx":76
+  /* "ottype/core_boost.pyx":75
  *         self.ots = ots
  * 
- *     cdef void append(self, OTType ot):             # <<<<<<<<<<<<<<
- *         cdef OTType last_ot
- * 
+ *     cdef void append(self, tuple ot):             # <<<<<<<<<<<<<<
+ *         cdef:
+ *             OTTypeAction last_ot_action
  */
 
   /* function exit code */
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_7);
   __Pyx_WriteUnraisable("ottype.core_boost._Appender.append", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  __Pyx_XDECREF((PyObject *)__pyx_v_last_ot);
+  __Pyx_XDECREF(__pyx_v_last_ot_arg);
+  __Pyx_XDECREF(__pyx_v_ot_arg);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -4300,30 +3080,32 @@ static PyObject *__pyx_pf_6ottype_10core_boost_9_Appender_2__reduce_cython__(str
     __Pyx_XDECREF(__pyx_r);
     __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pyx_unpickle__Appender); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 13, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 13, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_7cpython_4type_type), ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 13, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_62153261);
-    __Pyx_GIVEREF(__pyx_int_62153261);
-    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_int_62153261);
-    __Pyx_INCREF(Py_None);
-    __Pyx_GIVEREF(Py_None);
-    PyTuple_SET_ITEM(__pyx_t_1, 2, Py_None);
     __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 13, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_1);
-    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_1);
+    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
+    __Pyx_INCREF(__pyx_int_62153261);
+    __Pyx_GIVEREF(__pyx_int_62153261);
+    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_int_62153261);
+    __Pyx_INCREF(Py_None);
+    __Pyx_GIVEREF(Py_None);
+    PyTuple_SET_ITEM(__pyx_t_5, 2, Py_None);
+    __pyx_t_1 = 0;
+    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 13, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_5);
+    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_5);
     __Pyx_INCREF(__pyx_v_state);
     __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_v_state);
+    PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_v_state);
     __pyx_t_4 = 0;
-    __pyx_t_1 = 0;
-    __pyx_r = __pyx_t_5;
     __pyx_t_5 = 0;
+    __pyx_r = __pyx_t_1;
+    __pyx_t_1 = 0;
     goto __pyx_L0;
 
     /* "(tree fragment)":12
@@ -4344,29 +3126,31 @@ static PyObject *__pyx_pf_6ottype_10core_boost_9_Appender_2__reduce_cython__(str
  */
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pyx_unpickle__Appender); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 15, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_pyx_unpickle__Appender); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 15, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_62153261);
-    __Pyx_GIVEREF(__pyx_int_62153261);
-    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_int_62153261);
-    __Pyx_INCREF(__pyx_v_state);
-    __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_v_state);
-    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 15, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_7cpython_4type_type), ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 15, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5);
-    __Pyx_GIVEREF(__pyx_t_1);
-    PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_1);
+    __Pyx_INCREF(__pyx_int_62153261);
+    __Pyx_GIVEREF(__pyx_int_62153261);
+    PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_int_62153261);
+    __Pyx_INCREF(__pyx_v_state);
+    __Pyx_GIVEREF(__pyx_v_state);
+    PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_v_state);
     __pyx_t_5 = 0;
+    __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_GIVEREF(__pyx_t_1);
+    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_4);
     __pyx_t_1 = 0;
-    __pyx_r = __pyx_t_4;
     __pyx_t_4 = 0;
+    __pyx_r = __pyx_t_5;
+    __pyx_t_5 = 0;
     goto __pyx_L0;
   }
 
@@ -4447,7 +3231,7 @@ static PyObject *__pyx_pf_6ottype_10core_boost_9_Appender_4__setstate_cython__(s
   return __pyx_r;
 }
 
-/* "ottype/core_boost.pyx":104
+/* "ottype/core_boost.pyx":109
  *         int _offset
  * 
  *     def __init__(self, list ots):             # <<<<<<<<<<<<<<
@@ -4481,7 +3265,7 @@ static int __pyx_pw_6ottype_10core_boost_6_Taker_1__init__(PyObject *__pyx_v_sel
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 104, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 109, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -4492,13 +3276,13 @@ static int __pyx_pw_6ottype_10core_boost_6_Taker_1__init__(PyObject *__pyx_v_sel
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 104, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 109, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("ottype.core_boost._Taker.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ots), (&PyList_Type), 1, "ots", 1))) __PYX_ERR(0, 104, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ots), (&PyList_Type), 1, "ots", 1))) __PYX_ERR(0, 109, __pyx_L1_error)
   __pyx_r = __pyx_pf_6ottype_10core_boost_6_Taker___init__(((struct __pyx_obj_6ottype_10core_boost__Taker *)__pyx_v_self), __pyx_v_ots);
 
   /* function exit code */
@@ -4515,7 +3299,7 @@ static int __pyx_pf_6ottype_10core_boost_6_Taker___init__(struct __pyx_obj_6otty
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "ottype/core_boost.pyx":105
+  /* "ottype/core_boost.pyx":110
  * 
  *     def __init__(self, list ots):
  *         self.ots = ots             # <<<<<<<<<<<<<<
@@ -4528,7 +3312,7 @@ static int __pyx_pf_6ottype_10core_boost_6_Taker___init__(struct __pyx_obj_6otty
   __Pyx_DECREF(__pyx_v_self->ots);
   __pyx_v_self->ots = __pyx_v_ots;
 
-  /* "ottype/core_boost.pyx":107
+  /* "ottype/core_boost.pyx":112
  *         self.ots = ots
  * 
  *         self._idx = 0             # <<<<<<<<<<<<<<
@@ -4537,16 +3321,16 @@ static int __pyx_pf_6ottype_10core_boost_6_Taker___init__(struct __pyx_obj_6otty
  */
   __pyx_v_self->_idx = 0;
 
-  /* "ottype/core_boost.pyx":108
+  /* "ottype/core_boost.pyx":113
  * 
  *         self._idx = 0
  *         self._offset = 0             # <<<<<<<<<<<<<<
  * 
- *     cdef OTType take(self, int n, int indivisable = 0):
+ *     cdef tuple take(self, int n, int indivisable = 0):
  */
   __pyx_v_self->_offset = 0;
 
-  /* "ottype/core_boost.pyx":104
+  /* "ottype/core_boost.pyx":109
  *         int _offset
  * 
  *     def __init__(self, list ots):             # <<<<<<<<<<<<<<
@@ -4560,28 +3344,33 @@ static int __pyx_pf_6ottype_10core_boost_6_Taker___init__(struct __pyx_obj_6otty
   return __pyx_r;
 }
 
-/* "ottype/core_boost.pyx":110
+/* "ottype/core_boost.pyx":115
  *         self._offset = 0
  * 
- *     cdef OTType take(self, int n, int indivisable = 0):             # <<<<<<<<<<<<<<
+ *     cdef tuple take(self, int n, int indivisable = 0):             # <<<<<<<<<<<<<<
  *         # NOTE : indivisable (0 -> None, 1 -> Insert, 2 -> Delete)
  *         cdef:
  */
 
-static struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_f_6ottype_10core_boost_6_Taker_take(struct __pyx_obj_6ottype_10core_boost__Taker *__pyx_v_self, int __pyx_v_n, struct __pyx_opt_args_6ottype_10core_boost_6_Taker_take *__pyx_optional_args) {
+static PyObject *__pyx_f_6ottype_10core_boost_6_Taker_take(struct __pyx_obj_6ottype_10core_boost__Taker *__pyx_v_self, int __pyx_v_n, struct __pyx_opt_args_6ottype_10core_boost_6_Taker_take *__pyx_optional_args) {
   int __pyx_v_indivisable = ((int)0);
-  struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_v_ret_ot = 0;
-  struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_v_ot = 0;
-  struct __pyx_obj_6ottype_10core_boost_OTSkip *__pyx_v_ot_skip = 0;
-  struct __pyx_obj_6ottype_10core_boost_OTInsert *__pyx_v_ot_insert = 0;
-  struct __pyx_obj_6ottype_10core_boost_OTDelete *__pyx_v_ot_delete = 0;
-  struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_r = NULL;
+  PyObject *__pyx_v_ret_ot = 0;
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_v_ot_action;
+  PyObject *__pyx_v_ot_arg = 0;
+  int __pyx_v_ot_arg_as_int;
+  PyObject *__pyx_v_ot_arg_as_str = 0;
+  PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   Py_ssize_t __pyx_t_2;
   int __pyx_t_3;
   PyObject *__pyx_t_4 = NULL;
-  int __pyx_t_5;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *(*__pyx_t_7)(PyObject *);
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_t_8;
+  int __pyx_t_9;
+  int __pyx_t_10;
   __Pyx_RefNannySetupContext("take", 0);
   if (__pyx_optional_args) {
     if (__pyx_optional_args->__pyx_n > 0) {
@@ -4589,8 +3378,8 @@ static struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_f_6ottype_10core_boos
     }
   }
 
-  /* "ottype/core_boost.pyx":119
- *             OTDelete ot_delete
+  /* "ottype/core_boost.pyx":124
+ *             str ot_arg_as_str
  * 
  *         if self._idx == len(self.ots):             # <<<<<<<<<<<<<<
  *             if n == -1:
@@ -4600,62 +3389,69 @@ static struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_f_6ottype_10core_boos
   __Pyx_INCREF(__pyx_t_1);
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 119, __pyx_L1_error)
+    __PYX_ERR(0, 124, __pyx_L1_error)
   }
-  __pyx_t_2 = PyList_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 119, __pyx_L1_error)
+  __pyx_t_2 = PyList_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = ((__pyx_v_self->_idx == __pyx_t_2) != 0);
   if (__pyx_t_3) {
 
-    /* "ottype/core_boost.pyx":120
+    /* "ottype/core_boost.pyx":125
  * 
  *         if self._idx == len(self.ots):
  *             if n == -1:             # <<<<<<<<<<<<<<
  *                 return None
- *             return OTSkip(n)
+ *             return (OTTypeAction.skip, n)
  */
     __pyx_t_3 = ((__pyx_v_n == -1L) != 0);
     if (__pyx_t_3) {
 
-      /* "ottype/core_boost.pyx":121
+      /* "ottype/core_boost.pyx":126
  *         if self._idx == len(self.ots):
  *             if n == -1:
  *                 return None             # <<<<<<<<<<<<<<
- *             return OTSkip(n)
+ *             return (OTTypeAction.skip, n)
  * 
  */
-      __Pyx_XDECREF(((PyObject *)__pyx_r));
-      __pyx_r = ((struct __pyx_obj_6ottype_10core_boost_OTType *)Py_None); __Pyx_INCREF(Py_None);
+      __Pyx_XDECREF(__pyx_r);
+      __pyx_r = ((PyObject*)Py_None); __Pyx_INCREF(Py_None);
       goto __pyx_L0;
 
-      /* "ottype/core_boost.pyx":120
+      /* "ottype/core_boost.pyx":125
  * 
  *         if self._idx == len(self.ots):
  *             if n == -1:             # <<<<<<<<<<<<<<
  *                 return None
- *             return OTSkip(n)
+ *             return (OTTypeAction.skip, n)
  */
     }
 
-    /* "ottype/core_boost.pyx":122
+    /* "ottype/core_boost.pyx":127
  *             if n == -1:
  *                 return None
- *             return OTSkip(n)             # <<<<<<<<<<<<<<
+ *             return (OTTypeAction.skip, n)             # <<<<<<<<<<<<<<
  * 
- *         ot = self.ots[self._idx]
+ *         ot_action, ot_arg = self.ots[self._idx]
  */
-    __Pyx_XDECREF(((PyObject *)__pyx_r));
-    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_n); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_r);
+    __pyx_t_1 = __Pyx_PyInt_From_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_e_6ottype_10core_boost_skip); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost_OTSkip), __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 122, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_n); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 127, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_r = ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_4);
+    __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 127, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_GIVEREF(__pyx_t_1);
+    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_4);
+    __pyx_t_1 = 0;
     __pyx_t_4 = 0;
+    __pyx_r = ((PyObject*)__pyx_t_5);
+    __pyx_t_5 = 0;
     goto __pyx_L0;
 
-    /* "ottype/core_boost.pyx":119
- *             OTDelete ot_delete
+    /* "ottype/core_boost.pyx":124
+ *             str ot_arg_as_str
  * 
  *         if self._idx == len(self.ots):             # <<<<<<<<<<<<<<
  *             if n == -1:
@@ -4663,456 +3459,516 @@ static struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_f_6ottype_10core_boos
  */
   }
 
-  /* "ottype/core_boost.pyx":124
- *             return OTSkip(n)
+  /* "ottype/core_boost.pyx":129
+ *             return (OTTypeAction.skip, n)
  * 
- *         ot = self.ots[self._idx]             # <<<<<<<<<<<<<<
+ *         ot_action, ot_arg = self.ots[self._idx]             # <<<<<<<<<<<<<<
  *         ret_ot = None
  * 
  */
   if (unlikely(__pyx_v_self->ots == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 124, __pyx_L1_error)
+    __PYX_ERR(0, 129, __pyx_L1_error)
   }
-  __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_self->ots, __pyx_v_self->_idx, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 124, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_6ottype_10core_boost_OTType))))) __PYX_ERR(0, 124, __pyx_L1_error)
-  __pyx_v_ot = ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_4);
-  __pyx_t_4 = 0;
+  __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_v_self->ots, __pyx_v_self->_idx, int, 1, __Pyx_PyInt_From_int, 1, 1, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  if ((likely(PyTuple_CheckExact(__pyx_t_5))) || (PyList_CheckExact(__pyx_t_5))) {
+    PyObject* sequence = __pyx_t_5;
+    Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
+    if (unlikely(size != 2)) {
+      if (size > 2) __Pyx_RaiseTooManyValuesError(2);
+      else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
+      __PYX_ERR(0, 129, __pyx_L1_error)
+    }
+    #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    if (likely(PyTuple_CheckExact(sequence))) {
+      __pyx_t_4 = PyTuple_GET_ITEM(sequence, 0); 
+      __pyx_t_1 = PyTuple_GET_ITEM(sequence, 1); 
+    } else {
+      __pyx_t_4 = PyList_GET_ITEM(sequence, 0); 
+      __pyx_t_1 = PyList_GET_ITEM(sequence, 1); 
+    }
+    __Pyx_INCREF(__pyx_t_4);
+    __Pyx_INCREF(__pyx_t_1);
+    #else
+    __pyx_t_4 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 129, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_1 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 129, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    #endif
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  } else {
+    Py_ssize_t index = -1;
+    __pyx_t_6 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 129, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_7 = Py_TYPE(__pyx_t_6)->tp_iternext;
+    index = 0; __pyx_t_4 = __pyx_t_7(__pyx_t_6); if (unlikely(!__pyx_t_4)) goto __pyx_L5_unpacking_failed;
+    __Pyx_GOTREF(__pyx_t_4);
+    index = 1; __pyx_t_1 = __pyx_t_7(__pyx_t_6); if (unlikely(!__pyx_t_1)) goto __pyx_L5_unpacking_failed;
+    __Pyx_GOTREF(__pyx_t_1);
+    if (__Pyx_IternextUnpackEndCheck(__pyx_t_7(__pyx_t_6), 2) < 0) __PYX_ERR(0, 129, __pyx_L1_error)
+    __pyx_t_7 = NULL;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    goto __pyx_L6_unpacking_done;
+    __pyx_L5_unpacking_failed:;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_7 = NULL;
+    if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
+    __PYX_ERR(0, 129, __pyx_L1_error)
+    __pyx_L6_unpacking_done:;
+  }
+  __pyx_t_8 = ((enum __pyx_t_6ottype_10core_boost_OTTypeAction)__Pyx_PyInt_As_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_t_4)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 129, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_ot_action = __pyx_t_8;
+  __pyx_v_ot_arg = __pyx_t_1;
+  __pyx_t_1 = 0;
 
-  /* "ottype/core_boost.pyx":125
+  /* "ottype/core_boost.pyx":130
  * 
- *         ot = self.ots[self._idx]
+ *         ot_action, ot_arg = self.ots[self._idx]
  *         ret_ot = None             # <<<<<<<<<<<<<<
  * 
- *         if isinstance(ot, OTSkip):
+ *         if ot_action == OTTypeAction.skip:
  */
   __Pyx_INCREF(Py_None);
-  __pyx_v_ret_ot = ((struct __pyx_obj_6ottype_10core_boost_OTType *)Py_None);
+  __pyx_v_ret_ot = ((PyObject*)Py_None);
 
-  /* "ottype/core_boost.pyx":127
+  /* "ottype/core_boost.pyx":132
  *         ret_ot = None
  * 
- *         if isinstance(ot, OTSkip):             # <<<<<<<<<<<<<<
- *             ot_skip = <OTSkip>ot
+ *         if ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *             ot_arg_as_int = <int>ot_arg
  * 
  */
-  __pyx_t_3 = __Pyx_TypeCheck(((PyObject *)__pyx_v_ot), __pyx_ptype_6ottype_10core_boost_OTSkip); 
-  __pyx_t_5 = (__pyx_t_3 != 0);
-  if (__pyx_t_5) {
+  switch (__pyx_v_ot_action) {
+    case __pyx_e_6ottype_10core_boost_skip:
 
-    /* "ottype/core_boost.pyx":128
+    /* "ottype/core_boost.pyx":133
  * 
- *         if isinstance(ot, OTSkip):
- *             ot_skip = <OTSkip>ot             # <<<<<<<<<<<<<<
+ *         if ot_action == OTTypeAction.skip:
+ *             ot_arg_as_int = <int>ot_arg             # <<<<<<<<<<<<<<
  * 
- *             if n == -1 or ot_skip.arg - self._offset <= n:
+ *             if n == -1 or ot_arg_as_int - self._offset <= n:
  */
-    __pyx_t_4 = ((PyObject *)__pyx_v_ot);
-    __Pyx_INCREF(__pyx_t_4);
-    __pyx_v_ot_skip = ((struct __pyx_obj_6ottype_10core_boost_OTSkip *)__pyx_t_4);
-    __pyx_t_4 = 0;
-
-    /* "ottype/core_boost.pyx":130
- *             ot_skip = <OTSkip>ot
- * 
- *             if n == -1 or ot_skip.arg - self._offset <= n:             # <<<<<<<<<<<<<<
- *                 ret_ot = OTSkip(ot_skip.arg - self._offset)
- *                 self._idx += 1
- */
-    __pyx_t_3 = ((__pyx_v_n == -1L) != 0);
-    if (!__pyx_t_3) {
-    } else {
-      __pyx_t_5 = __pyx_t_3;
-      goto __pyx_L7_bool_binop_done;
-    }
-    __pyx_t_3 = (((__pyx_v_ot_skip->arg - __pyx_v_self->_offset) <= __pyx_v_n) != 0);
-    __pyx_t_5 = __pyx_t_3;
-    __pyx_L7_bool_binop_done:;
-    if (__pyx_t_5) {
-
-      /* "ottype/core_boost.pyx":131
- * 
- *             if n == -1 or ot_skip.arg - self._offset <= n:
- *                 ret_ot = OTSkip(ot_skip.arg - self._offset)             # <<<<<<<<<<<<<<
- *                 self._idx += 1
- *                 self._offset = 0
- */
-      __pyx_t_4 = __Pyx_PyInt_From_int((__pyx_v_ot_skip->arg - __pyx_v_self->_offset)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 131, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost_OTSkip), __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 131, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF_SET(__pyx_v_ret_ot, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_1));
-      __pyx_t_1 = 0;
-
-      /* "ottype/core_boost.pyx":132
- *             if n == -1 or ot_skip.arg - self._offset <= n:
- *                 ret_ot = OTSkip(ot_skip.arg - self._offset)
- *                 self._idx += 1             # <<<<<<<<<<<<<<
- *                 self._offset = 0
- *             else:
- */
-      __pyx_v_self->_idx = (__pyx_v_self->_idx + 1);
-
-      /* "ottype/core_boost.pyx":133
- *                 ret_ot = OTSkip(ot_skip.arg - self._offset)
- *                 self._idx += 1
- *                 self._offset = 0             # <<<<<<<<<<<<<<
- *             else:
- *                 ret_ot = OTSkip(n)
- */
-      __pyx_v_self->_offset = 0;
-
-      /* "ottype/core_boost.pyx":130
- *             ot_skip = <OTSkip>ot
- * 
- *             if n == -1 or ot_skip.arg - self._offset <= n:             # <<<<<<<<<<<<<<
- *                 ret_ot = OTSkip(ot_skip.arg - self._offset)
- *                 self._idx += 1
- */
-      goto __pyx_L6;
-    }
+    __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_v_ot_arg); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 133, __pyx_L1_error)
+    __pyx_v_ot_arg_as_int = ((int)__pyx_t_9);
 
     /* "ottype/core_boost.pyx":135
- *                 self._offset = 0
- *             else:
- *                 ret_ot = OTSkip(n)             # <<<<<<<<<<<<<<
- *                 self._offset += n
+ *             ot_arg_as_int = <int>ot_arg
  * 
- */
-    /*else*/ {
-      __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_n); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 135, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost_OTSkip), __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 135, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_DECREF_SET(__pyx_v_ret_ot, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_4));
-      __pyx_t_4 = 0;
-
-      /* "ottype/core_boost.pyx":136
- *             else:
- *                 ret_ot = OTSkip(n)
- *                 self._offset += n             # <<<<<<<<<<<<<<
- * 
- *         elif isinstance(ot, OTInsert):
- */
-      __pyx_v_self->_offset = (__pyx_v_self->_offset + __pyx_v_n);
-    }
-    __pyx_L6:;
-
-    /* "ottype/core_boost.pyx":127
- *         ret_ot = None
- * 
- *         if isinstance(ot, OTSkip):             # <<<<<<<<<<<<<<
- *             ot_skip = <OTSkip>ot
- * 
- */
-    goto __pyx_L5;
-  }
-
-  /* "ottype/core_boost.pyx":138
- *                 self._offset += n
- * 
- *         elif isinstance(ot, OTInsert):             # <<<<<<<<<<<<<<
- *             ot_insert = <OTInsert>ot
- * 
- */
-  __pyx_t_5 = __Pyx_TypeCheck(((PyObject *)__pyx_v_ot), __pyx_ptype_6ottype_10core_boost_OTInsert); 
-  __pyx_t_3 = (__pyx_t_5 != 0);
-  if (__pyx_t_3) {
-
-    /* "ottype/core_boost.pyx":139
- * 
- *         elif isinstance(ot, OTInsert):
- *             ot_insert = <OTInsert>ot             # <<<<<<<<<<<<<<
- * 
- *             if n == -1 or indivisable == 1 or len(ot_insert.arg) - self._offset <= n:
- */
-    __pyx_t_4 = ((PyObject *)__pyx_v_ot);
-    __Pyx_INCREF(__pyx_t_4);
-    __pyx_v_ot_insert = ((struct __pyx_obj_6ottype_10core_boost_OTInsert *)__pyx_t_4);
-    __pyx_t_4 = 0;
-
-    /* "ottype/core_boost.pyx":141
- *             ot_insert = <OTInsert>ot
- * 
- *             if n == -1 or indivisable == 1 or len(ot_insert.arg) - self._offset <= n:             # <<<<<<<<<<<<<<
- *                 ret_ot = OTInsert(ot_insert.arg[self._offset:])
+ *             if n == -1 or ot_arg_as_int - self._offset <= n:             # <<<<<<<<<<<<<<
+ *                 ret_ot = (OTTypeAction.skip, ot_arg_as_int - self._offset)
  *                 self._idx += 1
  */
-    __pyx_t_5 = ((__pyx_v_n == -1L) != 0);
-    if (!__pyx_t_5) {
+    __pyx_t_10 = ((__pyx_v_n == -1L) != 0);
+    if (!__pyx_t_10) {
     } else {
-      __pyx_t_3 = __pyx_t_5;
-      goto __pyx_L10_bool_binop_done;
+      __pyx_t_3 = __pyx_t_10;
+      goto __pyx_L8_bool_binop_done;
     }
-    __pyx_t_5 = ((__pyx_v_indivisable == 1) != 0);
-    if (!__pyx_t_5) {
-    } else {
-      __pyx_t_3 = __pyx_t_5;
-      goto __pyx_L10_bool_binop_done;
-    }
-    __pyx_t_4 = __pyx_v_ot_insert->arg;
-    __Pyx_INCREF(__pyx_t_4);
-    if (unlikely(__pyx_t_4 == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-      __PYX_ERR(0, 141, __pyx_L1_error)
-    }
-    __pyx_t_2 = __Pyx_PyUnicode_GET_LENGTH(__pyx_t_4); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 141, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_5 = (((__pyx_t_2 - __pyx_v_self->_offset) <= __pyx_v_n) != 0);
-    __pyx_t_3 = __pyx_t_5;
-    __pyx_L10_bool_binop_done:;
+    __pyx_t_10 = (((__pyx_v_ot_arg_as_int - __pyx_v_self->_offset) <= __pyx_v_n) != 0);
+    __pyx_t_3 = __pyx_t_10;
+    __pyx_L8_bool_binop_done:;
     if (__pyx_t_3) {
 
-      /* "ottype/core_boost.pyx":142
+      /* "ottype/core_boost.pyx":136
  * 
- *             if n == -1 or indivisable == 1 or len(ot_insert.arg) - self._offset <= n:
- *                 ret_ot = OTInsert(ot_insert.arg[self._offset:])             # <<<<<<<<<<<<<<
+ *             if n == -1 or ot_arg_as_int - self._offset <= n:
+ *                 ret_ot = (OTTypeAction.skip, ot_arg_as_int - self._offset)             # <<<<<<<<<<<<<<
  *                 self._idx += 1
  *                 self._offset = 0
  */
-      if (unlikely(__pyx_v_ot_insert->arg == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 142, __pyx_L1_error)
-      }
-      __pyx_t_4 = __Pyx_PyUnicode_Substring(__pyx_v_ot_insert->arg, __pyx_v_self->_offset, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 142, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost_OTInsert), __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 142, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyInt_From_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_e_6ottype_10core_boost_skip); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 136, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_1 = __Pyx_PyInt_From_int((__pyx_v_ot_arg_as_int - __pyx_v_self->_offset)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 136, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF_SET(__pyx_v_ret_ot, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_1));
+      __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 136, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_GIVEREF(__pyx_t_5);
+      PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_1);
+      PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_1);
+      __pyx_t_5 = 0;
       __pyx_t_1 = 0;
+      __Pyx_DECREF_SET(__pyx_v_ret_ot, ((PyObject*)__pyx_t_4));
+      __pyx_t_4 = 0;
 
-      /* "ottype/core_boost.pyx":143
- *             if n == -1 or indivisable == 1 or len(ot_insert.arg) - self._offset <= n:
- *                 ret_ot = OTInsert(ot_insert.arg[self._offset:])
+      /* "ottype/core_boost.pyx":137
+ *             if n == -1 or ot_arg_as_int - self._offset <= n:
+ *                 ret_ot = (OTTypeAction.skip, ot_arg_as_int - self._offset)
  *                 self._idx += 1             # <<<<<<<<<<<<<<
  *                 self._offset = 0
  *             else:
  */
       __pyx_v_self->_idx = (__pyx_v_self->_idx + 1);
 
-      /* "ottype/core_boost.pyx":144
- *                 ret_ot = OTInsert(ot_insert.arg[self._offset:])
+      /* "ottype/core_boost.pyx":138
+ *                 ret_ot = (OTTypeAction.skip, ot_arg_as_int - self._offset)
  *                 self._idx += 1
  *                 self._offset = 0             # <<<<<<<<<<<<<<
  *             else:
- *                 ret_ot = OTInsert(ot_insert.arg[self._offset:self._offset + n])
+ *                 ret_ot = (OTTypeAction.skip, n)
  */
       __pyx_v_self->_offset = 0;
 
-      /* "ottype/core_boost.pyx":141
- *             ot_insert = <OTInsert>ot
+      /* "ottype/core_boost.pyx":135
+ *             ot_arg_as_int = <int>ot_arg
  * 
- *             if n == -1 or indivisable == 1 or len(ot_insert.arg) - self._offset <= n:             # <<<<<<<<<<<<<<
- *                 ret_ot = OTInsert(ot_insert.arg[self._offset:])
+ *             if n == -1 or ot_arg_as_int - self._offset <= n:             # <<<<<<<<<<<<<<
+ *                 ret_ot = (OTTypeAction.skip, ot_arg_as_int - self._offset)
  *                 self._idx += 1
  */
-      goto __pyx_L9;
+      goto __pyx_L7;
     }
 
-    /* "ottype/core_boost.pyx":146
+    /* "ottype/core_boost.pyx":140
  *                 self._offset = 0
  *             else:
- *                 ret_ot = OTInsert(ot_insert.arg[self._offset:self._offset + n])             # <<<<<<<<<<<<<<
+ *                 ret_ot = (OTTypeAction.skip, n)             # <<<<<<<<<<<<<<
  *                 self._offset += n
  * 
  */
     /*else*/ {
-      if (unlikely(__pyx_v_ot_insert->arg == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 146, __pyx_L1_error)
-      }
-      __pyx_t_1 = __Pyx_PyUnicode_Substring(__pyx_v_ot_insert->arg, __pyx_v_self->_offset, (__pyx_v_self->_offset + __pyx_v_n)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 146, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost_OTInsert), __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 146, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_e_6ottype_10core_boost_skip); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 140, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_DECREF_SET(__pyx_v_ret_ot, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_4));
+      __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_n); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 140, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 140, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_4);
+      PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
+      __Pyx_GIVEREF(__pyx_t_1);
+      PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_1);
       __pyx_t_4 = 0;
+      __pyx_t_1 = 0;
+      __Pyx_DECREF_SET(__pyx_v_ret_ot, ((PyObject*)__pyx_t_5));
+      __pyx_t_5 = 0;
 
-      /* "ottype/core_boost.pyx":147
+      /* "ottype/core_boost.pyx":141
  *             else:
- *                 ret_ot = OTInsert(ot_insert.arg[self._offset:self._offset + n])
+ *                 ret_ot = (OTTypeAction.skip, n)
  *                 self._offset += n             # <<<<<<<<<<<<<<
  * 
- *         elif isinstance(ot, OTDelete):
+ *         elif ot_action == OTTypeAction.insert:
  */
       __pyx_v_self->_offset = (__pyx_v_self->_offset + __pyx_v_n);
     }
-    __pyx_L9:;
+    __pyx_L7:;
 
-    /* "ottype/core_boost.pyx":138
- *                 self._offset += n
+    /* "ottype/core_boost.pyx":132
+ *         ret_ot = None
  * 
- *         elif isinstance(ot, OTInsert):             # <<<<<<<<<<<<<<
- *             ot_insert = <OTInsert>ot
+ *         if ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *             ot_arg_as_int = <int>ot_arg
  * 
  */
-    goto __pyx_L5;
-  }
+    break;
+    case __pyx_e_6ottype_10core_boost_insert:
 
-  /* "ottype/core_boost.pyx":149
- *                 self._offset += n
+    /* "ottype/core_boost.pyx":144
  * 
- *         elif isinstance(ot, OTDelete):             # <<<<<<<<<<<<<<
- *             ot_delete = <OTDelete>ot
+ *         elif ot_action == OTTypeAction.insert:
+ *             ot_arg_as_str = <str>ot_arg             # <<<<<<<<<<<<<<
  * 
+ *             if n == -1 or indivisable == 1 or len(ot_arg_as_str) - self._offset <= n:
  */
-  __pyx_t_3 = __Pyx_TypeCheck(((PyObject *)__pyx_v_ot), __pyx_ptype_6ottype_10core_boost_OTDelete); 
-  __pyx_t_5 = (__pyx_t_3 != 0);
-  if (__pyx_t_5) {
+    __pyx_t_5 = __pyx_v_ot_arg;
+    __Pyx_INCREF(__pyx_t_5);
+    __pyx_v_ot_arg_as_str = ((PyObject*)__pyx_t_5);
+    __pyx_t_5 = 0;
 
-    /* "ottype/core_boost.pyx":150
+    /* "ottype/core_boost.pyx":146
+ *             ot_arg_as_str = <str>ot_arg
  * 
- *         elif isinstance(ot, OTDelete):
- *             ot_delete = <OTDelete>ot             # <<<<<<<<<<<<<<
- * 
- *             if n == -1 or indivisable == 2 or len(ot_delete.arg) - self._offset <= n:
- */
-    __pyx_t_4 = ((PyObject *)__pyx_v_ot);
-    __Pyx_INCREF(__pyx_t_4);
-    __pyx_v_ot_delete = ((struct __pyx_obj_6ottype_10core_boost_OTDelete *)__pyx_t_4);
-    __pyx_t_4 = 0;
-
-    /* "ottype/core_boost.pyx":152
- *             ot_delete = <OTDelete>ot
- * 
- *             if n == -1 or indivisable == 2 or len(ot_delete.arg) - self._offset <= n:             # <<<<<<<<<<<<<<
- *                 ret_ot = OTDelete(ot_delete.arg[self._offset:])
+ *             if n == -1 or indivisable == 1 or len(ot_arg_as_str) - self._offset <= n:             # <<<<<<<<<<<<<<
+ *                 ret_ot = (OTTypeAction.insert, ot_arg_as_str[self._offset:])
  *                 self._idx += 1
  */
-    __pyx_t_3 = ((__pyx_v_n == -1L) != 0);
-    if (!__pyx_t_3) {
+    __pyx_t_10 = ((__pyx_v_n == -1L) != 0);
+    if (!__pyx_t_10) {
     } else {
-      __pyx_t_5 = __pyx_t_3;
-      goto __pyx_L14_bool_binop_done;
+      __pyx_t_3 = __pyx_t_10;
+      goto __pyx_L11_bool_binop_done;
     }
-    __pyx_t_3 = ((__pyx_v_indivisable == 2) != 0);
-    if (!__pyx_t_3) {
+    __pyx_t_10 = ((__pyx_v_indivisable == 1) != 0);
+    if (!__pyx_t_10) {
     } else {
-      __pyx_t_5 = __pyx_t_3;
-      goto __pyx_L14_bool_binop_done;
+      __pyx_t_3 = __pyx_t_10;
+      goto __pyx_L11_bool_binop_done;
     }
-    __pyx_t_4 = __pyx_v_ot_delete->arg;
-    __Pyx_INCREF(__pyx_t_4);
-    if (unlikely(__pyx_t_4 == Py_None)) {
+    if (unlikely(__pyx_v_ot_arg_as_str == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-      __PYX_ERR(0, 152, __pyx_L1_error)
+      __PYX_ERR(0, 146, __pyx_L1_error)
     }
-    __pyx_t_2 = __Pyx_PyUnicode_GET_LENGTH(__pyx_t_4); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 152, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_3 = (((__pyx_t_2 - __pyx_v_self->_offset) <= __pyx_v_n) != 0);
-    __pyx_t_5 = __pyx_t_3;
-    __pyx_L14_bool_binop_done:;
-    if (__pyx_t_5) {
+    __pyx_t_2 = __Pyx_PyUnicode_GET_LENGTH(__pyx_v_ot_arg_as_str); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 146, __pyx_L1_error)
+    __pyx_t_10 = (((__pyx_t_2 - __pyx_v_self->_offset) <= __pyx_v_n) != 0);
+    __pyx_t_3 = __pyx_t_10;
+    __pyx_L11_bool_binop_done:;
+    if (__pyx_t_3) {
 
-      /* "ottype/core_boost.pyx":153
+      /* "ottype/core_boost.pyx":147
  * 
- *             if n == -1 or indivisable == 2 or len(ot_delete.arg) - self._offset <= n:
- *                 ret_ot = OTDelete(ot_delete.arg[self._offset:])             # <<<<<<<<<<<<<<
+ *             if n == -1 or indivisable == 1 or len(ot_arg_as_str) - self._offset <= n:
+ *                 ret_ot = (OTTypeAction.insert, ot_arg_as_str[self._offset:])             # <<<<<<<<<<<<<<
  *                 self._idx += 1
  *                 self._offset = 0
  */
-      if (unlikely(__pyx_v_ot_delete->arg == Py_None)) {
+      __pyx_t_5 = __Pyx_PyInt_From_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_e_6ottype_10core_boost_insert); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 147, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      if (unlikely(__pyx_v_ot_arg_as_str == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 153, __pyx_L1_error)
+        __PYX_ERR(0, 147, __pyx_L1_error)
       }
-      __pyx_t_4 = __Pyx_PyUnicode_Substring(__pyx_v_ot_delete->arg, __pyx_v_self->_offset, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 153, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost_OTDelete), __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyUnicode_Substring(__pyx_v_ot_arg_as_str, __pyx_v_self->_offset, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 147, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF_SET(__pyx_v_ret_ot, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_1));
+      __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 147, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_GIVEREF(__pyx_t_5);
+      PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_1);
+      PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_1);
+      __pyx_t_5 = 0;
       __pyx_t_1 = 0;
+      __Pyx_DECREF_SET(__pyx_v_ret_ot, ((PyObject*)__pyx_t_4));
+      __pyx_t_4 = 0;
 
-      /* "ottype/core_boost.pyx":154
- *             if n == -1 or indivisable == 2 or len(ot_delete.arg) - self._offset <= n:
- *                 ret_ot = OTDelete(ot_delete.arg[self._offset:])
+      /* "ottype/core_boost.pyx":148
+ *             if n == -1 or indivisable == 1 or len(ot_arg_as_str) - self._offset <= n:
+ *                 ret_ot = (OTTypeAction.insert, ot_arg_as_str[self._offset:])
  *                 self._idx += 1             # <<<<<<<<<<<<<<
  *                 self._offset = 0
  *             else:
  */
       __pyx_v_self->_idx = (__pyx_v_self->_idx + 1);
 
-      /* "ottype/core_boost.pyx":155
- *                 ret_ot = OTDelete(ot_delete.arg[self._offset:])
+      /* "ottype/core_boost.pyx":149
+ *                 ret_ot = (OTTypeAction.insert, ot_arg_as_str[self._offset:])
  *                 self._idx += 1
  *                 self._offset = 0             # <<<<<<<<<<<<<<
  *             else:
- *                 ret_ot = OTDelete(ot_delete.arg[self._offset:self._offset + n])
+ *                 ret_ot = (OTTypeAction.insert, ot_arg_as_str[self._offset:self._offset + n])
  */
       __pyx_v_self->_offset = 0;
 
-      /* "ottype/core_boost.pyx":152
- *             ot_delete = <OTDelete>ot
+      /* "ottype/core_boost.pyx":146
+ *             ot_arg_as_str = <str>ot_arg
  * 
- *             if n == -1 or indivisable == 2 or len(ot_delete.arg) - self._offset <= n:             # <<<<<<<<<<<<<<
- *                 ret_ot = OTDelete(ot_delete.arg[self._offset:])
+ *             if n == -1 or indivisable == 1 or len(ot_arg_as_str) - self._offset <= n:             # <<<<<<<<<<<<<<
+ *                 ret_ot = (OTTypeAction.insert, ot_arg_as_str[self._offset:])
  *                 self._idx += 1
  */
-      goto __pyx_L13;
+      goto __pyx_L10;
     }
 
-    /* "ottype/core_boost.pyx":157
+    /* "ottype/core_boost.pyx":151
  *                 self._offset = 0
  *             else:
- *                 ret_ot = OTDelete(ot_delete.arg[self._offset:self._offset + n])             # <<<<<<<<<<<<<<
+ *                 ret_ot = (OTTypeAction.insert, ot_arg_as_str[self._offset:self._offset + n])             # <<<<<<<<<<<<<<
  *                 self._offset += n
  * 
  */
     /*else*/ {
-      if (unlikely(__pyx_v_ot_delete->arg == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 157, __pyx_L1_error)
-      }
-      __pyx_t_1 = __Pyx_PyUnicode_Substring(__pyx_v_ot_delete->arg, __pyx_v_self->_offset, (__pyx_v_self->_offset + __pyx_v_n)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 157, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost_OTDelete), __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 157, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_e_6ottype_10core_boost_insert); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 151, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_DECREF_SET(__pyx_v_ret_ot, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_4));
+      if (unlikely(__pyx_v_ot_arg_as_str == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 151, __pyx_L1_error)
+      }
+      __pyx_t_1 = __Pyx_PyUnicode_Substring(__pyx_v_ot_arg_as_str, __pyx_v_self->_offset, (__pyx_v_self->_offset + __pyx_v_n)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 151, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 151, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_4);
+      PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
+      __Pyx_GIVEREF(__pyx_t_1);
+      PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_1);
       __pyx_t_4 = 0;
+      __pyx_t_1 = 0;
+      __Pyx_DECREF_SET(__pyx_v_ret_ot, ((PyObject*)__pyx_t_5));
+      __pyx_t_5 = 0;
+
+      /* "ottype/core_boost.pyx":152
+ *             else:
+ *                 ret_ot = (OTTypeAction.insert, ot_arg_as_str[self._offset:self._offset + n])
+ *                 self._offset += n             # <<<<<<<<<<<<<<
+ * 
+ *         elif ot_action == OTTypeAction.delete:
+ */
+      __pyx_v_self->_offset = (__pyx_v_self->_offset + __pyx_v_n);
+    }
+    __pyx_L10:;
+
+    /* "ottype/core_boost.pyx":143
+ *                 self._offset += n
+ * 
+ *         elif ot_action == OTTypeAction.insert:             # <<<<<<<<<<<<<<
+ *             ot_arg_as_str = <str>ot_arg
+ * 
+ */
+    break;
+    case __pyx_e_6ottype_10core_boost_delete:
+
+    /* "ottype/core_boost.pyx":155
+ * 
+ *         elif ot_action == OTTypeAction.delete:
+ *             ot_arg_as_str = <str>ot_arg             # <<<<<<<<<<<<<<
+ * 
+ *             if n == -1 or indivisable == 2 or len(ot_arg_as_str) - self._offset <= n:
+ */
+    __pyx_t_5 = __pyx_v_ot_arg;
+    __Pyx_INCREF(__pyx_t_5);
+    __pyx_v_ot_arg_as_str = ((PyObject*)__pyx_t_5);
+    __pyx_t_5 = 0;
+
+    /* "ottype/core_boost.pyx":157
+ *             ot_arg_as_str = <str>ot_arg
+ * 
+ *             if n == -1 or indivisable == 2 or len(ot_arg_as_str) - self._offset <= n:             # <<<<<<<<<<<<<<
+ *                 ret_ot = (OTTypeAction.delete, ot_arg_as_str[self._offset:])
+ *                 self._idx += 1
+ */
+    __pyx_t_10 = ((__pyx_v_n == -1L) != 0);
+    if (!__pyx_t_10) {
+    } else {
+      __pyx_t_3 = __pyx_t_10;
+      goto __pyx_L15_bool_binop_done;
+    }
+    __pyx_t_10 = ((__pyx_v_indivisable == 2) != 0);
+    if (!__pyx_t_10) {
+    } else {
+      __pyx_t_3 = __pyx_t_10;
+      goto __pyx_L15_bool_binop_done;
+    }
+    if (unlikely(__pyx_v_ot_arg_as_str == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+      __PYX_ERR(0, 157, __pyx_L1_error)
+    }
+    __pyx_t_2 = __Pyx_PyUnicode_GET_LENGTH(__pyx_v_ot_arg_as_str); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 157, __pyx_L1_error)
+    __pyx_t_10 = (((__pyx_t_2 - __pyx_v_self->_offset) <= __pyx_v_n) != 0);
+    __pyx_t_3 = __pyx_t_10;
+    __pyx_L15_bool_binop_done:;
+    if (__pyx_t_3) {
 
       /* "ottype/core_boost.pyx":158
+ * 
+ *             if n == -1 or indivisable == 2 or len(ot_arg_as_str) - self._offset <= n:
+ *                 ret_ot = (OTTypeAction.delete, ot_arg_as_str[self._offset:])             # <<<<<<<<<<<<<<
+ *                 self._idx += 1
+ *                 self._offset = 0
+ */
+      __pyx_t_5 = __Pyx_PyInt_From_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_e_6ottype_10core_boost_delete); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 158, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      if (unlikely(__pyx_v_ot_arg_as_str == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 158, __pyx_L1_error)
+      }
+      __pyx_t_1 = __Pyx_PyUnicode_Substring(__pyx_v_ot_arg_as_str, __pyx_v_self->_offset, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 158, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 158, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_GIVEREF(__pyx_t_5);
+      PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_1);
+      PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_1);
+      __pyx_t_5 = 0;
+      __pyx_t_1 = 0;
+      __Pyx_DECREF_SET(__pyx_v_ret_ot, ((PyObject*)__pyx_t_4));
+      __pyx_t_4 = 0;
+
+      /* "ottype/core_boost.pyx":159
+ *             if n == -1 or indivisable == 2 or len(ot_arg_as_str) - self._offset <= n:
+ *                 ret_ot = (OTTypeAction.delete, ot_arg_as_str[self._offset:])
+ *                 self._idx += 1             # <<<<<<<<<<<<<<
+ *                 self._offset = 0
  *             else:
- *                 ret_ot = OTDelete(ot_delete.arg[self._offset:self._offset + n])
+ */
+      __pyx_v_self->_idx = (__pyx_v_self->_idx + 1);
+
+      /* "ottype/core_boost.pyx":160
+ *                 ret_ot = (OTTypeAction.delete, ot_arg_as_str[self._offset:])
+ *                 self._idx += 1
+ *                 self._offset = 0             # <<<<<<<<<<<<<<
+ *             else:
+ *                 ret_ot = (OTTypeAction.delete, ot_arg_as_str[self._offset:self._offset + n])
+ */
+      __pyx_v_self->_offset = 0;
+
+      /* "ottype/core_boost.pyx":157
+ *             ot_arg_as_str = <str>ot_arg
+ * 
+ *             if n == -1 or indivisable == 2 or len(ot_arg_as_str) - self._offset <= n:             # <<<<<<<<<<<<<<
+ *                 ret_ot = (OTTypeAction.delete, ot_arg_as_str[self._offset:])
+ *                 self._idx += 1
+ */
+      goto __pyx_L14;
+    }
+
+    /* "ottype/core_boost.pyx":162
+ *                 self._offset = 0
+ *             else:
+ *                 ret_ot = (OTTypeAction.delete, ot_arg_as_str[self._offset:self._offset + n])             # <<<<<<<<<<<<<<
+ *                 self._offset += n
+ * 
+ */
+    /*else*/ {
+      __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_e_6ottype_10core_boost_delete); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 162, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      if (unlikely(__pyx_v_ot_arg_as_str == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 162, __pyx_L1_error)
+      }
+      __pyx_t_1 = __Pyx_PyUnicode_Substring(__pyx_v_ot_arg_as_str, __pyx_v_self->_offset, (__pyx_v_self->_offset + __pyx_v_n)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 162, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 162, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_4);
+      PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
+      __Pyx_GIVEREF(__pyx_t_1);
+      PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_1);
+      __pyx_t_4 = 0;
+      __pyx_t_1 = 0;
+      __Pyx_DECREF_SET(__pyx_v_ret_ot, ((PyObject*)__pyx_t_5));
+      __pyx_t_5 = 0;
+
+      /* "ottype/core_boost.pyx":163
+ *             else:
+ *                 ret_ot = (OTTypeAction.delete, ot_arg_as_str[self._offset:self._offset + n])
  *                 self._offset += n             # <<<<<<<<<<<<<<
  * 
  *         return ret_ot
  */
       __pyx_v_self->_offset = (__pyx_v_self->_offset + __pyx_v_n);
     }
-    __pyx_L13:;
+    __pyx_L14:;
 
-    /* "ottype/core_boost.pyx":149
+    /* "ottype/core_boost.pyx":154
  *                 self._offset += n
  * 
- *         elif isinstance(ot, OTDelete):             # <<<<<<<<<<<<<<
- *             ot_delete = <OTDelete>ot
+ *         elif ot_action == OTTypeAction.delete:             # <<<<<<<<<<<<<<
+ *             ot_arg_as_str = <str>ot_arg
  * 
  */
+    break;
+    default: break;
   }
-  __pyx_L5:;
 
-  /* "ottype/core_boost.pyx":160
+  /* "ottype/core_boost.pyx":165
  *                 self._offset += n
  * 
  *         return ret_ot             # <<<<<<<<<<<<<<
  * 
- *     cdef OTType peak(self):
+ *     cdef OTTypeAction peak_action(self):
  */
-  __Pyx_XDECREF(((PyObject *)__pyx_r));
-  __Pyx_INCREF(((PyObject *)__pyx_v_ret_ot));
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_ret_ot);
   __pyx_r = __pyx_v_ret_ot;
   goto __pyx_L0;
 
-  /* "ottype/core_boost.pyx":110
+  /* "ottype/core_boost.pyx":115
  *         self._offset = 0
  * 
- *     cdef OTType take(self, int n, int indivisable = 0):             # <<<<<<<<<<<<<<
+ *     cdef tuple take(self, int n, int indivisable = 0):             # <<<<<<<<<<<<<<
  *         # NOTE : indivisable (0 -> None, 1 -> Insert, 2 -> Delete)
  *         cdef:
  */
@@ -5121,42 +3977,44 @@ static struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_f_6ottype_10core_boos
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_AddTraceback("ottype.core_boost._Taker.take", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_XDECREF((PyObject *)__pyx_v_ret_ot);
-  __Pyx_XDECREF((PyObject *)__pyx_v_ot);
-  __Pyx_XDECREF((PyObject *)__pyx_v_ot_skip);
-  __Pyx_XDECREF((PyObject *)__pyx_v_ot_insert);
-  __Pyx_XDECREF((PyObject *)__pyx_v_ot_delete);
-  __Pyx_XGIVEREF((PyObject *)__pyx_r);
+  __Pyx_XDECREF(__pyx_v_ret_ot);
+  __Pyx_XDECREF(__pyx_v_ot_arg);
+  __Pyx_XDECREF(__pyx_v_ot_arg_as_str);
+  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "ottype/core_boost.pyx":162
+/* "ottype/core_boost.pyx":167
  *         return ret_ot
  * 
- *     cdef OTType peak(self):             # <<<<<<<<<<<<<<
+ *     cdef OTTypeAction peak_action(self):             # <<<<<<<<<<<<<<
  *         if 0 <= self._idx < len(self.ots):
- *             return self.ots[self._idx]
+ *             return self.ots[self._idx][0]
  */
 
-static struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_f_6ottype_10core_boost_6_Taker_peak(struct __pyx_obj_6ottype_10core_boost__Taker *__pyx_v_self) {
-  struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_r = NULL;
+static enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_f_6ottype_10core_boost_6_Taker_peak_action(struct __pyx_obj_6ottype_10core_boost__Taker *__pyx_v_self) {
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_r;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
   Py_ssize_t __pyx_t_3;
   int __pyx_t_4;
-  __Pyx_RefNannySetupContext("peak", 0);
+  PyObject *__pyx_t_5 = NULL;
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_t_6;
+  __Pyx_RefNannySetupContext("peak_action", 0);
 
-  /* "ottype/core_boost.pyx":163
+  /* "ottype/core_boost.pyx":168
  * 
- *     cdef OTType peak(self):
+ *     cdef OTTypeAction peak_action(self):
  *         if 0 <= self._idx < len(self.ots):             # <<<<<<<<<<<<<<
- *             return self.ots[self._idx]
- *         return None
+ *             return self.ots[self._idx][0]
+ *         return OTTypeAction.nop
  */
   __pyx_t_1 = (0 <= __pyx_v_self->_idx);
   if (__pyx_t_1) {
@@ -5164,69 +4022,70 @@ static struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_f_6ottype_10core_boos
     __Pyx_INCREF(__pyx_t_2);
     if (unlikely(__pyx_t_2 == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-      __PYX_ERR(0, 163, __pyx_L1_error)
+      __PYX_ERR(0, 168, __pyx_L1_error)
     }
-    __pyx_t_3 = PyList_GET_SIZE(__pyx_t_2); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 163, __pyx_L1_error)
+    __pyx_t_3 = PyList_GET_SIZE(__pyx_t_2); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 168, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_1 = (__pyx_v_self->_idx < __pyx_t_3);
   }
   __pyx_t_4 = (__pyx_t_1 != 0);
   if (__pyx_t_4) {
 
-    /* "ottype/core_boost.pyx":164
- *     cdef OTType peak(self):
+    /* "ottype/core_boost.pyx":169
+ *     cdef OTTypeAction peak_action(self):
  *         if 0 <= self._idx < len(self.ots):
- *             return self.ots[self._idx]             # <<<<<<<<<<<<<<
- *         return None
+ *             return self.ots[self._idx][0]             # <<<<<<<<<<<<<<
+ *         return OTTypeAction.nop
  * 
  */
-    __Pyx_XDECREF(((PyObject *)__pyx_r));
     if (unlikely(__pyx_v_self->ots == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 164, __pyx_L1_error)
+      __PYX_ERR(0, 169, __pyx_L1_error)
     }
-    __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_self->ots, __pyx_v_self->_idx, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 164, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_self->ots, __pyx_v_self->_idx, int, 1, __Pyx_PyInt_From_int, 1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 169, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_6ottype_10core_boost_OTType))))) __PYX_ERR(0, 164, __pyx_L1_error)
-    __pyx_r = ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_2);
-    __pyx_t_2 = 0;
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 169, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_6 = ((enum __pyx_t_6ottype_10core_boost_OTTypeAction)__Pyx_PyInt_As_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_t_5)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 169, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_r = __pyx_t_6;
     goto __pyx_L0;
 
-    /* "ottype/core_boost.pyx":163
+    /* "ottype/core_boost.pyx":168
  * 
- *     cdef OTType peak(self):
+ *     cdef OTTypeAction peak_action(self):
  *         if 0 <= self._idx < len(self.ots):             # <<<<<<<<<<<<<<
- *             return self.ots[self._idx]
- *         return None
+ *             return self.ots[self._idx][0]
+ *         return OTTypeAction.nop
  */
   }
 
-  /* "ottype/core_boost.pyx":165
+  /* "ottype/core_boost.pyx":170
  *         if 0 <= self._idx < len(self.ots):
- *             return self.ots[self._idx]
- *         return None             # <<<<<<<<<<<<<<
+ *             return self.ots[self._idx][0]
+ *         return OTTypeAction.nop             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_XDECREF(((PyObject *)__pyx_r));
-  __pyx_r = ((struct __pyx_obj_6ottype_10core_boost_OTType *)Py_None); __Pyx_INCREF(Py_None);
+  __pyx_r = __pyx_e_6ottype_10core_boost_nop;
   goto __pyx_L0;
 
-  /* "ottype/core_boost.pyx":162
+  /* "ottype/core_boost.pyx":167
  *         return ret_ot
  * 
- *     cdef OTType peak(self):             # <<<<<<<<<<<<<<
+ *     cdef OTTypeAction peak_action(self):             # <<<<<<<<<<<<<<
  *         if 0 <= self._idx < len(self.ots):
- *             return self.ots[self._idx]
+ *             return self.ots[self._idx][0]
  */
 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("ottype.core_boost._Taker.peak", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_WriteUnraisable("ottype.core_boost._Taker.peak_action", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = (enum __pyx_t_6ottype_10core_boost_OTTypeAction) 0;
   __pyx_L0:;
-  __Pyx_XGIVEREF((PyObject *)__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -5381,30 +4240,32 @@ static PyObject *__pyx_pf_6ottype_10core_boost_6_Taker_2__reduce_cython__(struct
     __Pyx_XDECREF(__pyx_r);
     __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pyx_unpickle__Taker); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 13, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 13, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_7cpython_4type_type), ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 13, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_3, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_43908121);
-    __Pyx_GIVEREF(__pyx_int_43908121);
-    PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_int_43908121);
-    __Pyx_INCREF(Py_None);
-    __Pyx_GIVEREF(Py_None);
-    PyTuple_SET_ITEM(__pyx_t_3, 2, Py_None);
     __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 13, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_GIVEREF(__pyx_t_2);
-    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
     __Pyx_GIVEREF(__pyx_t_3);
-    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_3);
+    __Pyx_INCREF(__pyx_int_43908121);
+    __Pyx_GIVEREF(__pyx_int_43908121);
+    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_int_43908121);
+    __Pyx_INCREF(Py_None);
+    __Pyx_GIVEREF(Py_None);
+    PyTuple_SET_ITEM(__pyx_t_1, 2, Py_None);
+    __pyx_t_3 = 0;
+    __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 13, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_GIVEREF(__pyx_t_2);
+    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
+    __Pyx_GIVEREF(__pyx_t_1);
+    PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_1);
     __Pyx_INCREF(__pyx_v_state);
     __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_v_state);
+    PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_v_state);
     __pyx_t_2 = 0;
-    __pyx_t_3 = 0;
-    __pyx_r = __pyx_t_1;
     __pyx_t_1 = 0;
+    __pyx_r = __pyx_t_3;
+    __pyx_t_3 = 0;
     goto __pyx_L0;
 
     /* "(tree fragment)":12
@@ -5425,29 +4286,31 @@ static PyObject *__pyx_pf_6ottype_10core_boost_6_Taker_2__reduce_cython__(struct
  */
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_pyx_unpickle__Taker); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 15, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_pyx_unpickle__Taker); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 15, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_3, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_43908121);
-    __Pyx_GIVEREF(__pyx_int_43908121);
-    PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_int_43908121);
-    __Pyx_INCREF(__pyx_v_state);
-    __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_v_state);
-    __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 15, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_7cpython_4type_type), ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 15, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
-    __Pyx_GIVEREF(__pyx_t_3);
-    PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_3);
+    __Pyx_INCREF(__pyx_int_43908121);
+    __Pyx_GIVEREF(__pyx_int_43908121);
+    PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_int_43908121);
+    __Pyx_INCREF(__pyx_v_state);
+    __Pyx_GIVEREF(__pyx_v_state);
+    PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_v_state);
     __pyx_t_1 = 0;
+    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_3);
+    __Pyx_GIVEREF(__pyx_t_2);
+    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_2);
     __pyx_t_3 = 0;
-    __pyx_r = __pyx_t_2;
     __pyx_t_2 = 0;
+    __pyx_r = __pyx_t_1;
+    __pyx_t_1 = 0;
     goto __pyx_L0;
   }
 
@@ -5528,11 +4391,11 @@ static PyObject *__pyx_pf_6ottype_10core_boost_6_Taker_4__setstate_cython__(stru
   return __pyx_r;
 }
 
-/* "ottype/core_boost.pyx":168
+/* "ottype/core_boost.pyx":173
  * 
  * 
  * cdef void _trim(list ots):             # <<<<<<<<<<<<<<
- *     if ots and isinstance(ots[-1], OTSkip):
+ *     if ots and ots[-1][0] == OTTypeAction.skip:
  *         ots.pop()
  */
 
@@ -5541,13 +4404,14 @@ static void __pyx_f_6ottype_10core_boost__trim(PyObject *__pyx_v_ots) {
   int __pyx_t_1;
   int __pyx_t_2;
   PyObject *__pyx_t_3 = NULL;
-  int __pyx_t_4;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
   __Pyx_RefNannySetupContext("_trim", 0);
 
-  /* "ottype/core_boost.pyx":169
+  /* "ottype/core_boost.pyx":174
  * 
  * cdef void _trim(list ots):
- *     if ots and isinstance(ots[-1], OTSkip):             # <<<<<<<<<<<<<<
+ *     if ots and ots[-1][0] == OTTypeAction.skip:             # <<<<<<<<<<<<<<
  *         ots.pop()
  * 
  */
@@ -5559,46 +4423,53 @@ static void __pyx_f_6ottype_10core_boost__trim(PyObject *__pyx_v_ots) {
   }
   if (unlikely(__pyx_v_ots == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 169, __pyx_L1_error)
+    __PYX_ERR(0, 174, __pyx_L1_error)
   }
-  __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_ots, -1L, long, 1, __Pyx_PyInt_From_long, 1, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 169, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_ots, -1L, long, 1, __Pyx_PyInt_From_long, 1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_TypeCheck(__pyx_t_3, __pyx_ptype_6ottype_10core_boost_OTSkip); 
+  __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 174, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_4 = (__pyx_t_2 != 0);
-  __pyx_t_1 = __pyx_t_4;
+  __pyx_t_3 = __Pyx_PyInt_From_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_e_6ottype_10core_boost_skip); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 174, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_5 = PyObject_RichCompare(__pyx_t_4, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 174, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 174, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_1 = __pyx_t_2;
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "ottype/core_boost.pyx":170
+    /* "ottype/core_boost.pyx":175
  * cdef void _trim(list ots):
- *     if ots and isinstance(ots[-1], OTSkip):
+ *     if ots and ots[-1][0] == OTTypeAction.skip:
  *         ots.pop()             # <<<<<<<<<<<<<<
  * 
  * 
  */
     if (unlikely(__pyx_v_ots == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "pop");
-      __PYX_ERR(0, 170, __pyx_L1_error)
+      __PYX_ERR(0, 175, __pyx_L1_error)
     }
-    __pyx_t_3 = __Pyx_PyList_Pop(__pyx_v_ots); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 170, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_5 = __Pyx_PyList_Pop(__pyx_v_ots); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 175, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "ottype/core_boost.pyx":169
+    /* "ottype/core_boost.pyx":174
  * 
  * cdef void _trim(list ots):
- *     if ots and isinstance(ots[-1], OTSkip):             # <<<<<<<<<<<<<<
+ *     if ots and ots[-1][0] == OTTypeAction.skip:             # <<<<<<<<<<<<<<
  *         ots.pop()
  * 
  */
   }
 
-  /* "ottype/core_boost.pyx":168
+  /* "ottype/core_boost.pyx":173
  * 
  * 
  * cdef void _trim(list ots):             # <<<<<<<<<<<<<<
- *     if ots and isinstance(ots[-1], OTSkip):
+ *     if ots and ots[-1][0] == OTTypeAction.skip:
  *         ots.pop()
  */
 
@@ -5606,297 +4477,349 @@ static void __pyx_f_6ottype_10core_boost__trim(PyObject *__pyx_v_ots) {
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
   __Pyx_WriteUnraisable("ottype.core_boost._trim", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
-/* "ottype/core_boost.pyx":173
+/* "ottype/core_boost.pyx":178
  * 
  * 
- * def check(object ot_raw_list):             # <<<<<<<<<<<<<<
- *     cdef OTType last_ot
- * 
+ * def check(list ot_raw_list not None, bool check_unoptimized not None = True):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         OTTypeAction last_ot_action
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6ottype_10core_boost_1check(PyObject *__pyx_self, PyObject *__pyx_v_ot_raw_list); /*proto*/
-static PyMethodDef __pyx_mdef_6ottype_10core_boost_1check = {"check", (PyCFunction)__pyx_pw_6ottype_10core_boost_1check, METH_O, 0};
-static PyObject *__pyx_pw_6ottype_10core_boost_1check(PyObject *__pyx_self, PyObject *__pyx_v_ot_raw_list) {
+static PyObject *__pyx_pw_6ottype_10core_boost_1check(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_6ottype_10core_boost_1check = {"check", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6ottype_10core_boost_1check, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_6ottype_10core_boost_1check(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_ot_raw_list = 0;
+  PyBoolObject *__pyx_v_check_unoptimized = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("check (wrapper)", 0);
-  __pyx_r = __pyx_pf_6ottype_10core_boost_check(__pyx_self, ((PyObject *)__pyx_v_ot_raw_list));
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_ot_raw_list,&__pyx_n_s_check_unoptimized,0};
+    PyObject* values[2] = {0,0};
+    values[1] = (PyObject *)((PyBoolObject *)Py_True);
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_ot_raw_list)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_check_unoptimized);
+          if (value) { values[1] = value; kw_args--; }
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "check") < 0)) __PYX_ERR(0, 178, __pyx_L3_error)
+      }
+    } else {
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_ot_raw_list = ((PyObject*)values[0]);
+    __pyx_v_check_unoptimized = ((PyBoolObject *)values[1]);
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("check", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 178, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("ottype.core_boost.check", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ot_raw_list), (&PyList_Type), 0, "ot_raw_list", 1))) __PYX_ERR(0, 178, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_check_unoptimized), __pyx_ptype_7cpython_4bool_bool, 0, "check_unoptimized", 0))) __PYX_ERR(0, 178, __pyx_L1_error)
+  __pyx_r = __pyx_pf_6ottype_10core_boost_check(__pyx_self, __pyx_v_ot_raw_list, __pyx_v_check_unoptimized);
 
   /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6ottype_10core_boost_check(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ot_raw_list) {
-  struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_v_last_ot = 0;
+static PyObject *__pyx_pf_6ottype_10core_boost_check(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ot_raw_list, PyBoolObject *__pyx_v_check_unoptimized) {
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_v_last_ot_action;
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_v_ot_action;
   PyObject *__pyx_v_ot_raw = NULL;
-  struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_v_resolved_ot = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  int __pyx_t_2;
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
-  Py_ssize_t __pyx_t_4;
-  PyObject *(*__pyx_t_5)(PyObject *);
+  PyObject *__pyx_t_4 = NULL;
+  Py_ssize_t __pyx_t_5;
   PyObject *__pyx_t_6 = NULL;
-  PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_t_7;
+  int __pyx_t_8;
+  int __pyx_t_9;
   int __pyx_t_10;
   PyObject *__pyx_t_11 = NULL;
-  PyObject *__pyx_t_12 = NULL;
   __Pyx_RefNannySetupContext("check", 0);
 
-  /* "ottype/core_boost.pyx":176
- *     cdef OTType last_ot
+  /* "ottype/core_boost.pyx":183
+ *         OTTypeAction ot_action
  * 
- *     if not isinstance(ot_raw_list, list):             # <<<<<<<<<<<<<<
+ *     last_ot_action = OTTypeAction.nop             # <<<<<<<<<<<<<<
+ *     try:
+ *         for ot_raw in ot_raw_list:
+ */
+  __pyx_v_last_ot_action = __pyx_e_6ottype_10core_boost_nop;
+
+  /* "ottype/core_boost.pyx":184
+ * 
+ *     last_ot_action = OTTypeAction.nop
+ *     try:             # <<<<<<<<<<<<<<
+ *         for ot_raw in ot_raw_list:
+ *             ot_action = _resolve_ot(ot_raw)[0]
+ */
+  {
+    __Pyx_PyThreadState_declare
+    __Pyx_PyThreadState_assign
+    __Pyx_ExceptionSave(&__pyx_t_1, &__pyx_t_2, &__pyx_t_3);
+    __Pyx_XGOTREF(__pyx_t_1);
+    __Pyx_XGOTREF(__pyx_t_2);
+    __Pyx_XGOTREF(__pyx_t_3);
+    /*try:*/ {
+
+      /* "ottype/core_boost.pyx":185
+ *     last_ot_action = OTTypeAction.nop
+ *     try:
+ *         for ot_raw in ot_raw_list:             # <<<<<<<<<<<<<<
+ *             ot_action = _resolve_ot(ot_raw)[0]
+ * 
+ */
+      __pyx_t_4 = __pyx_v_ot_raw_list; __Pyx_INCREF(__pyx_t_4); __pyx_t_5 = 0;
+      for (;;) {
+        if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_4)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_6 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_5); __Pyx_INCREF(__pyx_t_6); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 185, __pyx_L3_error)
+        #else
+        __pyx_t_6 = PySequence_ITEM(__pyx_t_4, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 185, __pyx_L3_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        #endif
+        __Pyx_XDECREF_SET(__pyx_v_ot_raw, __pyx_t_6);
+        __pyx_t_6 = 0;
+
+        /* "ottype/core_boost.pyx":186
+ *     try:
+ *         for ot_raw in ot_raw_list:
+ *             ot_action = _resolve_ot(ot_raw)[0]             # <<<<<<<<<<<<<<
+ * 
+ *             if check_unoptimized and last_ot_action == ot_action:
+ */
+        __pyx_t_6 = __pyx_f_6ottype_10core_boost__resolve_ot(__pyx_v_ot_raw); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 186, __pyx_L3_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        if (unlikely(__pyx_t_6 == Py_None)) {
+          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+          __PYX_ERR(0, 186, __pyx_L3_error)
+        }
+        __pyx_t_7 = ((enum __pyx_t_6ottype_10core_boost_OTTypeAction)__Pyx_PyInt_As_enum____pyx_t_6ottype_10core_boost_OTTypeAction(PyTuple_GET_ITEM(__pyx_t_6, 0))); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 186, __pyx_L3_error)
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+        __pyx_v_ot_action = __pyx_t_7;
+
+        /* "ottype/core_boost.pyx":188
+ *             ot_action = _resolve_ot(ot_raw)[0]
+ * 
+ *             if check_unoptimized and last_ot_action == ot_action:             # <<<<<<<<<<<<<<
+ *                 return False
+ * 
+ */
+        __pyx_t_9 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_check_unoptimized)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 188, __pyx_L3_error)
+        if (__pyx_t_9) {
+        } else {
+          __pyx_t_8 = __pyx_t_9;
+          goto __pyx_L12_bool_binop_done;
+        }
+        __pyx_t_9 = ((__pyx_v_last_ot_action == __pyx_v_ot_action) != 0);
+        __pyx_t_8 = __pyx_t_9;
+        __pyx_L12_bool_binop_done:;
+        if (__pyx_t_8) {
+
+          /* "ottype/core_boost.pyx":189
+ * 
+ *             if check_unoptimized and last_ot_action == ot_action:
+ *                 return False             # <<<<<<<<<<<<<<
+ * 
+ *             last_ot_action = ot_action
+ */
+          __Pyx_XDECREF(__pyx_r);
+          __Pyx_INCREF(Py_False);
+          __pyx_r = Py_False;
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+          goto __pyx_L7_try_return;
+
+          /* "ottype/core_boost.pyx":188
+ *             ot_action = _resolve_ot(ot_raw)[0]
+ * 
+ *             if check_unoptimized and last_ot_action == ot_action:             # <<<<<<<<<<<<<<
+ *                 return False
+ * 
+ */
+        }
+
+        /* "ottype/core_boost.pyx":191
+ *                 return False
+ * 
+ *             last_ot_action = ot_action             # <<<<<<<<<<<<<<
+ * 
+ *     except (ValueError, TypeError):
+ */
+        __pyx_v_last_ot_action = __pyx_v_ot_action;
+
+        /* "ottype/core_boost.pyx":185
+ *     last_ot_action = OTTypeAction.nop
+ *     try:
+ *         for ot_raw in ot_raw_list:             # <<<<<<<<<<<<<<
+ *             ot_action = _resolve_ot(ot_raw)[0]
+ * 
+ */
+      }
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+      /* "ottype/core_boost.pyx":184
+ * 
+ *     last_ot_action = OTTypeAction.nop
+ *     try:             # <<<<<<<<<<<<<<
+ *         for ot_raw in ot_raw_list:
+ *             ot_action = _resolve_ot(ot_raw)[0]
+ */
+    }
+    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+    goto __pyx_L8_try_end;
+    __pyx_L3_error:;
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+
+    /* "ottype/core_boost.pyx":193
+ *             last_ot_action = ot_action
+ * 
+ *     except (ValueError, TypeError):             # <<<<<<<<<<<<<<
  *         return False
  * 
  */
-  __pyx_t_1 = PyList_Check(__pyx_v_ot_raw_list); 
-  __pyx_t_2 = ((!(__pyx_t_1 != 0)) != 0);
-  if (__pyx_t_2) {
+    __pyx_t_10 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_ValueError) || __Pyx_PyErr_ExceptionMatches(__pyx_builtin_TypeError);
+    if (__pyx_t_10) {
+      __Pyx_AddTraceback("ottype.core_boost.check", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      if (__Pyx_GetException(&__pyx_t_4, &__pyx_t_6, &__pyx_t_11) < 0) __PYX_ERR(0, 193, __pyx_L5_except_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_GOTREF(__pyx_t_11);
 
-    /* "ottype/core_boost.pyx":177
+      /* "ottype/core_boost.pyx":194
  * 
- *     if not isinstance(ot_raw_list, list):
+ *     except (ValueError, TypeError):
  *         return False             # <<<<<<<<<<<<<<
  * 
- *     last_ot = None
+ *     if check_unoptimized and last_ot_action == OTTypeAction.skip:
+ */
+      __Pyx_XDECREF(__pyx_r);
+      __Pyx_INCREF(Py_False);
+      __pyx_r = Py_False;
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+      goto __pyx_L6_except_return;
+    }
+    goto __pyx_L5_except_error;
+    __pyx_L5_except_error:;
+
+    /* "ottype/core_boost.pyx":184
+ * 
+ *     last_ot_action = OTTypeAction.nop
+ *     try:             # <<<<<<<<<<<<<<
+ *         for ot_raw in ot_raw_list:
+ *             ot_action = _resolve_ot(ot_raw)[0]
+ */
+    __Pyx_XGIVEREF(__pyx_t_1);
+    __Pyx_XGIVEREF(__pyx_t_2);
+    __Pyx_XGIVEREF(__pyx_t_3);
+    __Pyx_ExceptionReset(__pyx_t_1, __pyx_t_2, __pyx_t_3);
+    goto __pyx_L1_error;
+    __pyx_L7_try_return:;
+    __Pyx_XGIVEREF(__pyx_t_1);
+    __Pyx_XGIVEREF(__pyx_t_2);
+    __Pyx_XGIVEREF(__pyx_t_3);
+    __Pyx_ExceptionReset(__pyx_t_1, __pyx_t_2, __pyx_t_3);
+    goto __pyx_L0;
+    __pyx_L6_except_return:;
+    __Pyx_XGIVEREF(__pyx_t_1);
+    __Pyx_XGIVEREF(__pyx_t_2);
+    __Pyx_XGIVEREF(__pyx_t_3);
+    __Pyx_ExceptionReset(__pyx_t_1, __pyx_t_2, __pyx_t_3);
+    goto __pyx_L0;
+    __pyx_L8_try_end:;
+  }
+
+  /* "ottype/core_boost.pyx":196
+ *         return False
+ * 
+ *     if check_unoptimized and last_ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *         return False
+ * 
+ */
+  __pyx_t_9 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_check_unoptimized)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 196, __pyx_L1_error)
+  if (__pyx_t_9) {
+  } else {
+    __pyx_t_8 = __pyx_t_9;
+    goto __pyx_L17_bool_binop_done;
+  }
+  __pyx_t_9 = ((__pyx_v_last_ot_action == __pyx_e_6ottype_10core_boost_skip) != 0);
+  __pyx_t_8 = __pyx_t_9;
+  __pyx_L17_bool_binop_done:;
+  if (__pyx_t_8) {
+
+    /* "ottype/core_boost.pyx":197
+ * 
+ *     if check_unoptimized and last_ot_action == OTTypeAction.skip:
+ *         return False             # <<<<<<<<<<<<<<
+ * 
+ *     return True
  */
     __Pyx_XDECREF(__pyx_r);
     __Pyx_INCREF(Py_False);
     __pyx_r = Py_False;
     goto __pyx_L0;
 
-    /* "ottype/core_boost.pyx":176
- *     cdef OTType last_ot
+    /* "ottype/core_boost.pyx":196
+ *         return False
  * 
- *     if not isinstance(ot_raw_list, list):             # <<<<<<<<<<<<<<
+ *     if check_unoptimized and last_ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
  *         return False
  * 
  */
   }
 
-  /* "ottype/core_boost.pyx":179
+  /* "ottype/core_boost.pyx":199
  *         return False
- * 
- *     last_ot = None             # <<<<<<<<<<<<<<
- *     for ot_raw in ot_raw_list:
- *         try:
- */
-  __Pyx_INCREF(Py_None);
-  __pyx_v_last_ot = ((struct __pyx_obj_6ottype_10core_boost_OTType *)Py_None);
-
-  /* "ottype/core_boost.pyx":180
- * 
- *     last_ot = None
- *     for ot_raw in ot_raw_list:             # <<<<<<<<<<<<<<
- *         try:
- *             resolved_ot = _resolve_ot(ot_raw)
- */
-  if (likely(PyList_CheckExact(__pyx_v_ot_raw_list)) || PyTuple_CheckExact(__pyx_v_ot_raw_list)) {
-    __pyx_t_3 = __pyx_v_ot_raw_list; __Pyx_INCREF(__pyx_t_3); __pyx_t_4 = 0;
-    __pyx_t_5 = NULL;
-  } else {
-    __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_v_ot_raw_list); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 180, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 180, __pyx_L1_error)
-  }
-  for (;;) {
-    if (likely(!__pyx_t_5)) {
-      if (likely(PyList_CheckExact(__pyx_t_3))) {
-        if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_3)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_6 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_6); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 180, __pyx_L1_error)
-        #else
-        __pyx_t_6 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 180, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        #endif
-      } else {
-        if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_6); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 180, __pyx_L1_error)
-        #else
-        __pyx_t_6 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 180, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        #endif
-      }
-    } else {
-      __pyx_t_6 = __pyx_t_5(__pyx_t_3);
-      if (unlikely(!__pyx_t_6)) {
-        PyObject* exc_type = PyErr_Occurred();
-        if (exc_type) {
-          if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 180, __pyx_L1_error)
-        }
-        break;
-      }
-      __Pyx_GOTREF(__pyx_t_6);
-    }
-    __Pyx_XDECREF_SET(__pyx_v_ot_raw, __pyx_t_6);
-    __pyx_t_6 = 0;
-
-    /* "ottype/core_boost.pyx":181
- *     last_ot = None
- *     for ot_raw in ot_raw_list:
- *         try:             # <<<<<<<<<<<<<<
- *             resolved_ot = _resolve_ot(ot_raw)
- *         except TypeError:
- */
-    {
-      __Pyx_PyThreadState_declare
-      __Pyx_PyThreadState_assign
-      __Pyx_ExceptionSave(&__pyx_t_7, &__pyx_t_8, &__pyx_t_9);
-      __Pyx_XGOTREF(__pyx_t_7);
-      __Pyx_XGOTREF(__pyx_t_8);
-      __Pyx_XGOTREF(__pyx_t_9);
-      /*try:*/ {
-
-        /* "ottype/core_boost.pyx":182
- *     for ot_raw in ot_raw_list:
- *         try:
- *             resolved_ot = _resolve_ot(ot_raw)             # <<<<<<<<<<<<<<
- *         except TypeError:
- *             return False
- */
-        __pyx_t_6 = ((PyObject *)__pyx_f_6ottype_10core_boost__resolve_ot(__pyx_v_ot_raw)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 182, __pyx_L6_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_XDECREF_SET(__pyx_v_resolved_ot, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_6));
-        __pyx_t_6 = 0;
-
-        /* "ottype/core_boost.pyx":181
- *     last_ot = None
- *     for ot_raw in ot_raw_list:
- *         try:             # <<<<<<<<<<<<<<
- *             resolved_ot = _resolve_ot(ot_raw)
- *         except TypeError:
- */
-      }
-      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-      goto __pyx_L13_try_end;
-      __pyx_L6_error:;
-      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-
-      /* "ottype/core_boost.pyx":183
- *         try:
- *             resolved_ot = _resolve_ot(ot_raw)
- *         except TypeError:             # <<<<<<<<<<<<<<
- *             return False
- * 
- */
-      __pyx_t_10 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_TypeError);
-      if (__pyx_t_10) {
-        __Pyx_AddTraceback("ottype.core_boost.check", __pyx_clineno, __pyx_lineno, __pyx_filename);
-        if (__Pyx_GetException(&__pyx_t_6, &__pyx_t_11, &__pyx_t_12) < 0) __PYX_ERR(0, 183, __pyx_L8_except_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_GOTREF(__pyx_t_11);
-        __Pyx_GOTREF(__pyx_t_12);
-
-        /* "ottype/core_boost.pyx":184
- *             resolved_ot = _resolve_ot(ot_raw)
- *         except TypeError:
- *             return False             # <<<<<<<<<<<<<<
- * 
- *         if type(last_ot) is type(resolved_ot):
- */
-        __Pyx_XDECREF(__pyx_r);
-        __Pyx_INCREF(Py_False);
-        __pyx_r = Py_False;
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-        goto __pyx_L9_except_return;
-      }
-      goto __pyx_L8_except_error;
-      __pyx_L8_except_error:;
-
-      /* "ottype/core_boost.pyx":181
- *     last_ot = None
- *     for ot_raw in ot_raw_list:
- *         try:             # <<<<<<<<<<<<<<
- *             resolved_ot = _resolve_ot(ot_raw)
- *         except TypeError:
- */
-      __Pyx_XGIVEREF(__pyx_t_7);
-      __Pyx_XGIVEREF(__pyx_t_8);
-      __Pyx_XGIVEREF(__pyx_t_9);
-      __Pyx_ExceptionReset(__pyx_t_7, __pyx_t_8, __pyx_t_9);
-      goto __pyx_L1_error;
-      __pyx_L9_except_return:;
-      __Pyx_XGIVEREF(__pyx_t_7);
-      __Pyx_XGIVEREF(__pyx_t_8);
-      __Pyx_XGIVEREF(__pyx_t_9);
-      __Pyx_ExceptionReset(__pyx_t_7, __pyx_t_8, __pyx_t_9);
-      goto __pyx_L0;
-      __pyx_L13_try_end:;
-    }
-
-    /* "ottype/core_boost.pyx":186
- *             return False
- * 
- *         if type(last_ot) is type(resolved_ot):             # <<<<<<<<<<<<<<
- *             return False
- * 
- */
-    __pyx_t_2 = (((PyObject *)Py_TYPE(((PyObject *)__pyx_v_last_ot))) == ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_resolved_ot))));
-    __pyx_t_1 = (__pyx_t_2 != 0);
-    if (__pyx_t_1) {
-
-      /* "ottype/core_boost.pyx":187
- * 
- *         if type(last_ot) is type(resolved_ot):
- *             return False             # <<<<<<<<<<<<<<
- * 
- *         last_ot = resolved_ot
- */
-      __Pyx_XDECREF(__pyx_r);
-      __Pyx_INCREF(Py_False);
-      __pyx_r = Py_False;
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      goto __pyx_L0;
-
-      /* "ottype/core_boost.pyx":186
- *             return False
- * 
- *         if type(last_ot) is type(resolved_ot):             # <<<<<<<<<<<<<<
- *             return False
- * 
- */
-    }
-
-    /* "ottype/core_boost.pyx":189
- *             return False
- * 
- *         last_ot = resolved_ot             # <<<<<<<<<<<<<<
- * 
- *     return True
- */
-    __Pyx_INCREF(((PyObject *)__pyx_v_resolved_ot));
-    __Pyx_DECREF_SET(__pyx_v_last_ot, __pyx_v_resolved_ot);
-
-    /* "ottype/core_boost.pyx":180
- * 
- *     last_ot = None
- *     for ot_raw in ot_raw_list:             # <<<<<<<<<<<<<<
- *         try:
- *             resolved_ot = _resolve_ot(ot_raw)
- */
-  }
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-  /* "ottype/core_boost.pyx":191
- *         last_ot = resolved_ot
  * 
  *     return True             # <<<<<<<<<<<<<<
  * 
@@ -5907,35 +4830,32 @@ static PyObject *__pyx_pf_6ottype_10core_boost_check(CYTHON_UNUSED PyObject *__p
   __pyx_r = Py_True;
   goto __pyx_L0;
 
-  /* "ottype/core_boost.pyx":173
+  /* "ottype/core_boost.pyx":178
  * 
  * 
- * def check(object ot_raw_list):             # <<<<<<<<<<<<<<
- *     cdef OTType last_ot
- * 
+ * def check(list ot_raw_list not None, bool check_unoptimized not None = True):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         OTTypeAction last_ot_action
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_XDECREF(__pyx_t_12);
   __Pyx_AddTraceback("ottype.core_boost.check", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
-  __Pyx_XDECREF((PyObject *)__pyx_v_last_ot);
   __Pyx_XDECREF(__pyx_v_ot_raw);
-  __Pyx_XDECREF((PyObject *)__pyx_v_resolved_ot);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "ottype/core_boost.pyx":194
+/* "ottype/core_boost.pyx":202
  * 
  * 
- * def apply(str doc, object ot_raw_list):             # <<<<<<<<<<<<<<
+ * def apply(str doc not None, list ot_raw_list not None):             # <<<<<<<<<<<<<<
  *     cdef:
  *         list new_doc
  */
@@ -5972,11 +4892,11 @@ static PyObject *__pyx_pw_6ottype_10core_boost_3apply(PyObject *__pyx_self, PyOb
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_ot_raw_list)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("apply", 1, 2, 2, 1); __PYX_ERR(0, 194, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("apply", 1, 2, 2, 1); __PYX_ERR(0, 202, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "apply") < 0)) __PYX_ERR(0, 194, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "apply") < 0)) __PYX_ERR(0, 202, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -5985,17 +4905,18 @@ static PyObject *__pyx_pw_6ottype_10core_boost_3apply(PyObject *__pyx_self, PyOb
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
     __pyx_v_doc = ((PyObject*)values[0]);
-    __pyx_v_ot_raw_list = values[1];
+    __pyx_v_ot_raw_list = ((PyObject*)values[1]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("apply", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 194, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("apply", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 202, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("ottype.core_boost.apply", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_doc), (&PyUnicode_Type), 1, "doc", 1))) __PYX_ERR(0, 194, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_doc), (&PyUnicode_Type), 0, "doc", 1))) __PYX_ERR(0, 202, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ot_raw_list), (&PyList_Type), 0, "ot_raw_list", 1))) __PYX_ERR(0, 202, __pyx_L1_error)
   __pyx_r = __pyx_pf_6ottype_10core_boost_2apply(__pyx_self, __pyx_v_doc, __pyx_v_ot_raw_list);
 
   /* function exit code */
@@ -6010,99 +4931,71 @@ static PyObject *__pyx_pw_6ottype_10core_boost_3apply(PyObject *__pyx_self, PyOb
 static PyObject *__pyx_pf_6ottype_10core_boost_2apply(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_doc, PyObject *__pyx_v_ot_raw_list) {
   PyObject *__pyx_v_new_doc = 0;
   int __pyx_v_pos;
-  struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_v_ot = 0;
-  struct __pyx_obj_6ottype_10core_boost_OTSkip *__pyx_v_ot_skip = 0;
-  struct __pyx_obj_6ottype_10core_boost_OTInsert *__pyx_v_ot_insert = 0;
-  struct __pyx_obj_6ottype_10core_boost_OTDelete *__pyx_v_ot_delete = 0;
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_v_ot_action;
+  PyObject *__pyx_v_ot_arg = 0;
+  int __pyx_v_ot_arg_as_int;
+  PyObject *__pyx_v_ot_arg_as_str = 0;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  int __pyx_t_2;
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
+  int __pyx_t_4;
+  int __pyx_t_5;
   Py_ssize_t __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
-  int __pyx_t_8;
+  PyObject *__pyx_t_7 = NULL;
+  PyObject *__pyx_t_8 = NULL;
+  PyObject *(*__pyx_t_9)(PyObject *);
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_t_10;
+  int __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+  int __pyx_t_13;
   __Pyx_RefNannySetupContext("apply", 0);
 
-  /* "ottype/core_boost.pyx":204
- *         OTDelete ot_delete
- * 
- *     if not isinstance(doc, str):             # <<<<<<<<<<<<<<
- *         raise ValueError('doc must be string')
- * 
- */
-  __pyx_t_1 = PyUnicode_Check(__pyx_v_doc); 
-  __pyx_t_2 = ((!(__pyx_t_1 != 0)) != 0);
-  if (unlikely(__pyx_t_2)) {
-
-    /* "ottype/core_boost.pyx":205
- * 
- *     if not isinstance(doc, str):
- *         raise ValueError('doc must be string')             # <<<<<<<<<<<<<<
- * 
- *     if not check(ot_raw_list):
- */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 205, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 205, __pyx_L1_error)
-
-    /* "ottype/core_boost.pyx":204
- *         OTDelete ot_delete
- * 
- *     if not isinstance(doc, str):             # <<<<<<<<<<<<<<
- *         raise ValueError('doc must be string')
- * 
- */
-  }
-
-  /* "ottype/core_boost.pyx":207
- *         raise ValueError('doc must be string')
+  /* "ottype/core_boost.pyx":212
+ *         str ot_arg_as_str
  * 
  *     if not check(ot_raw_list):             # <<<<<<<<<<<<<<
  *         raise ValueError('invalid OTs')
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_check); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 207, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_5)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_5);
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_check); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 212, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_3);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
     }
   }
-  __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_v_ot_raw_list) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_ot_raw_list);
-  __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 207, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 207, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_1 = ((!__pyx_t_2) != 0);
-  if (unlikely(__pyx_t_1)) {
+  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_ot_raw_list) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_ot_raw_list);
+  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 212, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 212, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_5 = ((!__pyx_t_4) != 0);
+  if (unlikely(__pyx_t_5)) {
 
-    /* "ottype/core_boost.pyx":208
+    /* "ottype/core_boost.pyx":213
  * 
  *     if not check(ot_raw_list):
  *         raise ValueError('invalid OTs')             # <<<<<<<<<<<<<<
  * 
  *     new_doc = []
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 208, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 208, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 213, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __PYX_ERR(0, 213, __pyx_L1_error)
 
-    /* "ottype/core_boost.pyx":207
- *         raise ValueError('doc must be string')
+    /* "ottype/core_boost.pyx":212
+ *         str ot_arg_as_str
  * 
  *     if not check(ot_raw_list):             # <<<<<<<<<<<<<<
  *         raise ValueError('invalid OTs')
@@ -6110,354 +5003,345 @@ static PyObject *__pyx_pf_6ottype_10core_boost_2apply(CYTHON_UNUSED PyObject *__
  */
   }
 
-  /* "ottype/core_boost.pyx":210
+  /* "ottype/core_boost.pyx":215
  *         raise ValueError('invalid OTs')
  * 
  *     new_doc = []             # <<<<<<<<<<<<<<
  *     pos = 0
  * 
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 210, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_v_new_doc = ((PyObject*)__pyx_t_3);
-  __pyx_t_3 = 0;
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 215, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_new_doc = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
 
-  /* "ottype/core_boost.pyx":211
+  /* "ottype/core_boost.pyx":216
  * 
  *     new_doc = []
  *     pos = 0             # <<<<<<<<<<<<<<
  * 
- *     for ot in _make_iter_ots(ot_raw_list):
+ *     for ot_action, ot_arg in _make_iter_ots(ot_raw_list):
  */
   __pyx_v_pos = 0;
 
-  /* "ottype/core_boost.pyx":213
+  /* "ottype/core_boost.pyx":218
  *     pos = 0
  * 
- *     for ot in _make_iter_ots(ot_raw_list):             # <<<<<<<<<<<<<<
- *         if isinstance(ot, OTSkip):
- *             ot_skip = <OTSkip>ot
+ *     for ot_action, ot_arg in _make_iter_ots(ot_raw_list):             # <<<<<<<<<<<<<<
+ *         if ot_action == OTTypeAction.skip:
+ *             ot_arg_as_int = <int>ot_arg
  */
-  if (!(likely(PyList_CheckExact(__pyx_v_ot_raw_list))||((__pyx_v_ot_raw_list) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_ot_raw_list)->tp_name), 0))) __PYX_ERR(0, 213, __pyx_L1_error)
-  __pyx_t_3 = __pyx_f_6ottype_10core_boost__make_iter_ots(((PyObject*)__pyx_v_ot_raw_list)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 213, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  if (unlikely(__pyx_t_3 == Py_None)) {
+  __pyx_t_1 = __pyx_f_6ottype_10core_boost__make_iter_ots(__pyx_v_ot_raw_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 218, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 213, __pyx_L1_error)
+    __PYX_ERR(0, 218, __pyx_L1_error)
   }
-  __pyx_t_4 = __pyx_t_3; __Pyx_INCREF(__pyx_t_4); __pyx_t_6 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_6 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
-    if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_4)) break;
+    if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_2)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 213, __pyx_L1_error)
+    __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 218, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_4, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 213, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 218, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
     #endif
-    if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_6ottype_10core_boost_OTType))))) __PYX_ERR(0, 213, __pyx_L1_error)
-    __Pyx_XDECREF_SET(__pyx_v_ot, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_3));
-    __pyx_t_3 = 0;
-
-    /* "ottype/core_boost.pyx":214
- * 
- *     for ot in _make_iter_ots(ot_raw_list):
- *         if isinstance(ot, OTSkip):             # <<<<<<<<<<<<<<
- *             ot_skip = <OTSkip>ot
- * 
- */
-    __pyx_t_1 = __Pyx_TypeCheck(((PyObject *)__pyx_v_ot), __pyx_ptype_6ottype_10core_boost_OTSkip); 
-    __pyx_t_2 = (__pyx_t_1 != 0);
-    if (__pyx_t_2) {
-
-      /* "ottype/core_boost.pyx":215
- *     for ot in _make_iter_ots(ot_raw_list):
- *         if isinstance(ot, OTSkip):
- *             ot_skip = <OTSkip>ot             # <<<<<<<<<<<<<<
- * 
- *             if ot_skip.arg > len(doc) - pos:
- */
-      __pyx_t_3 = ((PyObject *)__pyx_v_ot);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_XDECREF_SET(__pyx_v_ot_skip, ((struct __pyx_obj_6ottype_10core_boost_OTSkip *)__pyx_t_3));
-      __pyx_t_3 = 0;
-
-      /* "ottype/core_boost.pyx":217
- *             ot_skip = <OTSkip>ot
- * 
- *             if ot_skip.arg > len(doc) - pos:             # <<<<<<<<<<<<<<
- *                 raise ValueError('skip exceeds doc length')
- * 
- */
-      if (unlikely(__pyx_v_doc == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-        __PYX_ERR(0, 217, __pyx_L1_error)
-      }
-      __pyx_t_7 = __Pyx_PyUnicode_GET_LENGTH(__pyx_v_doc); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 217, __pyx_L1_error)
-      __pyx_t_2 = ((__pyx_v_ot_skip->arg > (__pyx_t_7 - __pyx_v_pos)) != 0);
-      if (unlikely(__pyx_t_2)) {
-
-        /* "ottype/core_boost.pyx":218
- * 
- *             if ot_skip.arg > len(doc) - pos:
- *                 raise ValueError('skip exceeds doc length')             # <<<<<<<<<<<<<<
- * 
- *             new_doc.append(doc[pos:pos + ot_skip.arg])
- */
-        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 218, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __Pyx_Raise(__pyx_t_3, 0, 0, 0);
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    if ((likely(PyTuple_CheckExact(__pyx_t_1))) || (PyList_CheckExact(__pyx_t_1))) {
+      PyObject* sequence = __pyx_t_1;
+      Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
+      if (unlikely(size != 2)) {
+        if (size > 2) __Pyx_RaiseTooManyValuesError(2);
+        else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
         __PYX_ERR(0, 218, __pyx_L1_error)
+      }
+      #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+      if (likely(PyTuple_CheckExact(sequence))) {
+        __pyx_t_3 = PyTuple_GET_ITEM(sequence, 0); 
+        __pyx_t_7 = PyTuple_GET_ITEM(sequence, 1); 
+      } else {
+        __pyx_t_3 = PyList_GET_ITEM(sequence, 0); 
+        __pyx_t_7 = PyList_GET_ITEM(sequence, 1); 
+      }
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_7);
+      #else
+      __pyx_t_3 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 218, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 218, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    } else {
+      Py_ssize_t index = -1;
+      __pyx_t_8 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 218, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_8);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_9 = Py_TYPE(__pyx_t_8)->tp_iternext;
+      index = 0; __pyx_t_3 = __pyx_t_9(__pyx_t_8); if (unlikely(!__pyx_t_3)) goto __pyx_L6_unpacking_failed;
+      __Pyx_GOTREF(__pyx_t_3);
+      index = 1; __pyx_t_7 = __pyx_t_9(__pyx_t_8); if (unlikely(!__pyx_t_7)) goto __pyx_L6_unpacking_failed;
+      __Pyx_GOTREF(__pyx_t_7);
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_8), 2) < 0) __PYX_ERR(0, 218, __pyx_L1_error)
+      __pyx_t_9 = NULL;
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+      goto __pyx_L7_unpacking_done;
+      __pyx_L6_unpacking_failed:;
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+      __pyx_t_9 = NULL;
+      if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
+      __PYX_ERR(0, 218, __pyx_L1_error)
+      __pyx_L7_unpacking_done:;
+    }
+    __pyx_t_10 = ((enum __pyx_t_6ottype_10core_boost_OTTypeAction)__Pyx_PyInt_As_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_t_3)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 218, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_v_ot_action = __pyx_t_10;
+    __Pyx_XDECREF_SET(__pyx_v_ot_arg, __pyx_t_7);
+    __pyx_t_7 = 0;
 
-        /* "ottype/core_boost.pyx":217
- *             ot_skip = <OTSkip>ot
+    /* "ottype/core_boost.pyx":219
  * 
- *             if ot_skip.arg > len(doc) - pos:             # <<<<<<<<<<<<<<
- *                 raise ValueError('skip exceeds doc length')
+ *     for ot_action, ot_arg in _make_iter_ots(ot_raw_list):
+ *         if ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *             ot_arg_as_int = <int>ot_arg
  * 
  */
-      }
+    switch (__pyx_v_ot_action) {
+      case __pyx_e_6ottype_10core_boost_skip:
 
       /* "ottype/core_boost.pyx":220
+ *     for ot_action, ot_arg in _make_iter_ots(ot_raw_list):
+ *         if ot_action == OTTypeAction.skip:
+ *             ot_arg_as_int = <int>ot_arg             # <<<<<<<<<<<<<<
+ * 
+ *             if ot_arg_as_int > len(doc) - pos:
+ */
+      __pyx_t_11 = __Pyx_PyInt_As_int(__pyx_v_ot_arg); if (unlikely((__pyx_t_11 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 220, __pyx_L1_error)
+      __pyx_v_ot_arg_as_int = ((int)__pyx_t_11);
+
+      /* "ottype/core_boost.pyx":222
+ *             ot_arg_as_int = <int>ot_arg
+ * 
+ *             if ot_arg_as_int > len(doc) - pos:             # <<<<<<<<<<<<<<
  *                 raise ValueError('skip exceeds doc length')
  * 
- *             new_doc.append(doc[pos:pos + ot_skip.arg])             # <<<<<<<<<<<<<<
- *             pos += ot_skip.arg
+ */
+      __pyx_t_12 = __Pyx_PyUnicode_GET_LENGTH(__pyx_v_doc); if (unlikely(__pyx_t_12 == ((Py_ssize_t)-1))) __PYX_ERR(0, 222, __pyx_L1_error)
+      __pyx_t_5 = ((__pyx_v_ot_arg_as_int > (__pyx_t_12 - __pyx_v_pos)) != 0);
+      if (unlikely(__pyx_t_5)) {
+
+        /* "ottype/core_boost.pyx":223
+ * 
+ *             if ot_arg_as_int > len(doc) - pos:
+ *                 raise ValueError('skip exceeds doc length')             # <<<<<<<<<<<<<<
+ * 
+ *             new_doc.append(doc[pos:pos + ot_arg_as_int])
+ */
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 223, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __PYX_ERR(0, 223, __pyx_L1_error)
+
+        /* "ottype/core_boost.pyx":222
+ *             ot_arg_as_int = <int>ot_arg
+ * 
+ *             if ot_arg_as_int > len(doc) - pos:             # <<<<<<<<<<<<<<
+ *                 raise ValueError('skip exceeds doc length')
  * 
  */
-      if (unlikely(__pyx_v_doc == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 220, __pyx_L1_error)
       }
-      __pyx_t_3 = __Pyx_PyUnicode_Substring(__pyx_v_doc, __pyx_v_pos, (__pyx_v_pos + __pyx_v_ot_skip->arg)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 220, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_new_doc, __pyx_t_3); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 220, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "ottype/core_boost.pyx":221
+      /* "ottype/core_boost.pyx":225
+ *                 raise ValueError('skip exceeds doc length')
  * 
- *             new_doc.append(doc[pos:pos + ot_skip.arg])
- *             pos += ot_skip.arg             # <<<<<<<<<<<<<<
- * 
- *         elif isinstance(ot, OTInsert):
- */
-      __pyx_v_pos = (__pyx_v_pos + __pyx_v_ot_skip->arg);
-
-      /* "ottype/core_boost.pyx":214
- * 
- *     for ot in _make_iter_ots(ot_raw_list):
- *         if isinstance(ot, OTSkip):             # <<<<<<<<<<<<<<
- *             ot_skip = <OTSkip>ot
+ *             new_doc.append(doc[pos:pos + ot_arg_as_int])             # <<<<<<<<<<<<<<
+ *             pos += ot_arg_as_int
  * 
  */
-      goto __pyx_L7;
-    }
-
-    /* "ottype/core_boost.pyx":223
- *             pos += ot_skip.arg
- * 
- *         elif isinstance(ot, OTInsert):             # <<<<<<<<<<<<<<
- *             ot_insert = <OTInsert>ot
- * 
- */
-    __pyx_t_2 = __Pyx_TypeCheck(((PyObject *)__pyx_v_ot), __pyx_ptype_6ottype_10core_boost_OTInsert); 
-    __pyx_t_1 = (__pyx_t_2 != 0);
-    if (__pyx_t_1) {
-
-      /* "ottype/core_boost.pyx":224
- * 
- *         elif isinstance(ot, OTInsert):
- *             ot_insert = <OTInsert>ot             # <<<<<<<<<<<<<<
- * 
- *             new_doc.append(ot_insert.arg)
- */
-      __pyx_t_3 = ((PyObject *)__pyx_v_ot);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_XDECREF_SET(__pyx_v_ot_insert, ((struct __pyx_obj_6ottype_10core_boost_OTInsert *)__pyx_t_3));
-      __pyx_t_3 = 0;
+      __pyx_t_1 = __Pyx_PyUnicode_Substring(__pyx_v_doc, __pyx_v_pos, (__pyx_v_pos + __pyx_v_ot_arg_as_int)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 225, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_new_doc, __pyx_t_1); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 225, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
       /* "ottype/core_boost.pyx":226
- *             ot_insert = <OTInsert>ot
  * 
- *             new_doc.append(ot_insert.arg)             # <<<<<<<<<<<<<<
+ *             new_doc.append(doc[pos:pos + ot_arg_as_int])
+ *             pos += ot_arg_as_int             # <<<<<<<<<<<<<<
  * 
- *         elif isinstance(ot, OTDelete):
+ *         elif ot_action == OTTypeAction.insert:
  */
-      __pyx_t_3 = __pyx_v_ot_insert->arg;
-      __Pyx_INCREF(__pyx_t_3);
-      __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_new_doc, __pyx_t_3); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 226, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_v_pos = (__pyx_v_pos + __pyx_v_ot_arg_as_int);
 
-      /* "ottype/core_boost.pyx":223
- *             pos += ot_skip.arg
+      /* "ottype/core_boost.pyx":219
  * 
- *         elif isinstance(ot, OTInsert):             # <<<<<<<<<<<<<<
- *             ot_insert = <OTInsert>ot
- * 
- */
-      goto __pyx_L7;
-    }
-
-    /* "ottype/core_boost.pyx":228
- *             new_doc.append(ot_insert.arg)
- * 
- *         elif isinstance(ot, OTDelete):             # <<<<<<<<<<<<<<
- *             ot_delete = <OTDelete>ot
+ *     for ot_action, ot_arg in _make_iter_ots(ot_raw_list):
+ *         if ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *             ot_arg_as_int = <int>ot_arg
  * 
  */
-    __pyx_t_1 = __Pyx_TypeCheck(((PyObject *)__pyx_v_ot), __pyx_ptype_6ottype_10core_boost_OTDelete); 
-    __pyx_t_2 = (__pyx_t_1 != 0);
-    if (__pyx_t_2) {
+      break;
+      case __pyx_e_6ottype_10core_boost_insert:
 
       /* "ottype/core_boost.pyx":229
  * 
- *         elif isinstance(ot, OTDelete):
- *             ot_delete = <OTDelete>ot             # <<<<<<<<<<<<<<
+ *         elif ot_action == OTTypeAction.insert:
+ *             ot_arg_as_str = <str>ot_arg             # <<<<<<<<<<<<<<
  * 
- *             if doc[pos:pos + len(ot_delete.arg)] != ot_delete.arg:
+ *             new_doc.append(ot_arg_as_str)
  */
-      __pyx_t_3 = ((PyObject *)__pyx_v_ot);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_XDECREF_SET(__pyx_v_ot_delete, ((struct __pyx_obj_6ottype_10core_boost_OTDelete *)__pyx_t_3));
-      __pyx_t_3 = 0;
+      __pyx_t_1 = __pyx_v_ot_arg;
+      __Pyx_INCREF(__pyx_t_1);
+      __Pyx_XDECREF_SET(__pyx_v_ot_arg_as_str, ((PyObject*)__pyx_t_1));
+      __pyx_t_1 = 0;
 
       /* "ottype/core_boost.pyx":231
- *             ot_delete = <OTDelete>ot
+ *             ot_arg_as_str = <str>ot_arg
  * 
- *             if doc[pos:pos + len(ot_delete.arg)] != ot_delete.arg:             # <<<<<<<<<<<<<<
- *                 raise ValueError('inconsistent delete (doc, OT.arg)',
- *                                  doc[pos:pos + len(ot_delete.arg)],
+ *             new_doc.append(ot_arg_as_str)             # <<<<<<<<<<<<<<
+ * 
+ *         elif ot_action == OTTypeAction.delete:
  */
-      if (unlikely(__pyx_v_doc == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 231, __pyx_L1_error)
-      }
-      __pyx_t_3 = __pyx_v_ot_delete->arg;
-      __Pyx_INCREF(__pyx_t_3);
-      if (unlikely(__pyx_t_3 == Py_None)) {
+      __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_new_doc, __pyx_v_ot_arg_as_str); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 231, __pyx_L1_error)
+
+      /* "ottype/core_boost.pyx":228
+ *             pos += ot_arg_as_int
+ * 
+ *         elif ot_action == OTTypeAction.insert:             # <<<<<<<<<<<<<<
+ *             ot_arg_as_str = <str>ot_arg
+ * 
+ */
+      break;
+      case __pyx_e_6ottype_10core_boost_delete:
+
+      /* "ottype/core_boost.pyx":234
+ * 
+ *         elif ot_action == OTTypeAction.delete:
+ *             ot_arg_as_str = <str>ot_arg             # <<<<<<<<<<<<<<
+ * 
+ *             if doc[pos:pos + len(ot_arg_as_str)] != ot_arg_as_str:
+ */
+      __pyx_t_1 = __pyx_v_ot_arg;
+      __Pyx_INCREF(__pyx_t_1);
+      __Pyx_XDECREF_SET(__pyx_v_ot_arg_as_str, ((PyObject*)__pyx_t_1));
+      __pyx_t_1 = 0;
+
+      /* "ottype/core_boost.pyx":236
+ *             ot_arg_as_str = <str>ot_arg
+ * 
+ *             if doc[pos:pos + len(ot_arg_as_str)] != ot_arg_as_str:             # <<<<<<<<<<<<<<
+ *                 raise ValueError('inconsistent delete (doc, OT.arg)',
+ *                                  doc[pos:pos + len(ot_arg_as_str)],
+ */
+      if (unlikely(__pyx_v_ot_arg_as_str == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-        __PYX_ERR(0, 231, __pyx_L1_error)
+        __PYX_ERR(0, 236, __pyx_L1_error)
       }
-      __pyx_t_7 = __Pyx_PyUnicode_GET_LENGTH(__pyx_t_3); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 231, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyUnicode_Substring(__pyx_v_doc, __pyx_v_pos, (__pyx_v_pos + __pyx_t_7)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 231, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_t_3, __pyx_v_ot_delete->arg, Py_NE)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 231, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_1 = (__pyx_t_2 != 0);
-      if (unlikely(__pyx_t_1)) {
+      __pyx_t_12 = __Pyx_PyUnicode_GET_LENGTH(__pyx_v_ot_arg_as_str); if (unlikely(__pyx_t_12 == ((Py_ssize_t)-1))) __PYX_ERR(0, 236, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyUnicode_Substring(__pyx_v_doc, __pyx_v_pos, (__pyx_v_pos + __pyx_t_12)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 236, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_5 = (__Pyx_PyUnicode_Equals(__pyx_t_1, __pyx_v_ot_arg_as_str, Py_NE)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 236, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_4 = (__pyx_t_5 != 0);
+      if (unlikely(__pyx_t_4)) {
 
-        /* "ottype/core_boost.pyx":233
- *             if doc[pos:pos + len(ot_delete.arg)] != ot_delete.arg:
+        /* "ottype/core_boost.pyx":238
+ *             if doc[pos:pos + len(ot_arg_as_str)] != ot_arg_as_str:
  *                 raise ValueError('inconsistent delete (doc, OT.arg)',
- *                                  doc[pos:pos + len(ot_delete.arg)],             # <<<<<<<<<<<<<<
- *                                  ot_delete.arg)
- *             pos += len(ot_delete.arg)
+ *                                  doc[pos:pos + len(ot_arg_as_str)],             # <<<<<<<<<<<<<<
+ *                                  ot_arg_as_str)
+ *             pos += len(ot_arg_as_str)
  */
-        if (unlikely(__pyx_v_doc == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 233, __pyx_L1_error)
-        }
-        __pyx_t_3 = __pyx_v_ot_delete->arg;
-        __Pyx_INCREF(__pyx_t_3);
-        if (unlikely(__pyx_t_3 == Py_None)) {
+        if (unlikely(__pyx_v_ot_arg_as_str == Py_None)) {
           PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-          __PYX_ERR(0, 233, __pyx_L1_error)
+          __PYX_ERR(0, 238, __pyx_L1_error)
         }
-        __pyx_t_7 = __Pyx_PyUnicode_GET_LENGTH(__pyx_t_3); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 233, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = __Pyx_PyUnicode_Substring(__pyx_v_doc, __pyx_v_pos, (__pyx_v_pos + __pyx_t_7)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 233, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
+        __pyx_t_12 = __Pyx_PyUnicode_GET_LENGTH(__pyx_v_ot_arg_as_str); if (unlikely(__pyx_t_12 == ((Py_ssize_t)-1))) __PYX_ERR(0, 238, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyUnicode_Substring(__pyx_v_doc, __pyx_v_pos, (__pyx_v_pos + __pyx_t_12)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 238, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
 
-        /* "ottype/core_boost.pyx":232
+        /* "ottype/core_boost.pyx":237
  * 
- *             if doc[pos:pos + len(ot_delete.arg)] != ot_delete.arg:
+ *             if doc[pos:pos + len(ot_arg_as_str)] != ot_arg_as_str:
  *                 raise ValueError('inconsistent delete (doc, OT.arg)',             # <<<<<<<<<<<<<<
- *                                  doc[pos:pos + len(ot_delete.arg)],
- *                                  ot_delete.arg)
+ *                                  doc[pos:pos + len(ot_arg_as_str)],
+ *                                  ot_arg_as_str)
  */
-        __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 232, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_7 = PyTuple_New(3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 237, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_7);
         __Pyx_INCREF(__pyx_kp_u_inconsistent_delete_doc_OT_arg);
         __Pyx_GIVEREF(__pyx_kp_u_inconsistent_delete_doc_OT_arg);
-        PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_kp_u_inconsistent_delete_doc_OT_arg);
-        __Pyx_GIVEREF(__pyx_t_3);
-        PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_3);
-        __Pyx_INCREF(__pyx_v_ot_delete->arg);
-        __Pyx_GIVEREF(__pyx_v_ot_delete->arg);
-        PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_v_ot_delete->arg);
-        __pyx_t_3 = 0;
-        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 232, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __Pyx_Raise(__pyx_t_3, 0, 0, 0);
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __PYX_ERR(0, 232, __pyx_L1_error)
+        PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_kp_u_inconsistent_delete_doc_OT_arg);
+        __Pyx_GIVEREF(__pyx_t_1);
+        PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_1);
+        __Pyx_INCREF(__pyx_v_ot_arg_as_str);
+        __Pyx_GIVEREF(__pyx_v_ot_arg_as_str);
+        PyTuple_SET_ITEM(__pyx_t_7, 2, __pyx_v_ot_arg_as_str);
+        __pyx_t_1 = 0;
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 237, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+        __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __PYX_ERR(0, 237, __pyx_L1_error)
 
-        /* "ottype/core_boost.pyx":231
- *             ot_delete = <OTDelete>ot
+        /* "ottype/core_boost.pyx":236
+ *             ot_arg_as_str = <str>ot_arg
  * 
- *             if doc[pos:pos + len(ot_delete.arg)] != ot_delete.arg:             # <<<<<<<<<<<<<<
+ *             if doc[pos:pos + len(ot_arg_as_str)] != ot_arg_as_str:             # <<<<<<<<<<<<<<
  *                 raise ValueError('inconsistent delete (doc, OT.arg)',
- *                                  doc[pos:pos + len(ot_delete.arg)],
+ *                                  doc[pos:pos + len(ot_arg_as_str)],
  */
       }
 
-      /* "ottype/core_boost.pyx":235
- *                                  doc[pos:pos + len(ot_delete.arg)],
- *                                  ot_delete.arg)
- *             pos += len(ot_delete.arg)             # <<<<<<<<<<<<<<
+      /* "ottype/core_boost.pyx":240
+ *                                  doc[pos:pos + len(ot_arg_as_str)],
+ *                                  ot_arg_as_str)
+ *             pos += len(ot_arg_as_str)             # <<<<<<<<<<<<<<
  * 
  *     new_doc.append(doc[pos:])
  */
-      __pyx_t_3 = __pyx_v_ot_delete->arg;
-      __Pyx_INCREF(__pyx_t_3);
-      if (unlikely(__pyx_t_3 == Py_None)) {
+      if (unlikely(__pyx_v_ot_arg_as_str == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-        __PYX_ERR(0, 235, __pyx_L1_error)
+        __PYX_ERR(0, 240, __pyx_L1_error)
       }
-      __pyx_t_7 = __Pyx_PyUnicode_GET_LENGTH(__pyx_t_3); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 235, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_v_pos = (__pyx_v_pos + __pyx_t_7);
+      __pyx_t_12 = __Pyx_PyUnicode_GET_LENGTH(__pyx_v_ot_arg_as_str); if (unlikely(__pyx_t_12 == ((Py_ssize_t)-1))) __PYX_ERR(0, 240, __pyx_L1_error)
+      __pyx_v_pos = (__pyx_v_pos + __pyx_t_12);
 
-      /* "ottype/core_boost.pyx":228
- *             new_doc.append(ot_insert.arg)
+      /* "ottype/core_boost.pyx":233
+ *             new_doc.append(ot_arg_as_str)
  * 
- *         elif isinstance(ot, OTDelete):             # <<<<<<<<<<<<<<
- *             ot_delete = <OTDelete>ot
+ *         elif ot_action == OTTypeAction.delete:             # <<<<<<<<<<<<<<
+ *             ot_arg_as_str = <str>ot_arg
  * 
  */
+      break;
+      default: break;
     }
-    __pyx_L7:;
 
-    /* "ottype/core_boost.pyx":213
+    /* "ottype/core_boost.pyx":218
  *     pos = 0
  * 
- *     for ot in _make_iter_ots(ot_raw_list):             # <<<<<<<<<<<<<<
- *         if isinstance(ot, OTSkip):
- *             ot_skip = <OTSkip>ot
+ *     for ot_action, ot_arg in _make_iter_ots(ot_raw_list):             # <<<<<<<<<<<<<<
+ *         if ot_action == OTTypeAction.skip:
+ *             ot_arg_as_int = <int>ot_arg
  */
   }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "ottype/core_boost.pyx":237
- *             pos += len(ot_delete.arg)
+  /* "ottype/core_boost.pyx":242
+ *             pos += len(ot_arg_as_str)
  * 
  *     new_doc.append(doc[pos:])             # <<<<<<<<<<<<<<
  * 
  *     return ''.join(new_doc)
  */
-  if (unlikely(__pyx_v_doc == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 237, __pyx_L1_error)
-  }
-  __pyx_t_4 = __Pyx_PyUnicode_Substring(__pyx_v_doc, __pyx_v_pos, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 237, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_new_doc, __pyx_t_4); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 237, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_2 = __Pyx_PyUnicode_Substring(__pyx_v_doc, __pyx_v_pos, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 242, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_new_doc, __pyx_t_2); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 242, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "ottype/core_boost.pyx":239
+  /* "ottype/core_boost.pyx":244
  *     new_doc.append(doc[pos:])
  * 
  *     return ''.join(new_doc)             # <<<<<<<<<<<<<<
@@ -6465,44 +5349,44 @@ static PyObject *__pyx_pf_6ottype_10core_boost_2apply(CYTHON_UNUSED PyObject *__
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = PyUnicode_Join(__pyx_kp_u_, __pyx_v_new_doc); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 239, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_r = __pyx_t_4;
-  __pyx_t_4 = 0;
+  __pyx_t_2 = PyUnicode_Join(__pyx_kp_u__2, __pyx_v_new_doc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 244, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "ottype/core_boost.pyx":194
+  /* "ottype/core_boost.pyx":202
  * 
  * 
- * def apply(str doc, object ot_raw_list):             # <<<<<<<<<<<<<<
+ * def apply(str doc not None, list ot_raw_list not None):             # <<<<<<<<<<<<<<
  *     cdef:
  *         list new_doc
  */
 
   /* function exit code */
   __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_8);
   __Pyx_AddTraceback("ottype.core_boost.apply", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_new_doc);
-  __Pyx_XDECREF((PyObject *)__pyx_v_ot);
-  __Pyx_XDECREF((PyObject *)__pyx_v_ot_skip);
-  __Pyx_XDECREF((PyObject *)__pyx_v_ot_insert);
-  __Pyx_XDECREF((PyObject *)__pyx_v_ot_delete);
+  __Pyx_XDECREF(__pyx_v_ot_arg);
+  __Pyx_XDECREF(__pyx_v_ot_arg_as_str);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "ottype/core_boost.pyx":242
+/* "ottype/core_boost.pyx":247
  * 
  * 
- * def inverse_apply(str doc: str, object ot_raw_list):             # <<<<<<<<<<<<<<
+ * def inverse_apply(str doc not None, list ot_raw_list not None):             # <<<<<<<<<<<<<<
  *     cdef:
- *         int last_pos
+ *         list ot_list
  */
 
 /* Python wrapper */
@@ -6537,11 +5421,11 @@ static PyObject *__pyx_pw_6ottype_10core_boost_5inverse_apply(PyObject *__pyx_se
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_ot_raw_list)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("inverse_apply", 1, 2, 2, 1); __PYX_ERR(0, 242, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("inverse_apply", 1, 2, 2, 1); __PYX_ERR(0, 247, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "inverse_apply") < 0)) __PYX_ERR(0, 242, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "inverse_apply") < 0)) __PYX_ERR(0, 247, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -6550,17 +5434,18 @@ static PyObject *__pyx_pw_6ottype_10core_boost_5inverse_apply(PyObject *__pyx_se
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
     __pyx_v_doc = ((PyObject*)values[0]);
-    __pyx_v_ot_raw_list = values[1];
+    __pyx_v_ot_raw_list = ((PyObject*)values[1]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("inverse_apply", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 242, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("inverse_apply", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 247, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("ottype.core_boost.inverse_apply", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_doc), (&PyUnicode_Type), 1, "doc", 1))) __PYX_ERR(0, 242, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_doc), (&PyUnicode_Type), 0, "doc", 1))) __PYX_ERR(0, 247, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ot_raw_list), (&PyList_Type), 0, "ot_raw_list", 1))) __PYX_ERR(0, 247, __pyx_L1_error)
   __pyx_r = __pyx_pf_6ottype_10core_boost_4inverse_apply(__pyx_self, __pyx_v_doc, __pyx_v_ot_raw_list);
 
   /* function exit code */
@@ -6573,101 +5458,74 @@ static PyObject *__pyx_pw_6ottype_10core_boost_5inverse_apply(PyObject *__pyx_se
 }
 
 static PyObject *__pyx_pf_6ottype_10core_boost_4inverse_apply(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_doc, PyObject *__pyx_v_ot_raw_list) {
+  PyObject *__pyx_v_ot_list = 0;
   int __pyx_v_last_pos;
   PyObject *__pyx_v_old_doc = 0;
-  struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_v_ot = 0;
-  struct __pyx_obj_6ottype_10core_boost_OTSkip *__pyx_v_ot_skip = 0;
-  struct __pyx_obj_6ottype_10core_boost_OTInsert *__pyx_v_ot_insert = 0;
-  struct __pyx_obj_6ottype_10core_boost_OTDelete *__pyx_v_ot_delete = 0;
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_v_ot_action;
+  PyObject *__pyx_v_ot_arg = 0;
+  int __pyx_v_ot_arg_as_int;
+  PyObject *__pyx_v_ot_arg_as_str = 0;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  int __pyx_t_2;
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
+  int __pyx_t_4;
+  int __pyx_t_5;
   Py_ssize_t __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
-  int __pyx_t_8;
+  PyObject *__pyx_t_7 = NULL;
+  PyObject *__pyx_t_8 = NULL;
+  PyObject *(*__pyx_t_9)(PyObject *);
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_t_10;
+  int __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+  int __pyx_t_13;
   __Pyx_RefNannySetupContext("inverse_apply", 0);
 
-  /* "ottype/core_boost.pyx":252
- *         OTDelete ot_delete
- * 
- *     if not isinstance(doc, str):             # <<<<<<<<<<<<<<
- *         raise ValueError('doc must be string')
- * 
- */
-  __pyx_t_1 = PyUnicode_Check(__pyx_v_doc); 
-  __pyx_t_2 = ((!(__pyx_t_1 != 0)) != 0);
-  if (unlikely(__pyx_t_2)) {
-
-    /* "ottype/core_boost.pyx":253
- * 
- *     if not isinstance(doc, str):
- *         raise ValueError('doc must be string')             # <<<<<<<<<<<<<<
- * 
- *     if not check(ot_raw_list):
- */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 253, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 253, __pyx_L1_error)
-
-    /* "ottype/core_boost.pyx":252
- *         OTDelete ot_delete
- * 
- *     if not isinstance(doc, str):             # <<<<<<<<<<<<<<
- *         raise ValueError('doc must be string')
- * 
- */
-  }
-
-  /* "ottype/core_boost.pyx":255
- *         raise ValueError('doc must be string')
+  /* "ottype/core_boost.pyx":259
+ *         str ot_arg_as_str
  * 
  *     if not check(ot_raw_list):             # <<<<<<<<<<<<<<
  *         raise ValueError('invalid OTs')
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_check); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 255, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_5)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_5);
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_check); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 259, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_3);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
     }
   }
-  __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_v_ot_raw_list) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_ot_raw_list);
-  __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 255, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 255, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_1 = ((!__pyx_t_2) != 0);
-  if (unlikely(__pyx_t_1)) {
+  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_ot_raw_list) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_ot_raw_list);
+  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 259, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 259, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_5 = ((!__pyx_t_4) != 0);
+  if (unlikely(__pyx_t_5)) {
 
-    /* "ottype/core_boost.pyx":256
+    /* "ottype/core_boost.pyx":260
  * 
  *     if not check(ot_raw_list):
  *         raise ValueError('invalid OTs')             # <<<<<<<<<<<<<<
  * 
- *     last_pos = 0
+ *     ot_list = _make_iter_ots(ot_raw_list)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 256, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 256, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 260, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __PYX_ERR(0, 260, __pyx_L1_error)
 
-    /* "ottype/core_boost.pyx":255
- *         raise ValueError('doc must be string')
+    /* "ottype/core_boost.pyx":259
+ *         str ot_arg_as_str
  * 
  *     if not check(ot_raw_list):             # <<<<<<<<<<<<<<
  *         raise ValueError('invalid OTs')
@@ -6675,163 +5533,199 @@ static PyObject *__pyx_pf_6ottype_10core_boost_4inverse_apply(CYTHON_UNUSED PyOb
  */
   }
 
-  /* "ottype/core_boost.pyx":258
+  /* "ottype/core_boost.pyx":262
  *         raise ValueError('invalid OTs')
  * 
+ *     ot_list = _make_iter_ots(ot_raw_list)             # <<<<<<<<<<<<<<
+ * 
+ *     last_pos = 0
+ */
+  __pyx_t_1 = __pyx_f_6ottype_10core_boost__make_iter_ots(__pyx_v_ot_raw_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 262, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_ot_list = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "ottype/core_boost.pyx":264
+ *     ot_list = _make_iter_ots(ot_raw_list)
+ * 
  *     last_pos = 0             # <<<<<<<<<<<<<<
- *     for ot in _make_iter_ots(ot_raw_list):
- *         if isinstance(ot, OTSkip):
+ * 
+ *     for ot_action, ot_arg in ot_list:
  */
   __pyx_v_last_pos = 0;
 
-  /* "ottype/core_boost.pyx":259
- * 
+  /* "ottype/core_boost.pyx":266
  *     last_pos = 0
- *     for ot in _make_iter_ots(ot_raw_list):             # <<<<<<<<<<<<<<
- *         if isinstance(ot, OTSkip):
- *             last_pos += (<OTSkip>ot).arg
+ * 
+ *     for ot_action, ot_arg in ot_list:             # <<<<<<<<<<<<<<
+ *         if ot_action == OTTypeAction.skip:
+ *             last_pos += <int>ot_arg
  */
-  if (!(likely(PyList_CheckExact(__pyx_v_ot_raw_list))||((__pyx_v_ot_raw_list) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_ot_raw_list)->tp_name), 0))) __PYX_ERR(0, 259, __pyx_L1_error)
-  __pyx_t_3 = __pyx_f_6ottype_10core_boost__make_iter_ots(((PyObject*)__pyx_v_ot_raw_list)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 259, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  if (unlikely(__pyx_t_3 == Py_None)) {
+  if (unlikely(__pyx_v_ot_list == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 259, __pyx_L1_error)
+    __PYX_ERR(0, 266, __pyx_L1_error)
   }
-  __pyx_t_4 = __pyx_t_3; __Pyx_INCREF(__pyx_t_4); __pyx_t_6 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_1 = __pyx_v_ot_list; __Pyx_INCREF(__pyx_t_1); __pyx_t_6 = 0;
   for (;;) {
-    if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_4)) break;
+    if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 259, __pyx_L1_error)
+    __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 266, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_4, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 259, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 266, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
     #endif
-    if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_6ottype_10core_boost_OTType))))) __PYX_ERR(0, 259, __pyx_L1_error)
-    __Pyx_XDECREF_SET(__pyx_v_ot, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_3));
-    __pyx_t_3 = 0;
-
-    /* "ottype/core_boost.pyx":260
- *     last_pos = 0
- *     for ot in _make_iter_ots(ot_raw_list):
- *         if isinstance(ot, OTSkip):             # <<<<<<<<<<<<<<
- *             last_pos += (<OTSkip>ot).arg
- * 
- */
-    __pyx_t_1 = __Pyx_TypeCheck(((PyObject *)__pyx_v_ot), __pyx_ptype_6ottype_10core_boost_OTSkip); 
-    __pyx_t_2 = (__pyx_t_1 != 0);
-    if (__pyx_t_2) {
-
-      /* "ottype/core_boost.pyx":261
- *     for ot in _make_iter_ots(ot_raw_list):
- *         if isinstance(ot, OTSkip):
- *             last_pos += (<OTSkip>ot).arg             # <<<<<<<<<<<<<<
- * 
- *         elif isinstance(ot, OTInsert):
- */
-      __pyx_v_last_pos = (__pyx_v_last_pos + ((struct __pyx_obj_6ottype_10core_boost_OTSkip *)__pyx_v_ot)->arg);
-
-      /* "ottype/core_boost.pyx":260
- *     last_pos = 0
- *     for ot in _make_iter_ots(ot_raw_list):
- *         if isinstance(ot, OTSkip):             # <<<<<<<<<<<<<<
- *             last_pos += (<OTSkip>ot).arg
- * 
- */
-      goto __pyx_L7;
-    }
-
-    /* "ottype/core_boost.pyx":263
- *             last_pos += (<OTSkip>ot).arg
- * 
- *         elif isinstance(ot, OTInsert):             # <<<<<<<<<<<<<<
- *             last_pos += len((<OTInsert>ot).arg)
- * 
- */
-    __pyx_t_2 = __Pyx_TypeCheck(((PyObject *)__pyx_v_ot), __pyx_ptype_6ottype_10core_boost_OTInsert); 
-    __pyx_t_1 = (__pyx_t_2 != 0);
-    if (__pyx_t_1) {
-
-      /* "ottype/core_boost.pyx":264
- * 
- *         elif isinstance(ot, OTInsert):
- *             last_pos += len((<OTInsert>ot).arg)             # <<<<<<<<<<<<<<
- * 
- *         elif isinstance(ot, OTDelete):
- */
-      __pyx_t_3 = ((struct __pyx_obj_6ottype_10core_boost_OTInsert *)__pyx_v_ot)->arg;
-      __Pyx_INCREF(__pyx_t_3);
-      if (unlikely(__pyx_t_3 == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-        __PYX_ERR(0, 264, __pyx_L1_error)
+    if ((likely(PyTuple_CheckExact(__pyx_t_2))) || (PyList_CheckExact(__pyx_t_2))) {
+      PyObject* sequence = __pyx_t_2;
+      Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
+      if (unlikely(size != 2)) {
+        if (size > 2) __Pyx_RaiseTooManyValuesError(2);
+        else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
+        __PYX_ERR(0, 266, __pyx_L1_error)
       }
-      __pyx_t_7 = __Pyx_PyUnicode_GET_LENGTH(__pyx_t_3); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 264, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_v_last_pos = (__pyx_v_last_pos + __pyx_t_7);
+      #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+      if (likely(PyTuple_CheckExact(sequence))) {
+        __pyx_t_3 = PyTuple_GET_ITEM(sequence, 0); 
+        __pyx_t_7 = PyTuple_GET_ITEM(sequence, 1); 
+      } else {
+        __pyx_t_3 = PyList_GET_ITEM(sequence, 0); 
+        __pyx_t_7 = PyList_GET_ITEM(sequence, 1); 
+      }
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_7);
+      #else
+      __pyx_t_3 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 266, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 266, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      #endif
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    } else {
+      Py_ssize_t index = -1;
+      __pyx_t_8 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 266, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_8);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_9 = Py_TYPE(__pyx_t_8)->tp_iternext;
+      index = 0; __pyx_t_3 = __pyx_t_9(__pyx_t_8); if (unlikely(!__pyx_t_3)) goto __pyx_L6_unpacking_failed;
+      __Pyx_GOTREF(__pyx_t_3);
+      index = 1; __pyx_t_7 = __pyx_t_9(__pyx_t_8); if (unlikely(!__pyx_t_7)) goto __pyx_L6_unpacking_failed;
+      __Pyx_GOTREF(__pyx_t_7);
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_8), 2) < 0) __PYX_ERR(0, 266, __pyx_L1_error)
+      __pyx_t_9 = NULL;
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+      goto __pyx_L7_unpacking_done;
+      __pyx_L6_unpacking_failed:;
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+      __pyx_t_9 = NULL;
+      if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
+      __PYX_ERR(0, 266, __pyx_L1_error)
+      __pyx_L7_unpacking_done:;
+    }
+    __pyx_t_10 = ((enum __pyx_t_6ottype_10core_boost_OTTypeAction)__Pyx_PyInt_As_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_t_3)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 266, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_v_ot_action = __pyx_t_10;
+    __Pyx_XDECREF_SET(__pyx_v_ot_arg, __pyx_t_7);
+    __pyx_t_7 = 0;
 
-      /* "ottype/core_boost.pyx":263
- *             last_pos += (<OTSkip>ot).arg
+    /* "ottype/core_boost.pyx":267
  * 
- *         elif isinstance(ot, OTInsert):             # <<<<<<<<<<<<<<
- *             last_pos += len((<OTInsert>ot).arg)
+ *     for ot_action, ot_arg in ot_list:
+ *         if ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *             last_pos += <int>ot_arg
  * 
  */
-      goto __pyx_L7;
-    }
+    switch (__pyx_v_ot_action) {
+      case __pyx_e_6ottype_10core_boost_skip:
 
-    /* "ottype/core_boost.pyx":266
- *             last_pos += len((<OTInsert>ot).arg)
+      /* "ottype/core_boost.pyx":268
+ *     for ot_action, ot_arg in ot_list:
+ *         if ot_action == OTTypeAction.skip:
+ *             last_pos += <int>ot_arg             # <<<<<<<<<<<<<<
  * 
- *         elif isinstance(ot, OTDelete):             # <<<<<<<<<<<<<<
+ *         elif ot_action == OTTypeAction.insert:
+ */
+      __pyx_t_11 = __Pyx_PyInt_As_int(__pyx_v_ot_arg); if (unlikely((__pyx_t_11 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 268, __pyx_L1_error)
+      __pyx_v_last_pos = (__pyx_v_last_pos + ((int)__pyx_t_11));
+
+      /* "ottype/core_boost.pyx":267
+ * 
+ *     for ot_action, ot_arg in ot_list:
+ *         if ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *             last_pos += <int>ot_arg
+ * 
+ */
+      break;
+      case __pyx_e_6ottype_10core_boost_insert:
+
+      /* "ottype/core_boost.pyx":271
+ * 
+ *         elif ot_action == OTTypeAction.insert:
+ *             last_pos += len(<str>ot_arg)             # <<<<<<<<<<<<<<
+ * 
+ *         elif ot_action == OTTypeAction.delete:
+ */
+      if (unlikely(__pyx_v_ot_arg == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+        __PYX_ERR(0, 271, __pyx_L1_error)
+      }
+      __pyx_t_12 = __Pyx_PyUnicode_GET_LENGTH(((PyObject*)__pyx_v_ot_arg)); if (unlikely(__pyx_t_12 == ((Py_ssize_t)-1))) __PYX_ERR(0, 271, __pyx_L1_error)
+      __pyx_v_last_pos = (__pyx_v_last_pos + __pyx_t_12);
+
+      /* "ottype/core_boost.pyx":270
+ *             last_pos += <int>ot_arg
+ * 
+ *         elif ot_action == OTTypeAction.insert:             # <<<<<<<<<<<<<<
+ *             last_pos += len(<str>ot_arg)
+ * 
+ */
+      break;
+      case __pyx_e_6ottype_10core_boost_delete:
+
+      /* "ottype/core_boost.pyx":273
+ *             last_pos += len(<str>ot_arg)
+ * 
+ *         elif ot_action == OTTypeAction.delete:             # <<<<<<<<<<<<<<
  *             pass
  * 
  */
-    __pyx_t_1 = __Pyx_TypeCheck(((PyObject *)__pyx_v_ot), __pyx_ptype_6ottype_10core_boost_OTDelete); 
-    __pyx_t_2 = (__pyx_t_1 != 0);
-    if (__pyx_t_2) {
+      break;
+      default: break;
     }
-    __pyx_L7:;
 
-    /* "ottype/core_boost.pyx":259
- * 
+    /* "ottype/core_boost.pyx":266
  *     last_pos = 0
- *     for ot in _make_iter_ots(ot_raw_list):             # <<<<<<<<<<<<<<
- *         if isinstance(ot, OTSkip):
- *             last_pos += (<OTSkip>ot).arg
+ * 
+ *     for ot_action, ot_arg in ot_list:             # <<<<<<<<<<<<<<
+ *         if ot_action == OTTypeAction.skip:
+ *             last_pos += <int>ot_arg
  */
   }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "ottype/core_boost.pyx":269
+  /* "ottype/core_boost.pyx":276
  *             pass
  * 
  *     if last_pos > len(doc):             # <<<<<<<<<<<<<<
  *         raise ValueError('skip exceeds doc length')
  * 
  */
-  if (unlikely(__pyx_v_doc == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 269, __pyx_L1_error)
-  }
-  __pyx_t_6 = __Pyx_PyUnicode_GET_LENGTH(__pyx_v_doc); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 269, __pyx_L1_error)
-  __pyx_t_2 = ((__pyx_v_last_pos > __pyx_t_6) != 0);
-  if (unlikely(__pyx_t_2)) {
+  __pyx_t_6 = __Pyx_PyUnicode_GET_LENGTH(__pyx_v_doc); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 276, __pyx_L1_error)
+  __pyx_t_5 = ((__pyx_v_last_pos > __pyx_t_6) != 0);
+  if (unlikely(__pyx_t_5)) {
 
-    /* "ottype/core_boost.pyx":270
+    /* "ottype/core_boost.pyx":277
  * 
  *     if last_pos > len(doc):
  *         raise ValueError('skip exceeds doc length')             # <<<<<<<<<<<<<<
  * 
  *     old_doc = [doc[last_pos:]]
  */
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 270, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_Raise(__pyx_t_4, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(0, 270, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 277, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __PYX_ERR(0, 277, __pyx_L1_error)
 
-    /* "ottype/core_boost.pyx":269
+    /* "ottype/core_boost.pyx":276
  *             pass
  * 
  *     if last_pos > len(doc):             # <<<<<<<<<<<<<<
@@ -6840,318 +5734,306 @@ static PyObject *__pyx_pf_6ottype_10core_boost_4inverse_apply(CYTHON_UNUSED PyOb
  */
   }
 
-  /* "ottype/core_boost.pyx":272
+  /* "ottype/core_boost.pyx":279
  *         raise ValueError('skip exceeds doc length')
  * 
  *     old_doc = [doc[last_pos:]]             # <<<<<<<<<<<<<<
  * 
- *     for ot in reversed(_make_iter_ots(ot_raw_list)):
+ *     for ot_action, ot_arg in reversed(ot_list):
  */
-  if (unlikely(__pyx_v_doc == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 272, __pyx_L1_error)
-  }
-  __pyx_t_4 = __Pyx_PyUnicode_Substring(__pyx_v_doc, __pyx_v_last_pos, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 272, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = PyList_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 272, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_GIVEREF(__pyx_t_4);
-  PyList_SET_ITEM(__pyx_t_3, 0, __pyx_t_4);
-  __pyx_t_4 = 0;
-  __pyx_v_old_doc = ((PyObject*)__pyx_t_3);
-  __pyx_t_3 = 0;
+  __pyx_t_1 = __Pyx_PyUnicode_Substring(__pyx_v_doc, __pyx_v_last_pos, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 279, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 279, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
+  __pyx_t_1 = 0;
+  __pyx_v_old_doc = ((PyObject*)__pyx_t_2);
+  __pyx_t_2 = 0;
 
-  /* "ottype/core_boost.pyx":274
+  /* "ottype/core_boost.pyx":281
  *     old_doc = [doc[last_pos:]]
  * 
- *     for ot in reversed(_make_iter_ots(ot_raw_list)):             # <<<<<<<<<<<<<<
- *         if isinstance(ot, OTSkip):
- *             ot_skip = <OTSkip>ot
+ *     for ot_action, ot_arg in reversed(ot_list):             # <<<<<<<<<<<<<<
+ *         if ot_action == OTTypeAction.skip:
+ *             ot_arg_as_int = <int>ot_arg
  */
-  if (!(likely(PyList_CheckExact(__pyx_v_ot_raw_list))||((__pyx_v_ot_raw_list) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_ot_raw_list)->tp_name), 0))) __PYX_ERR(0, 274, __pyx_L1_error)
-  __pyx_t_3 = __pyx_f_6ottype_10core_boost__make_iter_ots(((PyObject*)__pyx_v_ot_raw_list)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 274, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  if (unlikely(__pyx_t_3 == Py_None)) {
+  if (unlikely(__pyx_v_ot_list == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 274, __pyx_L1_error)
+    __PYX_ERR(0, 281, __pyx_L1_error)
   }
-  __pyx_t_4 = __pyx_t_3; __Pyx_INCREF(__pyx_t_4); __pyx_t_6 = PyList_GET_SIZE(__pyx_t_4) - 1;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_2 = __pyx_v_ot_list; __Pyx_INCREF(__pyx_t_2); __pyx_t_6 = PyList_GET_SIZE(__pyx_t_2) - 1;
   for (;;) {
     if (__pyx_t_6 < 0) break;
-    if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_4)) break;
+    if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_2)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6--; if (unlikely(0 < 0)) __PYX_ERR(0, 274, __pyx_L1_error)
+    __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6--; if (unlikely(0 < 0)) __PYX_ERR(0, 281, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_4, __pyx_t_6); __pyx_t_6--; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 274, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6--; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 281, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
     #endif
-    if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_6ottype_10core_boost_OTType))))) __PYX_ERR(0, 274, __pyx_L1_error)
-    __Pyx_XDECREF_SET(__pyx_v_ot, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_3));
+    if ((likely(PyTuple_CheckExact(__pyx_t_1))) || (PyList_CheckExact(__pyx_t_1))) {
+      PyObject* sequence = __pyx_t_1;
+      Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
+      if (unlikely(size != 2)) {
+        if (size > 2) __Pyx_RaiseTooManyValuesError(2);
+        else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
+        __PYX_ERR(0, 281, __pyx_L1_error)
+      }
+      #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+      if (likely(PyTuple_CheckExact(sequence))) {
+        __pyx_t_7 = PyTuple_GET_ITEM(sequence, 0); 
+        __pyx_t_3 = PyTuple_GET_ITEM(sequence, 1); 
+      } else {
+        __pyx_t_7 = PyList_GET_ITEM(sequence, 0); 
+        __pyx_t_3 = PyList_GET_ITEM(sequence, 1); 
+      }
+      __Pyx_INCREF(__pyx_t_7);
+      __Pyx_INCREF(__pyx_t_3);
+      #else
+      __pyx_t_7 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 281, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 281, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    } else {
+      Py_ssize_t index = -1;
+      __pyx_t_8 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 281, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_8);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_9 = Py_TYPE(__pyx_t_8)->tp_iternext;
+      index = 0; __pyx_t_7 = __pyx_t_9(__pyx_t_8); if (unlikely(!__pyx_t_7)) goto __pyx_L11_unpacking_failed;
+      __Pyx_GOTREF(__pyx_t_7);
+      index = 1; __pyx_t_3 = __pyx_t_9(__pyx_t_8); if (unlikely(!__pyx_t_3)) goto __pyx_L11_unpacking_failed;
+      __Pyx_GOTREF(__pyx_t_3);
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_8), 2) < 0) __PYX_ERR(0, 281, __pyx_L1_error)
+      __pyx_t_9 = NULL;
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+      goto __pyx_L12_unpacking_done;
+      __pyx_L11_unpacking_failed:;
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+      __pyx_t_9 = NULL;
+      if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
+      __PYX_ERR(0, 281, __pyx_L1_error)
+      __pyx_L12_unpacking_done:;
+    }
+    __pyx_t_10 = ((enum __pyx_t_6ottype_10core_boost_OTTypeAction)__Pyx_PyInt_As_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_t_7)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 281, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_v_ot_action = __pyx_t_10;
+    __Pyx_XDECREF_SET(__pyx_v_ot_arg, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "ottype/core_boost.pyx":275
+    /* "ottype/core_boost.pyx":282
  * 
- *     for ot in reversed(_make_iter_ots(ot_raw_list)):
- *         if isinstance(ot, OTSkip):             # <<<<<<<<<<<<<<
- *             ot_skip = <OTSkip>ot
+ *     for ot_action, ot_arg in reversed(ot_list):
+ *         if ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *             ot_arg_as_int = <int>ot_arg
  * 
  */
-    __pyx_t_2 = __Pyx_TypeCheck(((PyObject *)__pyx_v_ot), __pyx_ptype_6ottype_10core_boost_OTSkip); 
-    __pyx_t_1 = (__pyx_t_2 != 0);
-    if (__pyx_t_1) {
+    switch (__pyx_v_ot_action) {
+      case __pyx_e_6ottype_10core_boost_skip:
 
-      /* "ottype/core_boost.pyx":276
- *     for ot in reversed(_make_iter_ots(ot_raw_list)):
- *         if isinstance(ot, OTSkip):
- *             ot_skip = <OTSkip>ot             # <<<<<<<<<<<<<<
+      /* "ottype/core_boost.pyx":283
+ *     for ot_action, ot_arg in reversed(ot_list):
+ *         if ot_action == OTTypeAction.skip:
+ *             ot_arg_as_int = <int>ot_arg             # <<<<<<<<<<<<<<
  * 
- *             old_doc.append(doc[last_pos - ot_skip.arg:last_pos])
+ *             old_doc.append(doc[last_pos - ot_arg_as_int:last_pos])
  */
-      __pyx_t_3 = ((PyObject *)__pyx_v_ot);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_XDECREF_SET(__pyx_v_ot_skip, ((struct __pyx_obj_6ottype_10core_boost_OTSkip *)__pyx_t_3));
-      __pyx_t_3 = 0;
+      __pyx_t_11 = __Pyx_PyInt_As_int(__pyx_v_ot_arg); if (unlikely((__pyx_t_11 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 283, __pyx_L1_error)
+      __pyx_v_ot_arg_as_int = ((int)__pyx_t_11);
 
-      /* "ottype/core_boost.pyx":278
- *             ot_skip = <OTSkip>ot
+      /* "ottype/core_boost.pyx":285
+ *             ot_arg_as_int = <int>ot_arg
  * 
- *             old_doc.append(doc[last_pos - ot_skip.arg:last_pos])             # <<<<<<<<<<<<<<
- *             last_pos -= ot_skip.arg
+ *             old_doc.append(doc[last_pos - ot_arg_as_int:last_pos])             # <<<<<<<<<<<<<<
+ *             last_pos -= ot_arg_as_int
  * 
  */
-      if (unlikely(__pyx_v_doc == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 278, __pyx_L1_error)
-      }
-      __pyx_t_3 = __Pyx_PyUnicode_Substring(__pyx_v_doc, (__pyx_v_last_pos - __pyx_v_ot_skip->arg), __pyx_v_last_pos); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 278, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_old_doc, __pyx_t_3); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 278, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_1 = __Pyx_PyUnicode_Substring(__pyx_v_doc, (__pyx_v_last_pos - __pyx_v_ot_arg_as_int), __pyx_v_last_pos); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 285, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_old_doc, __pyx_t_1); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 285, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "ottype/core_boost.pyx":279
+      /* "ottype/core_boost.pyx":286
  * 
- *             old_doc.append(doc[last_pos - ot_skip.arg:last_pos])
- *             last_pos -= ot_skip.arg             # <<<<<<<<<<<<<<
+ *             old_doc.append(doc[last_pos - ot_arg_as_int:last_pos])
+ *             last_pos -= ot_arg_as_int             # <<<<<<<<<<<<<<
  * 
- *         elif isinstance(ot, OTInsert):
+ *         elif ot_action == OTTypeAction.insert:
  */
-      __pyx_v_last_pos = (__pyx_v_last_pos - __pyx_v_ot_skip->arg);
-
-      /* "ottype/core_boost.pyx":275
- * 
- *     for ot in reversed(_make_iter_ots(ot_raw_list)):
- *         if isinstance(ot, OTSkip):             # <<<<<<<<<<<<<<
- *             ot_skip = <OTSkip>ot
- * 
- */
-      goto __pyx_L11;
-    }
-
-    /* "ottype/core_boost.pyx":281
- *             last_pos -= ot_skip.arg
- * 
- *         elif isinstance(ot, OTInsert):             # <<<<<<<<<<<<<<
- *             ot_insert = <OTInsert>ot
- * 
- */
-    __pyx_t_1 = __Pyx_TypeCheck(((PyObject *)__pyx_v_ot), __pyx_ptype_6ottype_10core_boost_OTInsert); 
-    __pyx_t_2 = (__pyx_t_1 != 0);
-    if (__pyx_t_2) {
+      __pyx_v_last_pos = (__pyx_v_last_pos - __pyx_v_ot_arg_as_int);
 
       /* "ottype/core_boost.pyx":282
  * 
- *         elif isinstance(ot, OTInsert):
- *             ot_insert = <OTInsert>ot             # <<<<<<<<<<<<<<
+ *     for ot_action, ot_arg in reversed(ot_list):
+ *         if ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *             ot_arg_as_int = <int>ot_arg
  * 
- *             if doc[last_pos - len(ot_insert.arg):last_pos] != ot_insert.arg:
  */
-      __pyx_t_3 = ((PyObject *)__pyx_v_ot);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_XDECREF_SET(__pyx_v_ot_insert, ((struct __pyx_obj_6ottype_10core_boost_OTInsert *)__pyx_t_3));
-      __pyx_t_3 = 0;
+      break;
+      case __pyx_e_6ottype_10core_boost_insert:
 
-      /* "ottype/core_boost.pyx":284
- *             ot_insert = <OTInsert>ot
+      /* "ottype/core_boost.pyx":289
  * 
- *             if doc[last_pos - len(ot_insert.arg):last_pos] != ot_insert.arg:             # <<<<<<<<<<<<<<
- *                 raise ValueError('inconsistent delete (doc, OT.arg)',
- *                                  doc[last_pos - len(ot_insert.arg):last_pos],
+ *         elif ot_action == OTTypeAction.insert:
+ *             ot_arg_as_str = <str>ot_arg             # <<<<<<<<<<<<<<
+ * 
+ *             if doc[last_pos - len(ot_arg_as_str):last_pos] != ot_arg_as_str:
  */
-      if (unlikely(__pyx_v_doc == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 284, __pyx_L1_error)
-      }
-      __pyx_t_3 = __pyx_v_ot_insert->arg;
-      __Pyx_INCREF(__pyx_t_3);
-      if (unlikely(__pyx_t_3 == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-        __PYX_ERR(0, 284, __pyx_L1_error)
-      }
-      __pyx_t_7 = __Pyx_PyUnicode_GET_LENGTH(__pyx_t_3); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 284, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyUnicode_Substring(__pyx_v_doc, (__pyx_v_last_pos - __pyx_t_7), __pyx_v_last_pos); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 284, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_2 = (__Pyx_PyUnicode_Equals(__pyx_t_3, __pyx_v_ot_insert->arg, Py_NE)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 284, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_1 = (__pyx_t_2 != 0);
-      if (unlikely(__pyx_t_1)) {
-
-        /* "ottype/core_boost.pyx":286
- *             if doc[last_pos - len(ot_insert.arg):last_pos] != ot_insert.arg:
- *                 raise ValueError('inconsistent delete (doc, OT.arg)',
- *                                  doc[last_pos - len(ot_insert.arg):last_pos],             # <<<<<<<<<<<<<<
- *                                  ot_insert.arg)
- *             last_pos -= len(ot_insert.arg)
- */
-        if (unlikely(__pyx_v_doc == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 286, __pyx_L1_error)
-        }
-        __pyx_t_3 = __pyx_v_ot_insert->arg;
-        __Pyx_INCREF(__pyx_t_3);
-        if (unlikely(__pyx_t_3 == Py_None)) {
-          PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-          __PYX_ERR(0, 286, __pyx_L1_error)
-        }
-        __pyx_t_7 = __Pyx_PyUnicode_GET_LENGTH(__pyx_t_3); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 286, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = __Pyx_PyUnicode_Substring(__pyx_v_doc, (__pyx_v_last_pos - __pyx_t_7), __pyx_v_last_pos); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 286, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-
-        /* "ottype/core_boost.pyx":285
- * 
- *             if doc[last_pos - len(ot_insert.arg):last_pos] != ot_insert.arg:
- *                 raise ValueError('inconsistent delete (doc, OT.arg)',             # <<<<<<<<<<<<<<
- *                                  doc[last_pos - len(ot_insert.arg):last_pos],
- *                                  ot_insert.arg)
- */
-        __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 285, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __Pyx_INCREF(__pyx_kp_u_inconsistent_delete_doc_OT_arg);
-        __Pyx_GIVEREF(__pyx_kp_u_inconsistent_delete_doc_OT_arg);
-        PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_kp_u_inconsistent_delete_doc_OT_arg);
-        __Pyx_GIVEREF(__pyx_t_3);
-        PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_3);
-        __Pyx_INCREF(__pyx_v_ot_insert->arg);
-        __Pyx_GIVEREF(__pyx_v_ot_insert->arg);
-        PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_v_ot_insert->arg);
-        __pyx_t_3 = 0;
-        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 285, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __Pyx_Raise(__pyx_t_3, 0, 0, 0);
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __PYX_ERR(0, 285, __pyx_L1_error)
-
-        /* "ottype/core_boost.pyx":284
- *             ot_insert = <OTInsert>ot
- * 
- *             if doc[last_pos - len(ot_insert.arg):last_pos] != ot_insert.arg:             # <<<<<<<<<<<<<<
- *                 raise ValueError('inconsistent delete (doc, OT.arg)',
- *                                  doc[last_pos - len(ot_insert.arg):last_pos],
- */
-      }
-
-      /* "ottype/core_boost.pyx":288
- *                                  doc[last_pos - len(ot_insert.arg):last_pos],
- *                                  ot_insert.arg)
- *             last_pos -= len(ot_insert.arg)             # <<<<<<<<<<<<<<
- * 
- *         elif isinstance(ot, OTDelete):
- */
-      __pyx_t_3 = __pyx_v_ot_insert->arg;
-      __Pyx_INCREF(__pyx_t_3);
-      if (unlikely(__pyx_t_3 == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-        __PYX_ERR(0, 288, __pyx_L1_error)
-      }
-      __pyx_t_7 = __Pyx_PyUnicode_GET_LENGTH(__pyx_t_3); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 288, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_v_last_pos = (__pyx_v_last_pos - __pyx_t_7);
-
-      /* "ottype/core_boost.pyx":281
- *             last_pos -= ot_skip.arg
- * 
- *         elif isinstance(ot, OTInsert):             # <<<<<<<<<<<<<<
- *             ot_insert = <OTInsert>ot
- * 
- */
-      goto __pyx_L11;
-    }
-
-    /* "ottype/core_boost.pyx":290
- *             last_pos -= len(ot_insert.arg)
- * 
- *         elif isinstance(ot, OTDelete):             # <<<<<<<<<<<<<<
- *             ot_delete = <OTDelete>ot
- * 
- */
-    __pyx_t_1 = __Pyx_TypeCheck(((PyObject *)__pyx_v_ot), __pyx_ptype_6ottype_10core_boost_OTDelete); 
-    __pyx_t_2 = (__pyx_t_1 != 0);
-    if (__pyx_t_2) {
+      __pyx_t_1 = __pyx_v_ot_arg;
+      __Pyx_INCREF(__pyx_t_1);
+      __Pyx_XDECREF_SET(__pyx_v_ot_arg_as_str, ((PyObject*)__pyx_t_1));
+      __pyx_t_1 = 0;
 
       /* "ottype/core_boost.pyx":291
+ *             ot_arg_as_str = <str>ot_arg
  * 
- *         elif isinstance(ot, OTDelete):
- *             ot_delete = <OTDelete>ot             # <<<<<<<<<<<<<<
- * 
- *             old_doc.append(ot_delete.arg)
+ *             if doc[last_pos - len(ot_arg_as_str):last_pos] != ot_arg_as_str:             # <<<<<<<<<<<<<<
+ *                 raise ValueError('inconsistent delete (doc, OT.arg)',
+ *                                  doc[last_pos - len(ot_arg_as_str):last_pos],
  */
-      __pyx_t_3 = ((PyObject *)__pyx_v_ot);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_XDECREF_SET(__pyx_v_ot_delete, ((struct __pyx_obj_6ottype_10core_boost_OTDelete *)__pyx_t_3));
-      __pyx_t_3 = 0;
+      if (unlikely(__pyx_v_ot_arg_as_str == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+        __PYX_ERR(0, 291, __pyx_L1_error)
+      }
+      __pyx_t_12 = __Pyx_PyUnicode_GET_LENGTH(__pyx_v_ot_arg_as_str); if (unlikely(__pyx_t_12 == ((Py_ssize_t)-1))) __PYX_ERR(0, 291, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyUnicode_Substring(__pyx_v_doc, (__pyx_v_last_pos - __pyx_t_12), __pyx_v_last_pos); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 291, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_5 = (__Pyx_PyUnicode_Equals(__pyx_t_1, __pyx_v_ot_arg_as_str, Py_NE)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 291, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_4 = (__pyx_t_5 != 0);
+      if (unlikely(__pyx_t_4)) {
 
-      /* "ottype/core_boost.pyx":293
- *             ot_delete = <OTDelete>ot
+        /* "ottype/core_boost.pyx":293
+ *             if doc[last_pos - len(ot_arg_as_str):last_pos] != ot_arg_as_str:
+ *                 raise ValueError('inconsistent delete (doc, OT.arg)',
+ *                                  doc[last_pos - len(ot_arg_as_str):last_pos],             # <<<<<<<<<<<<<<
+ *                                  ot_arg_as_str)
+ *             last_pos -= len(ot_arg_as_str)
+ */
+        if (unlikely(__pyx_v_ot_arg_as_str == Py_None)) {
+          PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+          __PYX_ERR(0, 293, __pyx_L1_error)
+        }
+        __pyx_t_12 = __Pyx_PyUnicode_GET_LENGTH(__pyx_v_ot_arg_as_str); if (unlikely(__pyx_t_12 == ((Py_ssize_t)-1))) __PYX_ERR(0, 293, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyUnicode_Substring(__pyx_v_doc, (__pyx_v_last_pos - __pyx_t_12), __pyx_v_last_pos); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 293, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+
+        /* "ottype/core_boost.pyx":292
  * 
- *             old_doc.append(ot_delete.arg)             # <<<<<<<<<<<<<<
+ *             if doc[last_pos - len(ot_arg_as_str):last_pos] != ot_arg_as_str:
+ *                 raise ValueError('inconsistent delete (doc, OT.arg)',             # <<<<<<<<<<<<<<
+ *                                  doc[last_pos - len(ot_arg_as_str):last_pos],
+ *                                  ot_arg_as_str)
+ */
+        __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 292, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __Pyx_INCREF(__pyx_kp_u_inconsistent_delete_doc_OT_arg);
+        __Pyx_GIVEREF(__pyx_kp_u_inconsistent_delete_doc_OT_arg);
+        PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_kp_u_inconsistent_delete_doc_OT_arg);
+        __Pyx_GIVEREF(__pyx_t_1);
+        PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_1);
+        __Pyx_INCREF(__pyx_v_ot_arg_as_str);
+        __Pyx_GIVEREF(__pyx_v_ot_arg_as_str);
+        PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_v_ot_arg_as_str);
+        __pyx_t_1 = 0;
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 292, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __PYX_ERR(0, 292, __pyx_L1_error)
+
+        /* "ottype/core_boost.pyx":291
+ *             ot_arg_as_str = <str>ot_arg
+ * 
+ *             if doc[last_pos - len(ot_arg_as_str):last_pos] != ot_arg_as_str:             # <<<<<<<<<<<<<<
+ *                 raise ValueError('inconsistent delete (doc, OT.arg)',
+ *                                  doc[last_pos - len(ot_arg_as_str):last_pos],
+ */
+      }
+
+      /* "ottype/core_boost.pyx":295
+ *                                  doc[last_pos - len(ot_arg_as_str):last_pos],
+ *                                  ot_arg_as_str)
+ *             last_pos -= len(ot_arg_as_str)             # <<<<<<<<<<<<<<
+ * 
+ *         elif ot_action == OTTypeAction.delete:
+ */
+      if (unlikely(__pyx_v_ot_arg_as_str == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+        __PYX_ERR(0, 295, __pyx_L1_error)
+      }
+      __pyx_t_12 = __Pyx_PyUnicode_GET_LENGTH(__pyx_v_ot_arg_as_str); if (unlikely(__pyx_t_12 == ((Py_ssize_t)-1))) __PYX_ERR(0, 295, __pyx_L1_error)
+      __pyx_v_last_pos = (__pyx_v_last_pos - __pyx_t_12);
+
+      /* "ottype/core_boost.pyx":288
+ *             last_pos -= ot_arg_as_int
+ * 
+ *         elif ot_action == OTTypeAction.insert:             # <<<<<<<<<<<<<<
+ *             ot_arg_as_str = <str>ot_arg
+ * 
+ */
+      break;
+      case __pyx_e_6ottype_10core_boost_delete:
+
+      /* "ottype/core_boost.pyx":298
+ * 
+ *         elif ot_action == OTTypeAction.delete:
+ *             ot_arg_as_str = <str>ot_arg             # <<<<<<<<<<<<<<
+ * 
+ *             old_doc.append(ot_arg_as_str)
+ */
+      __pyx_t_1 = __pyx_v_ot_arg;
+      __Pyx_INCREF(__pyx_t_1);
+      __Pyx_XDECREF_SET(__pyx_v_ot_arg_as_str, ((PyObject*)__pyx_t_1));
+      __pyx_t_1 = 0;
+
+      /* "ottype/core_boost.pyx":300
+ *             ot_arg_as_str = <str>ot_arg
+ * 
+ *             old_doc.append(ot_arg_as_str)             # <<<<<<<<<<<<<<
  * 
  *     old_doc.append(doc[:last_pos])
  */
-      __pyx_t_3 = __pyx_v_ot_delete->arg;
-      __Pyx_INCREF(__pyx_t_3);
-      __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_old_doc, __pyx_t_3); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 293, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_old_doc, __pyx_v_ot_arg_as_str); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 300, __pyx_L1_error)
 
-      /* "ottype/core_boost.pyx":290
- *             last_pos -= len(ot_insert.arg)
+      /* "ottype/core_boost.pyx":297
+ *             last_pos -= len(ot_arg_as_str)
  * 
- *         elif isinstance(ot, OTDelete):             # <<<<<<<<<<<<<<
- *             ot_delete = <OTDelete>ot
+ *         elif ot_action == OTTypeAction.delete:             # <<<<<<<<<<<<<<
+ *             ot_arg_as_str = <str>ot_arg
  * 
  */
+      break;
+      default: break;
     }
-    __pyx_L11:;
 
-    /* "ottype/core_boost.pyx":274
+    /* "ottype/core_boost.pyx":281
  *     old_doc = [doc[last_pos:]]
  * 
- *     for ot in reversed(_make_iter_ots(ot_raw_list)):             # <<<<<<<<<<<<<<
- *         if isinstance(ot, OTSkip):
- *             ot_skip = <OTSkip>ot
+ *     for ot_action, ot_arg in reversed(ot_list):             # <<<<<<<<<<<<<<
+ *         if ot_action == OTTypeAction.skip:
+ *             ot_arg_as_int = <int>ot_arg
  */
   }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "ottype/core_boost.pyx":295
- *             old_doc.append(ot_delete.arg)
+  /* "ottype/core_boost.pyx":302
+ *             old_doc.append(ot_arg_as_str)
  * 
  *     old_doc.append(doc[:last_pos])             # <<<<<<<<<<<<<<
  * 
  *     return ''.join(reversed(old_doc))
  */
-  if (unlikely(__pyx_v_doc == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 295, __pyx_L1_error)
-  }
-  __pyx_t_4 = __Pyx_PyUnicode_Substring(__pyx_v_doc, 0, __pyx_v_last_pos); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 295, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_old_doc, __pyx_t_4); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 295, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_2 = __Pyx_PyUnicode_Substring(__pyx_v_doc, 0, __pyx_v_last_pos); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 302, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_old_doc, __pyx_t_2); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 302, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "ottype/core_boost.pyx":297
+  /* "ottype/core_boost.pyx":304
  *     old_doc.append(doc[:last_pos])
  * 
  *     return ''.join(reversed(old_doc))             # <<<<<<<<<<<<<<
@@ -7159,45 +6041,46 @@ static PyObject *__pyx_pf_6ottype_10core_boost_4inverse_apply(CYTHON_UNUSED PyOb
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_reversed, __pyx_v_old_doc); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 297, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = PyUnicode_Join(__pyx_kp_u_, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 297, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_r = __pyx_t_3;
-  __pyx_t_3 = 0;
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_reversed, __pyx_v_old_doc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 304, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = PyUnicode_Join(__pyx_kp_u__2, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 304, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "ottype/core_boost.pyx":242
+  /* "ottype/core_boost.pyx":247
  * 
  * 
- * def inverse_apply(str doc: str, object ot_raw_list):             # <<<<<<<<<<<<<<
+ * def inverse_apply(str doc not None, list ot_raw_list not None):             # <<<<<<<<<<<<<<
  *     cdef:
- *         int last_pos
+ *         list ot_list
  */
 
   /* function exit code */
   __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_8);
   __Pyx_AddTraceback("ottype.core_boost.inverse_apply", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_ot_list);
   __Pyx_XDECREF(__pyx_v_old_doc);
-  __Pyx_XDECREF((PyObject *)__pyx_v_ot);
-  __Pyx_XDECREF((PyObject *)__pyx_v_ot_skip);
-  __Pyx_XDECREF((PyObject *)__pyx_v_ot_insert);
-  __Pyx_XDECREF((PyObject *)__pyx_v_ot_delete);
+  __Pyx_XDECREF(__pyx_v_ot_arg);
+  __Pyx_XDECREF(__pyx_v_ot_arg_as_str);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "ottype/core_boost.pyx":300
+/* "ottype/core_boost.pyx":307
  * 
  * 
- * def normalize(object ot_raw_list):             # <<<<<<<<<<<<<<
+ * def normalize(list ot_raw_list not None):             # <<<<<<<<<<<<<<
  *     cdef:
  *         list new_ots
  */
@@ -7209,90 +6092,143 @@ static PyObject *__pyx_pw_6ottype_10core_boost_7normalize(PyObject *__pyx_self, 
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("normalize (wrapper)", 0);
-  __pyx_r = __pyx_pf_6ottype_10core_boost_6normalize(__pyx_self, ((PyObject *)__pyx_v_ot_raw_list));
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ot_raw_list), (&PyList_Type), 0, "ot_raw_list", 1))) __PYX_ERR(0, 307, __pyx_L1_error)
+  __pyx_r = __pyx_pf_6ottype_10core_boost_6normalize(__pyx_self, ((PyObject*)__pyx_v_ot_raw_list));
 
   /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
 static PyObject *__pyx_pf_6ottype_10core_boost_6normalize(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_ot_raw_list) {
   PyObject *__pyx_v_new_ots = 0;
-  PyObject *__pyx_v_new_ot_raw_list = 0;
   struct __pyx_obj_6ottype_10core_boost__Appender *__pyx_v_appender = NULL;
   PyObject *__pyx_v_ot = NULL;
-  Py_ssize_t __pyx_v_i;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
-  Py_ssize_t __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
-  Py_ssize_t __pyx_t_5;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  int __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
   __Pyx_RefNannySetupContext("normalize", 0);
 
-  /* "ottype/core_boost.pyx":305
- *         list new_ot_raw_list
+  /* "ottype/core_boost.pyx":311
+ *         list new_ots
+ * 
+ *     if not check(ot_raw_list, check_unoptimized=False):             # <<<<<<<<<<<<<<
+ *         raise ValueError('invalid OTs')
+ * 
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_check); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 311, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 311, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_v_ot_raw_list);
+  __Pyx_GIVEREF(__pyx_v_ot_raw_list);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_ot_raw_list);
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 311, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_check_unoptimized, Py_False) < 0) __PYX_ERR(0, 311, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 311, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 311, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_6 = ((!__pyx_t_5) != 0);
+  if (unlikely(__pyx_t_6)) {
+
+    /* "ottype/core_boost.pyx":312
+ * 
+ *     if not check(ot_raw_list, check_unoptimized=False):
+ *         raise ValueError('invalid OTs')             # <<<<<<<<<<<<<<
+ * 
+ *     new_ots = []
+ */
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 312, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_Raise(__pyx_t_4, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __PYX_ERR(0, 312, __pyx_L1_error)
+
+    /* "ottype/core_boost.pyx":311
+ *         list new_ots
+ * 
+ *     if not check(ot_raw_list, check_unoptimized=False):             # <<<<<<<<<<<<<<
+ *         raise ValueError('invalid OTs')
+ * 
+ */
+  }
+
+  /* "ottype/core_boost.pyx":314
+ *         raise ValueError('invalid OTs')
  * 
  *     new_ots = []             # <<<<<<<<<<<<<<
  *     appender = _Appender(new_ots)
  *     for ot in _make_iter_ots(ot_raw_list):
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 305, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_new_ots = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
+  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 314, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_v_new_ots = ((PyObject*)__pyx_t_4);
+  __pyx_t_4 = 0;
 
-  /* "ottype/core_boost.pyx":306
+  /* "ottype/core_boost.pyx":315
  * 
  *     new_ots = []
  *     appender = _Appender(new_ots)             # <<<<<<<<<<<<<<
  *     for ot in _make_iter_ots(ot_raw_list):
  *         appender.append(ot)
  */
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost__Appender), __pyx_v_new_ots); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 306, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_appender = ((struct __pyx_obj_6ottype_10core_boost__Appender *)__pyx_t_1);
-  __pyx_t_1 = 0;
+  __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost__Appender), __pyx_v_new_ots); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 315, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_v_appender = ((struct __pyx_obj_6ottype_10core_boost__Appender *)__pyx_t_4);
+  __pyx_t_4 = 0;
 
-  /* "ottype/core_boost.pyx":307
+  /* "ottype/core_boost.pyx":316
  *     new_ots = []
  *     appender = _Appender(new_ots)
  *     for ot in _make_iter_ots(ot_raw_list):             # <<<<<<<<<<<<<<
  *         appender.append(ot)
  * 
  */
-  if (!(likely(PyList_CheckExact(__pyx_v_ot_raw_list))||((__pyx_v_ot_raw_list) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_ot_raw_list)->tp_name), 0))) __PYX_ERR(0, 307, __pyx_L1_error)
-  __pyx_t_1 = __pyx_f_6ottype_10core_boost__make_iter_ots(((PyObject*)__pyx_v_ot_raw_list)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 307, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(__pyx_t_1 == Py_None)) {
+  __pyx_t_4 = __pyx_f_6ottype_10core_boost__make_iter_ots(__pyx_v_ot_raw_list); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 316, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (unlikely(__pyx_t_4 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 307, __pyx_L1_error)
+    __PYX_ERR(0, 316, __pyx_L1_error)
   }
-  __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = __pyx_t_4; __Pyx_INCREF(__pyx_t_3); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   for (;;) {
-    if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
+    if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_3)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 307, __pyx_L1_error)
+    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_7); __Pyx_INCREF(__pyx_t_4); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 316, __pyx_L1_error)
     #else
-    __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 307, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_4 = PySequence_ITEM(__pyx_t_3, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 316, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
     #endif
-    __Pyx_XDECREF_SET(__pyx_v_ot, __pyx_t_1);
-    __pyx_t_1 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_ot, __pyx_t_4);
+    __pyx_t_4 = 0;
 
-    /* "ottype/core_boost.pyx":308
+    /* "ottype/core_boost.pyx":317
  *     appender = _Appender(new_ots)
  *     for ot in _make_iter_ots(ot_raw_list):
  *         appender.append(ot)             # <<<<<<<<<<<<<<
  * 
  *     _trim(new_ots)
  */
-    if (!(likely(((__pyx_v_ot) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_ot, __pyx_ptype_6ottype_10core_boost_OTType))))) __PYX_ERR(0, 308, __pyx_L1_error)
-    ((struct __pyx_vtabstruct_6ottype_10core_boost__Appender *)__pyx_v_appender->__pyx_vtab)->append(__pyx_v_appender, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_v_ot));
+    if (!(likely(PyTuple_CheckExact(__pyx_v_ot))||((__pyx_v_ot) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_v_ot)->tp_name), 0))) __PYX_ERR(0, 317, __pyx_L1_error)
+    ((struct __pyx_vtabstruct_6ottype_10core_boost__Appender *)__pyx_v_appender->__pyx_vtab)->append(__pyx_v_appender, ((PyObject*)__pyx_v_ot));
 
-    /* "ottype/core_boost.pyx":307
+    /* "ottype/core_boost.pyx":316
  *     new_ots = []
  *     appender = _Appender(new_ots)
  *     for ot in _make_iter_ots(ot_raw_list):             # <<<<<<<<<<<<<<
@@ -7300,81 +6236,35 @@ static PyObject *__pyx_pf_6ottype_10core_boost_6normalize(CYTHON_UNUSED PyObject
  * 
  */
   }
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "ottype/core_boost.pyx":310
+  /* "ottype/core_boost.pyx":319
  *         appender.append(ot)
  * 
  *     _trim(new_ots)             # <<<<<<<<<<<<<<
  * 
- *     new_ot_raw_list = [None] * len(new_ots)
+ *     return _to_ot_raw_list(new_ots)
  */
   __pyx_f_6ottype_10core_boost__trim(__pyx_v_new_ots);
 
-  /* "ottype/core_boost.pyx":312
+  /* "ottype/core_boost.pyx":321
  *     _trim(new_ots)
  * 
- *     new_ot_raw_list = [None] * len(new_ots)             # <<<<<<<<<<<<<<
- *     for i in range(len(new_ots)):
- *         new_ot_raw_list[i] = new_ots[i].raw
- */
-  __pyx_t_3 = PyList_GET_SIZE(__pyx_v_new_ots); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 312, __pyx_L1_error)
-  __pyx_t_2 = PyList_New(1 * ((__pyx_t_3<0) ? 0:__pyx_t_3)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 312, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  { Py_ssize_t __pyx_temp;
-    for (__pyx_temp=0; __pyx_temp < __pyx_t_3; __pyx_temp++) {
-      __Pyx_INCREF(Py_None);
-      __Pyx_GIVEREF(Py_None);
-      PyList_SET_ITEM(__pyx_t_2, __pyx_temp, Py_None);
-    }
-  }
-  __pyx_v_new_ot_raw_list = ((PyObject*)__pyx_t_2);
-  __pyx_t_2 = 0;
-
-  /* "ottype/core_boost.pyx":313
- * 
- *     new_ot_raw_list = [None] * len(new_ots)
- *     for i in range(len(new_ots)):             # <<<<<<<<<<<<<<
- *         new_ot_raw_list[i] = new_ots[i].raw
- * 
- */
-  __pyx_t_3 = PyList_GET_SIZE(__pyx_v_new_ots); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 313, __pyx_L1_error)
-  __pyx_t_4 = __pyx_t_3;
-  for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
-    __pyx_v_i = __pyx_t_5;
-
-    /* "ottype/core_boost.pyx":314
- *     new_ot_raw_list = [None] * len(new_ots)
- *     for i in range(len(new_ots)):
- *         new_ot_raw_list[i] = new_ots[i].raw             # <<<<<<<<<<<<<<
- * 
- *     return new_ot_raw_list
- */
-    __pyx_t_2 = __Pyx_GetItemInt_List(__pyx_v_new_ots, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 314, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_raw); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 314, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(__Pyx_SetItemInt(__pyx_v_new_ot_raw_list, __pyx_v_i, __pyx_t_1, Py_ssize_t, 1, PyInt_FromSsize_t, 1, 1, 1) < 0)) __PYX_ERR(0, 314, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  }
-
-  /* "ottype/core_boost.pyx":316
- *         new_ot_raw_list[i] = new_ots[i].raw
- * 
- *     return new_ot_raw_list             # <<<<<<<<<<<<<<
+ *     return _to_ot_raw_list(new_ots)             # <<<<<<<<<<<<<<
  * 
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_new_ot_raw_list);
-  __pyx_r = __pyx_v_new_ot_raw_list;
+  __pyx_t_3 = __pyx_f_6ottype_10core_boost__to_ot_raw_list(__pyx_v_new_ots); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 321, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_r = __pyx_t_3;
+  __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "ottype/core_boost.pyx":300
+  /* "ottype/core_boost.pyx":307
  * 
  * 
- * def normalize(object ot_raw_list):             # <<<<<<<<<<<<<<
+ * def normalize(list ot_raw_list not None):             # <<<<<<<<<<<<<<
  *     cdef:
  *         list new_ots
  */
@@ -7383,11 +6273,12 @@ static PyObject *__pyx_pf_6ottype_10core_boost_6normalize(CYTHON_UNUSED PyObject
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
   __Pyx_AddTraceback("ottype.core_boost.normalize", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_new_ots);
-  __Pyx_XDECREF(__pyx_v_new_ot_raw_list);
   __Pyx_XDECREF((PyObject *)__pyx_v_appender);
   __Pyx_XDECREF(__pyx_v_ot);
   __Pyx_XGIVEREF(__pyx_r);
@@ -7395,10 +6286,10 @@ static PyObject *__pyx_pf_6ottype_10core_boost_6normalize(CYTHON_UNUSED PyObject
   return __pyx_r;
 }
 
-/* "ottype/core_boost.pyx":319
+/* "ottype/core_boost.pyx":324
  * 
  * 
- * def transform(list ot_raw_list_1, list ot_raw_list_2, str side):             # <<<<<<<<<<<<<<
+ * def transform(list ot_raw_list_1 not None, list ot_raw_list_2 not None, str side not None):             # <<<<<<<<<<<<<<
  *     cdef:
  *         list new_ots
  */
@@ -7438,17 +6329,17 @@ static PyObject *__pyx_pw_6ottype_10core_boost_9transform(PyObject *__pyx_self, 
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_ot_raw_list_2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("transform", 1, 3, 3, 1); __PYX_ERR(0, 319, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("transform", 1, 3, 3, 1); __PYX_ERR(0, 324, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_side)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("transform", 1, 3, 3, 2); __PYX_ERR(0, 319, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("transform", 1, 3, 3, 2); __PYX_ERR(0, 324, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "transform") < 0)) __PYX_ERR(0, 319, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "transform") < 0)) __PYX_ERR(0, 324, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -7463,15 +6354,15 @@ static PyObject *__pyx_pw_6ottype_10core_boost_9transform(PyObject *__pyx_self, 
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("transform", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 319, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("transform", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 324, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("ottype.core_boost.transform", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ot_raw_list_1), (&PyList_Type), 1, "ot_raw_list_1", 1))) __PYX_ERR(0, 319, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ot_raw_list_2), (&PyList_Type), 1, "ot_raw_list_2", 1))) __PYX_ERR(0, 319, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_side), (&PyUnicode_Type), 1, "side", 1))) __PYX_ERR(0, 319, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ot_raw_list_1), (&PyList_Type), 0, "ot_raw_list_1", 1))) __PYX_ERR(0, 324, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ot_raw_list_2), (&PyList_Type), 0, "ot_raw_list_2", 1))) __PYX_ERR(0, 324, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_side), (&PyUnicode_Type), 0, "side", 1))) __PYX_ERR(0, 324, __pyx_L1_error)
   __pyx_r = __pyx_pf_6ottype_10core_boost_8transform(__pyx_self, __pyx_v_ot_raw_list_1, __pyx_v_ot_raw_list_2, __pyx_v_side);
 
   /* function exit code */
@@ -7487,11 +6378,12 @@ static PyObject *__pyx_pf_6ottype_10core_boost_8transform(CYTHON_UNUSED PyObject
   PyObject *__pyx_v_new_ots = 0;
   struct __pyx_obj_6ottype_10core_boost__Appender *__pyx_v_appender = 0;
   struct __pyx_obj_6ottype_10core_boost__Taker *__pyx_v_taker = 0;
-  struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_v_ot = 0;
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_v_ot_action;
+  PyObject *__pyx_v_ot_arg = 0;
   int __pyx_v_n;
-  struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_v_chunk_ot = 0;
-  PyObject *__pyx_v_new_ot_raw_list = 0;
-  int __pyx_v_i;
+  PyObject *__pyx_v_chunk_ot = 0;
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_v_chunk_ot_action;
+  PyObject *__pyx_v_chunk_ot_arg = 0;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -7502,19 +6394,23 @@ static PyObject *__pyx_pf_6ottype_10core_boost_8transform(CYTHON_UNUSED PyObject
   int __pyx_t_6;
   PyObject *__pyx_t_7 = NULL;
   Py_ssize_t __pyx_t_8;
-  int __pyx_t_9;
-  struct __pyx_opt_args_6ottype_10core_boost_6_Taker_take __pyx_t_10;
-  Py_ssize_t __pyx_t_11;
+  PyObject *__pyx_t_9 = NULL;
+  PyObject *__pyx_t_10 = NULL;
+  PyObject *(*__pyx_t_11)(PyObject *);
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_t_12;
+  int __pyx_t_13;
+  struct __pyx_opt_args_6ottype_10core_boost_6_Taker_take __pyx_t_14;
+  Py_ssize_t __pyx_t_15;
   __Pyx_RefNannySetupContext("transform", 0);
 
-  /* "ottype/core_boost.pyx":332
- *         int i
+  /* "ottype/core_boost.pyx":338
+ *         object chunk_ot_arg
  * 
  *     if not check(ot_raw_list_1) or not check(ot_raw_list_2):             # <<<<<<<<<<<<<<
  *         raise ValueError('invalid OTs')
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_check); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 332, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_check); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 338, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -7528,10 +6424,10 @@ static PyObject *__pyx_pf_6ottype_10core_boost_8transform(CYTHON_UNUSED PyObject
   }
   __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_v_ot_raw_list_1) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_ot_raw_list_1);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 332, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 338, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 332, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 338, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_6 = ((!__pyx_t_5) != 0);
   if (!__pyx_t_6) {
@@ -7539,7 +6435,7 @@ static PyObject *__pyx_pf_6ottype_10core_boost_8transform(CYTHON_UNUSED PyObject
     __pyx_t_1 = __pyx_t_6;
     goto __pyx_L4_bool_binop_done;
   }
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_check); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 332, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_check); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 338, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -7553,31 +6449,31 @@ static PyObject *__pyx_pf_6ottype_10core_boost_8transform(CYTHON_UNUSED PyObject
   }
   __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_v_ot_raw_list_2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_ot_raw_list_2);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 332, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 338, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 332, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 338, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_5 = ((!__pyx_t_6) != 0);
   __pyx_t_1 = __pyx_t_5;
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "ottype/core_boost.pyx":333
+    /* "ottype/core_boost.pyx":339
  * 
  *     if not check(ot_raw_list_1) or not check(ot_raw_list_2):
  *         raise ValueError('invalid OTs')             # <<<<<<<<<<<<<<
  * 
  *     if side not in ['left', 'right']:
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 333, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 339, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 333, __pyx_L1_error)
+    __PYX_ERR(0, 339, __pyx_L1_error)
 
-    /* "ottype/core_boost.pyx":332
- *         int i
+    /* "ottype/core_boost.pyx":338
+ *         object chunk_ot_arg
  * 
  *     if not check(ot_raw_list_1) or not check(ot_raw_list_2):             # <<<<<<<<<<<<<<
  *         raise ValueError('invalid OTs')
@@ -7585,7 +6481,7 @@ static PyObject *__pyx_pf_6ottype_10core_boost_8transform(CYTHON_UNUSED PyObject
  */
   }
 
-  /* "ottype/core_boost.pyx":335
+  /* "ottype/core_boost.pyx":341
  *         raise ValueError('invalid OTs')
  * 
  *     if side not in ['left', 'right']:             # <<<<<<<<<<<<<<
@@ -7594,14 +6490,14 @@ static PyObject *__pyx_pf_6ottype_10core_boost_8transform(CYTHON_UNUSED PyObject
  */
   __Pyx_INCREF(__pyx_v_side);
   __pyx_t_7 = __pyx_v_side;
-  __pyx_t_5 = (__Pyx_PyUnicode_Equals(__pyx_t_7, __pyx_n_u_left, Py_NE)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 335, __pyx_L1_error)
+  __pyx_t_5 = (__Pyx_PyUnicode_Equals(__pyx_t_7, __pyx_n_u_left, Py_NE)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 341, __pyx_L1_error)
   __pyx_t_6 = (__pyx_t_5 != 0);
   if (__pyx_t_6) {
   } else {
     __pyx_t_1 = __pyx_t_6;
     goto __pyx_L7_bool_binop_done;
   }
-  __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_t_7, __pyx_n_u_right, Py_NE)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 335, __pyx_L1_error)
+  __pyx_t_6 = (__Pyx_PyUnicode_Equals(__pyx_t_7, __pyx_n_u_right, Py_NE)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 341, __pyx_L1_error)
   __pyx_t_5 = (__pyx_t_6 != 0);
   __pyx_t_1 = __pyx_t_5;
   __pyx_L7_bool_binop_done:;
@@ -7609,20 +6505,20 @@ static PyObject *__pyx_pf_6ottype_10core_boost_8transform(CYTHON_UNUSED PyObject
   __pyx_t_5 = (__pyx_t_1 != 0);
   if (unlikely(__pyx_t_5)) {
 
-    /* "ottype/core_boost.pyx":336
+    /* "ottype/core_boost.pyx":342
  * 
  *     if side not in ['left', 'right']:
  *         raise ValueError('invalid side')             # <<<<<<<<<<<<<<
  * 
  *     new_ots = []
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 336, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 342, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 336, __pyx_L1_error)
+    __PYX_ERR(0, 342, __pyx_L1_error)
 
-    /* "ottype/core_boost.pyx":335
+    /* "ottype/core_boost.pyx":341
  *         raise ValueError('invalid OTs')
  * 
  *     if side not in ['left', 'right']:             # <<<<<<<<<<<<<<
@@ -7631,500 +6527,592 @@ static PyObject *__pyx_pf_6ottype_10core_boost_8transform(CYTHON_UNUSED PyObject
  */
   }
 
-  /* "ottype/core_boost.pyx":338
+  /* "ottype/core_boost.pyx":344
  *         raise ValueError('invalid side')
  * 
  *     new_ots = []             # <<<<<<<<<<<<<<
  *     appender = _Appender(new_ots)
  *     taker = _Taker(list(_make_iter_ots(ot_raw_list_1)))
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 338, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 344, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_new_ots = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "ottype/core_boost.pyx":339
+  /* "ottype/core_boost.pyx":345
  * 
  *     new_ots = []
  *     appender = _Appender(new_ots)             # <<<<<<<<<<<<<<
  *     taker = _Taker(list(_make_iter_ots(ot_raw_list_1)))
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost__Appender), __pyx_v_new_ots); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 339, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost__Appender), __pyx_v_new_ots); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 345, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_appender = ((struct __pyx_obj_6ottype_10core_boost__Appender *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "ottype/core_boost.pyx":340
+  /* "ottype/core_boost.pyx":346
  *     new_ots = []
  *     appender = _Appender(new_ots)
  *     taker = _Taker(list(_make_iter_ots(ot_raw_list_1)))             # <<<<<<<<<<<<<<
  * 
- *     for ot in _make_iter_ots(ot_raw_list_2):
+ *     for ot_action, ot_arg in _make_iter_ots(ot_raw_list_2):
  */
-  __pyx_t_2 = __pyx_f_6ottype_10core_boost__make_iter_ots(__pyx_v_ot_raw_list_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 340, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_6ottype_10core_boost__make_iter_ots(__pyx_v_ot_raw_list_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 346, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PySequence_List(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 340, __pyx_L1_error)
+  __pyx_t_3 = PySequence_List(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 346, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost__Taker), __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 340, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost__Taker), __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 346, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_taker = ((struct __pyx_obj_6ottype_10core_boost__Taker *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "ottype/core_boost.pyx":342
+  /* "ottype/core_boost.pyx":348
  *     taker = _Taker(list(_make_iter_ots(ot_raw_list_1)))
  * 
- *     for ot in _make_iter_ots(ot_raw_list_2):             # <<<<<<<<<<<<<<
- *         if isinstance(ot, OTSkip):
- *             n = (<OTSkip>ot).arg
+ *     for ot_action, ot_arg in _make_iter_ots(ot_raw_list_2):             # <<<<<<<<<<<<<<
+ *         if ot_action == OTTypeAction.skip:
+ *             n = <int>ot_arg
  */
-  __pyx_t_2 = __pyx_f_6ottype_10core_boost__make_iter_ots(__pyx_v_ot_raw_list_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 342, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_6ottype_10core_boost__make_iter_ots(__pyx_v_ot_raw_list_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 348, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (unlikely(__pyx_t_2 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 342, __pyx_L1_error)
+    __PYX_ERR(0, 348, __pyx_L1_error)
   }
   __pyx_t_3 = __pyx_t_2; __Pyx_INCREF(__pyx_t_3); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   for (;;) {
     if (__pyx_t_8 >= PyList_GET_SIZE(__pyx_t_3)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_8); __Pyx_INCREF(__pyx_t_2); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 342, __pyx_L1_error)
+    __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_8); __Pyx_INCREF(__pyx_t_2); __pyx_t_8++; if (unlikely(0 < 0)) __PYX_ERR(0, 348, __pyx_L1_error)
     #else
-    __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 342, __pyx_L1_error)
+    __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_8); __pyx_t_8++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 348, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     #endif
-    if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_6ottype_10core_boost_OTType))))) __PYX_ERR(0, 342, __pyx_L1_error)
-    __Pyx_XDECREF_SET(__pyx_v_ot, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_2));
-    __pyx_t_2 = 0;
-
-    /* "ottype/core_boost.pyx":343
- * 
- *     for ot in _make_iter_ots(ot_raw_list_2):
- *         if isinstance(ot, OTSkip):             # <<<<<<<<<<<<<<
- *             n = (<OTSkip>ot).arg
- * 
- */
-    __pyx_t_5 = __Pyx_TypeCheck(((PyObject *)__pyx_v_ot), __pyx_ptype_6ottype_10core_boost_OTSkip); 
-    __pyx_t_1 = (__pyx_t_5 != 0);
-    if (__pyx_t_1) {
-
-      /* "ottype/core_boost.pyx":344
- *     for ot in _make_iter_ots(ot_raw_list_2):
- *         if isinstance(ot, OTSkip):
- *             n = (<OTSkip>ot).arg             # <<<<<<<<<<<<<<
- * 
- *             while 0 < n:
- */
-      __pyx_t_9 = ((struct __pyx_obj_6ottype_10core_boost_OTSkip *)__pyx_v_ot)->arg;
-      __pyx_v_n = __pyx_t_9;
-
-      /* "ottype/core_boost.pyx":346
- *             n = (<OTSkip>ot).arg
- * 
- *             while 0 < n:             # <<<<<<<<<<<<<<
- *                 chunk_ot = taker.take(n, 1)
- *                 appender.append(chunk_ot)
- */
-      while (1) {
-        __pyx_t_1 = ((0 < __pyx_v_n) != 0);
-        if (!__pyx_t_1) break;
-
-        /* "ottype/core_boost.pyx":347
- * 
- *             while 0 < n:
- *                 chunk_ot = taker.take(n, 1)             # <<<<<<<<<<<<<<
- *                 appender.append(chunk_ot)
- * 
- */
-        __pyx_t_10.__pyx_n = 1;
-        __pyx_t_10.indivisable = 1;
-        __pyx_t_2 = ((PyObject *)((struct __pyx_vtabstruct_6ottype_10core_boost__Taker *)__pyx_v_taker->__pyx_vtab)->take(__pyx_v_taker, __pyx_v_n, &__pyx_t_10)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 347, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_XDECREF_SET(__pyx_v_chunk_ot, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_2));
-        __pyx_t_2 = 0;
-
-        /* "ottype/core_boost.pyx":348
- *             while 0 < n:
- *                 chunk_ot = taker.take(n, 1)
- *                 appender.append(chunk_ot)             # <<<<<<<<<<<<<<
- * 
- *                 if isinstance(chunk_ot, OTSkip):
- */
-        ((struct __pyx_vtabstruct_6ottype_10core_boost__Appender *)__pyx_v_appender->__pyx_vtab)->append(__pyx_v_appender, __pyx_v_chunk_ot);
-
-        /* "ottype/core_boost.pyx":350
- *                 appender.append(chunk_ot)
- * 
- *                 if isinstance(chunk_ot, OTSkip):             # <<<<<<<<<<<<<<
- *                     n -= (<OTSkip>chunk_ot).arg
- *                 elif isinstance(chunk_ot, OTInsert):
- */
-        __pyx_t_1 = __Pyx_TypeCheck(((PyObject *)__pyx_v_chunk_ot), __pyx_ptype_6ottype_10core_boost_OTSkip); 
-        __pyx_t_5 = (__pyx_t_1 != 0);
-        if (__pyx_t_5) {
-
-          /* "ottype/core_boost.pyx":351
- * 
- *                 if isinstance(chunk_ot, OTSkip):
- *                     n -= (<OTSkip>chunk_ot).arg             # <<<<<<<<<<<<<<
- *                 elif isinstance(chunk_ot, OTInsert):
- *                     pass
- */
-          __pyx_v_n = (__pyx_v_n - ((struct __pyx_obj_6ottype_10core_boost_OTSkip *)__pyx_v_chunk_ot)->arg);
-
-          /* "ottype/core_boost.pyx":350
- *                 appender.append(chunk_ot)
- * 
- *                 if isinstance(chunk_ot, OTSkip):             # <<<<<<<<<<<<<<
- *                     n -= (<OTSkip>chunk_ot).arg
- *                 elif isinstance(chunk_ot, OTInsert):
- */
-          goto __pyx_L14;
-        }
-
-        /* "ottype/core_boost.pyx":352
- *                 if isinstance(chunk_ot, OTSkip):
- *                     n -= (<OTSkip>chunk_ot).arg
- *                 elif isinstance(chunk_ot, OTInsert):             # <<<<<<<<<<<<<<
- *                     pass
- *                 elif isinstance(chunk_ot, OTDelete):
- */
-        __pyx_t_5 = __Pyx_TypeCheck(((PyObject *)__pyx_v_chunk_ot), __pyx_ptype_6ottype_10core_boost_OTInsert); 
-        __pyx_t_1 = (__pyx_t_5 != 0);
-        if (__pyx_t_1) {
-          goto __pyx_L14;
-        }
-
-        /* "ottype/core_boost.pyx":354
- *                 elif isinstance(chunk_ot, OTInsert):
- *                     pass
- *                 elif isinstance(chunk_ot, OTDelete):             # <<<<<<<<<<<<<<
- *                     n -= len((<OTDelete>chunk_ot).arg)
- * 
- */
-        __pyx_t_1 = __Pyx_TypeCheck(((PyObject *)__pyx_v_chunk_ot), __pyx_ptype_6ottype_10core_boost_OTDelete); 
-        __pyx_t_5 = (__pyx_t_1 != 0);
-        if (__pyx_t_5) {
-
-          /* "ottype/core_boost.pyx":355
- *                     pass
- *                 elif isinstance(chunk_ot, OTDelete):
- *                     n -= len((<OTDelete>chunk_ot).arg)             # <<<<<<<<<<<<<<
- * 
- *         elif isinstance(ot, OTInsert):
- */
-          __pyx_t_2 = ((struct __pyx_obj_6ottype_10core_boost_OTDelete *)__pyx_v_chunk_ot)->arg;
-          __Pyx_INCREF(__pyx_t_2);
-          if (unlikely(__pyx_t_2 == Py_None)) {
-            PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-            __PYX_ERR(0, 355, __pyx_L1_error)
-          }
-          __pyx_t_11 = __Pyx_PyUnicode_GET_LENGTH(__pyx_t_2); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 355, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_v_n = (__pyx_v_n - __pyx_t_11);
-
-          /* "ottype/core_boost.pyx":354
- *                 elif isinstance(chunk_ot, OTInsert):
- *                     pass
- *                 elif isinstance(chunk_ot, OTDelete):             # <<<<<<<<<<<<<<
- *                     n -= len((<OTDelete>chunk_ot).arg)
- * 
- */
-        }
-        __pyx_L14:;
+    if ((likely(PyTuple_CheckExact(__pyx_t_2))) || (PyList_CheckExact(__pyx_t_2))) {
+      PyObject* sequence = __pyx_t_2;
+      Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
+      if (unlikely(size != 2)) {
+        if (size > 2) __Pyx_RaiseTooManyValuesError(2);
+        else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
+        __PYX_ERR(0, 348, __pyx_L1_error)
       }
-
-      /* "ottype/core_boost.pyx":343
- * 
- *     for ot in _make_iter_ots(ot_raw_list_2):
- *         if isinstance(ot, OTSkip):             # <<<<<<<<<<<<<<
- *             n = (<OTSkip>ot).arg
- * 
- */
-      goto __pyx_L11;
-    }
-
-    /* "ottype/core_boost.pyx":357
- *                     n -= len((<OTDelete>chunk_ot).arg)
- * 
- *         elif isinstance(ot, OTInsert):             # <<<<<<<<<<<<<<
- *             if (side == 'left'
- *                     and isinstance(taker.peak(), OTInsert)):
- */
-    __pyx_t_5 = __Pyx_TypeCheck(((PyObject *)__pyx_v_ot), __pyx_ptype_6ottype_10core_boost_OTInsert); 
-    __pyx_t_1 = (__pyx_t_5 != 0);
-    if (__pyx_t_1) {
-
-      /* "ottype/core_boost.pyx":358
- * 
- *         elif isinstance(ot, OTInsert):
- *             if (side == 'left'             # <<<<<<<<<<<<<<
- *                     and isinstance(taker.peak(), OTInsert)):
- *                 appender.append(taker.take(-1))
- */
-      __pyx_t_5 = (__Pyx_PyUnicode_Equals(__pyx_v_side, __pyx_n_u_left, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 358, __pyx_L1_error)
-      __pyx_t_6 = (__pyx_t_5 != 0);
-      if (__pyx_t_6) {
+      #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+      if (likely(PyTuple_CheckExact(sequence))) {
+        __pyx_t_4 = PyTuple_GET_ITEM(sequence, 0); 
+        __pyx_t_9 = PyTuple_GET_ITEM(sequence, 1); 
       } else {
-        __pyx_t_1 = __pyx_t_6;
-        goto __pyx_L16_bool_binop_done;
+        __pyx_t_4 = PyList_GET_ITEM(sequence, 0); 
+        __pyx_t_9 = PyList_GET_ITEM(sequence, 1); 
       }
-
-      /* "ottype/core_boost.pyx":359
- *         elif isinstance(ot, OTInsert):
- *             if (side == 'left'
- *                     and isinstance(taker.peak(), OTInsert)):             # <<<<<<<<<<<<<<
- *                 appender.append(taker.take(-1))
- * 
- */
-      __pyx_t_2 = ((PyObject *)((struct __pyx_vtabstruct_6ottype_10core_boost__Taker *)__pyx_v_taker->__pyx_vtab)->peak(__pyx_v_taker)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 359, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_6 = __Pyx_TypeCheck(__pyx_t_2, __pyx_ptype_6ottype_10core_boost_OTInsert); 
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_5 = (__pyx_t_6 != 0);
-      __pyx_t_1 = __pyx_t_5;
-      __pyx_L16_bool_binop_done:;
-
-      /* "ottype/core_boost.pyx":358
- * 
- *         elif isinstance(ot, OTInsert):
- *             if (side == 'left'             # <<<<<<<<<<<<<<
- *                     and isinstance(taker.peak(), OTInsert)):
- *                 appender.append(taker.take(-1))
- */
-      if (__pyx_t_1) {
-
-        /* "ottype/core_boost.pyx":360
- *             if (side == 'left'
- *                     and isinstance(taker.peak(), OTInsert)):
- *                 appender.append(taker.take(-1))             # <<<<<<<<<<<<<<
- * 
- *             appender.append(OTSkip(len((<OTInsert>ot).arg)))
- */
-        __pyx_t_2 = ((PyObject *)((struct __pyx_vtabstruct_6ottype_10core_boost__Taker *)__pyx_v_taker->__pyx_vtab)->take(__pyx_v_taker, -1, NULL)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 360, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        ((struct __pyx_vtabstruct_6ottype_10core_boost__Appender *)__pyx_v_appender->__pyx_vtab)->append(__pyx_v_appender, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_2));
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-        /* "ottype/core_boost.pyx":358
- * 
- *         elif isinstance(ot, OTInsert):
- *             if (side == 'left'             # <<<<<<<<<<<<<<
- *                     and isinstance(taker.peak(), OTInsert)):
- *                 appender.append(taker.take(-1))
- */
-      }
-
-      /* "ottype/core_boost.pyx":362
- *                 appender.append(taker.take(-1))
- * 
- *             appender.append(OTSkip(len((<OTInsert>ot).arg)))             # <<<<<<<<<<<<<<
- * 
- *         elif isinstance(ot, OTDelete):
- */
-      __pyx_t_2 = ((struct __pyx_obj_6ottype_10core_boost_OTInsert *)__pyx_v_ot)->arg;
-      __Pyx_INCREF(__pyx_t_2);
-      if (unlikely(__pyx_t_2 == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-        __PYX_ERR(0, 362, __pyx_L1_error)
-      }
-      __pyx_t_11 = __Pyx_PyUnicode_GET_LENGTH(__pyx_t_2); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 362, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 362, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost_OTSkip), __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 362, __pyx_L1_error)
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_9);
+      #else
+      __pyx_t_4 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 348, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_9 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 348, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_9);
+      #endif
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      ((struct __pyx_vtabstruct_6ottype_10core_boost__Appender *)__pyx_v_appender->__pyx_vtab)->append(__pyx_v_appender, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_4));
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-      /* "ottype/core_boost.pyx":357
- *                     n -= len((<OTDelete>chunk_ot).arg)
- * 
- *         elif isinstance(ot, OTInsert):             # <<<<<<<<<<<<<<
- *             if (side == 'left'
- *                     and isinstance(taker.peak(), OTInsert)):
- */
-      goto __pyx_L11;
+    } else {
+      Py_ssize_t index = -1;
+      __pyx_t_10 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 348, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_10);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_11 = Py_TYPE(__pyx_t_10)->tp_iternext;
+      index = 0; __pyx_t_4 = __pyx_t_11(__pyx_t_10); if (unlikely(!__pyx_t_4)) goto __pyx_L11_unpacking_failed;
+      __Pyx_GOTREF(__pyx_t_4);
+      index = 1; __pyx_t_9 = __pyx_t_11(__pyx_t_10); if (unlikely(!__pyx_t_9)) goto __pyx_L11_unpacking_failed;
+      __Pyx_GOTREF(__pyx_t_9);
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_10), 2) < 0) __PYX_ERR(0, 348, __pyx_L1_error)
+      __pyx_t_11 = NULL;
+      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+      goto __pyx_L12_unpacking_done;
+      __pyx_L11_unpacking_failed:;
+      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+      __pyx_t_11 = NULL;
+      if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
+      __PYX_ERR(0, 348, __pyx_L1_error)
+      __pyx_L12_unpacking_done:;
     }
+    __pyx_t_12 = ((enum __pyx_t_6ottype_10core_boost_OTTypeAction)__Pyx_PyInt_As_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_t_4)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 348, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_v_ot_action = __pyx_t_12;
+    __Pyx_XDECREF_SET(__pyx_v_ot_arg, __pyx_t_9);
+    __pyx_t_9 = 0;
 
-    /* "ottype/core_boost.pyx":364
- *             appender.append(OTSkip(len((<OTInsert>ot).arg)))
+    /* "ottype/core_boost.pyx":349
  * 
- *         elif isinstance(ot, OTDelete):             # <<<<<<<<<<<<<<
- *             n = len((<OTDelete>ot).arg)
+ *     for ot_action, ot_arg in _make_iter_ots(ot_raw_list_2):
+ *         if ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *             n = <int>ot_arg
  * 
  */
-    __pyx_t_1 = __Pyx_TypeCheck(((PyObject *)__pyx_v_ot), __pyx_ptype_6ottype_10core_boost_OTDelete); 
-    __pyx_t_5 = (__pyx_t_1 != 0);
-    if (__pyx_t_5) {
+    switch (__pyx_v_ot_action) {
+      case __pyx_e_6ottype_10core_boost_skip:
 
-      /* "ottype/core_boost.pyx":365
- * 
- *         elif isinstance(ot, OTDelete):
- *             n = len((<OTDelete>ot).arg)             # <<<<<<<<<<<<<<
+      /* "ottype/core_boost.pyx":350
+ *     for ot_action, ot_arg in _make_iter_ots(ot_raw_list_2):
+ *         if ot_action == OTTypeAction.skip:
+ *             n = <int>ot_arg             # <<<<<<<<<<<<<<
  * 
  *             while 0 < n:
  */
-      __pyx_t_4 = ((struct __pyx_obj_6ottype_10core_boost_OTDelete *)__pyx_v_ot)->arg;
-      __Pyx_INCREF(__pyx_t_4);
-      if (unlikely(__pyx_t_4 == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-        __PYX_ERR(0, 365, __pyx_L1_error)
-      }
-      __pyx_t_11 = __Pyx_PyUnicode_GET_LENGTH(__pyx_t_4); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 365, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_v_n = __pyx_t_11;
+      __pyx_t_13 = __Pyx_PyInt_As_int(__pyx_v_ot_arg); if (unlikely((__pyx_t_13 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 350, __pyx_L1_error)
+      __pyx_v_n = ((int)__pyx_t_13);
 
-      /* "ottype/core_boost.pyx":367
- *             n = len((<OTDelete>ot).arg)
+      /* "ottype/core_boost.pyx":352
+ *             n = <int>ot_arg
  * 
  *             while 0 < n:             # <<<<<<<<<<<<<<
  *                 chunk_ot = taker.take(n, 1)
- * 
+ *                 appender.append(chunk_ot)
  */
       while (1) {
         __pyx_t_5 = ((0 < __pyx_v_n) != 0);
         if (!__pyx_t_5) break;
 
-        /* "ottype/core_boost.pyx":368
+        /* "ottype/core_boost.pyx":353
  * 
  *             while 0 < n:
  *                 chunk_ot = taker.take(n, 1)             # <<<<<<<<<<<<<<
+ *                 appender.append(chunk_ot)
  * 
- *                 if isinstance(chunk_ot, OTSkip):
  */
-        __pyx_t_10.__pyx_n = 1;
-        __pyx_t_10.indivisable = 1;
-        __pyx_t_4 = ((PyObject *)((struct __pyx_vtabstruct_6ottype_10core_boost__Taker *)__pyx_v_taker->__pyx_vtab)->take(__pyx_v_taker, __pyx_v_n, &__pyx_t_10)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 368, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_XDECREF_SET(__pyx_v_chunk_ot, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_4));
-        __pyx_t_4 = 0;
+        __pyx_t_14.__pyx_n = 1;
+        __pyx_t_14.indivisable = 1;
+        __pyx_t_2 = ((struct __pyx_vtabstruct_6ottype_10core_boost__Taker *)__pyx_v_taker->__pyx_vtab)->take(__pyx_v_taker, __pyx_v_n, &__pyx_t_14); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 353, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_XDECREF_SET(__pyx_v_chunk_ot, ((PyObject*)__pyx_t_2));
+        __pyx_t_2 = 0;
 
-        /* "ottype/core_boost.pyx":370
+        /* "ottype/core_boost.pyx":354
+ *             while 0 < n:
  *                 chunk_ot = taker.take(n, 1)
+ *                 appender.append(chunk_ot)             # <<<<<<<<<<<<<<
  * 
- *                 if isinstance(chunk_ot, OTSkip):             # <<<<<<<<<<<<<<
- *                     n -= (<OTSkip>chunk_ot).arg
- *                 elif isinstance(chunk_ot, OTInsert):
+ *                 if chunk_ot is None:
  */
-        __pyx_t_5 = __Pyx_TypeCheck(((PyObject *)__pyx_v_chunk_ot), __pyx_ptype_6ottype_10core_boost_OTSkip); 
+        ((struct __pyx_vtabstruct_6ottype_10core_boost__Appender *)__pyx_v_appender->__pyx_vtab)->append(__pyx_v_appender, __pyx_v_chunk_ot);
+
+        /* "ottype/core_boost.pyx":356
+ *                 appender.append(chunk_ot)
+ * 
+ *                 if chunk_ot is None:             # <<<<<<<<<<<<<<
+ *                     break
+ * 
+ */
+        __pyx_t_5 = (__pyx_v_chunk_ot == ((PyObject*)Py_None));
         __pyx_t_1 = (__pyx_t_5 != 0);
         if (__pyx_t_1) {
 
-          /* "ottype/core_boost.pyx":371
+          /* "ottype/core_boost.pyx":357
  * 
- *                 if isinstance(chunk_ot, OTSkip):
- *                     n -= (<OTSkip>chunk_ot).arg             # <<<<<<<<<<<<<<
- *                 elif isinstance(chunk_ot, OTInsert):
- *                     appender.append(chunk_ot)
+ *                 if chunk_ot is None:
+ *                     break             # <<<<<<<<<<<<<<
+ * 
+ *                 chunk_ot_action, chunk_ot_arg = chunk_ot
  */
-          __pyx_v_n = (__pyx_v_n - ((struct __pyx_obj_6ottype_10core_boost_OTSkip *)__pyx_v_chunk_ot)->arg);
+          goto __pyx_L14_break;
 
-          /* "ottype/core_boost.pyx":370
- *                 chunk_ot = taker.take(n, 1)
+          /* "ottype/core_boost.pyx":356
+ *                 appender.append(chunk_ot)
  * 
- *                 if isinstance(chunk_ot, OTSkip):             # <<<<<<<<<<<<<<
- *                     n -= (<OTSkip>chunk_ot).arg
- *                 elif isinstance(chunk_ot, OTInsert):
+ *                 if chunk_ot is None:             # <<<<<<<<<<<<<<
+ *                     break
+ * 
  */
-          goto __pyx_L20;
         }
 
-        /* "ottype/core_boost.pyx":372
- *                 if isinstance(chunk_ot, OTSkip):
- *                     n -= (<OTSkip>chunk_ot).arg
- *                 elif isinstance(chunk_ot, OTInsert):             # <<<<<<<<<<<<<<
- *                     appender.append(chunk_ot)
- *                 elif isinstance(chunk_ot, OTDelete):
+        /* "ottype/core_boost.pyx":359
+ *                     break
+ * 
+ *                 chunk_ot_action, chunk_ot_arg = chunk_ot             # <<<<<<<<<<<<<<
+ * 
+ *                 if chunk_ot_action == OTTypeAction.skip:
  */
-        __pyx_t_1 = __Pyx_TypeCheck(((PyObject *)__pyx_v_chunk_ot), __pyx_ptype_6ottype_10core_boost_OTInsert); 
-        __pyx_t_5 = (__pyx_t_1 != 0);
-        if (__pyx_t_5) {
+        if (likely(__pyx_v_chunk_ot != Py_None)) {
+          PyObject* sequence = __pyx_v_chunk_ot;
+          Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
+          if (unlikely(size != 2)) {
+            if (size > 2) __Pyx_RaiseTooManyValuesError(2);
+            else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
+            __PYX_ERR(0, 359, __pyx_L1_error)
+          }
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_2 = PyTuple_GET_ITEM(sequence, 0); 
+          __pyx_t_9 = PyTuple_GET_ITEM(sequence, 1); 
+          __Pyx_INCREF(__pyx_t_2);
+          __Pyx_INCREF(__pyx_t_9);
+          #else
+          __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 359, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __pyx_t_9 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 359, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_9);
+          #endif
+        } else {
+          __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(0, 359, __pyx_L1_error)
+        }
+        __pyx_t_12 = ((enum __pyx_t_6ottype_10core_boost_OTTypeAction)__Pyx_PyInt_As_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_t_2)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 359, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_v_chunk_ot_action = __pyx_t_12;
+        __Pyx_XDECREF_SET(__pyx_v_chunk_ot_arg, __pyx_t_9);
+        __pyx_t_9 = 0;
 
-          /* "ottype/core_boost.pyx":373
- *                     n -= (<OTSkip>chunk_ot).arg
- *                 elif isinstance(chunk_ot, OTInsert):
+        /* "ottype/core_boost.pyx":361
+ *                 chunk_ot_action, chunk_ot_arg = chunk_ot
+ * 
+ *                 if chunk_ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *                     n -= <int>chunk_ot_arg
+ *                 elif chunk_ot_action == OTTypeAction.insert:
+ */
+        switch (__pyx_v_chunk_ot_action) {
+          case __pyx_e_6ottype_10core_boost_skip:
+
+          /* "ottype/core_boost.pyx":362
+ * 
+ *                 if chunk_ot_action == OTTypeAction.skip:
+ *                     n -= <int>chunk_ot_arg             # <<<<<<<<<<<<<<
+ *                 elif chunk_ot_action == OTTypeAction.insert:
+ *                     pass
+ */
+          __pyx_t_13 = __Pyx_PyInt_As_int(__pyx_v_chunk_ot_arg); if (unlikely((__pyx_t_13 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 362, __pyx_L1_error)
+          __pyx_v_n = (__pyx_v_n - ((int)__pyx_t_13));
+
+          /* "ottype/core_boost.pyx":361
+ *                 chunk_ot_action, chunk_ot_arg = chunk_ot
+ * 
+ *                 if chunk_ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *                     n -= <int>chunk_ot_arg
+ *                 elif chunk_ot_action == OTTypeAction.insert:
+ */
+          break;
+          case __pyx_e_6ottype_10core_boost_insert:
+
+          /* "ottype/core_boost.pyx":363
+ *                 if chunk_ot_action == OTTypeAction.skip:
+ *                     n -= <int>chunk_ot_arg
+ *                 elif chunk_ot_action == OTTypeAction.insert:             # <<<<<<<<<<<<<<
+ *                     pass
+ *                 elif chunk_ot_action == OTTypeAction.delete:
+ */
+          break;
+          case __pyx_e_6ottype_10core_boost_delete:
+
+          /* "ottype/core_boost.pyx":366
+ *                     pass
+ *                 elif chunk_ot_action == OTTypeAction.delete:
+ *                     n -= len(<str>chunk_ot_arg)             # <<<<<<<<<<<<<<
+ * 
+ *         elif ot_action == OTTypeAction.insert:
+ */
+          if (unlikely(__pyx_v_chunk_ot_arg == Py_None)) {
+            PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+            __PYX_ERR(0, 366, __pyx_L1_error)
+          }
+          __pyx_t_15 = __Pyx_PyUnicode_GET_LENGTH(((PyObject*)__pyx_v_chunk_ot_arg)); if (unlikely(__pyx_t_15 == ((Py_ssize_t)-1))) __PYX_ERR(0, 366, __pyx_L1_error)
+          __pyx_v_n = (__pyx_v_n - __pyx_t_15);
+
+          /* "ottype/core_boost.pyx":365
+ *                 elif chunk_ot_action == OTTypeAction.insert:
+ *                     pass
+ *                 elif chunk_ot_action == OTTypeAction.delete:             # <<<<<<<<<<<<<<
+ *                     n -= len(<str>chunk_ot_arg)
+ * 
+ */
+          break;
+          default: break;
+        }
+      }
+      __pyx_L14_break:;
+
+      /* "ottype/core_boost.pyx":349
+ * 
+ *     for ot_action, ot_arg in _make_iter_ots(ot_raw_list_2):
+ *         if ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *             n = <int>ot_arg
+ * 
+ */
+      break;
+      case __pyx_e_6ottype_10core_boost_insert:
+
+      /* "ottype/core_boost.pyx":369
+ * 
+ *         elif ot_action == OTTypeAction.insert:
+ *             n = len(<str>ot_arg)             # <<<<<<<<<<<<<<
+ * 
+ *             if (side == 'left'
+ */
+      if (unlikely(__pyx_v_ot_arg == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+        __PYX_ERR(0, 369, __pyx_L1_error)
+      }
+      __pyx_t_15 = __Pyx_PyUnicode_GET_LENGTH(((PyObject*)__pyx_v_ot_arg)); if (unlikely(__pyx_t_15 == ((Py_ssize_t)-1))) __PYX_ERR(0, 369, __pyx_L1_error)
+      __pyx_v_n = __pyx_t_15;
+
+      /* "ottype/core_boost.pyx":371
+ *             n = len(<str>ot_arg)
+ * 
+ *             if (side == 'left'             # <<<<<<<<<<<<<<
+ *                     and taker.peak_action() == OTTypeAction.insert):
+ *                 appender.append(taker.take(-1))
+ */
+      __pyx_t_5 = (__Pyx_PyUnicode_Equals(__pyx_v_side, __pyx_n_u_left, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 371, __pyx_L1_error)
+      __pyx_t_6 = (__pyx_t_5 != 0);
+      if (__pyx_t_6) {
+      } else {
+        __pyx_t_1 = __pyx_t_6;
+        goto __pyx_L17_bool_binop_done;
+      }
+
+      /* "ottype/core_boost.pyx":372
+ * 
+ *             if (side == 'left'
+ *                     and taker.peak_action() == OTTypeAction.insert):             # <<<<<<<<<<<<<<
+ *                 appender.append(taker.take(-1))
+ * 
+ */
+      __pyx_t_6 = ((((struct __pyx_vtabstruct_6ottype_10core_boost__Taker *)__pyx_v_taker->__pyx_vtab)->peak_action(__pyx_v_taker) == __pyx_e_6ottype_10core_boost_insert) != 0);
+      __pyx_t_1 = __pyx_t_6;
+      __pyx_L17_bool_binop_done:;
+
+      /* "ottype/core_boost.pyx":371
+ *             n = len(<str>ot_arg)
+ * 
+ *             if (side == 'left'             # <<<<<<<<<<<<<<
+ *                     and taker.peak_action() == OTTypeAction.insert):
+ *                 appender.append(taker.take(-1))
+ */
+      if (__pyx_t_1) {
+
+        /* "ottype/core_boost.pyx":373
+ *             if (side == 'left'
+ *                     and taker.peak_action() == OTTypeAction.insert):
+ *                 appender.append(taker.take(-1))             # <<<<<<<<<<<<<<
+ * 
+ *             appender.append((OTTypeAction.skip, n))
+ */
+        __pyx_t_9 = ((struct __pyx_vtabstruct_6ottype_10core_boost__Taker *)__pyx_v_taker->__pyx_vtab)->take(__pyx_v_taker, -1, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 373, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        ((struct __pyx_vtabstruct_6ottype_10core_boost__Appender *)__pyx_v_appender->__pyx_vtab)->append(__pyx_v_appender, ((PyObject*)__pyx_t_9));
+        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+
+        /* "ottype/core_boost.pyx":371
+ *             n = len(<str>ot_arg)
+ * 
+ *             if (side == 'left'             # <<<<<<<<<<<<<<
+ *                     and taker.peak_action() == OTTypeAction.insert):
+ *                 appender.append(taker.take(-1))
+ */
+      }
+
+      /* "ottype/core_boost.pyx":375
+ *                 appender.append(taker.take(-1))
+ * 
+ *             appender.append((OTTypeAction.skip, n))             # <<<<<<<<<<<<<<
+ * 
+ *         elif ot_action == OTTypeAction.delete:
+ */
+      __pyx_t_9 = __Pyx_PyInt_From_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_e_6ottype_10core_boost_skip); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 375, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_9);
+      __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 375, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 375, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_GIVEREF(__pyx_t_9);
+      PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_9);
+      __Pyx_GIVEREF(__pyx_t_2);
+      PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_2);
+      __pyx_t_9 = 0;
+      __pyx_t_2 = 0;
+      ((struct __pyx_vtabstruct_6ottype_10core_boost__Appender *)__pyx_v_appender->__pyx_vtab)->append(__pyx_v_appender, ((PyObject*)__pyx_t_4));
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+      /* "ottype/core_boost.pyx":368
+ *                     n -= len(<str>chunk_ot_arg)
+ * 
+ *         elif ot_action == OTTypeAction.insert:             # <<<<<<<<<<<<<<
+ *             n = len(<str>ot_arg)
+ * 
+ */
+      break;
+      case __pyx_e_6ottype_10core_boost_delete:
+
+      /* "ottype/core_boost.pyx":378
+ * 
+ *         elif ot_action == OTTypeAction.delete:
+ *             n = len(<str>ot_arg)             # <<<<<<<<<<<<<<
+ * 
+ *             while 0 < n:
+ */
+      if (unlikely(__pyx_v_ot_arg == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+        __PYX_ERR(0, 378, __pyx_L1_error)
+      }
+      __pyx_t_15 = __Pyx_PyUnicode_GET_LENGTH(((PyObject*)__pyx_v_ot_arg)); if (unlikely(__pyx_t_15 == ((Py_ssize_t)-1))) __PYX_ERR(0, 378, __pyx_L1_error)
+      __pyx_v_n = __pyx_t_15;
+
+      /* "ottype/core_boost.pyx":380
+ *             n = len(<str>ot_arg)
+ * 
+ *             while 0 < n:             # <<<<<<<<<<<<<<
+ *                 chunk_ot = taker.take(n, 1)
+ *                 chunk_ot_action, chunk_ot_arg = chunk_ot
+ */
+      while (1) {
+        __pyx_t_1 = ((0 < __pyx_v_n) != 0);
+        if (!__pyx_t_1) break;
+
+        /* "ottype/core_boost.pyx":381
+ * 
+ *             while 0 < n:
+ *                 chunk_ot = taker.take(n, 1)             # <<<<<<<<<<<<<<
+ *                 chunk_ot_action, chunk_ot_arg = chunk_ot
+ * 
+ */
+        __pyx_t_14.__pyx_n = 1;
+        __pyx_t_14.indivisable = 1;
+        __pyx_t_4 = ((struct __pyx_vtabstruct_6ottype_10core_boost__Taker *)__pyx_v_taker->__pyx_vtab)->take(__pyx_v_taker, __pyx_v_n, &__pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 381, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_XDECREF_SET(__pyx_v_chunk_ot, ((PyObject*)__pyx_t_4));
+        __pyx_t_4 = 0;
+
+        /* "ottype/core_boost.pyx":382
+ *             while 0 < n:
+ *                 chunk_ot = taker.take(n, 1)
+ *                 chunk_ot_action, chunk_ot_arg = chunk_ot             # <<<<<<<<<<<<<<
+ * 
+ *                 if chunk_ot_action == OTTypeAction.skip:
+ */
+        if (likely(__pyx_v_chunk_ot != Py_None)) {
+          PyObject* sequence = __pyx_v_chunk_ot;
+          Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
+          if (unlikely(size != 2)) {
+            if (size > 2) __Pyx_RaiseTooManyValuesError(2);
+            else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
+            __PYX_ERR(0, 382, __pyx_L1_error)
+          }
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_4 = PyTuple_GET_ITEM(sequence, 0); 
+          __pyx_t_2 = PyTuple_GET_ITEM(sequence, 1); 
+          __Pyx_INCREF(__pyx_t_4);
+          __Pyx_INCREF(__pyx_t_2);
+          #else
+          __pyx_t_4 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 382, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          __pyx_t_2 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 382, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          #endif
+        } else {
+          __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(0, 382, __pyx_L1_error)
+        }
+        __pyx_t_12 = ((enum __pyx_t_6ottype_10core_boost_OTTypeAction)__Pyx_PyInt_As_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_t_4)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 382, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __pyx_v_chunk_ot_action = __pyx_t_12;
+        __Pyx_XDECREF_SET(__pyx_v_chunk_ot_arg, __pyx_t_2);
+        __pyx_t_2 = 0;
+
+        /* "ottype/core_boost.pyx":384
+ *                 chunk_ot_action, chunk_ot_arg = chunk_ot
+ * 
+ *                 if chunk_ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *                     n -= <int>chunk_ot_arg
+ *                 elif chunk_ot_action == OTTypeAction.insert:
+ */
+        switch (__pyx_v_chunk_ot_action) {
+          case __pyx_e_6ottype_10core_boost_skip:
+
+          /* "ottype/core_boost.pyx":385
+ * 
+ *                 if chunk_ot_action == OTTypeAction.skip:
+ *                     n -= <int>chunk_ot_arg             # <<<<<<<<<<<<<<
+ *                 elif chunk_ot_action == OTTypeAction.insert:
+ *                     appender.append(chunk_ot)
+ */
+          __pyx_t_13 = __Pyx_PyInt_As_int(__pyx_v_chunk_ot_arg); if (unlikely((__pyx_t_13 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 385, __pyx_L1_error)
+          __pyx_v_n = (__pyx_v_n - ((int)__pyx_t_13));
+
+          /* "ottype/core_boost.pyx":384
+ *                 chunk_ot_action, chunk_ot_arg = chunk_ot
+ * 
+ *                 if chunk_ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *                     n -= <int>chunk_ot_arg
+ *                 elif chunk_ot_action == OTTypeAction.insert:
+ */
+          break;
+          case __pyx_e_6ottype_10core_boost_insert:
+
+          /* "ottype/core_boost.pyx":387
+ *                     n -= <int>chunk_ot_arg
+ *                 elif chunk_ot_action == OTTypeAction.insert:
  *                     appender.append(chunk_ot)             # <<<<<<<<<<<<<<
- *                 elif isinstance(chunk_ot, OTDelete):
- *                     n -= len((<OTDelete>chunk_ot).arg)
+ *                 elif chunk_ot_action == OTTypeAction.delete:
+ *                     n -= len(<str>chunk_ot_arg)
  */
           ((struct __pyx_vtabstruct_6ottype_10core_boost__Appender *)__pyx_v_appender->__pyx_vtab)->append(__pyx_v_appender, __pyx_v_chunk_ot);
 
-          /* "ottype/core_boost.pyx":372
- *                 if isinstance(chunk_ot, OTSkip):
- *                     n -= (<OTSkip>chunk_ot).arg
- *                 elif isinstance(chunk_ot, OTInsert):             # <<<<<<<<<<<<<<
+          /* "ottype/core_boost.pyx":386
+ *                 if chunk_ot_action == OTTypeAction.skip:
+ *                     n -= <int>chunk_ot_arg
+ *                 elif chunk_ot_action == OTTypeAction.insert:             # <<<<<<<<<<<<<<
  *                     appender.append(chunk_ot)
- *                 elif isinstance(chunk_ot, OTDelete):
+ *                 elif chunk_ot_action == OTTypeAction.delete:
  */
-          goto __pyx_L20;
-        }
+          break;
+          case __pyx_e_6ottype_10core_boost_delete:
 
-        /* "ottype/core_boost.pyx":374
- *                 elif isinstance(chunk_ot, OTInsert):
+          /* "ottype/core_boost.pyx":389
  *                     appender.append(chunk_ot)
- *                 elif isinstance(chunk_ot, OTDelete):             # <<<<<<<<<<<<<<
- *                     n -= len((<OTDelete>chunk_ot).arg)
- * 
- */
-        __pyx_t_5 = __Pyx_TypeCheck(((PyObject *)__pyx_v_chunk_ot), __pyx_ptype_6ottype_10core_boost_OTDelete); 
-        __pyx_t_1 = (__pyx_t_5 != 0);
-        if (__pyx_t_1) {
-
-          /* "ottype/core_boost.pyx":375
- *                     appender.append(chunk_ot)
- *                 elif isinstance(chunk_ot, OTDelete):
- *                     n -= len((<OTDelete>chunk_ot).arg)             # <<<<<<<<<<<<<<
+ *                 elif chunk_ot_action == OTTypeAction.delete:
+ *                     n -= len(<str>chunk_ot_arg)             # <<<<<<<<<<<<<<
  * 
  *     while True:
  */
-          __pyx_t_4 = ((struct __pyx_obj_6ottype_10core_boost_OTDelete *)__pyx_v_chunk_ot)->arg;
-          __Pyx_INCREF(__pyx_t_4);
-          if (unlikely(__pyx_t_4 == Py_None)) {
+          if (unlikely(__pyx_v_chunk_ot_arg == Py_None)) {
             PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-            __PYX_ERR(0, 375, __pyx_L1_error)
+            __PYX_ERR(0, 389, __pyx_L1_error)
           }
-          __pyx_t_11 = __Pyx_PyUnicode_GET_LENGTH(__pyx_t_4); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 375, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __pyx_v_n = (__pyx_v_n - __pyx_t_11);
+          __pyx_t_15 = __Pyx_PyUnicode_GET_LENGTH(((PyObject*)__pyx_v_chunk_ot_arg)); if (unlikely(__pyx_t_15 == ((Py_ssize_t)-1))) __PYX_ERR(0, 389, __pyx_L1_error)
+          __pyx_v_n = (__pyx_v_n - __pyx_t_15);
 
-          /* "ottype/core_boost.pyx":374
- *                 elif isinstance(chunk_ot, OTInsert):
+          /* "ottype/core_boost.pyx":388
+ *                 elif chunk_ot_action == OTTypeAction.insert:
  *                     appender.append(chunk_ot)
- *                 elif isinstance(chunk_ot, OTDelete):             # <<<<<<<<<<<<<<
- *                     n -= len((<OTDelete>chunk_ot).arg)
+ *                 elif chunk_ot_action == OTTypeAction.delete:             # <<<<<<<<<<<<<<
+ *                     n -= len(<str>chunk_ot_arg)
  * 
  */
+          break;
+          default: break;
         }
-        __pyx_L20:;
       }
 
-      /* "ottype/core_boost.pyx":364
- *             appender.append(OTSkip(len((<OTInsert>ot).arg)))
+      /* "ottype/core_boost.pyx":377
+ *             appender.append((OTTypeAction.skip, n))
  * 
- *         elif isinstance(ot, OTDelete):             # <<<<<<<<<<<<<<
- *             n = len((<OTDelete>ot).arg)
+ *         elif ot_action == OTTypeAction.delete:             # <<<<<<<<<<<<<<
+ *             n = len(<str>ot_arg)
  * 
  */
+      break;
+      default: break;
     }
-    __pyx_L11:;
 
-    /* "ottype/core_boost.pyx":342
+    /* "ottype/core_boost.pyx":348
  *     taker = _Taker(list(_make_iter_ots(ot_raw_list_1)))
  * 
- *     for ot in _make_iter_ots(ot_raw_list_2):             # <<<<<<<<<<<<<<
- *         if isinstance(ot, OTSkip):
- *             n = (<OTSkip>ot).arg
+ *     for ot_action, ot_arg in _make_iter_ots(ot_raw_list_2):             # <<<<<<<<<<<<<<
+ *         if ot_action == OTTypeAction.skip:
+ *             n = <int>ot_arg
  */
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "ottype/core_boost.pyx":377
- *                     n -= len((<OTDelete>chunk_ot).arg)
+  /* "ottype/core_boost.pyx":391
+ *                     n -= len(<str>chunk_ot_arg)
  * 
  *     while True:             # <<<<<<<<<<<<<<
  *         chunk_ot = taker.take(-1)
@@ -8132,30 +7120,30 @@ static PyObject *__pyx_pf_6ottype_10core_boost_8transform(CYTHON_UNUSED PyObject
  */
   while (1) {
 
-    /* "ottype/core_boost.pyx":378
+    /* "ottype/core_boost.pyx":392
  * 
  *     while True:
  *         chunk_ot = taker.take(-1)             # <<<<<<<<<<<<<<
  *         if chunk_ot is None:
  *             break
  */
-    __pyx_t_3 = ((PyObject *)((struct __pyx_vtabstruct_6ottype_10core_boost__Taker *)__pyx_v_taker->__pyx_vtab)->take(__pyx_v_taker, -1, NULL)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 378, __pyx_L1_error)
+    __pyx_t_3 = ((struct __pyx_vtabstruct_6ottype_10core_boost__Taker *)__pyx_v_taker->__pyx_vtab)->take(__pyx_v_taker, -1, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 392, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_XDECREF_SET(__pyx_v_chunk_ot, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_3));
+    __Pyx_XDECREF_SET(__pyx_v_chunk_ot, ((PyObject*)__pyx_t_3));
     __pyx_t_3 = 0;
 
-    /* "ottype/core_boost.pyx":379
+    /* "ottype/core_boost.pyx":393
  *     while True:
  *         chunk_ot = taker.take(-1)
  *         if chunk_ot is None:             # <<<<<<<<<<<<<<
  *             break
  *         appender.append(chunk_ot)
  */
-    __pyx_t_1 = (((PyObject *)__pyx_v_chunk_ot) == Py_None);
-    __pyx_t_5 = (__pyx_t_1 != 0);
-    if (__pyx_t_5) {
+    __pyx_t_1 = (__pyx_v_chunk_ot == ((PyObject*)Py_None));
+    __pyx_t_6 = (__pyx_t_1 != 0);
+    if (__pyx_t_6) {
 
-      /* "ottype/core_boost.pyx":380
+      /* "ottype/core_boost.pyx":394
  *         chunk_ot = taker.take(-1)
  *         if chunk_ot is None:
  *             break             # <<<<<<<<<<<<<<
@@ -8164,7 +7152,7 @@ static PyObject *__pyx_pf_6ottype_10core_boost_8transform(CYTHON_UNUSED PyObject
  */
       goto __pyx_L22_break;
 
-      /* "ottype/core_boost.pyx":379
+      /* "ottype/core_boost.pyx":393
  *     while True:
  *         chunk_ot = taker.take(-1)
  *         if chunk_ot is None:             # <<<<<<<<<<<<<<
@@ -8173,7 +7161,7 @@ static PyObject *__pyx_pf_6ottype_10core_boost_8transform(CYTHON_UNUSED PyObject
  */
     }
 
-    /* "ottype/core_boost.pyx":381
+    /* "ottype/core_boost.pyx":395
  *         if chunk_ot is None:
  *             break
  *         appender.append(chunk_ot)             # <<<<<<<<<<<<<<
@@ -8184,79 +7172,33 @@ static PyObject *__pyx_pf_6ottype_10core_boost_8transform(CYTHON_UNUSED PyObject
   }
   __pyx_L22_break:;
 
-  /* "ottype/core_boost.pyx":383
+  /* "ottype/core_boost.pyx":397
  *         appender.append(chunk_ot)
  * 
  *     _trim(new_ots)             # <<<<<<<<<<<<<<
  * 
- *     new_ot_raw_list = [None] * len(new_ots)
+ *     return _to_ot_raw_list(new_ots)
  */
   __pyx_f_6ottype_10core_boost__trim(__pyx_v_new_ots);
 
-  /* "ottype/core_boost.pyx":385
+  /* "ottype/core_boost.pyx":399
  *     _trim(new_ots)
  * 
- *     new_ot_raw_list = [None] * len(new_ots)             # <<<<<<<<<<<<<<
- *     for i in range(len(new_ots)):
- *         new_ot_raw_list[i] = new_ots[i].raw
- */
-  __pyx_t_8 = PyList_GET_SIZE(__pyx_v_new_ots); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 385, __pyx_L1_error)
-  __pyx_t_3 = PyList_New(1 * ((__pyx_t_8<0) ? 0:__pyx_t_8)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 385, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  { Py_ssize_t __pyx_temp;
-    for (__pyx_temp=0; __pyx_temp < __pyx_t_8; __pyx_temp++) {
-      __Pyx_INCREF(Py_None);
-      __Pyx_GIVEREF(Py_None);
-      PyList_SET_ITEM(__pyx_t_3, __pyx_temp, Py_None);
-    }
-  }
-  __pyx_v_new_ot_raw_list = ((PyObject*)__pyx_t_3);
-  __pyx_t_3 = 0;
-
-  /* "ottype/core_boost.pyx":386
- * 
- *     new_ot_raw_list = [None] * len(new_ots)
- *     for i in range(len(new_ots)):             # <<<<<<<<<<<<<<
- *         new_ot_raw_list[i] = new_ots[i].raw
- * 
- */
-  __pyx_t_8 = PyList_GET_SIZE(__pyx_v_new_ots); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 386, __pyx_L1_error)
-  __pyx_t_11 = __pyx_t_8;
-  for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_11; __pyx_t_9+=1) {
-    __pyx_v_i = __pyx_t_9;
-
-    /* "ottype/core_boost.pyx":387
- *     new_ot_raw_list = [None] * len(new_ots)
- *     for i in range(len(new_ots)):
- *         new_ot_raw_list[i] = new_ots[i].raw             # <<<<<<<<<<<<<<
- * 
- *     return new_ot_raw_list
- */
-    __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_new_ots, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 387, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_raw); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 387, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(__Pyx_SetItemInt(__pyx_v_new_ot_raw_list, __pyx_v_i, __pyx_t_4, int, 1, __Pyx_PyInt_From_int, 1, 1, 1) < 0)) __PYX_ERR(0, 387, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  }
-
-  /* "ottype/core_boost.pyx":389
- *         new_ot_raw_list[i] = new_ots[i].raw
- * 
- *     return new_ot_raw_list             # <<<<<<<<<<<<<<
+ *     return _to_ot_raw_list(new_ots)             # <<<<<<<<<<<<<<
  * 
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_new_ot_raw_list);
-  __pyx_r = __pyx_v_new_ot_raw_list;
+  __pyx_t_3 = __pyx_f_6ottype_10core_boost__to_ot_raw_list(__pyx_v_new_ots); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 399, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_r = __pyx_t_3;
+  __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "ottype/core_boost.pyx":319
+  /* "ottype/core_boost.pyx":324
  * 
  * 
- * def transform(list ot_raw_list_1, list ot_raw_list_2, str side):             # <<<<<<<<<<<<<<
+ * def transform(list ot_raw_list_1 not None, list ot_raw_list_2 not None, str side not None):             # <<<<<<<<<<<<<<
  *     cdef:
  *         list new_ots
  */
@@ -8267,24 +7209,26 @@ static PyObject *__pyx_pf_6ottype_10core_boost_8transform(CYTHON_UNUSED PyObject
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_9);
+  __Pyx_XDECREF(__pyx_t_10);
   __Pyx_AddTraceback("ottype.core_boost.transform", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_new_ots);
   __Pyx_XDECREF((PyObject *)__pyx_v_appender);
   __Pyx_XDECREF((PyObject *)__pyx_v_taker);
-  __Pyx_XDECREF((PyObject *)__pyx_v_ot);
-  __Pyx_XDECREF((PyObject *)__pyx_v_chunk_ot);
-  __Pyx_XDECREF(__pyx_v_new_ot_raw_list);
+  __Pyx_XDECREF(__pyx_v_ot_arg);
+  __Pyx_XDECREF(__pyx_v_chunk_ot);
+  __Pyx_XDECREF(__pyx_v_chunk_ot_arg);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "ottype/core_boost.pyx":392
+/* "ottype/core_boost.pyx":402
  * 
  * 
- * def compose(list ot_raw_list_1, list ot_raw_list_2):             # <<<<<<<<<<<<<<
+ * def compose(list ot_raw_list_1 not None, list ot_raw_list_2 not None):             # <<<<<<<<<<<<<<
  *     cdef:
  *         list new_ots
  */
@@ -8321,11 +7265,11 @@ static PyObject *__pyx_pw_6ottype_10core_boost_11compose(PyObject *__pyx_self, P
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_ot_raw_list_2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("compose", 1, 2, 2, 1); __PYX_ERR(0, 392, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("compose", 1, 2, 2, 1); __PYX_ERR(0, 402, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "compose") < 0)) __PYX_ERR(0, 392, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "compose") < 0)) __PYX_ERR(0, 402, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -8338,14 +7282,14 @@ static PyObject *__pyx_pw_6ottype_10core_boost_11compose(PyObject *__pyx_self, P
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("compose", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 392, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("compose", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 402, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("ottype.core_boost.compose", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ot_raw_list_1), (&PyList_Type), 1, "ot_raw_list_1", 1))) __PYX_ERR(0, 392, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ot_raw_list_2), (&PyList_Type), 1, "ot_raw_list_2", 1))) __PYX_ERR(0, 392, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ot_raw_list_1), (&PyList_Type), 0, "ot_raw_list_1", 1))) __PYX_ERR(0, 402, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ot_raw_list_2), (&PyList_Type), 0, "ot_raw_list_2", 1))) __PYX_ERR(0, 402, __pyx_L1_error)
   __pyx_r = __pyx_pf_6ottype_10core_boost_10compose(__pyx_self, __pyx_v_ot_raw_list_1, __pyx_v_ot_raw_list_2);
 
   /* function exit code */
@@ -8361,15 +7305,17 @@ static PyObject *__pyx_pf_6ottype_10core_boost_10compose(CYTHON_UNUSED PyObject 
   PyObject *__pyx_v_new_ots = 0;
   struct __pyx_obj_6ottype_10core_boost__Appender *__pyx_v_appender = 0;
   struct __pyx_obj_6ottype_10core_boost__Taker *__pyx_v_taker = 0;
-  struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_v_ot = 0;
-  struct __pyx_obj_6ottype_10core_boost_OTDelete *__pyx_v_ot_delete = 0;
+  PyObject *__pyx_v_ot = 0;
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_v_ot_action;
+  PyObject *__pyx_v_ot_arg = 0;
+  PyObject *__pyx_v_ot_arg_as_str = 0;
   int __pyx_v_n;
-  struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_v_chunk_ot = 0;
-  struct __pyx_obj_6ottype_10core_boost_OTSkip *__pyx_v_chunk_ot_skip = 0;
-  struct __pyx_obj_6ottype_10core_boost_OTInsert *__pyx_v_chunk_ot_insert = 0;
-  PyObject *__pyx_v_new_ot_raw_list = 0;
-  int __pyx_v_i;
-  PyObject *__pyx_v_offset = NULL;
+  int __pyx_v_offset;
+  PyObject *__pyx_v_chunk_ot = 0;
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_v_chunk_ot_action;
+  PyObject *__pyx_v_chunk_ot_arg = 0;
+  int __pyx_v_chunk_ot_arg_as_int;
+  PyObject *__pyx_v_chunk_ot_arg_as_str = 0;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -8379,21 +7325,21 @@ static PyObject *__pyx_pf_6ottype_10core_boost_10compose(CYTHON_UNUSED PyObject 
   int __pyx_t_5;
   int __pyx_t_6;
   Py_ssize_t __pyx_t_7;
-  int __pyx_t_8;
-  struct __pyx_opt_args_6ottype_10core_boost_6_Taker_take __pyx_t_9;
-  Py_ssize_t __pyx_t_10;
+  enum __pyx_t_6ottype_10core_boost_OTTypeAction __pyx_t_8;
+  int __pyx_t_9;
+  struct __pyx_opt_args_6ottype_10core_boost_6_Taker_take __pyx_t_10;
   Py_ssize_t __pyx_t_11;
-  Py_ssize_t __pyx_t_12;
+  PyObject *__pyx_t_12 = NULL;
   __Pyx_RefNannySetupContext("compose", 0);
 
-  /* "ottype/core_boost.pyx":408
- *         int i
+  /* "ottype/core_boost.pyx":422
+ *         str chunk_ot_arg_as_str
  * 
  *     if not check(ot_raw_list_1) or not check(ot_raw_list_2):             # <<<<<<<<<<<<<<
  *         raise ValueError('invalid OTs')
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_check); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 408, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_check); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 422, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -8407,10 +7353,10 @@ static PyObject *__pyx_pf_6ottype_10core_boost_10compose(CYTHON_UNUSED PyObject 
   }
   __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_v_ot_raw_list_1) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_ot_raw_list_1);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 408, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 422, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 408, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 422, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_6 = ((!__pyx_t_5) != 0);
   if (!__pyx_t_6) {
@@ -8418,7 +7364,7 @@ static PyObject *__pyx_pf_6ottype_10core_boost_10compose(CYTHON_UNUSED PyObject 
     __pyx_t_1 = __pyx_t_6;
     goto __pyx_L4_bool_binop_done;
   }
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_check); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 408, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_check); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 422, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -8432,31 +7378,31 @@ static PyObject *__pyx_pf_6ottype_10core_boost_10compose(CYTHON_UNUSED PyObject 
   }
   __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_v_ot_raw_list_2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_ot_raw_list_2);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 408, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 422, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 408, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 422, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_5 = ((!__pyx_t_6) != 0);
   __pyx_t_1 = __pyx_t_5;
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "ottype/core_boost.pyx":409
+    /* "ottype/core_boost.pyx":423
  * 
  *     if not check(ot_raw_list_1) or not check(ot_raw_list_2):
  *         raise ValueError('invalid OTs')             # <<<<<<<<<<<<<<
  * 
  *     new_ots = []
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 409, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 423, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 409, __pyx_L1_error)
+    __PYX_ERR(0, 423, __pyx_L1_error)
 
-    /* "ottype/core_boost.pyx":408
- *         int i
+    /* "ottype/core_boost.pyx":422
+ *         str chunk_ot_arg_as_str
  * 
  *     if not check(ot_raw_list_1) or not check(ot_raw_list_2):             # <<<<<<<<<<<<<<
  *         raise ValueError('invalid OTs')
@@ -8464,680 +7410,628 @@ static PyObject *__pyx_pf_6ottype_10core_boost_10compose(CYTHON_UNUSED PyObject 
  */
   }
 
-  /* "ottype/core_boost.pyx":411
+  /* "ottype/core_boost.pyx":425
  *         raise ValueError('invalid OTs')
  * 
  *     new_ots = []             # <<<<<<<<<<<<<<
  *     appender = _Appender(new_ots)
  *     taker = _Taker(list(_make_iter_ots(ot_raw_list_1)))
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 411, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 425, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_new_ots = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "ottype/core_boost.pyx":412
+  /* "ottype/core_boost.pyx":426
  * 
  *     new_ots = []
  *     appender = _Appender(new_ots)             # <<<<<<<<<<<<<<
  *     taker = _Taker(list(_make_iter_ots(ot_raw_list_1)))
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost__Appender), __pyx_v_new_ots); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 412, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost__Appender), __pyx_v_new_ots); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 426, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_appender = ((struct __pyx_obj_6ottype_10core_boost__Appender *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "ottype/core_boost.pyx":413
+  /* "ottype/core_boost.pyx":427
  *     new_ots = []
  *     appender = _Appender(new_ots)
  *     taker = _Taker(list(_make_iter_ots(ot_raw_list_1)))             # <<<<<<<<<<<<<<
  * 
  *     for ot in _make_iter_ots(ot_raw_list_2):
  */
-  __pyx_t_2 = __pyx_f_6ottype_10core_boost__make_iter_ots(__pyx_v_ot_raw_list_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 413, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_6ottype_10core_boost__make_iter_ots(__pyx_v_ot_raw_list_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 427, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PySequence_List(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 413, __pyx_L1_error)
+  __pyx_t_3 = PySequence_List(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 427, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost__Taker), __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 413, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost__Taker), __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 427, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_taker = ((struct __pyx_obj_6ottype_10core_boost__Taker *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "ottype/core_boost.pyx":415
+  /* "ottype/core_boost.pyx":429
  *     taker = _Taker(list(_make_iter_ots(ot_raw_list_1)))
  * 
  *     for ot in _make_iter_ots(ot_raw_list_2):             # <<<<<<<<<<<<<<
- *         if isinstance(ot, OTSkip):
- *             n = (<OTSkip>ot).arg
+ *         ot_action, ot_arg = ot
+ * 
  */
-  __pyx_t_2 = __pyx_f_6ottype_10core_boost__make_iter_ots(__pyx_v_ot_raw_list_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 415, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_6ottype_10core_boost__make_iter_ots(__pyx_v_ot_raw_list_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 429, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (unlikely(__pyx_t_2 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 415, __pyx_L1_error)
+    __PYX_ERR(0, 429, __pyx_L1_error)
   }
   __pyx_t_3 = __pyx_t_2; __Pyx_INCREF(__pyx_t_3); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   for (;;) {
     if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_3)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_7); __Pyx_INCREF(__pyx_t_2); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 415, __pyx_L1_error)
+    __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_7); __Pyx_INCREF(__pyx_t_2); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 429, __pyx_L1_error)
     #else
-    __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 415, __pyx_L1_error)
+    __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 429, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     #endif
-    if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_6ottype_10core_boost_OTType))))) __PYX_ERR(0, 415, __pyx_L1_error)
-    __Pyx_XDECREF_SET(__pyx_v_ot, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_2));
+    if (!(likely(PyTuple_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 429, __pyx_L1_error)
+    __Pyx_XDECREF_SET(__pyx_v_ot, ((PyObject*)__pyx_t_2));
     __pyx_t_2 = 0;
 
-    /* "ottype/core_boost.pyx":416
- * 
- *     for ot in _make_iter_ots(ot_raw_list_2):
- *         if isinstance(ot, OTSkip):             # <<<<<<<<<<<<<<
- *             n = (<OTSkip>ot).arg
- * 
- */
-    __pyx_t_1 = __Pyx_TypeCheck(((PyObject *)__pyx_v_ot), __pyx_ptype_6ottype_10core_boost_OTSkip); 
-    __pyx_t_5 = (__pyx_t_1 != 0);
-    if (__pyx_t_5) {
-
-      /* "ottype/core_boost.pyx":417
- *     for ot in _make_iter_ots(ot_raw_list_2):
- *         if isinstance(ot, OTSkip):
- *             n = (<OTSkip>ot).arg             # <<<<<<<<<<<<<<
- * 
- *             while 0 < n:
- */
-      __pyx_t_8 = ((struct __pyx_obj_6ottype_10core_boost_OTSkip *)__pyx_v_ot)->arg;
-      __pyx_v_n = __pyx_t_8;
-
-      /* "ottype/core_boost.pyx":419
- *             n = (<OTSkip>ot).arg
- * 
- *             while 0 < n:             # <<<<<<<<<<<<<<
- *                 chunk_ot = taker.take(n, 2)
- *                 appender.append(chunk_ot)
- */
-      while (1) {
-        __pyx_t_5 = ((0 < __pyx_v_n) != 0);
-        if (!__pyx_t_5) break;
-
-        /* "ottype/core_boost.pyx":420
- * 
- *             while 0 < n:
- *                 chunk_ot = taker.take(n, 2)             # <<<<<<<<<<<<<<
- *                 appender.append(chunk_ot)
- * 
- */
-        __pyx_t_9.__pyx_n = 1;
-        __pyx_t_9.indivisable = 2;
-        __pyx_t_2 = ((PyObject *)((struct __pyx_vtabstruct_6ottype_10core_boost__Taker *)__pyx_v_taker->__pyx_vtab)->take(__pyx_v_taker, __pyx_v_n, &__pyx_t_9)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 420, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_XDECREF_SET(__pyx_v_chunk_ot, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_2));
-        __pyx_t_2 = 0;
-
-        /* "ottype/core_boost.pyx":421
- *             while 0 < n:
- *                 chunk_ot = taker.take(n, 2)
- *                 appender.append(chunk_ot)             # <<<<<<<<<<<<<<
- * 
- *                 if isinstance(chunk_ot, OTSkip):
- */
-        ((struct __pyx_vtabstruct_6ottype_10core_boost__Appender *)__pyx_v_appender->__pyx_vtab)->append(__pyx_v_appender, __pyx_v_chunk_ot);
-
-        /* "ottype/core_boost.pyx":423
- *                 appender.append(chunk_ot)
- * 
- *                 if isinstance(chunk_ot, OTSkip):             # <<<<<<<<<<<<<<
- *                     n -= (<OTSkip>chunk_ot).arg
- *                 elif isinstance(chunk_ot, OTInsert):
- */
-        __pyx_t_5 = __Pyx_TypeCheck(((PyObject *)__pyx_v_chunk_ot), __pyx_ptype_6ottype_10core_boost_OTSkip); 
-        __pyx_t_1 = (__pyx_t_5 != 0);
-        if (__pyx_t_1) {
-
-          /* "ottype/core_boost.pyx":424
- * 
- *                 if isinstance(chunk_ot, OTSkip):
- *                     n -= (<OTSkip>chunk_ot).arg             # <<<<<<<<<<<<<<
- *                 elif isinstance(chunk_ot, OTInsert):
- *                     n -= len((<OTInsert>chunk_ot).arg)
- */
-          __pyx_v_n = (__pyx_v_n - ((struct __pyx_obj_6ottype_10core_boost_OTSkip *)__pyx_v_chunk_ot)->arg);
-
-          /* "ottype/core_boost.pyx":423
- *                 appender.append(chunk_ot)
- * 
- *                 if isinstance(chunk_ot, OTSkip):             # <<<<<<<<<<<<<<
- *                     n -= (<OTSkip>chunk_ot).arg
- *                 elif isinstance(chunk_ot, OTInsert):
- */
-          goto __pyx_L11;
-        }
-
-        /* "ottype/core_boost.pyx":425
- *                 if isinstance(chunk_ot, OTSkip):
- *                     n -= (<OTSkip>chunk_ot).arg
- *                 elif isinstance(chunk_ot, OTInsert):             # <<<<<<<<<<<<<<
- *                     n -= len((<OTInsert>chunk_ot).arg)
- *                 elif isinstance(chunk_ot, OTDelete):
- */
-        __pyx_t_1 = __Pyx_TypeCheck(((PyObject *)__pyx_v_chunk_ot), __pyx_ptype_6ottype_10core_boost_OTInsert); 
-        __pyx_t_5 = (__pyx_t_1 != 0);
-        if (__pyx_t_5) {
-
-          /* "ottype/core_boost.pyx":426
- *                     n -= (<OTSkip>chunk_ot).arg
- *                 elif isinstance(chunk_ot, OTInsert):
- *                     n -= len((<OTInsert>chunk_ot).arg)             # <<<<<<<<<<<<<<
- *                 elif isinstance(chunk_ot, OTDelete):
- *                     pass
- */
-          __pyx_t_2 = ((struct __pyx_obj_6ottype_10core_boost_OTInsert *)__pyx_v_chunk_ot)->arg;
-          __Pyx_INCREF(__pyx_t_2);
-          if (unlikely(__pyx_t_2 == Py_None)) {
-            PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-            __PYX_ERR(0, 426, __pyx_L1_error)
-          }
-          __pyx_t_10 = __Pyx_PyUnicode_GET_LENGTH(__pyx_t_2); if (unlikely(__pyx_t_10 == ((Py_ssize_t)-1))) __PYX_ERR(0, 426, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_v_n = (__pyx_v_n - __pyx_t_10);
-
-          /* "ottype/core_boost.pyx":425
- *                 if isinstance(chunk_ot, OTSkip):
- *                     n -= (<OTSkip>chunk_ot).arg
- *                 elif isinstance(chunk_ot, OTInsert):             # <<<<<<<<<<<<<<
- *                     n -= len((<OTInsert>chunk_ot).arg)
- *                 elif isinstance(chunk_ot, OTDelete):
- */
-          goto __pyx_L11;
-        }
-
-        /* "ottype/core_boost.pyx":427
- *                 elif isinstance(chunk_ot, OTInsert):
- *                     n -= len((<OTInsert>chunk_ot).arg)
- *                 elif isinstance(chunk_ot, OTDelete):             # <<<<<<<<<<<<<<
- *                     pass
- * 
- */
-        __pyx_t_5 = __Pyx_TypeCheck(((PyObject *)__pyx_v_chunk_ot), __pyx_ptype_6ottype_10core_boost_OTDelete); 
-        __pyx_t_1 = (__pyx_t_5 != 0);
-        if (__pyx_t_1) {
-        }
-        __pyx_L11:;
-      }
-
-      /* "ottype/core_boost.pyx":416
- * 
- *     for ot in _make_iter_ots(ot_raw_list_2):
- *         if isinstance(ot, OTSkip):             # <<<<<<<<<<<<<<
- *             n = (<OTSkip>ot).arg
- * 
- */
-      goto __pyx_L8;
-    }
-
     /* "ottype/core_boost.pyx":430
- *                     pass
  * 
- *         elif isinstance(ot, OTInsert):             # <<<<<<<<<<<<<<
- *             appender.append(ot)
+ *     for ot in _make_iter_ots(ot_raw_list_2):
+ *         ot_action, ot_arg = ot             # <<<<<<<<<<<<<<
  * 
+ *         if ot_action == OTTypeAction.skip:
  */
-    __pyx_t_1 = __Pyx_TypeCheck(((PyObject *)__pyx_v_ot), __pyx_ptype_6ottype_10core_boost_OTInsert); 
-    __pyx_t_5 = (__pyx_t_1 != 0);
-    if (__pyx_t_5) {
-
-      /* "ottype/core_boost.pyx":431
- * 
- *         elif isinstance(ot, OTInsert):
- *             appender.append(ot)             # <<<<<<<<<<<<<<
- * 
- *         elif isinstance(ot, OTDelete):
- */
-      ((struct __pyx_vtabstruct_6ottype_10core_boost__Appender *)__pyx_v_appender->__pyx_vtab)->append(__pyx_v_appender, __pyx_v_ot);
-
-      /* "ottype/core_boost.pyx":430
- *                     pass
- * 
- *         elif isinstance(ot, OTInsert):             # <<<<<<<<<<<<<<
- *             appender.append(ot)
- * 
- */
-      goto __pyx_L8;
-    }
-
-    /* "ottype/core_boost.pyx":433
- *             appender.append(ot)
- * 
- *         elif isinstance(ot, OTDelete):             # <<<<<<<<<<<<<<
- *             ot_delete = <OTDelete>ot
- * 
- */
-    __pyx_t_5 = __Pyx_TypeCheck(((PyObject *)__pyx_v_ot), __pyx_ptype_6ottype_10core_boost_OTDelete); 
-    __pyx_t_1 = (__pyx_t_5 != 0);
-    if (__pyx_t_1) {
-
-      /* "ottype/core_boost.pyx":434
- * 
- *         elif isinstance(ot, OTDelete):
- *             ot_delete = <OTDelete>ot             # <<<<<<<<<<<<<<
- * 
- *             offset = 0
- */
-      __pyx_t_2 = ((PyObject *)__pyx_v_ot);
+    if (likely(__pyx_v_ot != Py_None)) {
+      PyObject* sequence = __pyx_v_ot;
+      Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
+      if (unlikely(size != 2)) {
+        if (size > 2) __Pyx_RaiseTooManyValuesError(2);
+        else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
+        __PYX_ERR(0, 430, __pyx_L1_error)
+      }
+      #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+      __pyx_t_2 = PyTuple_GET_ITEM(sequence, 0); 
+      __pyx_t_4 = PyTuple_GET_ITEM(sequence, 1); 
       __Pyx_INCREF(__pyx_t_2);
-      __Pyx_XDECREF_SET(__pyx_v_ot_delete, ((struct __pyx_obj_6ottype_10core_boost_OTDelete *)__pyx_t_2));
-      __pyx_t_2 = 0;
+      __Pyx_INCREF(__pyx_t_4);
+      #else
+      __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 430, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_4 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 430, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      #endif
+    } else {
+      __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(0, 430, __pyx_L1_error)
+    }
+    __pyx_t_8 = ((enum __pyx_t_6ottype_10core_boost_OTTypeAction)__Pyx_PyInt_As_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_t_2)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 430, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_v_ot_action = __pyx_t_8;
+    __Pyx_XDECREF_SET(__pyx_v_ot_arg, __pyx_t_4);
+    __pyx_t_4 = 0;
 
-      /* "ottype/core_boost.pyx":436
- *             ot_delete = <OTDelete>ot
+    /* "ottype/core_boost.pyx":432
+ *         ot_action, ot_arg = ot
  * 
- *             offset = 0             # <<<<<<<<<<<<<<
- *             n = len((<OTDelete>ot).arg)
+ *         if ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *             n = <int>ot_arg
  * 
  */
-      __Pyx_INCREF(__pyx_int_0);
-      __Pyx_XDECREF_SET(__pyx_v_offset, __pyx_int_0);
+    switch (__pyx_v_ot_action) {
+      case __pyx_e_6ottype_10core_boost_skip:
 
-      /* "ottype/core_boost.pyx":437
+      /* "ottype/core_boost.pyx":433
  * 
- *             offset = 0
- *             n = len((<OTDelete>ot).arg)             # <<<<<<<<<<<<<<
+ *         if ot_action == OTTypeAction.skip:
+ *             n = <int>ot_arg             # <<<<<<<<<<<<<<
  * 
  *             while 0 < n:
  */
-      __pyx_t_2 = ((struct __pyx_obj_6ottype_10core_boost_OTDelete *)__pyx_v_ot)->arg;
-      __Pyx_INCREF(__pyx_t_2);
-      if (unlikely(__pyx_t_2 == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-        __PYX_ERR(0, 437, __pyx_L1_error)
-      }
-      __pyx_t_10 = __Pyx_PyUnicode_GET_LENGTH(__pyx_t_2); if (unlikely(__pyx_t_10 == ((Py_ssize_t)-1))) __PYX_ERR(0, 437, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_v_n = __pyx_t_10;
+      __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_v_ot_arg); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 433, __pyx_L1_error)
+      __pyx_v_n = ((int)__pyx_t_9);
 
-      /* "ottype/core_boost.pyx":439
- *             n = len((<OTDelete>ot).arg)
+      /* "ottype/core_boost.pyx":435
+ *             n = <int>ot_arg
  * 
  *             while 0 < n:             # <<<<<<<<<<<<<<
  *                 chunk_ot = taker.take(n, 2)
- * 
+ *                 appender.append(chunk_ot)
  */
       while (1) {
         __pyx_t_1 = ((0 < __pyx_v_n) != 0);
         if (!__pyx_t_1) break;
 
-        /* "ottype/core_boost.pyx":440
+        /* "ottype/core_boost.pyx":436
  * 
  *             while 0 < n:
  *                 chunk_ot = taker.take(n, 2)             # <<<<<<<<<<<<<<
+ *                 appender.append(chunk_ot)
  * 
- *                 if isinstance(chunk_ot, OTSkip):
  */
-        __pyx_t_9.__pyx_n = 1;
-        __pyx_t_9.indivisable = 2;
-        __pyx_t_2 = ((PyObject *)((struct __pyx_vtabstruct_6ottype_10core_boost__Taker *)__pyx_v_taker->__pyx_vtab)->take(__pyx_v_taker, __pyx_v_n, &__pyx_t_9)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 440, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_XDECREF_SET(__pyx_v_chunk_ot, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_2));
+        __pyx_t_10.__pyx_n = 1;
+        __pyx_t_10.indivisable = 2;
+        __pyx_t_4 = ((struct __pyx_vtabstruct_6ottype_10core_boost__Taker *)__pyx_v_taker->__pyx_vtab)->take(__pyx_v_taker, __pyx_v_n, &__pyx_t_10); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 436, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_XDECREF_SET(__pyx_v_chunk_ot, ((PyObject*)__pyx_t_4));
+        __pyx_t_4 = 0;
+
+        /* "ottype/core_boost.pyx":437
+ *             while 0 < n:
+ *                 chunk_ot = taker.take(n, 2)
+ *                 appender.append(chunk_ot)             # <<<<<<<<<<<<<<
+ * 
+ *                 chunk_ot_action, chunk_ot_arg = chunk_ot
+ */
+        ((struct __pyx_vtabstruct_6ottype_10core_boost__Appender *)__pyx_v_appender->__pyx_vtab)->append(__pyx_v_appender, __pyx_v_chunk_ot);
+
+        /* "ottype/core_boost.pyx":439
+ *                 appender.append(chunk_ot)
+ * 
+ *                 chunk_ot_action, chunk_ot_arg = chunk_ot             # <<<<<<<<<<<<<<
+ * 
+ *                 if chunk_ot_action == OTTypeAction.skip:
+ */
+        if (likely(__pyx_v_chunk_ot != Py_None)) {
+          PyObject* sequence = __pyx_v_chunk_ot;
+          Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
+          if (unlikely(size != 2)) {
+            if (size > 2) __Pyx_RaiseTooManyValuesError(2);
+            else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
+            __PYX_ERR(0, 439, __pyx_L1_error)
+          }
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_4 = PyTuple_GET_ITEM(sequence, 0); 
+          __pyx_t_2 = PyTuple_GET_ITEM(sequence, 1); 
+          __Pyx_INCREF(__pyx_t_4);
+          __Pyx_INCREF(__pyx_t_2);
+          #else
+          __pyx_t_4 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 439, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          __pyx_t_2 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 439, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          #endif
+        } else {
+          __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(0, 439, __pyx_L1_error)
+        }
+        __pyx_t_8 = ((enum __pyx_t_6ottype_10core_boost_OTTypeAction)__Pyx_PyInt_As_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_t_4)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 439, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __pyx_v_chunk_ot_action = __pyx_t_8;
+        __Pyx_XDECREF_SET(__pyx_v_chunk_ot_arg, __pyx_t_2);
         __pyx_t_2 = 0;
 
-        /* "ottype/core_boost.pyx":442
- *                 chunk_ot = taker.take(n, 2)
+        /* "ottype/core_boost.pyx":441
+ *                 chunk_ot_action, chunk_ot_arg = chunk_ot
  * 
- *                 if isinstance(chunk_ot, OTSkip):             # <<<<<<<<<<<<<<
- *                     chunk_ot_skip = <OTSkip>chunk_ot
- * 
+ *                 if chunk_ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *                     n -= <int>chunk_ot_arg
+ *                 elif chunk_ot_action == OTTypeAction.insert:
  */
-        __pyx_t_1 = __Pyx_TypeCheck(((PyObject *)__pyx_v_chunk_ot), __pyx_ptype_6ottype_10core_boost_OTSkip); 
-        __pyx_t_5 = (__pyx_t_1 != 0);
-        if (__pyx_t_5) {
-
-          /* "ottype/core_boost.pyx":443
- * 
- *                 if isinstance(chunk_ot, OTSkip):
- *                     chunk_ot_skip = <OTSkip>chunk_ot             # <<<<<<<<<<<<<<
- * 
- *                     appender.append(OTDelete(ot_delete.arg[offset:offset + chunk_ot_skip.arg]))
- */
-          __pyx_t_2 = ((PyObject *)__pyx_v_chunk_ot);
-          __Pyx_INCREF(__pyx_t_2);
-          __Pyx_XDECREF_SET(__pyx_v_chunk_ot_skip, ((struct __pyx_obj_6ottype_10core_boost_OTSkip *)__pyx_t_2));
-          __pyx_t_2 = 0;
-
-          /* "ottype/core_boost.pyx":445
- *                     chunk_ot_skip = <OTSkip>chunk_ot
- * 
- *                     appender.append(OTDelete(ot_delete.arg[offset:offset + chunk_ot_skip.arg]))             # <<<<<<<<<<<<<<
- *                     offset += chunk_ot_skip.arg
- *                     n -= chunk_ot_skip.arg
- */
-          if (unlikely(__pyx_v_ot_delete->arg == Py_None)) {
-            PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-            __PYX_ERR(0, 445, __pyx_L1_error)
-          }
-          __Pyx_INCREF(__pyx_v_offset);
-          __pyx_t_2 = __pyx_v_offset;
-          __pyx_t_5 = (__pyx_t_2 == Py_None);
-          if (__pyx_t_5) {
-            __pyx_t_10 = 0;
-          } else {
-            __pyx_t_11 = __Pyx_PyIndex_AsSsize_t(__pyx_t_2); if (unlikely((__pyx_t_11 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 445, __pyx_L1_error)
-            __pyx_t_10 = __pyx_t_11;
-          }
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_chunk_ot_skip->arg); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 445, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_4 = PyNumber_Add(__pyx_v_offset, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 445, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_4);
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_5 = (__pyx_t_4 == Py_None);
-          if (__pyx_t_5) {
-            __pyx_t_11 = PY_SSIZE_T_MAX;
-          } else {
-            __pyx_t_12 = __Pyx_PyIndex_AsSsize_t(__pyx_t_4); if (unlikely((__pyx_t_12 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 445, __pyx_L1_error)
-            __pyx_t_11 = __pyx_t_12;
-          }
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __pyx_t_4 = __Pyx_PyUnicode_Substring(__pyx_v_ot_delete->arg, __pyx_t_10, __pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 445, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6ottype_10core_boost_OTDelete), __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 445, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          ((struct __pyx_vtabstruct_6ottype_10core_boost__Appender *)__pyx_v_appender->__pyx_vtab)->append(__pyx_v_appender, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_2));
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-          /* "ottype/core_boost.pyx":446
- * 
- *                     appender.append(OTDelete(ot_delete.arg[offset:offset + chunk_ot_skip.arg]))
- *                     offset += chunk_ot_skip.arg             # <<<<<<<<<<<<<<
- *                     n -= chunk_ot_skip.arg
- * 
- */
-          __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_chunk_ot_skip->arg); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 446, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_4 = PyNumber_InPlaceAdd(__pyx_v_offset, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 446, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_4);
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __Pyx_DECREF_SET(__pyx_v_offset, __pyx_t_4);
-          __pyx_t_4 = 0;
-
-          /* "ottype/core_boost.pyx":447
- *                     appender.append(OTDelete(ot_delete.arg[offset:offset + chunk_ot_skip.arg]))
- *                     offset += chunk_ot_skip.arg
- *                     n -= chunk_ot_skip.arg             # <<<<<<<<<<<<<<
- * 
- *                 elif isinstance(chunk_ot, OTInsert):
- */
-          __pyx_v_n = (__pyx_v_n - __pyx_v_chunk_ot_skip->arg);
+        switch (__pyx_v_chunk_ot_action) {
+          case __pyx_e_6ottype_10core_boost_skip:
 
           /* "ottype/core_boost.pyx":442
- *                 chunk_ot = taker.take(n, 2)
  * 
- *                 if isinstance(chunk_ot, OTSkip):             # <<<<<<<<<<<<<<
- *                     chunk_ot_skip = <OTSkip>chunk_ot
- * 
+ *                 if chunk_ot_action == OTTypeAction.skip:
+ *                     n -= <int>chunk_ot_arg             # <<<<<<<<<<<<<<
+ *                 elif chunk_ot_action == OTTypeAction.insert:
+ *                     n -= len(<str>chunk_ot_arg)
  */
-          goto __pyx_L14;
-        }
+          __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_v_chunk_ot_arg); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 442, __pyx_L1_error)
+          __pyx_v_n = (__pyx_v_n - ((int)__pyx_t_9));
 
-        /* "ottype/core_boost.pyx":449
- *                     n -= chunk_ot_skip.arg
+          /* "ottype/core_boost.pyx":441
+ *                 chunk_ot_action, chunk_ot_arg = chunk_ot
  * 
- *                 elif isinstance(chunk_ot, OTInsert):             # <<<<<<<<<<<<<<
- *                     chunk_ot_insert = <OTSkip>chunk_ot
- * 
+ *                 if chunk_ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *                     n -= <int>chunk_ot_arg
+ *                 elif chunk_ot_action == OTTypeAction.insert:
  */
-        __pyx_t_5 = __Pyx_TypeCheck(((PyObject *)__pyx_v_chunk_ot), __pyx_ptype_6ottype_10core_boost_OTInsert); 
-        __pyx_t_1 = (__pyx_t_5 != 0);
-        if (__pyx_t_1) {
+          break;
+          case __pyx_e_6ottype_10core_boost_insert:
 
-          /* "ottype/core_boost.pyx":450
- * 
- *                 elif isinstance(chunk_ot, OTInsert):
- *                     chunk_ot_insert = <OTSkip>chunk_ot             # <<<<<<<<<<<<<<
- * 
- *                     if chunk_ot_insert.arg != ot_delete.arg[offset:offset + len(chunk_ot_insert.arg)]:
+          /* "ottype/core_boost.pyx":444
+ *                     n -= <int>chunk_ot_arg
+ *                 elif chunk_ot_action == OTTypeAction.insert:
+ *                     n -= len(<str>chunk_ot_arg)             # <<<<<<<<<<<<<<
+ *                 elif chunk_ot_action == OTTypeAction.delete:
+ *                     pass
  */
-          if (!(likely(((((PyObject *)__pyx_v_chunk_ot)) == Py_None) || likely(__Pyx_TypeTest(((PyObject *)__pyx_v_chunk_ot), __pyx_ptype_6ottype_10core_boost_OTInsert))))) __PYX_ERR(0, 450, __pyx_L1_error)
-          __pyx_t_4 = ((PyObject *)((struct __pyx_obj_6ottype_10core_boost_OTSkip *)__pyx_v_chunk_ot));
-          __Pyx_INCREF(__pyx_t_4);
-          __Pyx_XDECREF_SET(__pyx_v_chunk_ot_insert, ((struct __pyx_obj_6ottype_10core_boost_OTInsert *)__pyx_t_4));
-          __pyx_t_4 = 0;
-
-          /* "ottype/core_boost.pyx":452
- *                     chunk_ot_insert = <OTSkip>chunk_ot
- * 
- *                     if chunk_ot_insert.arg != ot_delete.arg[offset:offset + len(chunk_ot_insert.arg)]:             # <<<<<<<<<<<<<<
- *                         raise ValueError('inconsistent delete in the seconds OTs (doc, OT.arg)',
- *                                          chunk_ot_insert.arg,
- */
-          if (unlikely(__pyx_v_ot_delete->arg == Py_None)) {
-            PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-            __PYX_ERR(0, 452, __pyx_L1_error)
-          }
-          __Pyx_INCREF(__pyx_v_offset);
-          __pyx_t_4 = __pyx_v_offset;
-          __pyx_t_1 = (__pyx_t_4 == Py_None);
-          if (__pyx_t_1) {
-            __pyx_t_11 = 0;
-          } else {
-            __pyx_t_10 = __Pyx_PyIndex_AsSsize_t(__pyx_t_4); if (unlikely((__pyx_t_10 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 452, __pyx_L1_error)
-            __pyx_t_11 = __pyx_t_10;
-          }
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __pyx_t_4 = __pyx_v_chunk_ot_insert->arg;
-          __Pyx_INCREF(__pyx_t_4);
-          if (unlikely(__pyx_t_4 == Py_None)) {
+          if (unlikely(__pyx_v_chunk_ot_arg == Py_None)) {
             PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-            __PYX_ERR(0, 452, __pyx_L1_error)
+            __PYX_ERR(0, 444, __pyx_L1_error)
           }
-          __pyx_t_10 = __Pyx_PyUnicode_GET_LENGTH(__pyx_t_4); if (unlikely(__pyx_t_10 == ((Py_ssize_t)-1))) __PYX_ERR(0, 452, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __pyx_t_4 = PyInt_FromSsize_t(__pyx_t_10); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 452, __pyx_L1_error)
+          __pyx_t_11 = __Pyx_PyUnicode_GET_LENGTH(((PyObject*)__pyx_v_chunk_ot_arg)); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 444, __pyx_L1_error)
+          __pyx_v_n = (__pyx_v_n - __pyx_t_11);
+
+          /* "ottype/core_boost.pyx":443
+ *                 if chunk_ot_action == OTTypeAction.skip:
+ *                     n -= <int>chunk_ot_arg
+ *                 elif chunk_ot_action == OTTypeAction.insert:             # <<<<<<<<<<<<<<
+ *                     n -= len(<str>chunk_ot_arg)
+ *                 elif chunk_ot_action == OTTypeAction.delete:
+ */
+          break;
+          case __pyx_e_6ottype_10core_boost_delete:
+
+          /* "ottype/core_boost.pyx":445
+ *                 elif chunk_ot_action == OTTypeAction.insert:
+ *                     n -= len(<str>chunk_ot_arg)
+ *                 elif chunk_ot_action == OTTypeAction.delete:             # <<<<<<<<<<<<<<
+ *                     pass
+ * 
+ */
+          break;
+          default: break;
+        }
+      }
+
+      /* "ottype/core_boost.pyx":432
+ *         ot_action, ot_arg = ot
+ * 
+ *         if ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *             n = <int>ot_arg
+ * 
+ */
+      break;
+      case __pyx_e_6ottype_10core_boost_insert:
+
+      /* "ottype/core_boost.pyx":449
+ * 
+ *         elif ot_action == OTTypeAction.insert:
+ *             appender.append(ot)             # <<<<<<<<<<<<<<
+ * 
+ *         elif ot_action == OTTypeAction.delete:
+ */
+      ((struct __pyx_vtabstruct_6ottype_10core_boost__Appender *)__pyx_v_appender->__pyx_vtab)->append(__pyx_v_appender, __pyx_v_ot);
+
+      /* "ottype/core_boost.pyx":448
+ *                     pass
+ * 
+ *         elif ot_action == OTTypeAction.insert:             # <<<<<<<<<<<<<<
+ *             appender.append(ot)
+ * 
+ */
+      break;
+      case __pyx_e_6ottype_10core_boost_delete:
+
+      /* "ottype/core_boost.pyx":452
+ * 
+ *         elif ot_action == OTTypeAction.delete:
+ *             ot_arg_as_str = <str>ot_arg             # <<<<<<<<<<<<<<
+ * 
+ *             offset = 0
+ */
+      __pyx_t_2 = __pyx_v_ot_arg;
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_XDECREF_SET(__pyx_v_ot_arg_as_str, ((PyObject*)__pyx_t_2));
+      __pyx_t_2 = 0;
+
+      /* "ottype/core_boost.pyx":454
+ *             ot_arg_as_str = <str>ot_arg
+ * 
+ *             offset = 0             # <<<<<<<<<<<<<<
+ *             n = len(ot_arg)
+ * 
+ */
+      __pyx_v_offset = 0;
+
+      /* "ottype/core_boost.pyx":455
+ * 
+ *             offset = 0
+ *             n = len(ot_arg)             # <<<<<<<<<<<<<<
+ * 
+ *             while 0 < n:
+ */
+      __pyx_t_11 = PyObject_Length(__pyx_v_ot_arg); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 455, __pyx_L1_error)
+      __pyx_v_n = __pyx_t_11;
+
+      /* "ottype/core_boost.pyx":457
+ *             n = len(ot_arg)
+ * 
+ *             while 0 < n:             # <<<<<<<<<<<<<<
+ *                 chunk_ot = taker.take(n, 2)
+ *                 chunk_ot_action, chunk_ot_arg = chunk_ot
+ */
+      while (1) {
+        __pyx_t_1 = ((0 < __pyx_v_n) != 0);
+        if (!__pyx_t_1) break;
+
+        /* "ottype/core_boost.pyx":458
+ * 
+ *             while 0 < n:
+ *                 chunk_ot = taker.take(n, 2)             # <<<<<<<<<<<<<<
+ *                 chunk_ot_action, chunk_ot_arg = chunk_ot
+ * 
+ */
+        __pyx_t_10.__pyx_n = 1;
+        __pyx_t_10.indivisable = 2;
+        __pyx_t_2 = ((struct __pyx_vtabstruct_6ottype_10core_boost__Taker *)__pyx_v_taker->__pyx_vtab)->take(__pyx_v_taker, __pyx_v_n, &__pyx_t_10); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 458, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_XDECREF_SET(__pyx_v_chunk_ot, ((PyObject*)__pyx_t_2));
+        __pyx_t_2 = 0;
+
+        /* "ottype/core_boost.pyx":459
+ *             while 0 < n:
+ *                 chunk_ot = taker.take(n, 2)
+ *                 chunk_ot_action, chunk_ot_arg = chunk_ot             # <<<<<<<<<<<<<<
+ * 
+ *                 if chunk_ot_action == OTTypeAction.skip:
+ */
+        if (likely(__pyx_v_chunk_ot != Py_None)) {
+          PyObject* sequence = __pyx_v_chunk_ot;
+          Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
+          if (unlikely(size != 2)) {
+            if (size > 2) __Pyx_RaiseTooManyValuesError(2);
+            else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
+            __PYX_ERR(0, 459, __pyx_L1_error)
+          }
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_2 = PyTuple_GET_ITEM(sequence, 0); 
+          __pyx_t_4 = PyTuple_GET_ITEM(sequence, 1); 
+          __Pyx_INCREF(__pyx_t_2);
+          __Pyx_INCREF(__pyx_t_4);
+          #else
+          __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 459, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __pyx_t_4 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 459, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_2 = PyNumber_Add(__pyx_v_offset, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 452, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __pyx_t_1 = (__pyx_t_2 == Py_None);
-          if (__pyx_t_1) {
-            __pyx_t_10 = PY_SSIZE_T_MAX;
-          } else {
-            __pyx_t_12 = __Pyx_PyIndex_AsSsize_t(__pyx_t_2); if (unlikely((__pyx_t_12 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 452, __pyx_L1_error)
-            __pyx_t_10 = __pyx_t_12;
+          #endif
+        } else {
+          __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(0, 459, __pyx_L1_error)
+        }
+        __pyx_t_8 = ((enum __pyx_t_6ottype_10core_boost_OTTypeAction)__Pyx_PyInt_As_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_t_2)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 459, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_v_chunk_ot_action = __pyx_t_8;
+        __Pyx_XDECREF_SET(__pyx_v_chunk_ot_arg, __pyx_t_4);
+        __pyx_t_4 = 0;
+
+        /* "ottype/core_boost.pyx":461
+ *                 chunk_ot_action, chunk_ot_arg = chunk_ot
+ * 
+ *                 if chunk_ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *                     chunk_ot_arg_as_int = <int>chunk_ot_arg
+ * 
+ */
+        switch (__pyx_v_chunk_ot_action) {
+          case __pyx_e_6ottype_10core_boost_skip:
+
+          /* "ottype/core_boost.pyx":462
+ * 
+ *                 if chunk_ot_action == OTTypeAction.skip:
+ *                     chunk_ot_arg_as_int = <int>chunk_ot_arg             # <<<<<<<<<<<<<<
+ * 
+ *                     appender.append((OTTypeAction.delete, ot_arg_as_str[offset:offset + chunk_ot_arg_as_int]))
+ */
+          __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_v_chunk_ot_arg); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 462, __pyx_L1_error)
+          __pyx_v_chunk_ot_arg_as_int = ((int)__pyx_t_9);
+
+          /* "ottype/core_boost.pyx":464
+ *                     chunk_ot_arg_as_int = <int>chunk_ot_arg
+ * 
+ *                     appender.append((OTTypeAction.delete, ot_arg_as_str[offset:offset + chunk_ot_arg_as_int]))             # <<<<<<<<<<<<<<
+ *                     offset += chunk_ot_arg_as_int
+ *                     n -= chunk_ot_arg_as_int
+ */
+          __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_6ottype_10core_boost_OTTypeAction(__pyx_e_6ottype_10core_boost_delete); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 464, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          if (unlikely(__pyx_v_ot_arg_as_str == Py_None)) {
+            PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+            __PYX_ERR(0, 464, __pyx_L1_error)
           }
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_2 = __Pyx_PyUnicode_Substring(__pyx_v_ot_delete->arg, __pyx_t_11, __pyx_t_10); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 452, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyUnicode_Substring(__pyx_v_ot_arg_as_str, __pyx_v_offset, (__pyx_v_offset + __pyx_v_chunk_ot_arg_as_int)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 464, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_1 = (__Pyx_PyUnicode_Equals(__pyx_v_chunk_ot_insert->arg, __pyx_t_2, Py_NE)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 452, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          __pyx_t_12 = PyTuple_New(2); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 464, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_12);
+          __Pyx_GIVEREF(__pyx_t_4);
+          PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_4);
+          __Pyx_GIVEREF(__pyx_t_2);
+          PyTuple_SET_ITEM(__pyx_t_12, 1, __pyx_t_2);
+          __pyx_t_4 = 0;
+          __pyx_t_2 = 0;
+          ((struct __pyx_vtabstruct_6ottype_10core_boost__Appender *)__pyx_v_appender->__pyx_vtab)->append(__pyx_v_appender, ((PyObject*)__pyx_t_12));
+          __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+
+          /* "ottype/core_boost.pyx":465
+ * 
+ *                     appender.append((OTTypeAction.delete, ot_arg_as_str[offset:offset + chunk_ot_arg_as_int]))
+ *                     offset += chunk_ot_arg_as_int             # <<<<<<<<<<<<<<
+ *                     n -= chunk_ot_arg_as_int
+ * 
+ */
+          __pyx_v_offset = (__pyx_v_offset + __pyx_v_chunk_ot_arg_as_int);
+
+          /* "ottype/core_boost.pyx":466
+ *                     appender.append((OTTypeAction.delete, ot_arg_as_str[offset:offset + chunk_ot_arg_as_int]))
+ *                     offset += chunk_ot_arg_as_int
+ *                     n -= chunk_ot_arg_as_int             # <<<<<<<<<<<<<<
+ * 
+ *                 elif chunk_ot_action == OTTypeAction.insert:
+ */
+          __pyx_v_n = (__pyx_v_n - __pyx_v_chunk_ot_arg_as_int);
+
+          /* "ottype/core_boost.pyx":461
+ *                 chunk_ot_action, chunk_ot_arg = chunk_ot
+ * 
+ *                 if chunk_ot_action == OTTypeAction.skip:             # <<<<<<<<<<<<<<
+ *                     chunk_ot_arg_as_int = <int>chunk_ot_arg
+ * 
+ */
+          break;
+          case __pyx_e_6ottype_10core_boost_insert:
+
+          /* "ottype/core_boost.pyx":469
+ * 
+ *                 elif chunk_ot_action == OTTypeAction.insert:
+ *                     chunk_ot_arg_as_str = <str>chunk_ot_arg             # <<<<<<<<<<<<<<
+ * 
+ *                     if chunk_ot_arg_as_str != ot_arg_as_str[offset:offset + len(chunk_ot_arg_as_str)]:
+ */
+          __pyx_t_12 = __pyx_v_chunk_ot_arg;
+          __Pyx_INCREF(__pyx_t_12);
+          __Pyx_XDECREF_SET(__pyx_v_chunk_ot_arg_as_str, ((PyObject*)__pyx_t_12));
+          __pyx_t_12 = 0;
+
+          /* "ottype/core_boost.pyx":471
+ *                     chunk_ot_arg_as_str = <str>chunk_ot_arg
+ * 
+ *                     if chunk_ot_arg_as_str != ot_arg_as_str[offset:offset + len(chunk_ot_arg_as_str)]:             # <<<<<<<<<<<<<<
+ *                         raise ValueError('inconsistent delete in the seconds OTs (doc, OT.arg)',
+ *                                          chunk_ot_arg_as_str,
+ */
+          if (unlikely(__pyx_v_ot_arg_as_str == Py_None)) {
+            PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+            __PYX_ERR(0, 471, __pyx_L1_error)
+          }
+          if (unlikely(__pyx_v_chunk_ot_arg_as_str == Py_None)) {
+            PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+            __PYX_ERR(0, 471, __pyx_L1_error)
+          }
+          __pyx_t_11 = __Pyx_PyUnicode_GET_LENGTH(__pyx_v_chunk_ot_arg_as_str); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 471, __pyx_L1_error)
+          __pyx_t_12 = __Pyx_PyUnicode_Substring(__pyx_v_ot_arg_as_str, __pyx_v_offset, (__pyx_v_offset + __pyx_t_11)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 471, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_12);
+          __pyx_t_1 = (__Pyx_PyUnicode_Equals(__pyx_v_chunk_ot_arg_as_str, __pyx_t_12, Py_NE)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 471, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
           __pyx_t_5 = (__pyx_t_1 != 0);
           if (unlikely(__pyx_t_5)) {
 
-            /* "ottype/core_boost.pyx":455
+            /* "ottype/core_boost.pyx":474
  *                         raise ValueError('inconsistent delete in the seconds OTs (doc, OT.arg)',
- *                                          chunk_ot_insert.arg,
- *                                          ot_delete.arg[offset:offset + len(chunk_ot_insert.arg)])             # <<<<<<<<<<<<<<
- *                     offset += len(chunk_ot_insert.arg)
- *                     n -= len(chunk_ot_insert.arg)
+ *                                          chunk_ot_arg_as_str,
+ *                                          ot_arg_as_str[offset:offset + len(chunk_ot_arg_as_str)])             # <<<<<<<<<<<<<<
+ *                     offset += len(chunk_ot_arg_as_str)
+ *                     n -= len(chunk_ot_arg_as_str)
  */
-            if (unlikely(__pyx_v_ot_delete->arg == Py_None)) {
+            if (unlikely(__pyx_v_ot_arg_as_str == Py_None)) {
               PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-              __PYX_ERR(0, 455, __pyx_L1_error)
+              __PYX_ERR(0, 474, __pyx_L1_error)
             }
-            __Pyx_INCREF(__pyx_v_offset);
-            __pyx_t_2 = __pyx_v_offset;
-            __pyx_t_5 = (__pyx_t_2 == Py_None);
-            if (__pyx_t_5) {
-              __pyx_t_10 = 0;
-            } else {
-              __pyx_t_11 = __Pyx_PyIndex_AsSsize_t(__pyx_t_2); if (unlikely((__pyx_t_11 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 455, __pyx_L1_error)
-              __pyx_t_10 = __pyx_t_11;
-            }
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_2 = __pyx_v_chunk_ot_insert->arg;
-            __Pyx_INCREF(__pyx_t_2);
-            if (unlikely(__pyx_t_2 == Py_None)) {
+            if (unlikely(__pyx_v_chunk_ot_arg_as_str == Py_None)) {
               PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-              __PYX_ERR(0, 455, __pyx_L1_error)
+              __PYX_ERR(0, 474, __pyx_L1_error)
             }
-            __pyx_t_11 = __Pyx_PyUnicode_GET_LENGTH(__pyx_t_2); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 455, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 455, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_4 = PyNumber_Add(__pyx_v_offset, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 455, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_4);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_5 = (__pyx_t_4 == Py_None);
-            if (__pyx_t_5) {
-              __pyx_t_11 = PY_SSIZE_T_MAX;
-            } else {
-              __pyx_t_12 = __Pyx_PyIndex_AsSsize_t(__pyx_t_4); if (unlikely((__pyx_t_12 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 455, __pyx_L1_error)
-              __pyx_t_11 = __pyx_t_12;
-            }
-            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __pyx_t_4 = __Pyx_PyUnicode_Substring(__pyx_v_ot_delete->arg, __pyx_t_10, __pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 455, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_4);
+            __pyx_t_11 = __Pyx_PyUnicode_GET_LENGTH(__pyx_v_chunk_ot_arg_as_str); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 474, __pyx_L1_error)
+            __pyx_t_12 = __Pyx_PyUnicode_Substring(__pyx_v_ot_arg_as_str, __pyx_v_offset, (__pyx_v_offset + __pyx_t_11)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 474, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_12);
 
-            /* "ottype/core_boost.pyx":453
+            /* "ottype/core_boost.pyx":472
  * 
- *                     if chunk_ot_insert.arg != ot_delete.arg[offset:offset + len(chunk_ot_insert.arg)]:
+ *                     if chunk_ot_arg_as_str != ot_arg_as_str[offset:offset + len(chunk_ot_arg_as_str)]:
  *                         raise ValueError('inconsistent delete in the seconds OTs (doc, OT.arg)',             # <<<<<<<<<<<<<<
- *                                          chunk_ot_insert.arg,
- *                                          ot_delete.arg[offset:offset + len(chunk_ot_insert.arg)])
+ *                                          chunk_ot_arg_as_str,
+ *                                          ot_arg_as_str[offset:offset + len(chunk_ot_arg_as_str)])
  */
-            __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 453, __pyx_L1_error)
+            __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 472, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_2);
             __Pyx_INCREF(__pyx_kp_u_inconsistent_delete_in_the_secon);
             __Pyx_GIVEREF(__pyx_kp_u_inconsistent_delete_in_the_secon);
             PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_inconsistent_delete_in_the_secon);
-            __Pyx_INCREF(__pyx_v_chunk_ot_insert->arg);
-            __Pyx_GIVEREF(__pyx_v_chunk_ot_insert->arg);
-            PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_v_chunk_ot_insert->arg);
-            __Pyx_GIVEREF(__pyx_t_4);
-            PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_t_4);
-            __pyx_t_4 = 0;
-            __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_2, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 453, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_4);
+            __Pyx_INCREF(__pyx_v_chunk_ot_arg_as_str);
+            __Pyx_GIVEREF(__pyx_v_chunk_ot_arg_as_str);
+            PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_v_chunk_ot_arg_as_str);
+            __Pyx_GIVEREF(__pyx_t_12);
+            PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_t_12);
+            __pyx_t_12 = 0;
+            __pyx_t_12 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_2, NULL); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 472, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_12);
             __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __Pyx_Raise(__pyx_t_4, 0, 0, 0);
-            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __PYX_ERR(0, 453, __pyx_L1_error)
+            __Pyx_Raise(__pyx_t_12, 0, 0, 0);
+            __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+            __PYX_ERR(0, 472, __pyx_L1_error)
 
-            /* "ottype/core_boost.pyx":452
- *                     chunk_ot_insert = <OTSkip>chunk_ot
+            /* "ottype/core_boost.pyx":471
+ *                     chunk_ot_arg_as_str = <str>chunk_ot_arg
  * 
- *                     if chunk_ot_insert.arg != ot_delete.arg[offset:offset + len(chunk_ot_insert.arg)]:             # <<<<<<<<<<<<<<
+ *                     if chunk_ot_arg_as_str != ot_arg_as_str[offset:offset + len(chunk_ot_arg_as_str)]:             # <<<<<<<<<<<<<<
  *                         raise ValueError('inconsistent delete in the seconds OTs (doc, OT.arg)',
- *                                          chunk_ot_insert.arg,
+ *                                          chunk_ot_arg_as_str,
  */
           }
 
-          /* "ottype/core_boost.pyx":456
- *                                          chunk_ot_insert.arg,
- *                                          ot_delete.arg[offset:offset + len(chunk_ot_insert.arg)])
- *                     offset += len(chunk_ot_insert.arg)             # <<<<<<<<<<<<<<
- *                     n -= len(chunk_ot_insert.arg)
+          /* "ottype/core_boost.pyx":475
+ *                                          chunk_ot_arg_as_str,
+ *                                          ot_arg_as_str[offset:offset + len(chunk_ot_arg_as_str)])
+ *                     offset += len(chunk_ot_arg_as_str)             # <<<<<<<<<<<<<<
+ *                     n -= len(chunk_ot_arg_as_str)
  * 
  */
-          __pyx_t_4 = __pyx_v_chunk_ot_insert->arg;
-          __Pyx_INCREF(__pyx_t_4);
-          if (unlikely(__pyx_t_4 == Py_None)) {
+          if (unlikely(__pyx_v_chunk_ot_arg_as_str == Py_None)) {
             PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-            __PYX_ERR(0, 456, __pyx_L1_error)
+            __PYX_ERR(0, 475, __pyx_L1_error)
           }
-          __pyx_t_11 = __Pyx_PyUnicode_GET_LENGTH(__pyx_t_4); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 456, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __pyx_t_4 = PyInt_FromSsize_t(__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 456, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_2 = PyNumber_InPlaceAdd(__pyx_v_offset, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 456, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __Pyx_DECREF_SET(__pyx_v_offset, __pyx_t_2);
-          __pyx_t_2 = 0;
+          __pyx_t_11 = __Pyx_PyUnicode_GET_LENGTH(__pyx_v_chunk_ot_arg_as_str); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 475, __pyx_L1_error)
+          __pyx_v_offset = (__pyx_v_offset + __pyx_t_11);
 
-          /* "ottype/core_boost.pyx":457
- *                                          ot_delete.arg[offset:offset + len(chunk_ot_insert.arg)])
- *                     offset += len(chunk_ot_insert.arg)
- *                     n -= len(chunk_ot_insert.arg)             # <<<<<<<<<<<<<<
+          /* "ottype/core_boost.pyx":476
+ *                                          ot_arg_as_str[offset:offset + len(chunk_ot_arg_as_str)])
+ *                     offset += len(chunk_ot_arg_as_str)
+ *                     n -= len(chunk_ot_arg_as_str)             # <<<<<<<<<<<<<<
  * 
- *                 elif isinstance(chunk_ot, OTDelete):
+ *                 elif chunk_ot_action == OTTypeAction.delete:
  */
-          __pyx_t_2 = __pyx_v_chunk_ot_insert->arg;
-          __Pyx_INCREF(__pyx_t_2);
-          if (unlikely(__pyx_t_2 == Py_None)) {
+          if (unlikely(__pyx_v_chunk_ot_arg_as_str == Py_None)) {
             PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-            __PYX_ERR(0, 457, __pyx_L1_error)
+            __PYX_ERR(0, 476, __pyx_L1_error)
           }
-          __pyx_t_11 = __Pyx_PyUnicode_GET_LENGTH(__pyx_t_2); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 457, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          __pyx_t_11 = __Pyx_PyUnicode_GET_LENGTH(__pyx_v_chunk_ot_arg_as_str); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 476, __pyx_L1_error)
           __pyx_v_n = (__pyx_v_n - __pyx_t_11);
 
-          /* "ottype/core_boost.pyx":449
- *                     n -= chunk_ot_skip.arg
+          /* "ottype/core_boost.pyx":468
+ *                     n -= chunk_ot_arg_as_int
  * 
- *                 elif isinstance(chunk_ot, OTInsert):             # <<<<<<<<<<<<<<
- *                     chunk_ot_insert = <OTSkip>chunk_ot
- * 
- */
-          goto __pyx_L14;
-        }
-
-        /* "ottype/core_boost.pyx":459
- *                     n -= len(chunk_ot_insert.arg)
- * 
- *                 elif isinstance(chunk_ot, OTDelete):             # <<<<<<<<<<<<<<
- *                     appender.append(chunk_ot)
+ *                 elif chunk_ot_action == OTTypeAction.insert:             # <<<<<<<<<<<<<<
+ *                     chunk_ot_arg_as_str = <str>chunk_ot_arg
  * 
  */
-        __pyx_t_5 = __Pyx_TypeCheck(((PyObject *)__pyx_v_chunk_ot), __pyx_ptype_6ottype_10core_boost_OTDelete); 
-        __pyx_t_1 = (__pyx_t_5 != 0);
-        if (__pyx_t_1) {
+          break;
+          case __pyx_e_6ottype_10core_boost_delete:
 
-          /* "ottype/core_boost.pyx":460
+          /* "ottype/core_boost.pyx":479
  * 
- *                 elif isinstance(chunk_ot, OTDelete):
+ *                 elif chunk_ot_action == OTTypeAction.delete:
  *                     appender.append(chunk_ot)             # <<<<<<<<<<<<<<
  * 
  *     while True:
  */
           ((struct __pyx_vtabstruct_6ottype_10core_boost__Appender *)__pyx_v_appender->__pyx_vtab)->append(__pyx_v_appender, __pyx_v_chunk_ot);
 
-          /* "ottype/core_boost.pyx":459
- *                     n -= len(chunk_ot_insert.arg)
+          /* "ottype/core_boost.pyx":478
+ *                     n -= len(chunk_ot_arg_as_str)
  * 
- *                 elif isinstance(chunk_ot, OTDelete):             # <<<<<<<<<<<<<<
+ *                 elif chunk_ot_action == OTTypeAction.delete:             # <<<<<<<<<<<<<<
  *                     appender.append(chunk_ot)
  * 
  */
+          break;
+          default: break;
         }
-        __pyx_L14:;
       }
 
-      /* "ottype/core_boost.pyx":433
+      /* "ottype/core_boost.pyx":451
  *             appender.append(ot)
  * 
- *         elif isinstance(ot, OTDelete):             # <<<<<<<<<<<<<<
- *             ot_delete = <OTDelete>ot
+ *         elif ot_action == OTTypeAction.delete:             # <<<<<<<<<<<<<<
+ *             ot_arg_as_str = <str>ot_arg
  * 
  */
+      break;
+      default: break;
     }
-    __pyx_L8:;
 
-    /* "ottype/core_boost.pyx":415
+    /* "ottype/core_boost.pyx":429
  *     taker = _Taker(list(_make_iter_ots(ot_raw_list_1)))
  * 
  *     for ot in _make_iter_ots(ot_raw_list_2):             # <<<<<<<<<<<<<<
- *         if isinstance(ot, OTSkip):
- *             n = (<OTSkip>ot).arg
+ *         ot_action, ot_arg = ot
+ * 
  */
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "ottype/core_boost.pyx":462
+  /* "ottype/core_boost.pyx":481
  *                     appender.append(chunk_ot)
  * 
  *     while True:             # <<<<<<<<<<<<<<
@@ -9146,39 +8040,39 @@ static PyObject *__pyx_pf_6ottype_10core_boost_10compose(CYTHON_UNUSED PyObject 
  */
   while (1) {
 
-    /* "ottype/core_boost.pyx":463
+    /* "ottype/core_boost.pyx":482
  * 
  *     while True:
  *         chunk_ot = taker.take(-1)             # <<<<<<<<<<<<<<
  *         if chunk_ot is None:
  *             break
  */
-    __pyx_t_3 = ((PyObject *)((struct __pyx_vtabstruct_6ottype_10core_boost__Taker *)__pyx_v_taker->__pyx_vtab)->take(__pyx_v_taker, -1, NULL)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 463, __pyx_L1_error)
+    __pyx_t_3 = ((struct __pyx_vtabstruct_6ottype_10core_boost__Taker *)__pyx_v_taker->__pyx_vtab)->take(__pyx_v_taker, -1, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 482, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_XDECREF_SET(__pyx_v_chunk_ot, ((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_t_3));
+    __Pyx_XDECREF_SET(__pyx_v_chunk_ot, ((PyObject*)__pyx_t_3));
     __pyx_t_3 = 0;
 
-    /* "ottype/core_boost.pyx":464
+    /* "ottype/core_boost.pyx":483
  *     while True:
  *         chunk_ot = taker.take(-1)
  *         if chunk_ot is None:             # <<<<<<<<<<<<<<
  *             break
  *         appender.append(chunk_ot)
  */
-    __pyx_t_1 = (((PyObject *)__pyx_v_chunk_ot) == Py_None);
-    __pyx_t_5 = (__pyx_t_1 != 0);
-    if (__pyx_t_5) {
+    __pyx_t_5 = (__pyx_v_chunk_ot == ((PyObject*)Py_None));
+    __pyx_t_1 = (__pyx_t_5 != 0);
+    if (__pyx_t_1) {
 
-      /* "ottype/core_boost.pyx":465
+      /* "ottype/core_boost.pyx":484
  *         chunk_ot = taker.take(-1)
  *         if chunk_ot is None:
  *             break             # <<<<<<<<<<<<<<
  *         appender.append(chunk_ot)
  * 
  */
-      goto __pyx_L17_break;
+      goto __pyx_L14_break;
 
-      /* "ottype/core_boost.pyx":464
+      /* "ottype/core_boost.pyx":483
  *     while True:
  *         chunk_ot = taker.take(-1)
  *         if chunk_ot is None:             # <<<<<<<<<<<<<<
@@ -9187,7 +8081,7 @@ static PyObject *__pyx_pf_6ottype_10core_boost_10compose(CYTHON_UNUSED PyObject 
  */
     }
 
-    /* "ottype/core_boost.pyx":466
+    /* "ottype/core_boost.pyx":485
  *         if chunk_ot is None:
  *             break
  *         appender.append(chunk_ot)             # <<<<<<<<<<<<<<
@@ -9196,79 +8090,33 @@ static PyObject *__pyx_pf_6ottype_10core_boost_10compose(CYTHON_UNUSED PyObject 
  */
     ((struct __pyx_vtabstruct_6ottype_10core_boost__Appender *)__pyx_v_appender->__pyx_vtab)->append(__pyx_v_appender, __pyx_v_chunk_ot);
   }
-  __pyx_L17_break:;
+  __pyx_L14_break:;
 
-  /* "ottype/core_boost.pyx":468
+  /* "ottype/core_boost.pyx":487
  *         appender.append(chunk_ot)
  * 
  *     _trim(new_ots)             # <<<<<<<<<<<<<<
  * 
- *     new_ot_raw_list = [None] * len(new_ots)
+ *     return _to_ot_raw_list(new_ots)
  */
   __pyx_f_6ottype_10core_boost__trim(__pyx_v_new_ots);
 
-  /* "ottype/core_boost.pyx":470
+  /* "ottype/core_boost.pyx":489
  *     _trim(new_ots)
  * 
- *     new_ot_raw_list = [None] * len(new_ots)             # <<<<<<<<<<<<<<
- *     for i in range(len(new_ots)):
- *         new_ot_raw_list[i] = new_ots[i].raw
- */
-  __pyx_t_7 = PyList_GET_SIZE(__pyx_v_new_ots); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 470, __pyx_L1_error)
-  __pyx_t_3 = PyList_New(1 * ((__pyx_t_7<0) ? 0:__pyx_t_7)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 470, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  { Py_ssize_t __pyx_temp;
-    for (__pyx_temp=0; __pyx_temp < __pyx_t_7; __pyx_temp++) {
-      __Pyx_INCREF(Py_None);
-      __Pyx_GIVEREF(Py_None);
-      PyList_SET_ITEM(__pyx_t_3, __pyx_temp, Py_None);
-    }
-  }
-  __pyx_v_new_ot_raw_list = ((PyObject*)__pyx_t_3);
-  __pyx_t_3 = 0;
-
-  /* "ottype/core_boost.pyx":471
- * 
- *     new_ot_raw_list = [None] * len(new_ots)
- *     for i in range(len(new_ots)):             # <<<<<<<<<<<<<<
- *         new_ot_raw_list[i] = new_ots[i].raw
- * 
- */
-  __pyx_t_7 = PyList_GET_SIZE(__pyx_v_new_ots); if (unlikely(__pyx_t_7 == ((Py_ssize_t)-1))) __PYX_ERR(0, 471, __pyx_L1_error)
-  __pyx_t_11 = __pyx_t_7;
-  for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_11; __pyx_t_8+=1) {
-    __pyx_v_i = __pyx_t_8;
-
-    /* "ottype/core_boost.pyx":472
- *     new_ot_raw_list = [None] * len(new_ots)
- *     for i in range(len(new_ots)):
- *         new_ot_raw_list[i] = new_ots[i].raw             # <<<<<<<<<<<<<<
- * 
- *     return new_ot_raw_list
- */
-    __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_new_ots, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 472, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_raw); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 472, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(__Pyx_SetItemInt(__pyx_v_new_ot_raw_list, __pyx_v_i, __pyx_t_2, int, 1, __Pyx_PyInt_From_int, 1, 1, 1) < 0)) __PYX_ERR(0, 472, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  }
-
-  /* "ottype/core_boost.pyx":474
- *         new_ot_raw_list[i] = new_ots[i].raw
- * 
- *     return new_ot_raw_list             # <<<<<<<<<<<<<<
+ *     return _to_ot_raw_list(new_ots)             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_new_ot_raw_list);
-  __pyx_r = __pyx_v_new_ot_raw_list;
+  __pyx_t_3 = __pyx_f_6ottype_10core_boost__to_ot_raw_list(__pyx_v_new_ots); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 489, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_r = __pyx_t_3;
+  __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "ottype/core_boost.pyx":392
+  /* "ottype/core_boost.pyx":402
  * 
  * 
- * def compose(list ot_raw_list_1, list ot_raw_list_2):             # <<<<<<<<<<<<<<
+ * def compose(list ot_raw_list_1 not None, list ot_raw_list_2 not None):             # <<<<<<<<<<<<<<
  *     cdef:
  *         list new_ots
  */
@@ -9278,1553 +8126,19 @@ static PyObject *__pyx_pf_6ottype_10core_boost_10compose(CYTHON_UNUSED PyObject 
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_12);
   __Pyx_AddTraceback("ottype.core_boost.compose", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_new_ots);
   __Pyx_XDECREF((PyObject *)__pyx_v_appender);
   __Pyx_XDECREF((PyObject *)__pyx_v_taker);
-  __Pyx_XDECREF((PyObject *)__pyx_v_ot);
-  __Pyx_XDECREF((PyObject *)__pyx_v_ot_delete);
-  __Pyx_XDECREF((PyObject *)__pyx_v_chunk_ot);
-  __Pyx_XDECREF((PyObject *)__pyx_v_chunk_ot_skip);
-  __Pyx_XDECREF((PyObject *)__pyx_v_chunk_ot_insert);
-  __Pyx_XDECREF(__pyx_v_new_ot_raw_list);
-  __Pyx_XDECREF(__pyx_v_offset);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "(tree fragment)":1
- * def __pyx_unpickle_OTType(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
- *     cdef object __pyx_PickleError
- *     cdef object __pyx_result
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6ottype_10core_boost_13__pyx_unpickle_OTType(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_6ottype_10core_boost_13__pyx_unpickle_OTType = {"__pyx_unpickle_OTType", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6ottype_10core_boost_13__pyx_unpickle_OTType, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_6ottype_10core_boost_13__pyx_unpickle_OTType(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v___pyx_type = 0;
-  long __pyx_v___pyx_checksum;
-  PyObject *__pyx_v___pyx_state = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__pyx_unpickle_OTType (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_pyx_type,&__pyx_n_s_pyx_checksum,&__pyx_n_s_pyx_state,0};
-    PyObject* values[3] = {0,0,0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-        CYTHON_FALLTHROUGH;
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_pyx_type)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        CYTHON_FALLTHROUGH;
-        case  1:
-        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_pyx_checksum)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("__pyx_unpickle_OTType", 1, 3, 3, 1); __PYX_ERR(1, 1, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  2:
-        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_pyx_state)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("__pyx_unpickle_OTType", 1, 3, 3, 2); __PYX_ERR(1, 1, __pyx_L3_error)
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__pyx_unpickle_OTType") < 0)) __PYX_ERR(1, 1, __pyx_L3_error)
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-    }
-    __pyx_v___pyx_type = values[0];
-    __pyx_v___pyx_checksum = __Pyx_PyInt_As_long(values[1]); if (unlikely((__pyx_v___pyx_checksum == (long)-1) && PyErr_Occurred())) __PYX_ERR(1, 1, __pyx_L3_error)
-    __pyx_v___pyx_state = values[2];
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__pyx_unpickle_OTType", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("ottype.core_boost.__pyx_unpickle_OTType", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6ottype_10core_boost_12__pyx_unpickle_OTType(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6ottype_10core_boost_12__pyx_unpickle_OTType(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
-  PyObject *__pyx_v___pyx_PickleError = 0;
-  PyObject *__pyx_v___pyx_result = 0;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  int __pyx_t_6;
-  __Pyx_RefNannySetupContext("__pyx_unpickle_OTType", 0);
-
-  /* "(tree fragment)":4
- *     cdef object __pyx_PickleError
- *     cdef object __pyx_result
- *     if __pyx_checksum != 0xd41d8cd:             # <<<<<<<<<<<<<<
- *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xd41d8cd = ())" % __pyx_checksum)
- */
-  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0xd41d8cd) != 0);
-  if (__pyx_t_1) {
-
-    /* "(tree fragment)":5
- *     cdef object __pyx_result
- *     if __pyx_checksum != 0xd41d8cd:
- *         from pickle import PickleError as __pyx_PickleError             # <<<<<<<<<<<<<<
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xd41d8cd = ())" % __pyx_checksum)
- *     __pyx_result = OTType.__new__(__pyx_type)
- */
-    __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 5, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_INCREF(__pyx_n_s_PickleError);
-    __Pyx_GIVEREF(__pyx_n_s_PickleError);
-    PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_PickleError);
-    __pyx_t_3 = __Pyx_Import(__pyx_n_s_pickle, __pyx_t_2, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 5, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_3, __pyx_n_s_PickleError); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 5, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_INCREF(__pyx_t_2);
-    __pyx_v___pyx_PickleError = __pyx_t_2;
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-    /* "(tree fragment)":6
- *     if __pyx_checksum != 0xd41d8cd:
- *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xd41d8cd = ())" % __pyx_checksum)             # <<<<<<<<<<<<<<
- *     __pyx_result = OTType.__new__(__pyx_type)
- *     if __pyx_state is not None:
- */
-    __pyx_t_2 = __Pyx_PyInt_From_long(__pyx_v___pyx_checksum); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 6, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0xd4, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 6, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_INCREF(__pyx_v___pyx_PickleError);
-    __pyx_t_2 = __pyx_v___pyx_PickleError; __pyx_t_5 = NULL;
-    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_2);
-      if (likely(__pyx_t_5)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-        __Pyx_INCREF(__pyx_t_5);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_2, function);
-      }
-    }
-    __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4);
-    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 6, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(1, 6, __pyx_L1_error)
-
-    /* "(tree fragment)":4
- *     cdef object __pyx_PickleError
- *     cdef object __pyx_result
- *     if __pyx_checksum != 0xd41d8cd:             # <<<<<<<<<<<<<<
- *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xd41d8cd = ())" % __pyx_checksum)
- */
-  }
-
-  /* "(tree fragment)":7
- *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xd41d8cd = ())" % __pyx_checksum)
- *     __pyx_result = OTType.__new__(__pyx_type)             # <<<<<<<<<<<<<<
- *     if __pyx_state is not None:
- *         __pyx_unpickle_OTType__set_state(<OTType> __pyx_result, __pyx_state)
- */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_ptype_6ottype_10core_boost_OTType), __pyx_n_s_new); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 7, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_4);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_v___pyx_type) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v___pyx_type);
-  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 7, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v___pyx_result = __pyx_t_3;
-  __pyx_t_3 = 0;
-
-  /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xd41d8cd = ())" % __pyx_checksum)
- *     __pyx_result = OTType.__new__(__pyx_type)
- *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
- *         __pyx_unpickle_OTType__set_state(<OTType> __pyx_result, __pyx_state)
- *     return __pyx_result
- */
-  __pyx_t_1 = (__pyx_v___pyx_state != Py_None);
-  __pyx_t_6 = (__pyx_t_1 != 0);
-  if (__pyx_t_6) {
-
-    /* "(tree fragment)":9
- *     __pyx_result = OTType.__new__(__pyx_type)
- *     if __pyx_state is not None:
- *         __pyx_unpickle_OTType__set_state(<OTType> __pyx_result, __pyx_state)             # <<<<<<<<<<<<<<
- *     return __pyx_result
- * cdef __pyx_unpickle_OTType__set_state(OTType __pyx_result, tuple __pyx_state):
- */
-    if (!(likely(PyTuple_CheckExact(__pyx_v___pyx_state))||((__pyx_v___pyx_state) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_v___pyx_state)->tp_name), 0))) __PYX_ERR(1, 9, __pyx_L1_error)
-    __pyx_t_3 = __pyx_f_6ottype_10core_boost___pyx_unpickle_OTType__set_state(((struct __pyx_obj_6ottype_10core_boost_OTType *)__pyx_v___pyx_result), ((PyObject*)__pyx_v___pyx_state)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 9, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-    /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xd41d8cd = ())" % __pyx_checksum)
- *     __pyx_result = OTType.__new__(__pyx_type)
- *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
- *         __pyx_unpickle_OTType__set_state(<OTType> __pyx_result, __pyx_state)
- *     return __pyx_result
- */
-  }
-
-  /* "(tree fragment)":10
- *     if __pyx_state is not None:
- *         __pyx_unpickle_OTType__set_state(<OTType> __pyx_result, __pyx_state)
- *     return __pyx_result             # <<<<<<<<<<<<<<
- * cdef __pyx_unpickle_OTType__set_state(OTType __pyx_result, tuple __pyx_state):
- *     if len(__pyx_state) > 0 and hasattr(__pyx_result, '__dict__'):
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v___pyx_result);
-  __pyx_r = __pyx_v___pyx_result;
-  goto __pyx_L0;
-
-  /* "(tree fragment)":1
- * def __pyx_unpickle_OTType(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
- *     cdef object __pyx_PickleError
- *     cdef object __pyx_result
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("ottype.core_boost.__pyx_unpickle_OTType", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v___pyx_PickleError);
-  __Pyx_XDECREF(__pyx_v___pyx_result);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "(tree fragment)":11
- *         __pyx_unpickle_OTType__set_state(<OTType> __pyx_result, __pyx_state)
- *     return __pyx_result
- * cdef __pyx_unpickle_OTType__set_state(OTType __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     if len(__pyx_state) > 0 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[0])
- */
-
-static PyObject *__pyx_f_6ottype_10core_boost___pyx_unpickle_OTType__set_state(struct __pyx_obj_6ottype_10core_boost_OTType *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  Py_ssize_t __pyx_t_2;
-  int __pyx_t_3;
-  int __pyx_t_4;
-  PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
-  PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
-  __Pyx_RefNannySetupContext("__pyx_unpickle_OTType__set_state", 0);
-
-  /* "(tree fragment)":12
- *     return __pyx_result
- * cdef __pyx_unpickle_OTType__set_state(OTType __pyx_result, tuple __pyx_state):
- *     if len(__pyx_state) > 0 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[0])
- */
-  if (unlikely(__pyx_v___pyx_state == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(1, 12, __pyx_L1_error)
-  }
-  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(1, 12, __pyx_L1_error)
-  __pyx_t_3 = ((__pyx_t_2 > 0) != 0);
-  if (__pyx_t_3) {
-  } else {
-    __pyx_t_1 = __pyx_t_3;
-    goto __pyx_L4_bool_binop_done;
-  }
-  __pyx_t_3 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(1, 12, __pyx_L1_error)
-  __pyx_t_4 = (__pyx_t_3 != 0);
-  __pyx_t_1 = __pyx_t_4;
-  __pyx_L4_bool_binop_done:;
-  if (__pyx_t_1) {
-
-    /* "(tree fragment)":13
- * cdef __pyx_unpickle_OTType__set_state(OTType __pyx_result, tuple __pyx_state):
- *     if len(__pyx_state) > 0 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[0])             # <<<<<<<<<<<<<<
- */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_update); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(__pyx_v___pyx_state == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(1, 13, __pyx_L1_error)
-    }
-    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_8 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
-      __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_7);
-      if (likely(__pyx_t_8)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-        __Pyx_INCREF(__pyx_t_8);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_7, function);
-      }
-    }
-    __pyx_t_5 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_8, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_6);
-    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-
-    /* "(tree fragment)":12
- *     return __pyx_result
- * cdef __pyx_unpickle_OTType__set_state(OTType __pyx_result, tuple __pyx_state):
- *     if len(__pyx_state) > 0 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[0])
- */
-  }
-
-  /* "(tree fragment)":11
- *         __pyx_unpickle_OTType__set_state(<OTType> __pyx_result, __pyx_state)
- *     return __pyx_result
- * cdef __pyx_unpickle_OTType__set_state(OTType __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     if len(__pyx_state) > 0 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[0])
- */
-
-  /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_AddTraceback("ottype.core_boost.__pyx_unpickle_OTType__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "(tree fragment)":1
- * def __pyx_unpickle_OTSkip(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
- *     cdef object __pyx_PickleError
- *     cdef object __pyx_result
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6ottype_10core_boost_15__pyx_unpickle_OTSkip(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_6ottype_10core_boost_15__pyx_unpickle_OTSkip = {"__pyx_unpickle_OTSkip", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6ottype_10core_boost_15__pyx_unpickle_OTSkip, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_6ottype_10core_boost_15__pyx_unpickle_OTSkip(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v___pyx_type = 0;
-  long __pyx_v___pyx_checksum;
-  PyObject *__pyx_v___pyx_state = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__pyx_unpickle_OTSkip (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_pyx_type,&__pyx_n_s_pyx_checksum,&__pyx_n_s_pyx_state,0};
-    PyObject* values[3] = {0,0,0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-        CYTHON_FALLTHROUGH;
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_pyx_type)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        CYTHON_FALLTHROUGH;
-        case  1:
-        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_pyx_checksum)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("__pyx_unpickle_OTSkip", 1, 3, 3, 1); __PYX_ERR(1, 1, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  2:
-        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_pyx_state)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("__pyx_unpickle_OTSkip", 1, 3, 3, 2); __PYX_ERR(1, 1, __pyx_L3_error)
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__pyx_unpickle_OTSkip") < 0)) __PYX_ERR(1, 1, __pyx_L3_error)
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-    }
-    __pyx_v___pyx_type = values[0];
-    __pyx_v___pyx_checksum = __Pyx_PyInt_As_long(values[1]); if (unlikely((__pyx_v___pyx_checksum == (long)-1) && PyErr_Occurred())) __PYX_ERR(1, 1, __pyx_L3_error)
-    __pyx_v___pyx_state = values[2];
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__pyx_unpickle_OTSkip", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("ottype.core_boost.__pyx_unpickle_OTSkip", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6ottype_10core_boost_14__pyx_unpickle_OTSkip(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6ottype_10core_boost_14__pyx_unpickle_OTSkip(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
-  PyObject *__pyx_v___pyx_PickleError = 0;
-  PyObject *__pyx_v___pyx_result = 0;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  int __pyx_t_6;
-  __Pyx_RefNannySetupContext("__pyx_unpickle_OTSkip", 0);
-
-  /* "(tree fragment)":4
- *     cdef object __pyx_PickleError
- *     cdef object __pyx_result
- *     if __pyx_checksum != 0x61dd86c:             # <<<<<<<<<<<<<<
- *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x61dd86c = (arg))" % __pyx_checksum)
- */
-  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0x61dd86c) != 0);
-  if (__pyx_t_1) {
-
-    /* "(tree fragment)":5
- *     cdef object __pyx_result
- *     if __pyx_checksum != 0x61dd86c:
- *         from pickle import PickleError as __pyx_PickleError             # <<<<<<<<<<<<<<
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x61dd86c = (arg))" % __pyx_checksum)
- *     __pyx_result = OTSkip.__new__(__pyx_type)
- */
-    __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 5, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_INCREF(__pyx_n_s_PickleError);
-    __Pyx_GIVEREF(__pyx_n_s_PickleError);
-    PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_PickleError);
-    __pyx_t_3 = __Pyx_Import(__pyx_n_s_pickle, __pyx_t_2, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 5, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_3, __pyx_n_s_PickleError); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 5, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_INCREF(__pyx_t_2);
-    __pyx_v___pyx_PickleError = __pyx_t_2;
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-    /* "(tree fragment)":6
- *     if __pyx_checksum != 0x61dd86c:
- *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x61dd86c = (arg))" % __pyx_checksum)             # <<<<<<<<<<<<<<
- *     __pyx_result = OTSkip.__new__(__pyx_type)
- *     if __pyx_state is not None:
- */
-    __pyx_t_2 = __Pyx_PyInt_From_long(__pyx_v___pyx_checksum); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 6, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0x61, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 6, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_INCREF(__pyx_v___pyx_PickleError);
-    __pyx_t_2 = __pyx_v___pyx_PickleError; __pyx_t_5 = NULL;
-    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_2);
-      if (likely(__pyx_t_5)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-        __Pyx_INCREF(__pyx_t_5);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_2, function);
-      }
-    }
-    __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4);
-    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 6, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(1, 6, __pyx_L1_error)
-
-    /* "(tree fragment)":4
- *     cdef object __pyx_PickleError
- *     cdef object __pyx_result
- *     if __pyx_checksum != 0x61dd86c:             # <<<<<<<<<<<<<<
- *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x61dd86c = (arg))" % __pyx_checksum)
- */
-  }
-
-  /* "(tree fragment)":7
- *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x61dd86c = (arg))" % __pyx_checksum)
- *     __pyx_result = OTSkip.__new__(__pyx_type)             # <<<<<<<<<<<<<<
- *     if __pyx_state is not None:
- *         __pyx_unpickle_OTSkip__set_state(<OTSkip> __pyx_result, __pyx_state)
- */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_ptype_6ottype_10core_boost_OTSkip), __pyx_n_s_new); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 7, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_4);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_v___pyx_type) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v___pyx_type);
-  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 7, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v___pyx_result = __pyx_t_3;
-  __pyx_t_3 = 0;
-
-  /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x61dd86c = (arg))" % __pyx_checksum)
- *     __pyx_result = OTSkip.__new__(__pyx_type)
- *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
- *         __pyx_unpickle_OTSkip__set_state(<OTSkip> __pyx_result, __pyx_state)
- *     return __pyx_result
- */
-  __pyx_t_1 = (__pyx_v___pyx_state != Py_None);
-  __pyx_t_6 = (__pyx_t_1 != 0);
-  if (__pyx_t_6) {
-
-    /* "(tree fragment)":9
- *     __pyx_result = OTSkip.__new__(__pyx_type)
- *     if __pyx_state is not None:
- *         __pyx_unpickle_OTSkip__set_state(<OTSkip> __pyx_result, __pyx_state)             # <<<<<<<<<<<<<<
- *     return __pyx_result
- * cdef __pyx_unpickle_OTSkip__set_state(OTSkip __pyx_result, tuple __pyx_state):
- */
-    if (!(likely(PyTuple_CheckExact(__pyx_v___pyx_state))||((__pyx_v___pyx_state) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_v___pyx_state)->tp_name), 0))) __PYX_ERR(1, 9, __pyx_L1_error)
-    __pyx_t_3 = __pyx_f_6ottype_10core_boost___pyx_unpickle_OTSkip__set_state(((struct __pyx_obj_6ottype_10core_boost_OTSkip *)__pyx_v___pyx_result), ((PyObject*)__pyx_v___pyx_state)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 9, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-    /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x61dd86c = (arg))" % __pyx_checksum)
- *     __pyx_result = OTSkip.__new__(__pyx_type)
- *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
- *         __pyx_unpickle_OTSkip__set_state(<OTSkip> __pyx_result, __pyx_state)
- *     return __pyx_result
- */
-  }
-
-  /* "(tree fragment)":10
- *     if __pyx_state is not None:
- *         __pyx_unpickle_OTSkip__set_state(<OTSkip> __pyx_result, __pyx_state)
- *     return __pyx_result             # <<<<<<<<<<<<<<
- * cdef __pyx_unpickle_OTSkip__set_state(OTSkip __pyx_result, tuple __pyx_state):
- *     __pyx_result.arg = __pyx_state[0]
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v___pyx_result);
-  __pyx_r = __pyx_v___pyx_result;
-  goto __pyx_L0;
-
-  /* "(tree fragment)":1
- * def __pyx_unpickle_OTSkip(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
- *     cdef object __pyx_PickleError
- *     cdef object __pyx_result
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("ottype.core_boost.__pyx_unpickle_OTSkip", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v___pyx_PickleError);
-  __Pyx_XDECREF(__pyx_v___pyx_result);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "(tree fragment)":11
- *         __pyx_unpickle_OTSkip__set_state(<OTSkip> __pyx_result, __pyx_state)
- *     return __pyx_result
- * cdef __pyx_unpickle_OTSkip__set_state(OTSkip __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.arg = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
- */
-
-static PyObject *__pyx_f_6ottype_10core_boost___pyx_unpickle_OTSkip__set_state(struct __pyx_obj_6ottype_10core_boost_OTSkip *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_t_2;
-  int __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
-  int __pyx_t_5;
-  int __pyx_t_6;
-  PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
-  __Pyx_RefNannySetupContext("__pyx_unpickle_OTSkip__set_state", 0);
-
-  /* "(tree fragment)":12
- *     return __pyx_result
- * cdef __pyx_unpickle_OTSkip__set_state(OTSkip __pyx_result, tuple __pyx_state):
- *     __pyx_result.arg = __pyx_state[0]             # <<<<<<<<<<<<<<
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[1])
- */
-  if (unlikely(__pyx_v___pyx_state == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(1, 12, __pyx_L1_error)
-  }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->arg = __pyx_t_2;
-
-  /* "(tree fragment)":13
- * cdef __pyx_unpickle_OTSkip__set_state(OTSkip __pyx_result, tuple __pyx_state):
- *     __pyx_result.arg = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[1])
- */
-  if (unlikely(__pyx_v___pyx_state == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(1, 13, __pyx_L1_error)
-  }
-  __pyx_t_4 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
-  __pyx_t_5 = ((__pyx_t_4 > 1) != 0);
-  if (__pyx_t_5) {
-  } else {
-    __pyx_t_3 = __pyx_t_5;
-    goto __pyx_L4_bool_binop_done;
-  }
-  __pyx_t_5 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
-  __pyx_t_6 = (__pyx_t_5 != 0);
-  __pyx_t_3 = __pyx_t_6;
-  __pyx_L4_bool_binop_done:;
-  if (__pyx_t_3) {
-
-    /* "(tree fragment)":14
- *     __pyx_result.arg = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[1])             # <<<<<<<<<<<<<<
- */
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_update); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(__pyx_v___pyx_state == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(1, 14, __pyx_L1_error)
-    }
-    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_9 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
-      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
-      if (likely(__pyx_t_9)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-        __Pyx_INCREF(__pyx_t_9);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_8, function);
-      }
-    }
-    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_9, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7);
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-    /* "(tree fragment)":13
- * cdef __pyx_unpickle_OTSkip__set_state(OTSkip __pyx_result, tuple __pyx_state):
- *     __pyx_result.arg = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[1])
- */
-  }
-
-  /* "(tree fragment)":11
- *         __pyx_unpickle_OTSkip__set_state(<OTSkip> __pyx_result, __pyx_state)
- *     return __pyx_result
- * cdef __pyx_unpickle_OTSkip__set_state(OTSkip __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.arg = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
- */
-
-  /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_AddTraceback("ottype.core_boost.__pyx_unpickle_OTSkip__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "(tree fragment)":1
- * def __pyx_unpickle_OTInsert(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
- *     cdef object __pyx_PickleError
- *     cdef object __pyx_result
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6ottype_10core_boost_17__pyx_unpickle_OTInsert(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_6ottype_10core_boost_17__pyx_unpickle_OTInsert = {"__pyx_unpickle_OTInsert", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6ottype_10core_boost_17__pyx_unpickle_OTInsert, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_6ottype_10core_boost_17__pyx_unpickle_OTInsert(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v___pyx_type = 0;
-  long __pyx_v___pyx_checksum;
-  PyObject *__pyx_v___pyx_state = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__pyx_unpickle_OTInsert (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_pyx_type,&__pyx_n_s_pyx_checksum,&__pyx_n_s_pyx_state,0};
-    PyObject* values[3] = {0,0,0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-        CYTHON_FALLTHROUGH;
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_pyx_type)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        CYTHON_FALLTHROUGH;
-        case  1:
-        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_pyx_checksum)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("__pyx_unpickle_OTInsert", 1, 3, 3, 1); __PYX_ERR(1, 1, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  2:
-        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_pyx_state)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("__pyx_unpickle_OTInsert", 1, 3, 3, 2); __PYX_ERR(1, 1, __pyx_L3_error)
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__pyx_unpickle_OTInsert") < 0)) __PYX_ERR(1, 1, __pyx_L3_error)
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-    }
-    __pyx_v___pyx_type = values[0];
-    __pyx_v___pyx_checksum = __Pyx_PyInt_As_long(values[1]); if (unlikely((__pyx_v___pyx_checksum == (long)-1) && PyErr_Occurred())) __PYX_ERR(1, 1, __pyx_L3_error)
-    __pyx_v___pyx_state = values[2];
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__pyx_unpickle_OTInsert", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("ottype.core_boost.__pyx_unpickle_OTInsert", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6ottype_10core_boost_16__pyx_unpickle_OTInsert(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6ottype_10core_boost_16__pyx_unpickle_OTInsert(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
-  PyObject *__pyx_v___pyx_PickleError = 0;
-  PyObject *__pyx_v___pyx_result = 0;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  int __pyx_t_6;
-  __Pyx_RefNannySetupContext("__pyx_unpickle_OTInsert", 0);
-
-  /* "(tree fragment)":4
- *     cdef object __pyx_PickleError
- *     cdef object __pyx_result
- *     if __pyx_checksum != 0x61dd86c:             # <<<<<<<<<<<<<<
- *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x61dd86c = (arg))" % __pyx_checksum)
- */
-  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0x61dd86c) != 0);
-  if (__pyx_t_1) {
-
-    /* "(tree fragment)":5
- *     cdef object __pyx_result
- *     if __pyx_checksum != 0x61dd86c:
- *         from pickle import PickleError as __pyx_PickleError             # <<<<<<<<<<<<<<
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x61dd86c = (arg))" % __pyx_checksum)
- *     __pyx_result = OTInsert.__new__(__pyx_type)
- */
-    __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 5, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_INCREF(__pyx_n_s_PickleError);
-    __Pyx_GIVEREF(__pyx_n_s_PickleError);
-    PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_PickleError);
-    __pyx_t_3 = __Pyx_Import(__pyx_n_s_pickle, __pyx_t_2, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 5, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_3, __pyx_n_s_PickleError); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 5, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_INCREF(__pyx_t_2);
-    __pyx_v___pyx_PickleError = __pyx_t_2;
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-    /* "(tree fragment)":6
- *     if __pyx_checksum != 0x61dd86c:
- *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x61dd86c = (arg))" % __pyx_checksum)             # <<<<<<<<<<<<<<
- *     __pyx_result = OTInsert.__new__(__pyx_type)
- *     if __pyx_state is not None:
- */
-    __pyx_t_2 = __Pyx_PyInt_From_long(__pyx_v___pyx_checksum); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 6, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0x61, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 6, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_INCREF(__pyx_v___pyx_PickleError);
-    __pyx_t_2 = __pyx_v___pyx_PickleError; __pyx_t_5 = NULL;
-    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_2);
-      if (likely(__pyx_t_5)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-        __Pyx_INCREF(__pyx_t_5);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_2, function);
-      }
-    }
-    __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4);
-    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 6, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(1, 6, __pyx_L1_error)
-
-    /* "(tree fragment)":4
- *     cdef object __pyx_PickleError
- *     cdef object __pyx_result
- *     if __pyx_checksum != 0x61dd86c:             # <<<<<<<<<<<<<<
- *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x61dd86c = (arg))" % __pyx_checksum)
- */
-  }
-
-  /* "(tree fragment)":7
- *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x61dd86c = (arg))" % __pyx_checksum)
- *     __pyx_result = OTInsert.__new__(__pyx_type)             # <<<<<<<<<<<<<<
- *     if __pyx_state is not None:
- *         __pyx_unpickle_OTInsert__set_state(<OTInsert> __pyx_result, __pyx_state)
- */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_ptype_6ottype_10core_boost_OTInsert), __pyx_n_s_new); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 7, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_4);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_v___pyx_type) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v___pyx_type);
-  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 7, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v___pyx_result = __pyx_t_3;
-  __pyx_t_3 = 0;
-
-  /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x61dd86c = (arg))" % __pyx_checksum)
- *     __pyx_result = OTInsert.__new__(__pyx_type)
- *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
- *         __pyx_unpickle_OTInsert__set_state(<OTInsert> __pyx_result, __pyx_state)
- *     return __pyx_result
- */
-  __pyx_t_1 = (__pyx_v___pyx_state != Py_None);
-  __pyx_t_6 = (__pyx_t_1 != 0);
-  if (__pyx_t_6) {
-
-    /* "(tree fragment)":9
- *     __pyx_result = OTInsert.__new__(__pyx_type)
- *     if __pyx_state is not None:
- *         __pyx_unpickle_OTInsert__set_state(<OTInsert> __pyx_result, __pyx_state)             # <<<<<<<<<<<<<<
- *     return __pyx_result
- * cdef __pyx_unpickle_OTInsert__set_state(OTInsert __pyx_result, tuple __pyx_state):
- */
-    if (!(likely(PyTuple_CheckExact(__pyx_v___pyx_state))||((__pyx_v___pyx_state) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_v___pyx_state)->tp_name), 0))) __PYX_ERR(1, 9, __pyx_L1_error)
-    __pyx_t_3 = __pyx_f_6ottype_10core_boost___pyx_unpickle_OTInsert__set_state(((struct __pyx_obj_6ottype_10core_boost_OTInsert *)__pyx_v___pyx_result), ((PyObject*)__pyx_v___pyx_state)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 9, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-    /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x61dd86c = (arg))" % __pyx_checksum)
- *     __pyx_result = OTInsert.__new__(__pyx_type)
- *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
- *         __pyx_unpickle_OTInsert__set_state(<OTInsert> __pyx_result, __pyx_state)
- *     return __pyx_result
- */
-  }
-
-  /* "(tree fragment)":10
- *     if __pyx_state is not None:
- *         __pyx_unpickle_OTInsert__set_state(<OTInsert> __pyx_result, __pyx_state)
- *     return __pyx_result             # <<<<<<<<<<<<<<
- * cdef __pyx_unpickle_OTInsert__set_state(OTInsert __pyx_result, tuple __pyx_state):
- *     __pyx_result.arg = __pyx_state[0]
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v___pyx_result);
-  __pyx_r = __pyx_v___pyx_result;
-  goto __pyx_L0;
-
-  /* "(tree fragment)":1
- * def __pyx_unpickle_OTInsert(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
- *     cdef object __pyx_PickleError
- *     cdef object __pyx_result
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("ottype.core_boost.__pyx_unpickle_OTInsert", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v___pyx_PickleError);
-  __Pyx_XDECREF(__pyx_v___pyx_result);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "(tree fragment)":11
- *         __pyx_unpickle_OTInsert__set_state(<OTInsert> __pyx_result, __pyx_state)
- *     return __pyx_result
- * cdef __pyx_unpickle_OTInsert__set_state(OTInsert __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.arg = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
- */
-
-static PyObject *__pyx_f_6ottype_10core_boost___pyx_unpickle_OTInsert__set_state(struct __pyx_obj_6ottype_10core_boost_OTInsert *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_t_2;
-  Py_ssize_t __pyx_t_3;
-  int __pyx_t_4;
-  int __pyx_t_5;
-  PyObject *__pyx_t_6 = NULL;
-  PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
-  __Pyx_RefNannySetupContext("__pyx_unpickle_OTInsert__set_state", 0);
-
-  /* "(tree fragment)":12
- *     return __pyx_result
- * cdef __pyx_unpickle_OTInsert__set_state(OTInsert __pyx_result, tuple __pyx_state):
- *     __pyx_result.arg = __pyx_state[0]             # <<<<<<<<<<<<<<
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[1])
- */
-  if (unlikely(__pyx_v___pyx_state == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(1, 12, __pyx_L1_error)
-  }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyUnicode_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(1, 12, __pyx_L1_error)
-  __Pyx_GIVEREF(__pyx_t_1);
-  __Pyx_GOTREF(__pyx_v___pyx_result->arg);
-  __Pyx_DECREF(__pyx_v___pyx_result->arg);
-  __pyx_v___pyx_result->arg = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* "(tree fragment)":13
- * cdef __pyx_unpickle_OTInsert__set_state(OTInsert __pyx_result, tuple __pyx_state):
- *     __pyx_result.arg = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[1])
- */
-  if (unlikely(__pyx_v___pyx_state == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(1, 13, __pyx_L1_error)
-  }
-  __pyx_t_3 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
-  __pyx_t_4 = ((__pyx_t_3 > 1) != 0);
-  if (__pyx_t_4) {
-  } else {
-    __pyx_t_2 = __pyx_t_4;
-    goto __pyx_L4_bool_binop_done;
-  }
-  __pyx_t_4 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
-  __pyx_t_5 = (__pyx_t_4 != 0);
-  __pyx_t_2 = __pyx_t_5;
-  __pyx_L4_bool_binop_done:;
-  if (__pyx_t_2) {
-
-    /* "(tree fragment)":14
- *     __pyx_result.arg = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[1])             # <<<<<<<<<<<<<<
- */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_update); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(__pyx_v___pyx_state == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(1, 14, __pyx_L1_error)
-    }
-    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_8 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
-      __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_7);
-      if (likely(__pyx_t_8)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-        __Pyx_INCREF(__pyx_t_8);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_7, function);
-      }
-    }
-    __pyx_t_1 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_8, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_6);
-    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-    /* "(tree fragment)":13
- * cdef __pyx_unpickle_OTInsert__set_state(OTInsert __pyx_result, tuple __pyx_state):
- *     __pyx_result.arg = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[1])
- */
-  }
-
-  /* "(tree fragment)":11
- *         __pyx_unpickle_OTInsert__set_state(<OTInsert> __pyx_result, __pyx_state)
- *     return __pyx_result
- * cdef __pyx_unpickle_OTInsert__set_state(OTInsert __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.arg = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
- */
-
-  /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_AddTraceback("ottype.core_boost.__pyx_unpickle_OTInsert__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "(tree fragment)":1
- * def __pyx_unpickle_OTDelete(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
- *     cdef object __pyx_PickleError
- *     cdef object __pyx_result
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6ottype_10core_boost_19__pyx_unpickle_OTDelete(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_6ottype_10core_boost_19__pyx_unpickle_OTDelete = {"__pyx_unpickle_OTDelete", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6ottype_10core_boost_19__pyx_unpickle_OTDelete, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_6ottype_10core_boost_19__pyx_unpickle_OTDelete(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v___pyx_type = 0;
-  long __pyx_v___pyx_checksum;
-  PyObject *__pyx_v___pyx_state = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__pyx_unpickle_OTDelete (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_pyx_type,&__pyx_n_s_pyx_checksum,&__pyx_n_s_pyx_state,0};
-    PyObject* values[3] = {0,0,0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-        CYTHON_FALLTHROUGH;
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_pyx_type)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        CYTHON_FALLTHROUGH;
-        case  1:
-        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_pyx_checksum)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("__pyx_unpickle_OTDelete", 1, 3, 3, 1); __PYX_ERR(1, 1, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  2:
-        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_pyx_state)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("__pyx_unpickle_OTDelete", 1, 3, 3, 2); __PYX_ERR(1, 1, __pyx_L3_error)
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__pyx_unpickle_OTDelete") < 0)) __PYX_ERR(1, 1, __pyx_L3_error)
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-    }
-    __pyx_v___pyx_type = values[0];
-    __pyx_v___pyx_checksum = __Pyx_PyInt_As_long(values[1]); if (unlikely((__pyx_v___pyx_checksum == (long)-1) && PyErr_Occurred())) __PYX_ERR(1, 1, __pyx_L3_error)
-    __pyx_v___pyx_state = values[2];
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__pyx_unpickle_OTDelete", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("ottype.core_boost.__pyx_unpickle_OTDelete", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6ottype_10core_boost_18__pyx_unpickle_OTDelete(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6ottype_10core_boost_18__pyx_unpickle_OTDelete(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
-  PyObject *__pyx_v___pyx_PickleError = 0;
-  PyObject *__pyx_v___pyx_result = 0;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  int __pyx_t_6;
-  __Pyx_RefNannySetupContext("__pyx_unpickle_OTDelete", 0);
-
-  /* "(tree fragment)":4
- *     cdef object __pyx_PickleError
- *     cdef object __pyx_result
- *     if __pyx_checksum != 0x61dd86c:             # <<<<<<<<<<<<<<
- *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x61dd86c = (arg))" % __pyx_checksum)
- */
-  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0x61dd86c) != 0);
-  if (__pyx_t_1) {
-
-    /* "(tree fragment)":5
- *     cdef object __pyx_result
- *     if __pyx_checksum != 0x61dd86c:
- *         from pickle import PickleError as __pyx_PickleError             # <<<<<<<<<<<<<<
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x61dd86c = (arg))" % __pyx_checksum)
- *     __pyx_result = OTDelete.__new__(__pyx_type)
- */
-    __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 5, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_INCREF(__pyx_n_s_PickleError);
-    __Pyx_GIVEREF(__pyx_n_s_PickleError);
-    PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_PickleError);
-    __pyx_t_3 = __Pyx_Import(__pyx_n_s_pickle, __pyx_t_2, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 5, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_3, __pyx_n_s_PickleError); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 5, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_INCREF(__pyx_t_2);
-    __pyx_v___pyx_PickleError = __pyx_t_2;
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-    /* "(tree fragment)":6
- *     if __pyx_checksum != 0x61dd86c:
- *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x61dd86c = (arg))" % __pyx_checksum)             # <<<<<<<<<<<<<<
- *     __pyx_result = OTDelete.__new__(__pyx_type)
- *     if __pyx_state is not None:
- */
-    __pyx_t_2 = __Pyx_PyInt_From_long(__pyx_v___pyx_checksum); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 6, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0x61, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 6, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_INCREF(__pyx_v___pyx_PickleError);
-    __pyx_t_2 = __pyx_v___pyx_PickleError; __pyx_t_5 = NULL;
-    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_2);
-      if (likely(__pyx_t_5)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-        __Pyx_INCREF(__pyx_t_5);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_2, function);
-      }
-    }
-    __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4);
-    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 6, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(1, 6, __pyx_L1_error)
-
-    /* "(tree fragment)":4
- *     cdef object __pyx_PickleError
- *     cdef object __pyx_result
- *     if __pyx_checksum != 0x61dd86c:             # <<<<<<<<<<<<<<
- *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x61dd86c = (arg))" % __pyx_checksum)
- */
-  }
-
-  /* "(tree fragment)":7
- *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x61dd86c = (arg))" % __pyx_checksum)
- *     __pyx_result = OTDelete.__new__(__pyx_type)             # <<<<<<<<<<<<<<
- *     if __pyx_state is not None:
- *         __pyx_unpickle_OTDelete__set_state(<OTDelete> __pyx_result, __pyx_state)
- */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_ptype_6ottype_10core_boost_OTDelete), __pyx_n_s_new); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 7, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_4);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_v___pyx_type) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v___pyx_type);
-  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 7, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v___pyx_result = __pyx_t_3;
-  __pyx_t_3 = 0;
-
-  /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x61dd86c = (arg))" % __pyx_checksum)
- *     __pyx_result = OTDelete.__new__(__pyx_type)
- *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
- *         __pyx_unpickle_OTDelete__set_state(<OTDelete> __pyx_result, __pyx_state)
- *     return __pyx_result
- */
-  __pyx_t_1 = (__pyx_v___pyx_state != Py_None);
-  __pyx_t_6 = (__pyx_t_1 != 0);
-  if (__pyx_t_6) {
-
-    /* "(tree fragment)":9
- *     __pyx_result = OTDelete.__new__(__pyx_type)
- *     if __pyx_state is not None:
- *         __pyx_unpickle_OTDelete__set_state(<OTDelete> __pyx_result, __pyx_state)             # <<<<<<<<<<<<<<
- *     return __pyx_result
- * cdef __pyx_unpickle_OTDelete__set_state(OTDelete __pyx_result, tuple __pyx_state):
- */
-    if (!(likely(PyTuple_CheckExact(__pyx_v___pyx_state))||((__pyx_v___pyx_state) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_v___pyx_state)->tp_name), 0))) __PYX_ERR(1, 9, __pyx_L1_error)
-    __pyx_t_3 = __pyx_f_6ottype_10core_boost___pyx_unpickle_OTDelete__set_state(((struct __pyx_obj_6ottype_10core_boost_OTDelete *)__pyx_v___pyx_result), ((PyObject*)__pyx_v___pyx_state)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 9, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-    /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x61dd86c = (arg))" % __pyx_checksum)
- *     __pyx_result = OTDelete.__new__(__pyx_type)
- *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
- *         __pyx_unpickle_OTDelete__set_state(<OTDelete> __pyx_result, __pyx_state)
- *     return __pyx_result
- */
-  }
-
-  /* "(tree fragment)":10
- *     if __pyx_state is not None:
- *         __pyx_unpickle_OTDelete__set_state(<OTDelete> __pyx_result, __pyx_state)
- *     return __pyx_result             # <<<<<<<<<<<<<<
- * cdef __pyx_unpickle_OTDelete__set_state(OTDelete __pyx_result, tuple __pyx_state):
- *     __pyx_result.arg = __pyx_state[0]
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v___pyx_result);
-  __pyx_r = __pyx_v___pyx_result;
-  goto __pyx_L0;
-
-  /* "(tree fragment)":1
- * def __pyx_unpickle_OTDelete(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
- *     cdef object __pyx_PickleError
- *     cdef object __pyx_result
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("ottype.core_boost.__pyx_unpickle_OTDelete", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v___pyx_PickleError);
-  __Pyx_XDECREF(__pyx_v___pyx_result);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "(tree fragment)":11
- *         __pyx_unpickle_OTDelete__set_state(<OTDelete> __pyx_result, __pyx_state)
- *     return __pyx_result
- * cdef __pyx_unpickle_OTDelete__set_state(OTDelete __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.arg = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
- */
-
-static PyObject *__pyx_f_6ottype_10core_boost___pyx_unpickle_OTDelete__set_state(struct __pyx_obj_6ottype_10core_boost_OTDelete *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_t_2;
-  Py_ssize_t __pyx_t_3;
-  int __pyx_t_4;
-  int __pyx_t_5;
-  PyObject *__pyx_t_6 = NULL;
-  PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
-  __Pyx_RefNannySetupContext("__pyx_unpickle_OTDelete__set_state", 0);
-
-  /* "(tree fragment)":12
- *     return __pyx_result
- * cdef __pyx_unpickle_OTDelete__set_state(OTDelete __pyx_result, tuple __pyx_state):
- *     __pyx_result.arg = __pyx_state[0]             # <<<<<<<<<<<<<<
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[1])
- */
-  if (unlikely(__pyx_v___pyx_state == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(1, 12, __pyx_L1_error)
-  }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyUnicode_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "unicode", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(1, 12, __pyx_L1_error)
-  __Pyx_GIVEREF(__pyx_t_1);
-  __Pyx_GOTREF(__pyx_v___pyx_result->arg);
-  __Pyx_DECREF(__pyx_v___pyx_result->arg);
-  __pyx_v___pyx_result->arg = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* "(tree fragment)":13
- * cdef __pyx_unpickle_OTDelete__set_state(OTDelete __pyx_result, tuple __pyx_state):
- *     __pyx_result.arg = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[1])
- */
-  if (unlikely(__pyx_v___pyx_state == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(1, 13, __pyx_L1_error)
-  }
-  __pyx_t_3 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
-  __pyx_t_4 = ((__pyx_t_3 > 1) != 0);
-  if (__pyx_t_4) {
-  } else {
-    __pyx_t_2 = __pyx_t_4;
-    goto __pyx_L4_bool_binop_done;
-  }
-  __pyx_t_4 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
-  __pyx_t_5 = (__pyx_t_4 != 0);
-  __pyx_t_2 = __pyx_t_5;
-  __pyx_L4_bool_binop_done:;
-  if (__pyx_t_2) {
-
-    /* "(tree fragment)":14
- *     __pyx_result.arg = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[1])             # <<<<<<<<<<<<<<
- */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_update); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(__pyx_v___pyx_state == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(1, 14, __pyx_L1_error)
-    }
-    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_8 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
-      __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_7);
-      if (likely(__pyx_t_8)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-        __Pyx_INCREF(__pyx_t_8);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_7, function);
-      }
-    }
-    __pyx_t_1 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_8, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_6);
-    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-    /* "(tree fragment)":13
- * cdef __pyx_unpickle_OTDelete__set_state(OTDelete __pyx_result, tuple __pyx_state):
- *     __pyx_result.arg = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[1])
- */
-  }
-
-  /* "(tree fragment)":11
- *         __pyx_unpickle_OTDelete__set_state(<OTDelete> __pyx_result, __pyx_state)
- *     return __pyx_result
- * cdef __pyx_unpickle_OTDelete__set_state(OTDelete __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.arg = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
- */
-
-  /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_AddTraceback("ottype.core_boost.__pyx_unpickle_OTDelete__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_ot);
+  __Pyx_XDECREF(__pyx_v_ot_arg);
+  __Pyx_XDECREF(__pyx_v_ot_arg_as_str);
+  __Pyx_XDECREF(__pyx_v_chunk_ot);
+  __Pyx_XDECREF(__pyx_v_chunk_ot_arg);
+  __Pyx_XDECREF(__pyx_v_chunk_ot_arg_as_str);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -10837,9 +8151,9 @@ static PyObject *__pyx_f_6ottype_10core_boost___pyx_unpickle_OTDelete__set_state
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6ottype_10core_boost_21__pyx_unpickle__Appender(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_6ottype_10core_boost_21__pyx_unpickle__Appender = {"__pyx_unpickle__Appender", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6ottype_10core_boost_21__pyx_unpickle__Appender, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_6ottype_10core_boost_21__pyx_unpickle__Appender(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6ottype_10core_boost_13__pyx_unpickle__Appender(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_6ottype_10core_boost_13__pyx_unpickle__Appender = {"__pyx_unpickle__Appender", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6ottype_10core_boost_13__pyx_unpickle__Appender, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_6ottype_10core_boost_13__pyx_unpickle__Appender(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -10902,14 +8216,14 @@ static PyObject *__pyx_pw_6ottype_10core_boost_21__pyx_unpickle__Appender(PyObje
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6ottype_10core_boost_20__pyx_unpickle__Appender(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_6ottype_10core_boost_12__pyx_unpickle__Appender(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6ottype_10core_boost_20__pyx_unpickle__Appender(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_6ottype_10core_boost_12__pyx_unpickle__Appender(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = 0;
   PyObject *__pyx_v___pyx_result = 0;
   PyObject *__pyx_r = NULL;
@@ -11107,7 +8421,6 @@ static PyObject *__pyx_f_6ottype_10core_boost___pyx_unpickle__Appender__set_stat
   int __pyx_t_5;
   PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
   __Pyx_RefNannySetupContext("__pyx_unpickle__Appender__set_state", 0);
 
   /* "(tree fragment)":12
@@ -11121,9 +8434,9 @@ static PyObject *__pyx_f_6ottype_10core_boost___pyx_unpickle__Appender__set_stat
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(1, 12, __pyx_L1_error)
+  if (!(likely(PyList_CheckExact(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)))||((PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0))->tp_name), 0))) __PYX_ERR(1, 12, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 0);
+  __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v___pyx_result->ots);
   __Pyx_DECREF(__pyx_v___pyx_result->ots);
@@ -11167,21 +8480,18 @@ static PyObject *__pyx_f_6ottype_10core_boost___pyx_unpickle__Appender__set_stat
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(1, 14, __pyx_L1_error)
     }
-    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_8 = NULL;
+    __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
-      __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_7);
-      if (likely(__pyx_t_8)) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_7);
+      if (likely(__pyx_t_6)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-        __Pyx_INCREF(__pyx_t_8);
+        __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_7, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_8, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_6);
-    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_6, PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)) : __Pyx_PyObject_CallOneArg(__pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 1));
+    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -11210,7 +8520,6 @@ static PyObject *__pyx_f_6ottype_10core_boost___pyx_unpickle__Appender__set_stat
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
   __Pyx_AddTraceback("ottype.core_boost.__pyx_unpickle__Appender__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -11226,9 +8535,9 @@ static PyObject *__pyx_f_6ottype_10core_boost___pyx_unpickle__Appender__set_stat
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6ottype_10core_boost_23__pyx_unpickle__Taker(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_6ottype_10core_boost_23__pyx_unpickle__Taker = {"__pyx_unpickle__Taker", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6ottype_10core_boost_23__pyx_unpickle__Taker, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_6ottype_10core_boost_23__pyx_unpickle__Taker(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6ottype_10core_boost_15__pyx_unpickle__Taker(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_6ottype_10core_boost_15__pyx_unpickle__Taker = {"__pyx_unpickle__Taker", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6ottype_10core_boost_15__pyx_unpickle__Taker, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_6ottype_10core_boost_15__pyx_unpickle__Taker(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -11291,14 +8600,14 @@ static PyObject *__pyx_pw_6ottype_10core_boost_23__pyx_unpickle__Taker(PyObject 
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6ottype_10core_boost_22__pyx_unpickle__Taker(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_6ottype_10core_boost_14__pyx_unpickle__Taker(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6ottype_10core_boost_22__pyx_unpickle__Taker(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_6ottype_10core_boost_14__pyx_unpickle__Taker(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = 0;
   PyObject *__pyx_v___pyx_result = 0;
   PyObject *__pyx_r = NULL;
@@ -11489,15 +8798,14 @@ static PyObject *__pyx_pf_6ottype_10core_boost_22__pyx_unpickle__Taker(CYTHON_UN
 static PyObject *__pyx_f_6ottype_10core_boost___pyx_unpickle__Taker__set_state(struct __pyx_obj_6ottype_10core_boost__Taker *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_t_2;
+  int __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
   int __pyx_t_3;
   Py_ssize_t __pyx_t_4;
   int __pyx_t_5;
   int __pyx_t_6;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
   __Pyx_RefNannySetupContext("__pyx_unpickle__Taker__set_state", 0);
 
   /* "(tree fragment)":12
@@ -11511,32 +8819,26 @@ static PyObject *__pyx_f_6ottype_10core_boost___pyx_unpickle__Taker__set_state(s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->_idx = __pyx_t_2;
+  __pyx_t_1 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->_idx = __pyx_t_1;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->_offset = __pyx_t_2;
+  __pyx_t_1 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->_offset = __pyx_t_1;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(1, 12, __pyx_L1_error)
-  __Pyx_GIVEREF(__pyx_t_1);
+  if (!(likely(PyList_CheckExact(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)))||((PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2))->tp_name), 0))) __PYX_ERR(1, 12, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 2);
+  __Pyx_INCREF(__pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_2);
   __Pyx_GOTREF(__pyx_v___pyx_result->ots);
   __Pyx_DECREF(__pyx_v___pyx_result->ots);
-  __pyx_v___pyx_result->ots = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
+  __pyx_v___pyx_result->ots = ((PyObject*)__pyx_t_2);
+  __pyx_t_2 = 0;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle__Taker__set_state(_Taker __pyx_result, tuple __pyx_state):
@@ -11575,25 +8877,22 @@ static PyObject *__pyx_f_6ottype_10core_boost___pyx_unpickle__Taker__set_state(s
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(1, 14, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_9 = NULL;
+    __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
-      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
-      if (likely(__pyx_t_9)) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_8);
+      if (likely(__pyx_t_7)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_8, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_9, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7);
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_2 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)) : __Pyx_PyObject_CallOneArg(__pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 3));
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle__Taker__set_state(_Taker __pyx_result, tuple __pyx_state):
@@ -11615,10 +8914,9 @@ static PyObject *__pyx_f_6ottype_10core_boost___pyx_unpickle__Taker__set_state(s
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("ottype.core_boost.__pyx_unpickle__Taker__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -11626,399 +8924,6 @@ static PyObject *__pyx_f_6ottype_10core_boost___pyx_unpickle__Taker__set_state(s
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-
-static PyObject *__pyx_tp_new_6ottype_10core_boost_OTType(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
-  PyObject *o;
-  if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
-    o = (*t->tp_alloc)(t, 0);
-  } else {
-    o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
-  }
-  if (unlikely(!o)) return 0;
-  return o;
-}
-
-static void __pyx_tp_dealloc_6ottype_10core_boost_OTType(PyObject *o) {
-  #if CYTHON_USE_TP_FINALIZE
-  if (unlikely(PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_HAVE_FINALIZE) && Py_TYPE(o)->tp_finalize) && (!PyType_IS_GC(Py_TYPE(o)) || !_PyGC_FINALIZED(o))) {
-    if (PyObject_CallFinalizerFromDealloc(o)) return;
-  }
-  #endif
-  (*Py_TYPE(o)->tp_free)(o);
-}
-
-static PyMethodDef __pyx_methods_6ottype_10core_boost_OTType[] = {
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_6ottype_10core_boost_6OTType_1__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_6ottype_10core_boost_6OTType_3__setstate_cython__, METH_O, 0},
-  {0, 0, 0, 0}
-};
-
-static PyTypeObject __pyx_type_6ottype_10core_boost_OTType = {
-  PyVarObject_HEAD_INIT(0, 0)
-  "ottype.core_boost.OTType", /*tp_name*/
-  sizeof(struct __pyx_obj_6ottype_10core_boost_OTType), /*tp_basicsize*/
-  0, /*tp_itemsize*/
-  __pyx_tp_dealloc_6ottype_10core_boost_OTType, /*tp_dealloc*/
-  #if PY_VERSION_HEX < 0x030800b4
-  0, /*tp_print*/
-  #endif
-  #if PY_VERSION_HEX >= 0x030800b4
-  0, /*tp_vectorcall_offset*/
-  #endif
-  0, /*tp_getattr*/
-  0, /*tp_setattr*/
-  #if PY_MAJOR_VERSION < 3
-  0, /*tp_compare*/
-  #endif
-  #if PY_MAJOR_VERSION >= 3
-  0, /*tp_as_async*/
-  #endif
-  0, /*tp_repr*/
-  0, /*tp_as_number*/
-  0, /*tp_as_sequence*/
-  0, /*tp_as_mapping*/
-  0, /*tp_hash*/
-  0, /*tp_call*/
-  0, /*tp_str*/
-  0, /*tp_getattro*/
-  0, /*tp_setattro*/
-  0, /*tp_as_buffer*/
-  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
-  0, /*tp_doc*/
-  0, /*tp_traverse*/
-  0, /*tp_clear*/
-  0, /*tp_richcompare*/
-  0, /*tp_weaklistoffset*/
-  0, /*tp_iter*/
-  0, /*tp_iternext*/
-  __pyx_methods_6ottype_10core_boost_OTType, /*tp_methods*/
-  0, /*tp_members*/
-  0, /*tp_getset*/
-  0, /*tp_base*/
-  0, /*tp_dict*/
-  0, /*tp_descr_get*/
-  0, /*tp_descr_set*/
-  0, /*tp_dictoffset*/
-  0, /*tp_init*/
-  0, /*tp_alloc*/
-  __pyx_tp_new_6ottype_10core_boost_OTType, /*tp_new*/
-  0, /*tp_free*/
-  0, /*tp_is_gc*/
-  0, /*tp_bases*/
-  0, /*tp_mro*/
-  0, /*tp_cache*/
-  0, /*tp_subclasses*/
-  0, /*tp_weaklist*/
-  0, /*tp_del*/
-  0, /*tp_version_tag*/
-  #if PY_VERSION_HEX >= 0x030400a1
-  0, /*tp_finalize*/
-  #endif
-  #if PY_VERSION_HEX >= 0x030800b1
-  0, /*tp_vectorcall*/
-  #endif
-  #if PY_VERSION_HEX >= 0x030800b4 && PY_VERSION_HEX < 0x03090000
-  0, /*tp_print*/
-  #endif
-};
-
-static PyObject *__pyx_tp_new_6ottype_10core_boost_OTSkip(PyTypeObject *t, PyObject *a, PyObject *k) {
-  PyObject *o = __pyx_tp_new_6ottype_10core_boost_OTType(t, a, k);
-  if (unlikely(!o)) return 0;
-  return o;
-}
-
-static PyObject *__pyx_getprop_6ottype_10core_boost_6OTSkip_raw(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_6ottype_10core_boost_6OTSkip_3raw_1__get__(o);
-}
-
-static PyMethodDef __pyx_methods_6ottype_10core_boost_OTSkip[] = {
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_6ottype_10core_boost_6OTSkip_3__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_6ottype_10core_boost_6OTSkip_5__setstate_cython__, METH_O, 0},
-  {0, 0, 0, 0}
-};
-
-static struct PyGetSetDef __pyx_getsets_6ottype_10core_boost_OTSkip[] = {
-  {(char *)"raw", __pyx_getprop_6ottype_10core_boost_6OTSkip_raw, 0, (char *)0, 0},
-  {0, 0, 0, 0, 0}
-};
-
-static PyTypeObject __pyx_type_6ottype_10core_boost_OTSkip = {
-  PyVarObject_HEAD_INIT(0, 0)
-  "ottype.core_boost.OTSkip", /*tp_name*/
-  sizeof(struct __pyx_obj_6ottype_10core_boost_OTSkip), /*tp_basicsize*/
-  0, /*tp_itemsize*/
-  __pyx_tp_dealloc_6ottype_10core_boost_OTType, /*tp_dealloc*/
-  #if PY_VERSION_HEX < 0x030800b4
-  0, /*tp_print*/
-  #endif
-  #if PY_VERSION_HEX >= 0x030800b4
-  0, /*tp_vectorcall_offset*/
-  #endif
-  0, /*tp_getattr*/
-  0, /*tp_setattr*/
-  #if PY_MAJOR_VERSION < 3
-  0, /*tp_compare*/
-  #endif
-  #if PY_MAJOR_VERSION >= 3
-  0, /*tp_as_async*/
-  #endif
-  0, /*tp_repr*/
-  0, /*tp_as_number*/
-  0, /*tp_as_sequence*/
-  0, /*tp_as_mapping*/
-  0, /*tp_hash*/
-  0, /*tp_call*/
-  0, /*tp_str*/
-  0, /*tp_getattro*/
-  0, /*tp_setattro*/
-  0, /*tp_as_buffer*/
-  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
-  0, /*tp_doc*/
-  0, /*tp_traverse*/
-  0, /*tp_clear*/
-  0, /*tp_richcompare*/
-  0, /*tp_weaklistoffset*/
-  0, /*tp_iter*/
-  0, /*tp_iternext*/
-  __pyx_methods_6ottype_10core_boost_OTSkip, /*tp_methods*/
-  0, /*tp_members*/
-  __pyx_getsets_6ottype_10core_boost_OTSkip, /*tp_getset*/
-  0, /*tp_base*/
-  0, /*tp_dict*/
-  0, /*tp_descr_get*/
-  0, /*tp_descr_set*/
-  0, /*tp_dictoffset*/
-  __pyx_pw_6ottype_10core_boost_6OTSkip_1__init__, /*tp_init*/
-  0, /*tp_alloc*/
-  __pyx_tp_new_6ottype_10core_boost_OTSkip, /*tp_new*/
-  0, /*tp_free*/
-  0, /*tp_is_gc*/
-  0, /*tp_bases*/
-  0, /*tp_mro*/
-  0, /*tp_cache*/
-  0, /*tp_subclasses*/
-  0, /*tp_weaklist*/
-  0, /*tp_del*/
-  0, /*tp_version_tag*/
-  #if PY_VERSION_HEX >= 0x030400a1
-  0, /*tp_finalize*/
-  #endif
-  #if PY_VERSION_HEX >= 0x030800b1
-  0, /*tp_vectorcall*/
-  #endif
-  #if PY_VERSION_HEX >= 0x030800b4 && PY_VERSION_HEX < 0x03090000
-  0, /*tp_print*/
-  #endif
-};
-
-static PyObject *__pyx_tp_new_6ottype_10core_boost_OTInsert(PyTypeObject *t, PyObject *a, PyObject *k) {
-  struct __pyx_obj_6ottype_10core_boost_OTInsert *p;
-  PyObject *o = __pyx_tp_new_6ottype_10core_boost_OTType(t, a, k);
-  if (unlikely(!o)) return 0;
-  p = ((struct __pyx_obj_6ottype_10core_boost_OTInsert *)o);
-  p->arg = ((PyObject*)Py_None); Py_INCREF(Py_None);
-  return o;
-}
-
-static void __pyx_tp_dealloc_6ottype_10core_boost_OTInsert(PyObject *o) {
-  struct __pyx_obj_6ottype_10core_boost_OTInsert *p = (struct __pyx_obj_6ottype_10core_boost_OTInsert *)o;
-  #if CYTHON_USE_TP_FINALIZE
-  if (unlikely(PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_HAVE_FINALIZE) && Py_TYPE(o)->tp_finalize) && (!PyType_IS_GC(Py_TYPE(o)) || !_PyGC_FINALIZED(o))) {
-    if (PyObject_CallFinalizerFromDealloc(o)) return;
-  }
-  #endif
-  Py_CLEAR(p->arg);
-  __pyx_tp_dealloc_6ottype_10core_boost_OTType(o);
-}
-
-static PyObject *__pyx_getprop_6ottype_10core_boost_8OTInsert_raw(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_6ottype_10core_boost_8OTInsert_3raw_1__get__(o);
-}
-
-static PyMethodDef __pyx_methods_6ottype_10core_boost_OTInsert[] = {
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_6ottype_10core_boost_8OTInsert_3__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_6ottype_10core_boost_8OTInsert_5__setstate_cython__, METH_O, 0},
-  {0, 0, 0, 0}
-};
-
-static struct PyGetSetDef __pyx_getsets_6ottype_10core_boost_OTInsert[] = {
-  {(char *)"raw", __pyx_getprop_6ottype_10core_boost_8OTInsert_raw, 0, (char *)0, 0},
-  {0, 0, 0, 0, 0}
-};
-
-static PyTypeObject __pyx_type_6ottype_10core_boost_OTInsert = {
-  PyVarObject_HEAD_INIT(0, 0)
-  "ottype.core_boost.OTInsert", /*tp_name*/
-  sizeof(struct __pyx_obj_6ottype_10core_boost_OTInsert), /*tp_basicsize*/
-  0, /*tp_itemsize*/
-  __pyx_tp_dealloc_6ottype_10core_boost_OTInsert, /*tp_dealloc*/
-  #if PY_VERSION_HEX < 0x030800b4
-  0, /*tp_print*/
-  #endif
-  #if PY_VERSION_HEX >= 0x030800b4
-  0, /*tp_vectorcall_offset*/
-  #endif
-  0, /*tp_getattr*/
-  0, /*tp_setattr*/
-  #if PY_MAJOR_VERSION < 3
-  0, /*tp_compare*/
-  #endif
-  #if PY_MAJOR_VERSION >= 3
-  0, /*tp_as_async*/
-  #endif
-  0, /*tp_repr*/
-  0, /*tp_as_number*/
-  0, /*tp_as_sequence*/
-  0, /*tp_as_mapping*/
-  0, /*tp_hash*/
-  0, /*tp_call*/
-  0, /*tp_str*/
-  0, /*tp_getattro*/
-  0, /*tp_setattro*/
-  0, /*tp_as_buffer*/
-  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
-  0, /*tp_doc*/
-  0, /*tp_traverse*/
-  0, /*tp_clear*/
-  0, /*tp_richcompare*/
-  0, /*tp_weaklistoffset*/
-  0, /*tp_iter*/
-  0, /*tp_iternext*/
-  __pyx_methods_6ottype_10core_boost_OTInsert, /*tp_methods*/
-  0, /*tp_members*/
-  __pyx_getsets_6ottype_10core_boost_OTInsert, /*tp_getset*/
-  0, /*tp_base*/
-  0, /*tp_dict*/
-  0, /*tp_descr_get*/
-  0, /*tp_descr_set*/
-  0, /*tp_dictoffset*/
-  __pyx_pw_6ottype_10core_boost_8OTInsert_1__init__, /*tp_init*/
-  0, /*tp_alloc*/
-  __pyx_tp_new_6ottype_10core_boost_OTInsert, /*tp_new*/
-  0, /*tp_free*/
-  0, /*tp_is_gc*/
-  0, /*tp_bases*/
-  0, /*tp_mro*/
-  0, /*tp_cache*/
-  0, /*tp_subclasses*/
-  0, /*tp_weaklist*/
-  0, /*tp_del*/
-  0, /*tp_version_tag*/
-  #if PY_VERSION_HEX >= 0x030400a1
-  0, /*tp_finalize*/
-  #endif
-  #if PY_VERSION_HEX >= 0x030800b1
-  0, /*tp_vectorcall*/
-  #endif
-  #if PY_VERSION_HEX >= 0x030800b4 && PY_VERSION_HEX < 0x03090000
-  0, /*tp_print*/
-  #endif
-};
-
-static PyObject *__pyx_tp_new_6ottype_10core_boost_OTDelete(PyTypeObject *t, PyObject *a, PyObject *k) {
-  struct __pyx_obj_6ottype_10core_boost_OTDelete *p;
-  PyObject *o = __pyx_tp_new_6ottype_10core_boost_OTType(t, a, k);
-  if (unlikely(!o)) return 0;
-  p = ((struct __pyx_obj_6ottype_10core_boost_OTDelete *)o);
-  p->arg = ((PyObject*)Py_None); Py_INCREF(Py_None);
-  return o;
-}
-
-static void __pyx_tp_dealloc_6ottype_10core_boost_OTDelete(PyObject *o) {
-  struct __pyx_obj_6ottype_10core_boost_OTDelete *p = (struct __pyx_obj_6ottype_10core_boost_OTDelete *)o;
-  #if CYTHON_USE_TP_FINALIZE
-  if (unlikely(PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_HAVE_FINALIZE) && Py_TYPE(o)->tp_finalize) && (!PyType_IS_GC(Py_TYPE(o)) || !_PyGC_FINALIZED(o))) {
-    if (PyObject_CallFinalizerFromDealloc(o)) return;
-  }
-  #endif
-  Py_CLEAR(p->arg);
-  __pyx_tp_dealloc_6ottype_10core_boost_OTType(o);
-}
-
-static PyObject *__pyx_getprop_6ottype_10core_boost_8OTDelete_raw(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_6ottype_10core_boost_8OTDelete_3raw_1__get__(o);
-}
-
-static PyMethodDef __pyx_methods_6ottype_10core_boost_OTDelete[] = {
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_6ottype_10core_boost_8OTDelete_3__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_6ottype_10core_boost_8OTDelete_5__setstate_cython__, METH_O, 0},
-  {0, 0, 0, 0}
-};
-
-static struct PyGetSetDef __pyx_getsets_6ottype_10core_boost_OTDelete[] = {
-  {(char *)"raw", __pyx_getprop_6ottype_10core_boost_8OTDelete_raw, 0, (char *)0, 0},
-  {0, 0, 0, 0, 0}
-};
-
-static PyTypeObject __pyx_type_6ottype_10core_boost_OTDelete = {
-  PyVarObject_HEAD_INIT(0, 0)
-  "ottype.core_boost.OTDelete", /*tp_name*/
-  sizeof(struct __pyx_obj_6ottype_10core_boost_OTDelete), /*tp_basicsize*/
-  0, /*tp_itemsize*/
-  __pyx_tp_dealloc_6ottype_10core_boost_OTDelete, /*tp_dealloc*/
-  #if PY_VERSION_HEX < 0x030800b4
-  0, /*tp_print*/
-  #endif
-  #if PY_VERSION_HEX >= 0x030800b4
-  0, /*tp_vectorcall_offset*/
-  #endif
-  0, /*tp_getattr*/
-  0, /*tp_setattr*/
-  #if PY_MAJOR_VERSION < 3
-  0, /*tp_compare*/
-  #endif
-  #if PY_MAJOR_VERSION >= 3
-  0, /*tp_as_async*/
-  #endif
-  0, /*tp_repr*/
-  0, /*tp_as_number*/
-  0, /*tp_as_sequence*/
-  0, /*tp_as_mapping*/
-  0, /*tp_hash*/
-  0, /*tp_call*/
-  0, /*tp_str*/
-  0, /*tp_getattro*/
-  0, /*tp_setattro*/
-  0, /*tp_as_buffer*/
-  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
-  0, /*tp_doc*/
-  0, /*tp_traverse*/
-  0, /*tp_clear*/
-  0, /*tp_richcompare*/
-  0, /*tp_weaklistoffset*/
-  0, /*tp_iter*/
-  0, /*tp_iternext*/
-  __pyx_methods_6ottype_10core_boost_OTDelete, /*tp_methods*/
-  0, /*tp_members*/
-  __pyx_getsets_6ottype_10core_boost_OTDelete, /*tp_getset*/
-  0, /*tp_base*/
-  0, /*tp_dict*/
-  0, /*tp_descr_get*/
-  0, /*tp_descr_set*/
-  0, /*tp_dictoffset*/
-  __pyx_pw_6ottype_10core_boost_8OTDelete_1__init__, /*tp_init*/
-  0, /*tp_alloc*/
-  __pyx_tp_new_6ottype_10core_boost_OTDelete, /*tp_new*/
-  0, /*tp_free*/
-  0, /*tp_is_gc*/
-  0, /*tp_bases*/
-  0, /*tp_mro*/
-  0, /*tp_cache*/
-  0, /*tp_subclasses*/
-  0, /*tp_weaklist*/
-  0, /*tp_del*/
-  0, /*tp_version_tag*/
-  #if PY_VERSION_HEX >= 0x030400a1
-  0, /*tp_finalize*/
-  #endif
-  #if PY_VERSION_HEX >= 0x030800b1
-  0, /*tp_vectorcall*/
-  #endif
-  #if PY_VERSION_HEX >= 0x030800b4 && PY_VERSION_HEX < 0x03090000
-  0, /*tp_print*/
-  #endif
-};
 static struct __pyx_vtabstruct_6ottype_10core_boost__Appender __pyx_vtable_6ottype_10core_boost__Appender;
 
 static PyObject *__pyx_tp_new_6ottype_10core_boost__Appender(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
@@ -12308,43 +9213,40 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_u_, __pyx_k_, sizeof(__pyx_k_), 0, 1, 0, 0},
   {&__pyx_n_s_Appender, __pyx_k_Appender, sizeof(__pyx_k_Appender), 0, 0, 1, 1},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0x29, __pyx_k_Incompatible_checksums_s_vs_0x29, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x29), 0, 0, 1, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0x3b, __pyx_k_Incompatible_checksums_s_vs_0x3b, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x3b), 0, 0, 1, 0},
-  {&__pyx_kp_s_Incompatible_checksums_s_vs_0x61, __pyx_k_Incompatible_checksums_s_vs_0x61, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x61), 0, 0, 1, 0},
-  {&__pyx_kp_s_Incompatible_checksums_s_vs_0xd4, __pyx_k_Incompatible_checksums_s_vs_0xd4, sizeof(__pyx_k_Incompatible_checksums_s_vs_0xd4), 0, 0, 1, 0},
-  {&__pyx_n_s_OTDelete, __pyx_k_OTDelete, sizeof(__pyx_k_OTDelete), 0, 0, 1, 1},
-  {&__pyx_n_s_OTInsert, __pyx_k_OTInsert, sizeof(__pyx_k_OTInsert), 0, 0, 1, 1},
-  {&__pyx_n_s_OTSkip, __pyx_k_OTSkip, sizeof(__pyx_k_OTSkip), 0, 0, 1, 1},
-  {&__pyx_n_s_OTType, __pyx_k_OTType, sizeof(__pyx_k_OTType), 0, 0, 1, 1},
   {&__pyx_n_s_PickleError, __pyx_k_PickleError, sizeof(__pyx_k_PickleError), 0, 0, 1, 1},
   {&__pyx_n_s_Taker, __pyx_k_Taker, sizeof(__pyx_k_Taker), 0, 0, 1, 1},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
+  {&__pyx_kp_u__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 1, 0, 0},
   {&__pyx_n_s_appender, __pyx_k_appender, sizeof(__pyx_k_appender), 0, 0, 1, 1},
   {&__pyx_n_s_apply, __pyx_k_apply, sizeof(__pyx_k_apply), 0, 0, 1, 1},
-  {&__pyx_n_s_arg, __pyx_k_arg, sizeof(__pyx_k_arg), 0, 0, 1, 1},
   {&__pyx_n_s_check, __pyx_k_check, sizeof(__pyx_k_check), 0, 0, 1, 1},
+  {&__pyx_n_s_check_unoptimized, __pyx_k_check_unoptimized, sizeof(__pyx_k_check_unoptimized), 0, 0, 1, 1},
   {&__pyx_n_s_chunk_ot, __pyx_k_chunk_ot, sizeof(__pyx_k_chunk_ot), 0, 0, 1, 1},
-  {&__pyx_n_s_chunk_ot_insert, __pyx_k_chunk_ot_insert, sizeof(__pyx_k_chunk_ot_insert), 0, 0, 1, 1},
-  {&__pyx_n_s_chunk_ot_skip, __pyx_k_chunk_ot_skip, sizeof(__pyx_k_chunk_ot_skip), 0, 0, 1, 1},
+  {&__pyx_n_s_chunk_ot_action, __pyx_k_chunk_ot_action, sizeof(__pyx_k_chunk_ot_action), 0, 0, 1, 1},
+  {&__pyx_n_s_chunk_ot_arg, __pyx_k_chunk_ot_arg, sizeof(__pyx_k_chunk_ot_arg), 0, 0, 1, 1},
+  {&__pyx_n_s_chunk_ot_arg_as_int, __pyx_k_chunk_ot_arg_as_int, sizeof(__pyx_k_chunk_ot_arg_as_int), 0, 0, 1, 1},
+  {&__pyx_n_s_chunk_ot_arg_as_str, __pyx_k_chunk_ot_arg_as_str, sizeof(__pyx_k_chunk_ot_arg_as_str), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_compose, __pyx_k_compose, sizeof(__pyx_k_compose), 0, 0, 1, 1},
   {&__pyx_n_u_d, __pyx_k_d, sizeof(__pyx_k_d), 0, 1, 0, 1},
   {&__pyx_n_s_dict, __pyx_k_dict, sizeof(__pyx_k_dict), 0, 0, 1, 1},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
-  {&__pyx_kp_u_doc_must_be_string, __pyx_k_doc_must_be_string, sizeof(__pyx_k_doc_must_be_string), 0, 1, 0, 0},
   {&__pyx_n_s_get, __pyx_k_get, sizeof(__pyx_k_get), 0, 0, 1, 1},
   {&__pyx_n_s_getstate, __pyx_k_getstate, sizeof(__pyx_k_getstate), 0, 0, 1, 1},
-  {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_kp_u_inconsistent_delete_doc_OT_arg, __pyx_k_inconsistent_delete_doc_OT_arg, sizeof(__pyx_k_inconsistent_delete_doc_OT_arg), 0, 1, 0, 0},
   {&__pyx_kp_u_inconsistent_delete_in_the_secon, __pyx_k_inconsistent_delete_in_the_secon, sizeof(__pyx_k_inconsistent_delete_in_the_secon), 0, 1, 0, 0},
+  {&__pyx_kp_u_invalid_OTDelete, __pyx_k_invalid_OTDelete, sizeof(__pyx_k_invalid_OTDelete), 0, 1, 0, 0},
+  {&__pyx_kp_u_invalid_OTInsert, __pyx_k_invalid_OTInsert, sizeof(__pyx_k_invalid_OTInsert), 0, 1, 0, 0},
+  {&__pyx_kp_u_invalid_OTSkip, __pyx_k_invalid_OTSkip, sizeof(__pyx_k_invalid_OTSkip), 0, 1, 0, 0},
   {&__pyx_kp_u_invalid_OTs, __pyx_k_invalid_OTs, sizeof(__pyx_k_invalid_OTs), 0, 1, 0, 0},
   {&__pyx_kp_u_invalid_side, __pyx_k_invalid_side, sizeof(__pyx_k_invalid_side), 0, 1, 0, 0},
   {&__pyx_n_s_inverse_apply, __pyx_k_inverse_apply, sizeof(__pyx_k_inverse_apply), 0, 0, 1, 1},
-  {&__pyx_n_s_last_ot, __pyx_k_last_ot, sizeof(__pyx_k_last_ot), 0, 0, 1, 1},
+  {&__pyx_n_s_last_ot_action, __pyx_k_last_ot_action, sizeof(__pyx_k_last_ot_action), 0, 0, 1, 1},
   {&__pyx_n_s_last_pos, __pyx_k_last_pos, sizeof(__pyx_k_last_pos), 0, 0, 1, 1},
   {&__pyx_n_u_left, __pyx_k_left, sizeof(__pyx_k_left), 0, 1, 0, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
@@ -12352,19 +9254,20 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
   {&__pyx_n_s_new, __pyx_k_new, sizeof(__pyx_k_new), 0, 0, 1, 1},
   {&__pyx_n_s_new_doc, __pyx_k_new_doc, sizeof(__pyx_k_new_doc), 0, 0, 1, 1},
-  {&__pyx_n_s_new_ot_raw_list, __pyx_k_new_ot_raw_list, sizeof(__pyx_k_new_ot_raw_list), 0, 0, 1, 1},
   {&__pyx_n_s_new_ots, __pyx_k_new_ots, sizeof(__pyx_k_new_ots), 0, 0, 1, 1},
   {&__pyx_n_s_normalize, __pyx_k_normalize, sizeof(__pyx_k_normalize), 0, 0, 1, 1},
   {&__pyx_n_s_offset, __pyx_k_offset, sizeof(__pyx_k_offset), 0, 0, 1, 1},
   {&__pyx_n_s_old_doc, __pyx_k_old_doc, sizeof(__pyx_k_old_doc), 0, 0, 1, 1},
   {&__pyx_n_s_ot, __pyx_k_ot, sizeof(__pyx_k_ot), 0, 0, 1, 1},
-  {&__pyx_n_s_ot_delete, __pyx_k_ot_delete, sizeof(__pyx_k_ot_delete), 0, 0, 1, 1},
-  {&__pyx_n_s_ot_insert, __pyx_k_ot_insert, sizeof(__pyx_k_ot_insert), 0, 0, 1, 1},
+  {&__pyx_n_s_ot_action, __pyx_k_ot_action, sizeof(__pyx_k_ot_action), 0, 0, 1, 1},
+  {&__pyx_n_s_ot_arg, __pyx_k_ot_arg, sizeof(__pyx_k_ot_arg), 0, 0, 1, 1},
+  {&__pyx_n_s_ot_arg_as_int, __pyx_k_ot_arg_as_int, sizeof(__pyx_k_ot_arg_as_int), 0, 0, 1, 1},
+  {&__pyx_n_s_ot_arg_as_str, __pyx_k_ot_arg_as_str, sizeof(__pyx_k_ot_arg_as_str), 0, 0, 1, 1},
+  {&__pyx_n_s_ot_list, __pyx_k_ot_list, sizeof(__pyx_k_ot_list), 0, 0, 1, 1},
   {&__pyx_n_s_ot_raw, __pyx_k_ot_raw, sizeof(__pyx_k_ot_raw), 0, 0, 1, 1},
   {&__pyx_n_s_ot_raw_list, __pyx_k_ot_raw_list, sizeof(__pyx_k_ot_raw_list), 0, 0, 1, 1},
   {&__pyx_n_s_ot_raw_list_1, __pyx_k_ot_raw_list_1, sizeof(__pyx_k_ot_raw_list_1), 0, 0, 1, 1},
   {&__pyx_n_s_ot_raw_list_2, __pyx_k_ot_raw_list_2, sizeof(__pyx_k_ot_raw_list_2), 0, 0, 1, 1},
-  {&__pyx_n_s_ot_skip, __pyx_k_ot_skip, sizeof(__pyx_k_ot_skip), 0, 0, 1, 1},
   {&__pyx_n_s_ots, __pyx_k_ots, sizeof(__pyx_k_ots), 0, 0, 1, 1},
   {&__pyx_n_s_ottype_core_boost, __pyx_k_ottype_core_boost, sizeof(__pyx_k_ottype_core_boost), 0, 0, 1, 1},
   {&__pyx_kp_s_ottype_core_boost_pyx, __pyx_k_ottype_core_boost_pyx, sizeof(__pyx_k_ottype_core_boost_pyx), 0, 0, 1, 0},
@@ -12376,19 +9279,13 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_pyx_result, __pyx_k_pyx_result, sizeof(__pyx_k_pyx_result), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_state, __pyx_k_pyx_state, sizeof(__pyx_k_pyx_state), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_type, __pyx_k_pyx_type, sizeof(__pyx_k_pyx_type), 0, 0, 1, 1},
-  {&__pyx_n_s_pyx_unpickle_OTDelete, __pyx_k_pyx_unpickle_OTDelete, sizeof(__pyx_k_pyx_unpickle_OTDelete), 0, 0, 1, 1},
-  {&__pyx_n_s_pyx_unpickle_OTInsert, __pyx_k_pyx_unpickle_OTInsert, sizeof(__pyx_k_pyx_unpickle_OTInsert), 0, 0, 1, 1},
-  {&__pyx_n_s_pyx_unpickle_OTSkip, __pyx_k_pyx_unpickle_OTSkip, sizeof(__pyx_k_pyx_unpickle_OTSkip), 0, 0, 1, 1},
-  {&__pyx_n_s_pyx_unpickle_OTType, __pyx_k_pyx_unpickle_OTType, sizeof(__pyx_k_pyx_unpickle_OTType), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_unpickle__Appender, __pyx_k_pyx_unpickle__Appender, sizeof(__pyx_k_pyx_unpickle__Appender), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_unpickle__Taker, __pyx_k_pyx_unpickle__Taker, sizeof(__pyx_k_pyx_unpickle__Taker), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_vtable, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
-  {&__pyx_n_s_raw, __pyx_k_raw, sizeof(__pyx_k_raw), 0, 0, 1, 1},
   {&__pyx_n_s_reduce, __pyx_k_reduce, sizeof(__pyx_k_reduce), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_cython, __pyx_k_reduce_cython, sizeof(__pyx_k_reduce_cython), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_ex, __pyx_k_reduce_ex, sizeof(__pyx_k_reduce_ex), 0, 0, 1, 1},
-  {&__pyx_n_s_resolved_ot, __pyx_k_resolved_ot, sizeof(__pyx_k_resolved_ot), 0, 0, 1, 1},
   {&__pyx_n_s_reversed, __pyx_k_reversed, sizeof(__pyx_k_reversed), 0, 0, 1, 1},
   {&__pyx_n_u_right, __pyx_k_right, sizeof(__pyx_k_right), 0, 1, 0, 1},
   {&__pyx_n_s_setstate, __pyx_k_setstate, sizeof(__pyx_k_setstate), 0, 0, 1, 1},
@@ -12399,14 +9296,15 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_taker, __pyx_k_taker, sizeof(__pyx_k_taker), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_transform, __pyx_k_transform, sizeof(__pyx_k_transform), 0, 0, 1, 1},
+  {&__pyx_kp_u_unexpected_OT_structure, __pyx_k_unexpected_OT_structure, sizeof(__pyx_k_unexpected_OT_structure), 0, 1, 0, 0},
   {&__pyx_n_s_update, __pyx_k_update, sizeof(__pyx_k_update), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 43, __pyx_L1_error)
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 205, __pyx_L1_error)
-  __pyx_builtin_reversed = __Pyx_GetBuiltinName(__pyx_n_s_reversed); if (!__pyx_builtin_reversed) __PYX_ERR(0, 274, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 313, __pyx_L1_error)
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 193, __pyx_L1_error)
+  __pyx_builtin_reversed = __Pyx_GetBuiltinName(__pyx_n_s_reversed); if (!__pyx_builtin_reversed) __PYX_ERR(0, 281, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -12416,162 +9314,179 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "ottype/core_boost.pyx":50
- *         return OTInsert(ot_raw)
- *     elif isinstance(ot_raw, dict):
- *         s = ot_raw.get('d', '')             # <<<<<<<<<<<<<<
- *         if not isinstance(s, str) or s == '':
- *             raise TypeError()
+  /* "ottype/core_boost.pyx":11
+ *     if isinstance(ot_raw, int):
+ *         if ot_raw <= 0:
+ *             raise ValueError('invalid OTSkip')             # <<<<<<<<<<<<<<
+ *         return OTTypeAction.skip, ot_raw
+ *     elif isinstance(ot_raw, str):
  */
-  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_n_u_d, __pyx_kp_u_); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 50, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__2);
-  __Pyx_GIVEREF(__pyx_tuple__2);
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_invalid_OTSkip); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple_);
+  __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "ottype/core_boost.pyx":205
- * 
- *     if not isinstance(doc, str):
- *         raise ValueError('doc must be string')             # <<<<<<<<<<<<<<
- * 
- *     if not check(ot_raw_list):
+  /* "ottype/core_boost.pyx":15
+ *     elif isinstance(ot_raw, str):
+ *         if ot_raw == '':
+ *             raise ValueError('invalid OTInsert')             # <<<<<<<<<<<<<<
+ *         return OTTypeAction.insert, ot_raw
+ *     elif isinstance(ot_raw, dict):
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_doc_must_be_string); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 205, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_invalid_OTInsert); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "ottype/core_boost.pyx":208
+  /* "ottype/core_boost.pyx":18
+ *         return OTTypeAction.insert, ot_raw
+ *     elif isinstance(ot_raw, dict):
+ *         s = ot_raw.get('d', '')             # <<<<<<<<<<<<<<
+ *         if not isinstance(s, str) or s == '':
+ *             raise ValueError('invalid OTDelete')
+ */
+  __pyx_tuple__4 = PyTuple_Pack(2, __pyx_n_u_d, __pyx_kp_u__2); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__4);
+  __Pyx_GIVEREF(__pyx_tuple__4);
+
+  /* "ottype/core_boost.pyx":20
+ *         s = ot_raw.get('d', '')
+ *         if not isinstance(s, str) or s == '':
+ *             raise ValueError('invalid OTDelete')             # <<<<<<<<<<<<<<
+ *         return OTTypeAction.delete, s
+ * 
+ */
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_invalid_OTDelete); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__5);
+  __Pyx_GIVEREF(__pyx_tuple__5);
+
+  /* "ottype/core_boost.pyx":23
+ *         return OTTypeAction.delete, s
+ * 
+ *     raise ValueError('unexpected OT structure')             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_unexpected_OT_structure); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 23, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__6);
+  __Pyx_GIVEREF(__pyx_tuple__6);
+
+  /* "ottype/core_boost.pyx":213
  * 
  *     if not check(ot_raw_list):
  *         raise ValueError('invalid OTs')             # <<<<<<<<<<<<<<
  * 
  *     new_doc = []
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_invalid_OTs); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 208, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__4);
-  __Pyx_GIVEREF(__pyx_tuple__4);
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_invalid_OTs); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 213, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
 
-  /* "ottype/core_boost.pyx":218
+  /* "ottype/core_boost.pyx":223
  * 
- *             if ot_skip.arg > len(doc) - pos:
+ *             if ot_arg_as_int > len(doc) - pos:
  *                 raise ValueError('skip exceeds doc length')             # <<<<<<<<<<<<<<
  * 
- *             new_doc.append(doc[pos:pos + ot_skip.arg])
+ *             new_doc.append(doc[pos:pos + ot_arg_as_int])
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_skip_exceeds_doc_length); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 218, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__5);
-  __Pyx_GIVEREF(__pyx_tuple__5);
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_u_skip_exceeds_doc_length); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 223, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__8);
+  __Pyx_GIVEREF(__pyx_tuple__8);
 
-  /* "ottype/core_boost.pyx":336
+  /* "ottype/core_boost.pyx":342
  * 
  *     if side not in ['left', 'right']:
  *         raise ValueError('invalid side')             # <<<<<<<<<<<<<<
  * 
  *     new_ots = []
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_invalid_side); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 336, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__6);
-  __Pyx_GIVEREF(__pyx_tuple__6);
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_invalid_side); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 342, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
 
-  /* "ottype/core_boost.pyx":173
+  /* "ottype/core_boost.pyx":178
  * 
  * 
- * def check(object ot_raw_list):             # <<<<<<<<<<<<<<
- *     cdef OTType last_ot
- * 
+ * def check(list ot_raw_list not None, bool check_unoptimized not None = True):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         OTTypeAction last_ot_action
  */
-  __pyx_tuple__7 = PyTuple_Pack(4, __pyx_n_s_ot_raw_list, __pyx_n_s_last_ot, __pyx_n_s_ot_raw, __pyx_n_s_resolved_ot); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 173, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__7);
-  __Pyx_GIVEREF(__pyx_tuple__7);
-  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_ottype_core_boost_pyx, __pyx_n_s_check, 173, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 173, __pyx_L1_error)
+  __pyx_tuple__10 = PyTuple_Pack(5, __pyx_n_s_ot_raw_list, __pyx_n_s_check_unoptimized, __pyx_n_s_last_ot_action, __pyx_n_s_ot_action, __pyx_n_s_ot_raw); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 178, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__10);
+  __Pyx_GIVEREF(__pyx_tuple__10);
+  __pyx_codeobj__11 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__10, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_ottype_core_boost_pyx, __pyx_n_s_check, 178, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__11)) __PYX_ERR(0, 178, __pyx_L1_error)
 
-  /* "ottype/core_boost.pyx":194
+  /* "ottype/core_boost.pyx":202
  * 
  * 
- * def apply(str doc, object ot_raw_list):             # <<<<<<<<<<<<<<
+ * def apply(str doc not None, list ot_raw_list not None):             # <<<<<<<<<<<<<<
  *     cdef:
  *         list new_doc
  */
-  __pyx_tuple__9 = PyTuple_Pack(8, __pyx_n_s_doc, __pyx_n_s_ot_raw_list, __pyx_n_s_new_doc, __pyx_n_s_pos, __pyx_n_s_ot, __pyx_n_s_ot_skip, __pyx_n_s_ot_insert, __pyx_n_s_ot_delete); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 194, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__9);
-  __Pyx_GIVEREF(__pyx_tuple__9);
-  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(2, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_ottype_core_boost_pyx, __pyx_n_s_apply, 194, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 194, __pyx_L1_error)
+  __pyx_tuple__12 = PyTuple_Pack(8, __pyx_n_s_doc, __pyx_n_s_ot_raw_list, __pyx_n_s_new_doc, __pyx_n_s_pos, __pyx_n_s_ot_action, __pyx_n_s_ot_arg, __pyx_n_s_ot_arg_as_int, __pyx_n_s_ot_arg_as_str); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 202, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
+  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(2, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_ottype_core_boost_pyx, __pyx_n_s_apply, 202, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(0, 202, __pyx_L1_error)
 
-  /* "ottype/core_boost.pyx":242
+  /* "ottype/core_boost.pyx":247
  * 
  * 
- * def inverse_apply(str doc: str, object ot_raw_list):             # <<<<<<<<<<<<<<
+ * def inverse_apply(str doc not None, list ot_raw_list not None):             # <<<<<<<<<<<<<<
  *     cdef:
- *         int last_pos
+ *         list ot_list
  */
-  __pyx_tuple__11 = PyTuple_Pack(8, __pyx_n_s_doc, __pyx_n_s_ot_raw_list, __pyx_n_s_last_pos, __pyx_n_s_old_doc, __pyx_n_s_ot, __pyx_n_s_ot_skip, __pyx_n_s_ot_insert, __pyx_n_s_ot_delete); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 242, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(2, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_ottype_core_boost_pyx, __pyx_n_s_inverse_apply, 242, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 242, __pyx_L1_error)
+  __pyx_tuple__14 = PyTuple_Pack(9, __pyx_n_s_doc, __pyx_n_s_ot_raw_list, __pyx_n_s_ot_list, __pyx_n_s_last_pos, __pyx_n_s_old_doc, __pyx_n_s_ot_action, __pyx_n_s_ot_arg, __pyx_n_s_ot_arg_as_int, __pyx_n_s_ot_arg_as_str); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 247, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__14);
+  __Pyx_GIVEREF(__pyx_tuple__14);
+  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(2, 0, 9, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_ottype_core_boost_pyx, __pyx_n_s_inverse_apply, 247, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 247, __pyx_L1_error)
 
-  /* "ottype/core_boost.pyx":300
+  /* "ottype/core_boost.pyx":307
  * 
  * 
- * def normalize(object ot_raw_list):             # <<<<<<<<<<<<<<
- *     cdef:
- *         list new_ots
- */
-  __pyx_tuple__13 = PyTuple_Pack(6, __pyx_n_s_ot_raw_list, __pyx_n_s_new_ots, __pyx_n_s_new_ot_raw_list, __pyx_n_s_appender, __pyx_n_s_ot, __pyx_n_s_i); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 300, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__13);
-  __Pyx_GIVEREF(__pyx_tuple__13);
-  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_ottype_core_boost_pyx, __pyx_n_s_normalize, 300, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 300, __pyx_L1_error)
-
-  /* "ottype/core_boost.pyx":319
- * 
- * 
- * def transform(list ot_raw_list_1, list ot_raw_list_2, str side):             # <<<<<<<<<<<<<<
+ * def normalize(list ot_raw_list not None):             # <<<<<<<<<<<<<<
  *     cdef:
  *         list new_ots
  */
-  __pyx_tuple__15 = PyTuple_Pack(11, __pyx_n_s_ot_raw_list_1, __pyx_n_s_ot_raw_list_2, __pyx_n_s_side, __pyx_n_s_new_ots, __pyx_n_s_appender, __pyx_n_s_taker, __pyx_n_s_ot, __pyx_n_s_n, __pyx_n_s_chunk_ot, __pyx_n_s_new_ot_raw_list, __pyx_n_s_i); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 319, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__15);
-  __Pyx_GIVEREF(__pyx_tuple__15);
-  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(3, 0, 11, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_ottype_core_boost_pyx, __pyx_n_s_transform, 319, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 319, __pyx_L1_error)
+  __pyx_tuple__16 = PyTuple_Pack(4, __pyx_n_s_ot_raw_list, __pyx_n_s_new_ots, __pyx_n_s_appender, __pyx_n_s_ot); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 307, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__16);
+  __Pyx_GIVEREF(__pyx_tuple__16);
+  __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_ottype_core_boost_pyx, __pyx_n_s_normalize, 307, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) __PYX_ERR(0, 307, __pyx_L1_error)
 
-  /* "ottype/core_boost.pyx":392
+  /* "ottype/core_boost.pyx":324
  * 
  * 
- * def compose(list ot_raw_list_1, list ot_raw_list_2):             # <<<<<<<<<<<<<<
+ * def transform(list ot_raw_list_1 not None, list ot_raw_list_2 not None, str side not None):             # <<<<<<<<<<<<<<
  *     cdef:
  *         list new_ots
  */
-  __pyx_tuple__17 = PyTuple_Pack(14, __pyx_n_s_ot_raw_list_1, __pyx_n_s_ot_raw_list_2, __pyx_n_s_new_ots, __pyx_n_s_appender, __pyx_n_s_taker, __pyx_n_s_ot, __pyx_n_s_ot_delete, __pyx_n_s_n, __pyx_n_s_chunk_ot, __pyx_n_s_chunk_ot_skip, __pyx_n_s_chunk_ot_insert, __pyx_n_s_new_ot_raw_list, __pyx_n_s_i, __pyx_n_s_offset); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 392, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__17);
-  __Pyx_GIVEREF(__pyx_tuple__17);
-  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(2, 0, 14, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_ottype_core_boost_pyx, __pyx_n_s_compose, 392, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 392, __pyx_L1_error)
+  __pyx_tuple__18 = PyTuple_Pack(12, __pyx_n_s_ot_raw_list_1, __pyx_n_s_ot_raw_list_2, __pyx_n_s_side, __pyx_n_s_new_ots, __pyx_n_s_appender, __pyx_n_s_taker, __pyx_n_s_ot_action, __pyx_n_s_ot_arg, __pyx_n_s_n, __pyx_n_s_chunk_ot, __pyx_n_s_chunk_ot_action, __pyx_n_s_chunk_ot_arg); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 324, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
+  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(3, 0, 12, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_ottype_core_boost_pyx, __pyx_n_s_transform, 324, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) __PYX_ERR(0, 324, __pyx_L1_error)
+
+  /* "ottype/core_boost.pyx":402
+ * 
+ * 
+ * def compose(list ot_raw_list_1 not None, list ot_raw_list_2 not None):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         list new_ots
+ */
+  __pyx_tuple__20 = PyTuple_Pack(16, __pyx_n_s_ot_raw_list_1, __pyx_n_s_ot_raw_list_2, __pyx_n_s_new_ots, __pyx_n_s_appender, __pyx_n_s_taker, __pyx_n_s_ot, __pyx_n_s_ot_action, __pyx_n_s_ot_arg, __pyx_n_s_ot_arg_as_str, __pyx_n_s_n, __pyx_n_s_offset, __pyx_n_s_chunk_ot, __pyx_n_s_chunk_ot_action, __pyx_n_s_chunk_ot_arg, __pyx_n_s_chunk_ot_arg_as_int, __pyx_n_s_chunk_ot_arg_as_str); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 402, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__20);
+  __Pyx_GIVEREF(__pyx_tuple__20);
+  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(2, 0, 16, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_ottype_core_boost_pyx, __pyx_n_s_compose, 402, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 402, __pyx_L1_error)
 
   /* "(tree fragment)":1
- * def __pyx_unpickle_OTType(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
+ * def __pyx_unpickle__Appender(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_tuple__19 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__19);
-  __Pyx_GIVEREF(__pyx_tuple__19);
-  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_OTType, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __pyx_tuple__21 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__21);
-  __Pyx_GIVEREF(__pyx_tuple__21);
-  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_OTSkip, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __pyx_tuple__23 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__23);
-  __Pyx_GIVEREF(__pyx_tuple__23);
-  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_OTInsert, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __pyx_tuple__25 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__25);
-  __Pyx_GIVEREF(__pyx_tuple__25);
-  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_OTDelete, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __pyx_tuple__27 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__27);
-  __Pyx_GIVEREF(__pyx_tuple__27);
-  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle__Appender, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __pyx_tuple__29 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__29);
-  __Pyx_GIVEREF(__pyx_tuple__29);
-  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle__Taker, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_tuple__22 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__22);
+  __Pyx_GIVEREF(__pyx_tuple__22);
+  __pyx_codeobj__23 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__22, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle__Appender, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__23)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_tuple__24 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__24);
+  __Pyx_GIVEREF(__pyx_tuple__24);
+  __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__24, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle__Taker, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -12585,8 +9500,6 @@ static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_43908121 = PyInt_FromLong(43908121L); if (unlikely(!__pyx_int_43908121)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_62153261 = PyInt_FromLong(62153261L); if (unlikely(!__pyx_int_62153261)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_102619244 = PyInt_FromLong(102619244L); if (unlikely(!__pyx_int_102619244)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_222419149 = PyInt_FromLong(222419149L); if (unlikely(!__pyx_int_222419149)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -12628,75 +9541,32 @@ static int __Pyx_modinit_type_init_code(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_6ottype_10core_boost_OTType) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
-  #if PY_VERSION_HEX < 0x030800B1
-  __pyx_type_6ottype_10core_boost_OTType.tp_print = 0;
-  #endif
-  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6ottype_10core_boost_OTType.tp_dictoffset && __pyx_type_6ottype_10core_boost_OTType.tp_getattro == PyObject_GenericGetAttr)) {
-    __pyx_type_6ottype_10core_boost_OTType.tp_getattro = __Pyx_PyObject_GenericGetAttr;
-  }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_OTType, (PyObject *)&__pyx_type_6ottype_10core_boost_OTType) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6ottype_10core_boost_OTType) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
-  __pyx_ptype_6ottype_10core_boost_OTType = &__pyx_type_6ottype_10core_boost_OTType;
-  __pyx_type_6ottype_10core_boost_OTSkip.tp_base = __pyx_ptype_6ottype_10core_boost_OTType;
-  if (PyType_Ready(&__pyx_type_6ottype_10core_boost_OTSkip) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
-  #if PY_VERSION_HEX < 0x030800B1
-  __pyx_type_6ottype_10core_boost_OTSkip.tp_print = 0;
-  #endif
-  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6ottype_10core_boost_OTSkip.tp_dictoffset && __pyx_type_6ottype_10core_boost_OTSkip.tp_getattro == PyObject_GenericGetAttr)) {
-    __pyx_type_6ottype_10core_boost_OTSkip.tp_getattro = __Pyx_PyObject_GenericGetAttr;
-  }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_OTSkip, (PyObject *)&__pyx_type_6ottype_10core_boost_OTSkip) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6ottype_10core_boost_OTSkip) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
-  __pyx_ptype_6ottype_10core_boost_OTSkip = &__pyx_type_6ottype_10core_boost_OTSkip;
-  __pyx_type_6ottype_10core_boost_OTInsert.tp_base = __pyx_ptype_6ottype_10core_boost_OTType;
-  if (PyType_Ready(&__pyx_type_6ottype_10core_boost_OTInsert) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
-  #if PY_VERSION_HEX < 0x030800B1
-  __pyx_type_6ottype_10core_boost_OTInsert.tp_print = 0;
-  #endif
-  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6ottype_10core_boost_OTInsert.tp_dictoffset && __pyx_type_6ottype_10core_boost_OTInsert.tp_getattro == PyObject_GenericGetAttr)) {
-    __pyx_type_6ottype_10core_boost_OTInsert.tp_getattro = __Pyx_PyObject_GenericGetAttr;
-  }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_OTInsert, (PyObject *)&__pyx_type_6ottype_10core_boost_OTInsert) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6ottype_10core_boost_OTInsert) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
-  __pyx_ptype_6ottype_10core_boost_OTInsert = &__pyx_type_6ottype_10core_boost_OTInsert;
-  __pyx_type_6ottype_10core_boost_OTDelete.tp_base = __pyx_ptype_6ottype_10core_boost_OTType;
-  if (PyType_Ready(&__pyx_type_6ottype_10core_boost_OTDelete) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
-  #if PY_VERSION_HEX < 0x030800B1
-  __pyx_type_6ottype_10core_boost_OTDelete.tp_print = 0;
-  #endif
-  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6ottype_10core_boost_OTDelete.tp_dictoffset && __pyx_type_6ottype_10core_boost_OTDelete.tp_getattro == PyObject_GenericGetAttr)) {
-    __pyx_type_6ottype_10core_boost_OTDelete.tp_getattro = __Pyx_PyObject_GenericGetAttr;
-  }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_OTDelete, (PyObject *)&__pyx_type_6ottype_10core_boost_OTDelete) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6ottype_10core_boost_OTDelete) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
-  __pyx_ptype_6ottype_10core_boost_OTDelete = &__pyx_type_6ottype_10core_boost_OTDelete;
   __pyx_vtabptr_6ottype_10core_boost__Appender = &__pyx_vtable_6ottype_10core_boost__Appender;
-  __pyx_vtable_6ottype_10core_boost__Appender.append = (void (*)(struct __pyx_obj_6ottype_10core_boost__Appender *, struct __pyx_obj_6ottype_10core_boost_OTType *))__pyx_f_6ottype_10core_boost_9_Appender_append;
-  if (PyType_Ready(&__pyx_type_6ottype_10core_boost__Appender) < 0) __PYX_ERR(0, 70, __pyx_L1_error)
+  __pyx_vtable_6ottype_10core_boost__Appender.append = (void (*)(struct __pyx_obj_6ottype_10core_boost__Appender *, PyObject *))__pyx_f_6ottype_10core_boost_9_Appender_append;
+  if (PyType_Ready(&__pyx_type_6ottype_10core_boost__Appender) < 0) __PYX_ERR(0, 69, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6ottype_10core_boost__Appender.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6ottype_10core_boost__Appender.tp_dictoffset && __pyx_type_6ottype_10core_boost__Appender.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6ottype_10core_boost__Appender.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_6ottype_10core_boost__Appender.tp_dict, __pyx_vtabptr_6ottype_10core_boost__Appender) < 0) __PYX_ERR(0, 70, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Appender, (PyObject *)&__pyx_type_6ottype_10core_boost__Appender) < 0) __PYX_ERR(0, 70, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6ottype_10core_boost__Appender) < 0) __PYX_ERR(0, 70, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6ottype_10core_boost__Appender.tp_dict, __pyx_vtabptr_6ottype_10core_boost__Appender) < 0) __PYX_ERR(0, 69, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Appender, (PyObject *)&__pyx_type_6ottype_10core_boost__Appender) < 0) __PYX_ERR(0, 69, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6ottype_10core_boost__Appender) < 0) __PYX_ERR(0, 69, __pyx_L1_error)
   __pyx_ptype_6ottype_10core_boost__Appender = &__pyx_type_6ottype_10core_boost__Appender;
   __pyx_vtabptr_6ottype_10core_boost__Taker = &__pyx_vtable_6ottype_10core_boost__Taker;
-  __pyx_vtable_6ottype_10core_boost__Taker.take = (struct __pyx_obj_6ottype_10core_boost_OTType *(*)(struct __pyx_obj_6ottype_10core_boost__Taker *, int, struct __pyx_opt_args_6ottype_10core_boost_6_Taker_take *__pyx_optional_args))__pyx_f_6ottype_10core_boost_6_Taker_take;
-  __pyx_vtable_6ottype_10core_boost__Taker.peak = (struct __pyx_obj_6ottype_10core_boost_OTType *(*)(struct __pyx_obj_6ottype_10core_boost__Taker *))__pyx_f_6ottype_10core_boost_6_Taker_peak;
-  if (PyType_Ready(&__pyx_type_6ottype_10core_boost__Taker) < 0) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_vtable_6ottype_10core_boost__Taker.take = (PyObject *(*)(struct __pyx_obj_6ottype_10core_boost__Taker *, int, struct __pyx_opt_args_6ottype_10core_boost_6_Taker_take *__pyx_optional_args))__pyx_f_6ottype_10core_boost_6_Taker_take;
+  __pyx_vtable_6ottype_10core_boost__Taker.peak_action = (enum __pyx_t_6ottype_10core_boost_OTTypeAction (*)(struct __pyx_obj_6ottype_10core_boost__Taker *))__pyx_f_6ottype_10core_boost_6_Taker_peak_action;
+  if (PyType_Ready(&__pyx_type_6ottype_10core_boost__Taker) < 0) __PYX_ERR(0, 103, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6ottype_10core_boost__Taker.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6ottype_10core_boost__Taker.tp_dictoffset && __pyx_type_6ottype_10core_boost__Taker.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6ottype_10core_boost__Taker.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_6ottype_10core_boost__Taker.tp_dict, __pyx_vtabptr_6ottype_10core_boost__Taker) < 0) __PYX_ERR(0, 98, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Taker, (PyObject *)&__pyx_type_6ottype_10core_boost__Taker) < 0) __PYX_ERR(0, 98, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6ottype_10core_boost__Taker) < 0) __PYX_ERR(0, 98, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6ottype_10core_boost__Taker.tp_dict, __pyx_vtabptr_6ottype_10core_boost__Taker) < 0) __PYX_ERR(0, 103, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Taker, (PyObject *)&__pyx_type_6ottype_10core_boost__Taker) < 0) __PYX_ERR(0, 103, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6ottype_10core_boost__Taker) < 0) __PYX_ERR(0, 103, __pyx_L1_error)
   __pyx_ptype_6ottype_10core_boost__Taker = &__pyx_type_6ottype_10core_boost__Taker;
   __Pyx_RefNannyFinishContext();
   return 0;
@@ -12707,10 +9577,36 @@ static int __Pyx_modinit_type_init_code(void) {
 
 static int __Pyx_modinit_type_import_code(void) {
   __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_import_code", 0);
   /*--- Type import code ---*/
+  __pyx_t_1 = PyImport_ImportModule(__Pyx_BUILTIN_MODULE_NAME); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 9, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_ptype_7cpython_4type_type = __Pyx_ImportType(__pyx_t_1, __Pyx_BUILTIN_MODULE_NAME, "type", 
+  #if defined(PYPY_VERSION_NUM) && PYPY_VERSION_NUM < 0x050B0000
+  sizeof(PyTypeObject),
+  #else
+  sizeof(PyHeapTypeObject),
+  #endif
+  __Pyx_ImportType_CheckSize_Warn);
+   if (!__pyx_ptype_7cpython_4type_type) __PYX_ERR(2, 9, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = PyImport_ImportModule(__Pyx_BUILTIN_MODULE_NAME); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 8, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_ptype_7cpython_4bool_bool = __Pyx_ImportType(__pyx_t_1, __Pyx_BUILTIN_MODULE_NAME, "bool", sizeof(PyBoolObject), __Pyx_ImportType_CheckSize_Warn);
+   if (!__pyx_ptype_7cpython_4bool_bool) __PYX_ERR(3, 8, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = PyImport_ImportModule(__Pyx_BUILTIN_MODULE_NAME); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 15, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_ptype_7cpython_7complex_complex = __Pyx_ImportType(__pyx_t_1, __Pyx_BUILTIN_MODULE_NAME, "complex", sizeof(PyComplexObject), __Pyx_ImportType_CheckSize_Warn);
+   if (!__pyx_ptype_7cpython_7complex_complex) __PYX_ERR(4, 15, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_RefNannyFinishContext();
+  return -1;
 }
 
 static int __Pyx_modinit_variable_import_code(void) {
@@ -12918,7 +9814,7 @@ if (!__Pyx_RefNanny) {
   (void)__Pyx_modinit_variable_export_code();
   (void)__Pyx_modinit_function_export_code();
   if (unlikely(__Pyx_modinit_type_init_code() != 0)) goto __pyx_L1_error;
-  (void)__Pyx_modinit_type_import_code();
+  if (unlikely(__Pyx_modinit_type_import_code() != 0)) goto __pyx_L1_error;
   (void)__Pyx_modinit_variable_import_code();
   (void)__Pyx_modinit_function_import_code();
   /*--- Execution code ---*/
@@ -12926,120 +9822,76 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "ottype/core_boost.pyx":173
+  /* "ottype/core_boost.pyx":178
  * 
  * 
- * def check(object ot_raw_list):             # <<<<<<<<<<<<<<
- *     cdef OTType last_ot
- * 
+ * def check(list ot_raw_list not None, bool check_unoptimized not None = True):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         OTTypeAction last_ot_action
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6ottype_10core_boost_1check, NULL, __pyx_n_s_ottype_core_boost); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 173, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6ottype_10core_boost_1check, NULL, __pyx_n_s_ottype_core_boost); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 178, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_check, __pyx_t_1) < 0) __PYX_ERR(0, 173, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_check, __pyx_t_1) < 0) __PYX_ERR(0, 178, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "ottype/core_boost.pyx":194
+  /* "ottype/core_boost.pyx":202
  * 
  * 
- * def apply(str doc, object ot_raw_list):             # <<<<<<<<<<<<<<
+ * def apply(str doc not None, list ot_raw_list not None):             # <<<<<<<<<<<<<<
  *     cdef:
  *         list new_doc
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6ottype_10core_boost_3apply, NULL, __pyx_n_s_ottype_core_boost); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 194, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6ottype_10core_boost_3apply, NULL, __pyx_n_s_ottype_core_boost); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_apply, __pyx_t_1) < 0) __PYX_ERR(0, 194, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_apply, __pyx_t_1) < 0) __PYX_ERR(0, 202, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "ottype/core_boost.pyx":242
+  /* "ottype/core_boost.pyx":247
  * 
  * 
- * def inverse_apply(str doc: str, object ot_raw_list):             # <<<<<<<<<<<<<<
+ * def inverse_apply(str doc not None, list ot_raw_list not None):             # <<<<<<<<<<<<<<
  *     cdef:
- *         int last_pos
+ *         list ot_list
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6ottype_10core_boost_5inverse_apply, NULL, __pyx_n_s_ottype_core_boost); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 242, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6ottype_10core_boost_5inverse_apply, NULL, __pyx_n_s_ottype_core_boost); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 247, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_inverse_apply, __pyx_t_1) < 0) __PYX_ERR(0, 242, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_inverse_apply, __pyx_t_1) < 0) __PYX_ERR(0, 247, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "ottype/core_boost.pyx":300
+  /* "ottype/core_boost.pyx":307
  * 
  * 
- * def normalize(object ot_raw_list):             # <<<<<<<<<<<<<<
- *     cdef:
- *         list new_ots
- */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6ottype_10core_boost_7normalize, NULL, __pyx_n_s_ottype_core_boost); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 300, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_normalize, __pyx_t_1) < 0) __PYX_ERR(0, 300, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "ottype/core_boost.pyx":319
- * 
- * 
- * def transform(list ot_raw_list_1, list ot_raw_list_2, str side):             # <<<<<<<<<<<<<<
+ * def normalize(list ot_raw_list not None):             # <<<<<<<<<<<<<<
  *     cdef:
  *         list new_ots
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6ottype_10core_boost_9transform, NULL, __pyx_n_s_ottype_core_boost); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 319, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6ottype_10core_boost_7normalize, NULL, __pyx_n_s_ottype_core_boost); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 307, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_transform, __pyx_t_1) < 0) __PYX_ERR(0, 319, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_normalize, __pyx_t_1) < 0) __PYX_ERR(0, 307, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "ottype/core_boost.pyx":392
+  /* "ottype/core_boost.pyx":324
  * 
  * 
- * def compose(list ot_raw_list_1, list ot_raw_list_2):             # <<<<<<<<<<<<<<
+ * def transform(list ot_raw_list_1 not None, list ot_raw_list_2 not None, str side not None):             # <<<<<<<<<<<<<<
  *     cdef:
  *         list new_ots
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6ottype_10core_boost_11compose, NULL, __pyx_n_s_ottype_core_boost); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 392, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6ottype_10core_boost_9transform, NULL, __pyx_n_s_ottype_core_boost); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 324, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_compose, __pyx_t_1) < 0) __PYX_ERR(0, 392, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_transform, __pyx_t_1) < 0) __PYX_ERR(0, 324, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "(tree fragment)":1
- * def __pyx_unpickle_OTType(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
- *     cdef object __pyx_PickleError
- *     cdef object __pyx_result
+  /* "ottype/core_boost.pyx":402
+ * 
+ * 
+ * def compose(list ot_raw_list_1 not None, list ot_raw_list_2 not None):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         list new_ots
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6ottype_10core_boost_13__pyx_unpickle_OTType, NULL, __pyx_n_s_ottype_core_boost); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6ottype_10core_boost_11compose, NULL, __pyx_n_s_ottype_core_boost); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 402, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_OTType, __pyx_t_1) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "(tree fragment)":11
- *         __pyx_unpickle_OTType__set_state(<OTType> __pyx_result, __pyx_state)
- *     return __pyx_result
- * cdef __pyx_unpickle_OTType__set_state(OTType __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     if len(__pyx_state) > 0 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[0])
- */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6ottype_10core_boost_15__pyx_unpickle_OTSkip, NULL, __pyx_n_s_ottype_core_boost); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_OTSkip, __pyx_t_1) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "(tree fragment)":1
- * def __pyx_unpickle_OTInsert(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
- *     cdef object __pyx_PickleError
- *     cdef object __pyx_result
- */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6ottype_10core_boost_17__pyx_unpickle_OTInsert, NULL, __pyx_n_s_ottype_core_boost); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_OTInsert, __pyx_t_1) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "(tree fragment)":11
- *         __pyx_unpickle_OTInsert__set_state(<OTInsert> __pyx_result, __pyx_state)
- *     return __pyx_result
- * cdef __pyx_unpickle_OTInsert__set_state(OTInsert __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.arg = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
- */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6ottype_10core_boost_19__pyx_unpickle_OTDelete, NULL, __pyx_n_s_ottype_core_boost); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_OTDelete, __pyx_t_1) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_compose, __pyx_t_1) < 0) __PYX_ERR(0, 402, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "(tree fragment)":1
@@ -13047,7 +9899,7 @@ if (!__Pyx_RefNanny) {
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6ottype_10core_boost_21__pyx_unpickle__Appender, NULL, __pyx_n_s_ottype_core_boost); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6ottype_10core_boost_13__pyx_unpickle__Appender, NULL, __pyx_n_s_ottype_core_boost); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle__Appender, __pyx_t_1) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -13059,15 +9911,15 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.ots = __pyx_state[0]
  *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6ottype_10core_boost_23__pyx_unpickle__Taker, NULL, __pyx_n_s_ottype_core_boost); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6ottype_10core_boost_15__pyx_unpickle__Taker, NULL, __pyx_n_s_ottype_core_boost); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle__Taker, __pyx_t_1) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "ottype/core_boost.pyx":1
- * # cython: language_level=3             # <<<<<<<<<<<<<<
+ * # cython: language_level=3, boundscheck=False             # <<<<<<<<<<<<<<
+ * from cpython cimport *
  * 
- * cdef class OTType:
  */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -13144,28 +9996,23 @@ static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
     return result;
 }
 
-/* PyErrExceptionMatches */
-#if CYTHON_FAST_THREAD_STATE
-static int __Pyx_PyErr_ExceptionMatchesTuple(PyObject *exc_type, PyObject *tuple) {
-    Py_ssize_t i, n;
-    n = PyTuple_GET_SIZE(tuple);
-#if PY_MAJOR_VERSION >= 3
-    for (i=0; i<n; i++) {
-        if (exc_type == PyTuple_GET_ITEM(tuple, i)) return 1;
+/* PyObjectCall */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
+    PyObject *result;
+    ternaryfunc call = func->ob_type->tp_call;
+    if (unlikely(!call))
+        return PyObject_Call(func, arg, kw);
+    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
+        return NULL;
+    result = (*call)(func, arg, kw);
+    Py_LeaveRecursiveCall();
+    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
+        PyErr_SetString(
+            PyExc_SystemError,
+            "NULL result without error in PyObject_Call");
     }
-#endif
-    for (i=0; i<n; i++) {
-        if (__Pyx_PyErr_GivenExceptionMatches(exc_type, PyTuple_GET_ITEM(tuple, i))) return 1;
-    }
-    return 0;
-}
-static CYTHON_INLINE int __Pyx_PyErr_ExceptionMatchesInState(PyThreadState* tstate, PyObject* err) {
-    PyObject *exc_type = tstate->curexc_type;
-    if (exc_type == err) return 1;
-    if (unlikely(!exc_type)) return 0;
-    if (unlikely(PyTuple_Check(err)))
-        return __Pyx_PyErr_ExceptionMatchesTuple(exc_type, err);
-    return __Pyx_PyErr_GivenExceptionMatches(exc_type, err);
+    return result;
 }
 #endif
 
@@ -13190,439 +10037,6 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
     tstate->curexc_type = 0;
     tstate->curexc_value = 0;
     tstate->curexc_traceback = 0;
-}
-#endif
-
-/* GetAttr */
-static CYTHON_INLINE PyObject *__Pyx_GetAttr(PyObject *o, PyObject *n) {
-#if CYTHON_USE_TYPE_SLOTS
-#if PY_MAJOR_VERSION >= 3
-    if (likely(PyUnicode_Check(n)))
-#else
-    if (likely(PyString_Check(n)))
-#endif
-        return __Pyx_PyObject_GetAttrStr(o, n);
-#endif
-    return PyObject_GetAttr(o, n);
-}
-
-/* GetAttr3 */
-static PyObject *__Pyx_GetAttr3Default(PyObject *d) {
-    __Pyx_PyThreadState_declare
-    __Pyx_PyThreadState_assign
-    if (unlikely(!__Pyx_PyErr_ExceptionMatches(PyExc_AttributeError)))
-        return NULL;
-    __Pyx_PyErr_Clear();
-    Py_INCREF(d);
-    return d;
-}
-static CYTHON_INLINE PyObject *__Pyx_GetAttr3(PyObject *o, PyObject *n, PyObject *d) {
-    PyObject *r = __Pyx_GetAttr(o, n);
-    return (likely(r)) ? r : __Pyx_GetAttr3Default(d);
-}
-
-/* PyDictVersioning */
-#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj) {
-    PyObject *dict = Py_TYPE(obj)->tp_dict;
-    return likely(dict) ? __PYX_GET_DICT_VERSION(dict) : 0;
-}
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj) {
-    PyObject **dictptr = NULL;
-    Py_ssize_t offset = Py_TYPE(obj)->tp_dictoffset;
-    if (offset) {
-#if CYTHON_COMPILING_IN_CPYTHON
-        dictptr = (likely(offset > 0)) ? (PyObject **) ((char *)obj + offset) : _PyObject_GetDictPtr(obj);
-#else
-        dictptr = _PyObject_GetDictPtr(obj);
-#endif
-    }
-    return (dictptr && *dictptr) ? __PYX_GET_DICT_VERSION(*dictptr) : 0;
-}
-static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version) {
-    PyObject *dict = Py_TYPE(obj)->tp_dict;
-    if (unlikely(!dict) || unlikely(tp_dict_version != __PYX_GET_DICT_VERSION(dict)))
-        return 0;
-    return obj_dict_version == __Pyx_get_object_dict_version(obj);
-}
-#endif
-
-/* GetModuleGlobalName */
-#if CYTHON_USE_DICT_VERSIONS
-static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_version, PyObject **dict_cached_value)
-#else
-static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
-#endif
-{
-    PyObject *result;
-#if !CYTHON_AVOID_BORROWED_REFS
-#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030500A1
-    result = _PyDict_GetItem_KnownHash(__pyx_d, name, ((PyASCIIObject *) name)->hash);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    } else if (unlikely(PyErr_Occurred())) {
-        return NULL;
-    }
-#else
-    result = PyDict_GetItem(__pyx_d, name);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    }
-#endif
-#else
-    result = PyObject_GetItem(__pyx_d, name);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    }
-    PyErr_Clear();
-#endif
-    return __Pyx_GetBuiltinName(name);
-}
-
-/* RaiseDoubleKeywords */
-static void __Pyx_RaiseDoubleKeywordsError(
-    const char* func_name,
-    PyObject* kw_name)
-{
-    PyErr_Format(PyExc_TypeError,
-        #if PY_MAJOR_VERSION >= 3
-        "%s() got multiple values for keyword argument '%U'", func_name, kw_name);
-        #else
-        "%s() got multiple values for keyword argument '%s'", func_name,
-        PyString_AsString(kw_name));
-        #endif
-}
-
-/* ParseKeywords */
-static int __Pyx_ParseOptionalKeywords(
-    PyObject *kwds,
-    PyObject **argnames[],
-    PyObject *kwds2,
-    PyObject *values[],
-    Py_ssize_t num_pos_args,
-    const char* function_name)
-{
-    PyObject *key = 0, *value = 0;
-    Py_ssize_t pos = 0;
-    PyObject*** name;
-    PyObject*** first_kw_arg = argnames + num_pos_args;
-    while (PyDict_Next(kwds, &pos, &key, &value)) {
-        name = first_kw_arg;
-        while (*name && (**name != key)) name++;
-        if (*name) {
-            values[name-argnames] = value;
-            continue;
-        }
-        name = first_kw_arg;
-        #if PY_MAJOR_VERSION < 3
-        if (likely(PyString_Check(key))) {
-            while (*name) {
-                if ((CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**name) == PyString_GET_SIZE(key))
-                        && _PyString_Eq(**name, key)) {
-                    values[name-argnames] = value;
-                    break;
-                }
-                name++;
-            }
-            if (*name) continue;
-            else {
-                PyObject*** argname = argnames;
-                while (argname != first_kw_arg) {
-                    if ((**argname == key) || (
-                            (CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**argname) == PyString_GET_SIZE(key))
-                             && _PyString_Eq(**argname, key))) {
-                        goto arg_passed_twice;
-                    }
-                    argname++;
-                }
-            }
-        } else
-        #endif
-        if (likely(PyUnicode_Check(key))) {
-            while (*name) {
-                int cmp = (**name == key) ? 0 :
-                #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
-                    (__Pyx_PyUnicode_GET_LENGTH(**name) != __Pyx_PyUnicode_GET_LENGTH(key)) ? 1 :
-                #endif
-                    PyUnicode_Compare(**name, key);
-                if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
-                if (cmp == 0) {
-                    values[name-argnames] = value;
-                    break;
-                }
-                name++;
-            }
-            if (*name) continue;
-            else {
-                PyObject*** argname = argnames;
-                while (argname != first_kw_arg) {
-                    int cmp = (**argname == key) ? 0 :
-                    #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
-                        (__Pyx_PyUnicode_GET_LENGTH(**argname) != __Pyx_PyUnicode_GET_LENGTH(key)) ? 1 :
-                    #endif
-                        PyUnicode_Compare(**argname, key);
-                    if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
-                    if (cmp == 0) goto arg_passed_twice;
-                    argname++;
-                }
-            }
-        } else
-            goto invalid_keyword_type;
-        if (kwds2) {
-            if (unlikely(PyDict_SetItem(kwds2, key, value))) goto bad;
-        } else {
-            goto invalid_keyword;
-        }
-    }
-    return 0;
-arg_passed_twice:
-    __Pyx_RaiseDoubleKeywordsError(function_name, key);
-    goto bad;
-invalid_keyword_type:
-    PyErr_Format(PyExc_TypeError,
-        "%.200s() keywords must be strings", function_name);
-    goto bad;
-invalid_keyword:
-    PyErr_Format(PyExc_TypeError,
-    #if PY_MAJOR_VERSION < 3
-        "%.200s() got an unexpected keyword argument '%.200s'",
-        function_name, PyString_AsString(key));
-    #else
-        "%s() got an unexpected keyword argument '%U'",
-        function_name, key);
-    #endif
-bad:
-    return -1;
-}
-
-/* RaiseArgTupleInvalid */
-static void __Pyx_RaiseArgtupleInvalid(
-    const char* func_name,
-    int exact,
-    Py_ssize_t num_min,
-    Py_ssize_t num_max,
-    Py_ssize_t num_found)
-{
-    Py_ssize_t num_expected;
-    const char *more_or_less;
-    if (num_found < num_min) {
-        num_expected = num_min;
-        more_or_less = "at least";
-    } else {
-        num_expected = num_max;
-        more_or_less = "at most";
-    }
-    if (exact) {
-        more_or_less = "exactly";
-    }
-    PyErr_Format(PyExc_TypeError,
-                 "%.200s() takes %.8s %" CYTHON_FORMAT_SSIZE_T "d positional argument%.1s (%" CYTHON_FORMAT_SSIZE_T "d given)",
-                 func_name, more_or_less, num_expected,
-                 (num_expected == 1) ? "" : "s", num_found);
-}
-
-/* ArgTypeTest */
-static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact)
-{
-    if (unlikely(!type)) {
-        PyErr_SetString(PyExc_SystemError, "Missing type object");
-        return 0;
-    }
-    else if (exact) {
-        #if PY_MAJOR_VERSION == 2
-        if ((type == &PyBaseString_Type) && likely(__Pyx_PyBaseString_CheckExact(obj))) return 1;
-        #endif
-    }
-    else {
-        if (likely(__Pyx_TypeCheck(obj, type))) return 1;
-    }
-    PyErr_Format(PyExc_TypeError,
-        "Argument '%.200s' has incorrect type (expected %.200s, got %.200s)",
-        name, type->tp_name, Py_TYPE(obj)->tp_name);
-    return 0;
-}
-
-/* PyFunctionFastCall */
-#if CYTHON_FAST_PYCALL
-static PyObject* __Pyx_PyFunction_FastCallNoKw(PyCodeObject *co, PyObject **args, Py_ssize_t na,
-                                               PyObject *globals) {
-    PyFrameObject *f;
-    PyThreadState *tstate = __Pyx_PyThreadState_Current;
-    PyObject **fastlocals;
-    Py_ssize_t i;
-    PyObject *result;
-    assert(globals != NULL);
-    /* XXX Perhaps we should create a specialized
-       PyFrame_New() that doesn't take locals, but does
-       take builtins without sanity checking them.
-       */
-    assert(tstate != NULL);
-    f = PyFrame_New(tstate, co, globals, NULL);
-    if (f == NULL) {
-        return NULL;
-    }
-    fastlocals = __Pyx_PyFrame_GetLocalsplus(f);
-    for (i = 0; i < na; i++) {
-        Py_INCREF(*args);
-        fastlocals[i] = *args++;
-    }
-    result = PyEval_EvalFrameEx(f,0);
-    ++tstate->recursion_depth;
-    Py_DECREF(f);
-    --tstate->recursion_depth;
-    return result;
-}
-#if 1 || PY_VERSION_HEX < 0x030600B1
-static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, Py_ssize_t nargs, PyObject *kwargs) {
-    PyCodeObject *co = (PyCodeObject *)PyFunction_GET_CODE(func);
-    PyObject *globals = PyFunction_GET_GLOBALS(func);
-    PyObject *argdefs = PyFunction_GET_DEFAULTS(func);
-    PyObject *closure;
-#if PY_MAJOR_VERSION >= 3
-    PyObject *kwdefs;
-#endif
-    PyObject *kwtuple, **k;
-    PyObject **d;
-    Py_ssize_t nd;
-    Py_ssize_t nk;
-    PyObject *result;
-    assert(kwargs == NULL || PyDict_Check(kwargs));
-    nk = kwargs ? PyDict_Size(kwargs) : 0;
-    if (Py_EnterRecursiveCall((char*)" while calling a Python object")) {
-        return NULL;
-    }
-    if (
-#if PY_MAJOR_VERSION >= 3
-            co->co_kwonlyargcount == 0 &&
-#endif
-            likely(kwargs == NULL || nk == 0) &&
-            co->co_flags == (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)) {
-        if (argdefs == NULL && co->co_argcount == nargs) {
-            result = __Pyx_PyFunction_FastCallNoKw(co, args, nargs, globals);
-            goto done;
-        }
-        else if (nargs == 0 && argdefs != NULL
-                 && co->co_argcount == Py_SIZE(argdefs)) {
-            /* function called with no arguments, but all parameters have
-               a default value: use default values as arguments .*/
-            args = &PyTuple_GET_ITEM(argdefs, 0);
-            result =__Pyx_PyFunction_FastCallNoKw(co, args, Py_SIZE(argdefs), globals);
-            goto done;
-        }
-    }
-    if (kwargs != NULL) {
-        Py_ssize_t pos, i;
-        kwtuple = PyTuple_New(2 * nk);
-        if (kwtuple == NULL) {
-            result = NULL;
-            goto done;
-        }
-        k = &PyTuple_GET_ITEM(kwtuple, 0);
-        pos = i = 0;
-        while (PyDict_Next(kwargs, &pos, &k[i], &k[i+1])) {
-            Py_INCREF(k[i]);
-            Py_INCREF(k[i+1]);
-            i += 2;
-        }
-        nk = i / 2;
-    }
-    else {
-        kwtuple = NULL;
-        k = NULL;
-    }
-    closure = PyFunction_GET_CLOSURE(func);
-#if PY_MAJOR_VERSION >= 3
-    kwdefs = PyFunction_GET_KW_DEFAULTS(func);
-#endif
-    if (argdefs != NULL) {
-        d = &PyTuple_GET_ITEM(argdefs, 0);
-        nd = Py_SIZE(argdefs);
-    }
-    else {
-        d = NULL;
-        nd = 0;
-    }
-#if PY_MAJOR_VERSION >= 3
-    result = PyEval_EvalCodeEx((PyObject*)co, globals, (PyObject *)NULL,
-                               args, (int)nargs,
-                               k, (int)nk,
-                               d, (int)nd, kwdefs, closure);
-#else
-    result = PyEval_EvalCodeEx(co, globals, (PyObject *)NULL,
-                               args, (int)nargs,
-                               k, (int)nk,
-                               d, (int)nd, closure);
-#endif
-    Py_XDECREF(kwtuple);
-done:
-    Py_LeaveRecursiveCall();
-    return result;
-}
-#endif
-#endif
-
-/* PyObjectCall */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
-    PyObject *result;
-    ternaryfunc call = func->ob_type->tp_call;
-    if (unlikely(!call))
-        return PyObject_Call(func, arg, kw);
-    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
-        return NULL;
-    result = (*call)(func, arg, kw);
-    Py_LeaveRecursiveCall();
-    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
-        PyErr_SetString(
-            PyExc_SystemError,
-            "NULL result without error in PyObject_Call");
-    }
-    return result;
-}
-#endif
-
-/* PyObjectCallMethO */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg) {
-    PyObject *self, *result;
-    PyCFunction cfunc;
-    cfunc = PyCFunction_GET_FUNCTION(func);
-    self = PyCFunction_GET_SELF(func);
-    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
-        return NULL;
-    result = cfunc(self, arg);
-    Py_LeaveRecursiveCall();
-    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
-        PyErr_SetString(
-            PyExc_SystemError,
-            "NULL result without error in PyObject_Call");
-    }
-    return result;
-}
-#endif
-
-/* PyObjectCallNoArg */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
-#if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(func)) {
-        return __Pyx_PyFunction_FastCall(func, NULL, 0);
-    }
-#endif
-#ifdef __Pyx_CyFunction_USED
-    if (likely(PyCFunction_Check(func) || __Pyx_CyFunction_Check(func)))
-#else
-    if (likely(PyCFunction_Check(func)))
-#endif
-    {
-        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
-            return __Pyx_PyObject_CallMethO(func, NULL);
-        }
-    }
-    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
 }
 #endif
 
@@ -13782,69 +10196,6 @@ static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject 
 bad:
     Py_XDECREF(owned_instance);
     return;
-}
-#endif
-
-/* PyCFunctionFastCall */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
-    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
-    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
-    PyObject *self = PyCFunction_GET_SELF(func);
-    int flags = PyCFunction_GET_FLAGS(func);
-    assert(PyCFunction_Check(func));
-    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS | METH_STACKLESS)));
-    assert(nargs >= 0);
-    assert(nargs == 0 || args != NULL);
-    /* _PyCFunction_FastCallDict() must not be called with an exception set,
-       because it may clear it (directly or indirectly) and so the
-       caller loses its exception */
-    assert(!PyErr_Occurred());
-    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
-        return (*((__Pyx_PyCFunctionFastWithKeywords)(void*)meth)) (self, args, nargs, NULL);
-    } else {
-        return (*((__Pyx_PyCFunctionFast)(void*)meth)) (self, args, nargs);
-    }
-}
-#endif
-
-/* PyObjectCallOneArg */
-#if CYTHON_COMPILING_IN_CPYTHON
-static PyObject* __Pyx__PyObject_CallOneArg(PyObject *func, PyObject *arg) {
-    PyObject *result;
-    PyObject *args = PyTuple_New(1);
-    if (unlikely(!args)) return NULL;
-    Py_INCREF(arg);
-    PyTuple_SET_ITEM(args, 0, arg);
-    result = __Pyx_PyObject_Call(func, args, NULL);
-    Py_DECREF(args);
-    return result;
-}
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
-#if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(func)) {
-        return __Pyx_PyFunction_FastCall(func, &arg, 1);
-    }
-#endif
-    if (likely(PyCFunction_Check(func))) {
-        if (likely(PyCFunction_GET_FLAGS(func) & METH_O)) {
-            return __Pyx_PyObject_CallMethO(func, arg);
-#if CYTHON_FAST_PYCCALL
-        } else if (PyCFunction_GET_FLAGS(func) & METH_FASTCALL) {
-            return __Pyx_PyCFunction_FastCall(func, &arg, 1);
-#endif
-        }
-    }
-    return __Pyx__PyObject_CallOneArg(func, arg);
-}
-#else
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
-    PyObject *result;
-    PyObject *args = PyTuple_Pack(1, arg);
-    if (unlikely(!args)) return NULL;
-    result = __Pyx_PyObject_Call(func, args, NULL);
-    Py_DECREF(args);
-    return result;
 }
 #endif
 
@@ -14053,6 +10404,217 @@ static CYTHON_INLINE void __Pyx__ExceptionReset(PyThreadState *tstate, PyObject 
 }
 #endif
 
+/* PyErrExceptionMatches */
+#if CYTHON_FAST_THREAD_STATE
+static int __Pyx_PyErr_ExceptionMatchesTuple(PyObject *exc_type, PyObject *tuple) {
+    Py_ssize_t i, n;
+    n = PyTuple_GET_SIZE(tuple);
+#if PY_MAJOR_VERSION >= 3
+    for (i=0; i<n; i++) {
+        if (exc_type == PyTuple_GET_ITEM(tuple, i)) return 1;
+    }
+#endif
+    for (i=0; i<n; i++) {
+        if (__Pyx_PyErr_GivenExceptionMatches(exc_type, PyTuple_GET_ITEM(tuple, i))) return 1;
+    }
+    return 0;
+}
+static CYTHON_INLINE int __Pyx_PyErr_ExceptionMatchesInState(PyThreadState* tstate, PyObject* err) {
+    PyObject *exc_type = tstate->curexc_type;
+    if (exc_type == err) return 1;
+    if (unlikely(!exc_type)) return 0;
+    if (unlikely(PyTuple_Check(err)))
+        return __Pyx_PyErr_ExceptionMatchesTuple(exc_type, err);
+    return __Pyx_PyErr_GivenExceptionMatches(exc_type, err);
+}
+#endif
+
+/* RaiseTooManyValuesToUnpack */
+static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected) {
+    PyErr_Format(PyExc_ValueError,
+                 "too many values to unpack (expected %" CYTHON_FORMAT_SSIZE_T "d)", expected);
+}
+
+/* RaiseNeedMoreValuesToUnpack */
+static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index) {
+    PyErr_Format(PyExc_ValueError,
+                 "need more than %" CYTHON_FORMAT_SSIZE_T "d value%.1s to unpack",
+                 index, (index == 1) ? "" : "s");
+}
+
+/* RaiseNoneIterError */
+static CYTHON_INLINE void __Pyx_RaiseNoneNotIterableError(void) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
+}
+
+/* None */
+static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname) {
+    PyErr_Format(PyExc_UnboundLocalError, "local variable '%s' referenced before assignment", varname);
+}
+
+/* RaiseDoubleKeywords */
+static void __Pyx_RaiseDoubleKeywordsError(
+    const char* func_name,
+    PyObject* kw_name)
+{
+    PyErr_Format(PyExc_TypeError,
+        #if PY_MAJOR_VERSION >= 3
+        "%s() got multiple values for keyword argument '%U'", func_name, kw_name);
+        #else
+        "%s() got multiple values for keyword argument '%s'", func_name,
+        PyString_AsString(kw_name));
+        #endif
+}
+
+/* ParseKeywords */
+static int __Pyx_ParseOptionalKeywords(
+    PyObject *kwds,
+    PyObject **argnames[],
+    PyObject *kwds2,
+    PyObject *values[],
+    Py_ssize_t num_pos_args,
+    const char* function_name)
+{
+    PyObject *key = 0, *value = 0;
+    Py_ssize_t pos = 0;
+    PyObject*** name;
+    PyObject*** first_kw_arg = argnames + num_pos_args;
+    while (PyDict_Next(kwds, &pos, &key, &value)) {
+        name = first_kw_arg;
+        while (*name && (**name != key)) name++;
+        if (*name) {
+            values[name-argnames] = value;
+            continue;
+        }
+        name = first_kw_arg;
+        #if PY_MAJOR_VERSION < 3
+        if (likely(PyString_Check(key))) {
+            while (*name) {
+                if ((CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**name) == PyString_GET_SIZE(key))
+                        && _PyString_Eq(**name, key)) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    if ((**argname == key) || (
+                            (CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**argname) == PyString_GET_SIZE(key))
+                             && _PyString_Eq(**argname, key))) {
+                        goto arg_passed_twice;
+                    }
+                    argname++;
+                }
+            }
+        } else
+        #endif
+        if (likely(PyUnicode_Check(key))) {
+            while (*name) {
+                int cmp = (**name == key) ? 0 :
+                #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                    (__Pyx_PyUnicode_GET_LENGTH(**name) != __Pyx_PyUnicode_GET_LENGTH(key)) ? 1 :
+                #endif
+                    PyUnicode_Compare(**name, key);
+                if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                if (cmp == 0) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    int cmp = (**argname == key) ? 0 :
+                    #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                        (__Pyx_PyUnicode_GET_LENGTH(**argname) != __Pyx_PyUnicode_GET_LENGTH(key)) ? 1 :
+                    #endif
+                        PyUnicode_Compare(**argname, key);
+                    if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                    if (cmp == 0) goto arg_passed_twice;
+                    argname++;
+                }
+            }
+        } else
+            goto invalid_keyword_type;
+        if (kwds2) {
+            if (unlikely(PyDict_SetItem(kwds2, key, value))) goto bad;
+        } else {
+            goto invalid_keyword;
+        }
+    }
+    return 0;
+arg_passed_twice:
+    __Pyx_RaiseDoubleKeywordsError(function_name, key);
+    goto bad;
+invalid_keyword_type:
+    PyErr_Format(PyExc_TypeError,
+        "%.200s() keywords must be strings", function_name);
+    goto bad;
+invalid_keyword:
+    PyErr_Format(PyExc_TypeError,
+    #if PY_MAJOR_VERSION < 3
+        "%.200s() got an unexpected keyword argument '%.200s'",
+        function_name, PyString_AsString(key));
+    #else
+        "%s() got an unexpected keyword argument '%U'",
+        function_name, key);
+    #endif
+bad:
+    return -1;
+}
+
+/* RaiseArgTupleInvalid */
+static void __Pyx_RaiseArgtupleInvalid(
+    const char* func_name,
+    int exact,
+    Py_ssize_t num_min,
+    Py_ssize_t num_max,
+    Py_ssize_t num_found)
+{
+    Py_ssize_t num_expected;
+    const char *more_or_less;
+    if (num_found < num_min) {
+        num_expected = num_min;
+        more_or_less = "at least";
+    } else {
+        num_expected = num_max;
+        more_or_less = "at most";
+    }
+    if (exact) {
+        more_or_less = "exactly";
+    }
+    PyErr_Format(PyExc_TypeError,
+                 "%.200s() takes %.8s %" CYTHON_FORMAT_SSIZE_T "d positional argument%.1s (%" CYTHON_FORMAT_SSIZE_T "d given)",
+                 func_name, more_or_less, num_expected,
+                 (num_expected == 1) ? "" : "s", num_found);
+}
+
+/* ArgTypeTest */
+static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact)
+{
+    if (unlikely(!type)) {
+        PyErr_SetString(PyExc_SystemError, "Missing type object");
+        return 0;
+    }
+    else if (exact) {
+        #if PY_MAJOR_VERSION == 2
+        if ((type == &PyBaseString_Type) && likely(__Pyx_PyBaseString_CheckExact(obj))) return 1;
+        #endif
+    }
+    else {
+        if (likely(__Pyx_TypeCheck(obj, type))) return 1;
+    }
+    PyErr_Format(PyExc_TypeError,
+        "Argument '%.200s' has incorrect type (expected %.200s, got %.200s)",
+        name, type->tp_name, Py_TYPE(obj)->tp_name);
+    return 0;
+}
+
 /* GetItemInt */
 static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
     PyObject *r;
@@ -14138,19 +10700,6 @@ static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i, 
     }
 #endif
     return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-}
-
-/* ExtTypeTest */
-static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type) {
-    if (unlikely(!type)) {
-        PyErr_SetString(PyExc_SystemError, "Missing type object");
-        return 0;
-    }
-    if (likely(__Pyx_TypeCheck(obj, type)))
-        return 1;
-    PyErr_Format(PyExc_TypeError, "Cannot convert %.200s to %.200s",
-                 Py_TYPE(obj)->tp_name, type->tp_name);
-    return 0;
 }
 
 /* SetItemInt */
@@ -14244,6 +10793,344 @@ static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
 #endif
 }
 
+/* GetAttr */
+static CYTHON_INLINE PyObject *__Pyx_GetAttr(PyObject *o, PyObject *n) {
+#if CYTHON_USE_TYPE_SLOTS
+#if PY_MAJOR_VERSION >= 3
+    if (likely(PyUnicode_Check(n)))
+#else
+    if (likely(PyString_Check(n)))
+#endif
+        return __Pyx_PyObject_GetAttrStr(o, n);
+#endif
+    return PyObject_GetAttr(o, n);
+}
+
+/* GetAttr3 */
+static PyObject *__Pyx_GetAttr3Default(PyObject *d) {
+    __Pyx_PyThreadState_declare
+    __Pyx_PyThreadState_assign
+    if (unlikely(!__Pyx_PyErr_ExceptionMatches(PyExc_AttributeError)))
+        return NULL;
+    __Pyx_PyErr_Clear();
+    Py_INCREF(d);
+    return d;
+}
+static CYTHON_INLINE PyObject *__Pyx_GetAttr3(PyObject *o, PyObject *n, PyObject *d) {
+    PyObject *r = __Pyx_GetAttr(o, n);
+    return (likely(r)) ? r : __Pyx_GetAttr3Default(d);
+}
+
+/* PyDictVersioning */
+#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj) {
+    PyObject *dict = Py_TYPE(obj)->tp_dict;
+    return likely(dict) ? __PYX_GET_DICT_VERSION(dict) : 0;
+}
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj) {
+    PyObject **dictptr = NULL;
+    Py_ssize_t offset = Py_TYPE(obj)->tp_dictoffset;
+    if (offset) {
+#if CYTHON_COMPILING_IN_CPYTHON
+        dictptr = (likely(offset > 0)) ? (PyObject **) ((char *)obj + offset) : _PyObject_GetDictPtr(obj);
+#else
+        dictptr = _PyObject_GetDictPtr(obj);
+#endif
+    }
+    return (dictptr && *dictptr) ? __PYX_GET_DICT_VERSION(*dictptr) : 0;
+}
+static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version) {
+    PyObject *dict = Py_TYPE(obj)->tp_dict;
+    if (unlikely(!dict) || unlikely(tp_dict_version != __PYX_GET_DICT_VERSION(dict)))
+        return 0;
+    return obj_dict_version == __Pyx_get_object_dict_version(obj);
+}
+#endif
+
+/* GetModuleGlobalName */
+#if CYTHON_USE_DICT_VERSIONS
+static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_version, PyObject **dict_cached_value)
+#else
+static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
+#endif
+{
+    PyObject *result;
+#if !CYTHON_AVOID_BORROWED_REFS
+#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030500A1
+    result = _PyDict_GetItem_KnownHash(__pyx_d, name, ((PyASCIIObject *) name)->hash);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    } else if (unlikely(PyErr_Occurred())) {
+        return NULL;
+    }
+#else
+    result = PyDict_GetItem(__pyx_d, name);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    }
+#endif
+#else
+    result = PyObject_GetItem(__pyx_d, name);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    }
+    PyErr_Clear();
+#endif
+    return __Pyx_GetBuiltinName(name);
+}
+
+/* PyCFunctionFastCall */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
+    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
+    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
+    PyObject *self = PyCFunction_GET_SELF(func);
+    int flags = PyCFunction_GET_FLAGS(func);
+    assert(PyCFunction_Check(func));
+    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS | METH_STACKLESS)));
+    assert(nargs >= 0);
+    assert(nargs == 0 || args != NULL);
+    /* _PyCFunction_FastCallDict() must not be called with an exception set,
+       because it may clear it (directly or indirectly) and so the
+       caller loses its exception */
+    assert(!PyErr_Occurred());
+    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
+        return (*((__Pyx_PyCFunctionFastWithKeywords)(void*)meth)) (self, args, nargs, NULL);
+    } else {
+        return (*((__Pyx_PyCFunctionFast)(void*)meth)) (self, args, nargs);
+    }
+}
+#endif
+
+/* PyFunctionFastCall */
+#if CYTHON_FAST_PYCALL
+static PyObject* __Pyx_PyFunction_FastCallNoKw(PyCodeObject *co, PyObject **args, Py_ssize_t na,
+                                               PyObject *globals) {
+    PyFrameObject *f;
+    PyThreadState *tstate = __Pyx_PyThreadState_Current;
+    PyObject **fastlocals;
+    Py_ssize_t i;
+    PyObject *result;
+    assert(globals != NULL);
+    /* XXX Perhaps we should create a specialized
+       PyFrame_New() that doesn't take locals, but does
+       take builtins without sanity checking them.
+       */
+    assert(tstate != NULL);
+    f = PyFrame_New(tstate, co, globals, NULL);
+    if (f == NULL) {
+        return NULL;
+    }
+    fastlocals = __Pyx_PyFrame_GetLocalsplus(f);
+    for (i = 0; i < na; i++) {
+        Py_INCREF(*args);
+        fastlocals[i] = *args++;
+    }
+    result = PyEval_EvalFrameEx(f,0);
+    ++tstate->recursion_depth;
+    Py_DECREF(f);
+    --tstate->recursion_depth;
+    return result;
+}
+#if 1 || PY_VERSION_HEX < 0x030600B1
+static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, Py_ssize_t nargs, PyObject *kwargs) {
+    PyCodeObject *co = (PyCodeObject *)PyFunction_GET_CODE(func);
+    PyObject *globals = PyFunction_GET_GLOBALS(func);
+    PyObject *argdefs = PyFunction_GET_DEFAULTS(func);
+    PyObject *closure;
+#if PY_MAJOR_VERSION >= 3
+    PyObject *kwdefs;
+#endif
+    PyObject *kwtuple, **k;
+    PyObject **d;
+    Py_ssize_t nd;
+    Py_ssize_t nk;
+    PyObject *result;
+    assert(kwargs == NULL || PyDict_Check(kwargs));
+    nk = kwargs ? PyDict_Size(kwargs) : 0;
+    if (Py_EnterRecursiveCall((char*)" while calling a Python object")) {
+        return NULL;
+    }
+    if (
+#if PY_MAJOR_VERSION >= 3
+            co->co_kwonlyargcount == 0 &&
+#endif
+            likely(kwargs == NULL || nk == 0) &&
+            co->co_flags == (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)) {
+        if (argdefs == NULL && co->co_argcount == nargs) {
+            result = __Pyx_PyFunction_FastCallNoKw(co, args, nargs, globals);
+            goto done;
+        }
+        else if (nargs == 0 && argdefs != NULL
+                 && co->co_argcount == Py_SIZE(argdefs)) {
+            /* function called with no arguments, but all parameters have
+               a default value: use default values as arguments .*/
+            args = &PyTuple_GET_ITEM(argdefs, 0);
+            result =__Pyx_PyFunction_FastCallNoKw(co, args, Py_SIZE(argdefs), globals);
+            goto done;
+        }
+    }
+    if (kwargs != NULL) {
+        Py_ssize_t pos, i;
+        kwtuple = PyTuple_New(2 * nk);
+        if (kwtuple == NULL) {
+            result = NULL;
+            goto done;
+        }
+        k = &PyTuple_GET_ITEM(kwtuple, 0);
+        pos = i = 0;
+        while (PyDict_Next(kwargs, &pos, &k[i], &k[i+1])) {
+            Py_INCREF(k[i]);
+            Py_INCREF(k[i+1]);
+            i += 2;
+        }
+        nk = i / 2;
+    }
+    else {
+        kwtuple = NULL;
+        k = NULL;
+    }
+    closure = PyFunction_GET_CLOSURE(func);
+#if PY_MAJOR_VERSION >= 3
+    kwdefs = PyFunction_GET_KW_DEFAULTS(func);
+#endif
+    if (argdefs != NULL) {
+        d = &PyTuple_GET_ITEM(argdefs, 0);
+        nd = Py_SIZE(argdefs);
+    }
+    else {
+        d = NULL;
+        nd = 0;
+    }
+#if PY_MAJOR_VERSION >= 3
+    result = PyEval_EvalCodeEx((PyObject*)co, globals, (PyObject *)NULL,
+                               args, (int)nargs,
+                               k, (int)nk,
+                               d, (int)nd, kwdefs, closure);
+#else
+    result = PyEval_EvalCodeEx(co, globals, (PyObject *)NULL,
+                               args, (int)nargs,
+                               k, (int)nk,
+                               d, (int)nd, closure);
+#endif
+    Py_XDECREF(kwtuple);
+done:
+    Py_LeaveRecursiveCall();
+    return result;
+}
+#endif
+#endif
+
+/* PyObjectCallMethO */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg) {
+    PyObject *self, *result;
+    PyCFunction cfunc;
+    cfunc = PyCFunction_GET_FUNCTION(func);
+    self = PyCFunction_GET_SELF(func);
+    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
+        return NULL;
+    result = cfunc(self, arg);
+    Py_LeaveRecursiveCall();
+    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
+        PyErr_SetString(
+            PyExc_SystemError,
+            "NULL result without error in PyObject_Call");
+    }
+    return result;
+}
+#endif
+
+/* PyObjectCallOneArg */
+#if CYTHON_COMPILING_IN_CPYTHON
+static PyObject* __Pyx__PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+    PyObject *result;
+    PyObject *args = PyTuple_New(1);
+    if (unlikely(!args)) return NULL;
+    Py_INCREF(arg);
+    PyTuple_SET_ITEM(args, 0, arg);
+    result = __Pyx_PyObject_Call(func, args, NULL);
+    Py_DECREF(args);
+    return result;
+}
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+#if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(func)) {
+        return __Pyx_PyFunction_FastCall(func, &arg, 1);
+    }
+#endif
+    if (likely(PyCFunction_Check(func))) {
+        if (likely(PyCFunction_GET_FLAGS(func) & METH_O)) {
+            return __Pyx_PyObject_CallMethO(func, arg);
+#if CYTHON_FAST_PYCCALL
+        } else if (PyCFunction_GET_FLAGS(func) & METH_FASTCALL) {
+            return __Pyx_PyCFunction_FastCall(func, &arg, 1);
+#endif
+        }
+    }
+    return __Pyx__PyObject_CallOneArg(func, arg);
+}
+#else
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+    PyObject *result;
+    PyObject *args = PyTuple_Pack(1, arg);
+    if (unlikely(!args)) return NULL;
+    result = __Pyx_PyObject_Call(func, args, NULL);
+    Py_DECREF(args);
+    return result;
+}
+#endif
+
+/* IterFinish */
+static CYTHON_INLINE int __Pyx_IterFinish(void) {
+#if CYTHON_FAST_THREAD_STATE
+    PyThreadState *tstate = __Pyx_PyThreadState_Current;
+    PyObject* exc_type = tstate->curexc_type;
+    if (unlikely(exc_type)) {
+        if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) {
+            PyObject *exc_value, *exc_tb;
+            exc_value = tstate->curexc_value;
+            exc_tb = tstate->curexc_traceback;
+            tstate->curexc_type = 0;
+            tstate->curexc_value = 0;
+            tstate->curexc_traceback = 0;
+            Py_DECREF(exc_type);
+            Py_XDECREF(exc_value);
+            Py_XDECREF(exc_tb);
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+    return 0;
+#else
+    if (unlikely(PyErr_Occurred())) {
+        if (likely(PyErr_ExceptionMatches(PyExc_StopIteration))) {
+            PyErr_Clear();
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+    return 0;
+#endif
+}
+
+/* UnpackItemEndCheck */
+static int __Pyx_IternextUnpackEndCheck(PyObject *retval, Py_ssize_t expected) {
+    if (unlikely(retval)) {
+        Py_DECREF(retval);
+        __Pyx_RaiseTooManyValuesError(expected);
+        return -1;
+    } else {
+        return __Pyx_IterFinish();
+    }
+    return 0;
+}
+
 /* PyUnicode_Substring */
 static CYTHON_INLINE PyObject* __Pyx_PyUnicode_Substring(
             PyObject* text, Py_ssize_t start, Py_ssize_t stop) {
@@ -14268,6 +11155,28 @@ static CYTHON_INLINE PyObject* __Pyx_PyUnicode_Substring(
     return PyUnicode_FromUnicode(PyUnicode_AS_UNICODE(text)+start, stop-start);
 #endif
 }
+
+/* PyObjectCallNoArg */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
+#if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(func)) {
+        return __Pyx_PyFunction_FastCall(func, NULL, 0);
+    }
+#endif
+#ifdef __Pyx_CyFunction_USED
+    if (likely(PyCFunction_Check(func) || __Pyx_CyFunction_Check(func)))
+#else
+    if (likely(PyCFunction_Check(func)))
+#endif
+    {
+        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
+            return __Pyx_PyObject_CallMethO(func, NULL);
+        }
+    }
+    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
+}
+#endif
 
 /* PyObjectGetMethod */
 static int __Pyx_PyObject_GetMethod(PyObject *obj, PyObject *name, PyObject **method) {
@@ -14687,6 +11596,24 @@ static PyObject* __Pyx_PyObject_GenericGetAttr(PyObject* obj, PyObject* attr_nam
 }
 #endif
 
+/* SetVTable */
+static int __Pyx_SetVtable(PyObject *dict, void *vtable) {
+#if PY_VERSION_HEX >= 0x02070000
+    PyObject *ob = PyCapsule_New(vtable, 0, 0);
+#else
+    PyObject *ob = PyCObject_FromVoidPtr(vtable, 0);
+#endif
+    if (!ob)
+        goto bad;
+    if (PyDict_SetItem(dict, __pyx_n_s_pyx_vtable, ob) < 0)
+        goto bad;
+    Py_DECREF(ob);
+    return 0;
+bad:
+    Py_XDECREF(ob);
+    return -1;
+}
+
 /* PyObjectGetAttrStrNoError */
 static void __Pyx_PyObject_GetAttrStr_ClearAttributeError(void) {
     __Pyx_PyThreadState_declare
@@ -14793,23 +11720,66 @@ __PYX_GOOD:
     return ret;
 }
 
-/* SetVTable */
-static int __Pyx_SetVtable(PyObject *dict, void *vtable) {
-#if PY_VERSION_HEX >= 0x02070000
-    PyObject *ob = PyCapsule_New(vtable, 0, 0);
-#else
-    PyObject *ob = PyCObject_FromVoidPtr(vtable, 0);
+/* TypeImport */
+#ifndef __PYX_HAVE_RT_ImportType
+#define __PYX_HAVE_RT_ImportType
+static PyTypeObject *__Pyx_ImportType(PyObject *module, const char *module_name, const char *class_name,
+    size_t size, enum __Pyx_ImportType_CheckSize check_size)
+{
+    PyObject *result = 0;
+    char warning[200];
+    Py_ssize_t basicsize;
+#ifdef Py_LIMITED_API
+    PyObject *py_basicsize;
 #endif
-    if (!ob)
+    result = PyObject_GetAttrString(module, class_name);
+    if (!result)
         goto bad;
-    if (PyDict_SetItem(dict, __pyx_n_s_pyx_vtable, ob) < 0)
+    if (!PyType_Check(result)) {
+        PyErr_Format(PyExc_TypeError,
+            "%.200s.%.200s is not a type object",
+            module_name, class_name);
         goto bad;
-    Py_DECREF(ob);
-    return 0;
+    }
+#ifndef Py_LIMITED_API
+    basicsize = ((PyTypeObject *)result)->tp_basicsize;
+#else
+    py_basicsize = PyObject_GetAttrString(result, "__basicsize__");
+    if (!py_basicsize)
+        goto bad;
+    basicsize = PyLong_AsSsize_t(py_basicsize);
+    Py_DECREF(py_basicsize);
+    py_basicsize = 0;
+    if (basicsize == (Py_ssize_t)-1 && PyErr_Occurred())
+        goto bad;
+#endif
+    if ((size_t)basicsize < size) {
+        PyErr_Format(PyExc_ValueError,
+            "%.200s.%.200s size changed, may indicate binary incompatibility. "
+            "Expected %zd from C header, got %zd from PyObject",
+            module_name, class_name, size, basicsize);
+        goto bad;
+    }
+    if (check_size == __Pyx_ImportType_CheckSize_Error && (size_t)basicsize != size) {
+        PyErr_Format(PyExc_ValueError,
+            "%.200s.%.200s size changed, may indicate binary incompatibility. "
+            "Expected %zd from C header, got %zd from PyObject",
+            module_name, class_name, size, basicsize);
+        goto bad;
+    }
+    else if (check_size == __Pyx_ImportType_CheckSize_Warn && (size_t)basicsize > size) {
+        PyOS_snprintf(warning, sizeof(warning),
+            "%s.%s size changed, may indicate binary incompatibility. "
+            "Expected %zd from C header, got %zd from PyObject",
+            module_name, class_name, size, basicsize);
+        if (PyErr_WarnEx(NULL, warning, 0) < 0) goto bad;
+    }
+    return (PyTypeObject *)result;
 bad:
-    Py_XDECREF(ob);
-    return -1;
+    Py_XDECREF(result);
+    return NULL;
 }
+#endif
 
 /* CLineInTraceback */
 #ifndef CYTHON_CLINE_IN_TRACEBACK
@@ -15070,6 +12040,37 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
         }\
         return (target_type) value;\
     }
+
+/* CIntToPy */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_enum____pyx_t_6ottype_10core_boost_OTTypeAction(enum __pyx_t_6ottype_10core_boost_OTTypeAction value) {
+    const enum __pyx_t_6ottype_10core_boost_OTTypeAction neg_one = (enum __pyx_t_6ottype_10core_boost_OTTypeAction) ((enum __pyx_t_6ottype_10core_boost_OTTypeAction) 0 - (enum __pyx_t_6ottype_10core_boost_OTTypeAction) 1), const_zero = (enum __pyx_t_6ottype_10core_boost_OTTypeAction) 0;
+    const int is_unsigned = neg_one > const_zero;
+    if (is_unsigned) {
+        if (sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) < sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) <= sizeof(unsigned long)) {
+            return PyLong_FromUnsignedLong((unsigned long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) <= sizeof(unsigned PY_LONG_LONG)) {
+            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
+#endif
+        }
+    } else {
+        if (sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) <= sizeof(long)) {
+            return PyInt_FromLong((long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) <= sizeof(PY_LONG_LONG)) {
+            return PyLong_FromLongLong((PY_LONG_LONG) value);
+#endif
+        }
+    }
+    {
+        int one = 1; int little = (int)*(unsigned char *)&one;
+        unsigned char *bytes = (unsigned char *)&value;
+        return _PyLong_FromByteArray(bytes, sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction),
+                                     little, !is_unsigned);
+    }
+}
 
 /* CIntToPy */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
@@ -15478,6 +12479,195 @@ raise_neg_overflow:
     PyErr_SetString(PyExc_OverflowError,
         "can't convert negative value to long");
     return (long) -1;
+}
+
+/* CIntFromPy */
+static CYTHON_INLINE enum __pyx_t_6ottype_10core_boost_OTTypeAction __Pyx_PyInt_As_enum____pyx_t_6ottype_10core_boost_OTTypeAction(PyObject *x) {
+    const enum __pyx_t_6ottype_10core_boost_OTTypeAction neg_one = (enum __pyx_t_6ottype_10core_boost_OTTypeAction) ((enum __pyx_t_6ottype_10core_boost_OTTypeAction) 0 - (enum __pyx_t_6ottype_10core_boost_OTTypeAction) 1), const_zero = (enum __pyx_t_6ottype_10core_boost_OTTypeAction) 0;
+    const int is_unsigned = neg_one > const_zero;
+#if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_Check(x))) {
+        if (sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) < sizeof(long)) {
+            __PYX_VERIFY_RETURN_INT(enum __pyx_t_6ottype_10core_boost_OTTypeAction, long, PyInt_AS_LONG(x))
+        } else {
+            long val = PyInt_AS_LONG(x);
+            if (is_unsigned && unlikely(val < 0)) {
+                goto raise_neg_overflow;
+            }
+            return (enum __pyx_t_6ottype_10core_boost_OTTypeAction) val;
+        }
+    } else
+#endif
+    if (likely(PyLong_Check(x))) {
+        if (is_unsigned) {
+#if CYTHON_USE_PYLONG_INTERNALS
+            const digit* digits = ((PyLongObject*)x)->ob_digit;
+            switch (Py_SIZE(x)) {
+                case  0: return (enum __pyx_t_6ottype_10core_boost_OTTypeAction) 0;
+                case  1: __PYX_VERIFY_RETURN_INT(enum __pyx_t_6ottype_10core_boost_OTTypeAction, digit, digits[0])
+                case 2:
+                    if (8 * sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum __pyx_t_6ottype_10core_boost_OTTypeAction, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) >= 2 * PyLong_SHIFT) {
+                            return (enum __pyx_t_6ottype_10core_boost_OTTypeAction) (((((enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[1]) << PyLong_SHIFT) | (enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[0]));
+                        }
+                    }
+                    break;
+                case 3:
+                    if (8 * sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum __pyx_t_6ottype_10core_boost_OTTypeAction, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) >= 3 * PyLong_SHIFT) {
+                            return (enum __pyx_t_6ottype_10core_boost_OTTypeAction) (((((((enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[2]) << PyLong_SHIFT) | (enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[1]) << PyLong_SHIFT) | (enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[0]));
+                        }
+                    }
+                    break;
+                case 4:
+                    if (8 * sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum __pyx_t_6ottype_10core_boost_OTTypeAction, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) >= 4 * PyLong_SHIFT) {
+                            return (enum __pyx_t_6ottype_10core_boost_OTTypeAction) (((((((((enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[3]) << PyLong_SHIFT) | (enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[2]) << PyLong_SHIFT) | (enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[1]) << PyLong_SHIFT) | (enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[0]));
+                        }
+                    }
+                    break;
+            }
+#endif
+#if CYTHON_COMPILING_IN_CPYTHON
+            if (unlikely(Py_SIZE(x) < 0)) {
+                goto raise_neg_overflow;
+            }
+#else
+            {
+                int result = PyObject_RichCompareBool(x, Py_False, Py_LT);
+                if (unlikely(result < 0))
+                    return (enum __pyx_t_6ottype_10core_boost_OTTypeAction) -1;
+                if (unlikely(result == 1))
+                    goto raise_neg_overflow;
+            }
+#endif
+            if (sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) <= sizeof(unsigned long)) {
+                __PYX_VERIFY_RETURN_INT_EXC(enum __pyx_t_6ottype_10core_boost_OTTypeAction, unsigned long, PyLong_AsUnsignedLong(x))
+#ifdef HAVE_LONG_LONG
+            } else if (sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) <= sizeof(unsigned PY_LONG_LONG)) {
+                __PYX_VERIFY_RETURN_INT_EXC(enum __pyx_t_6ottype_10core_boost_OTTypeAction, unsigned PY_LONG_LONG, PyLong_AsUnsignedLongLong(x))
+#endif
+            }
+        } else {
+#if CYTHON_USE_PYLONG_INTERNALS
+            const digit* digits = ((PyLongObject*)x)->ob_digit;
+            switch (Py_SIZE(x)) {
+                case  0: return (enum __pyx_t_6ottype_10core_boost_OTTypeAction) 0;
+                case -1: __PYX_VERIFY_RETURN_INT(enum __pyx_t_6ottype_10core_boost_OTTypeAction, sdigit, (sdigit) (-(sdigit)digits[0]))
+                case  1: __PYX_VERIFY_RETURN_INT(enum __pyx_t_6ottype_10core_boost_OTTypeAction,  digit, +digits[0])
+                case -2:
+                    if (8 * sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) - 1 > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum __pyx_t_6ottype_10core_boost_OTTypeAction, long, -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) - 1 > 2 * PyLong_SHIFT) {
+                            return (enum __pyx_t_6ottype_10core_boost_OTTypeAction) (((enum __pyx_t_6ottype_10core_boost_OTTypeAction)-1)*(((((enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[1]) << PyLong_SHIFT) | (enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[0])));
+                        }
+                    }
+                    break;
+                case 2:
+                    if (8 * sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum __pyx_t_6ottype_10core_boost_OTTypeAction, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) - 1 > 2 * PyLong_SHIFT) {
+                            return (enum __pyx_t_6ottype_10core_boost_OTTypeAction) ((((((enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[1]) << PyLong_SHIFT) | (enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[0])));
+                        }
+                    }
+                    break;
+                case -3:
+                    if (8 * sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) - 1 > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum __pyx_t_6ottype_10core_boost_OTTypeAction, long, -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) - 1 > 3 * PyLong_SHIFT) {
+                            return (enum __pyx_t_6ottype_10core_boost_OTTypeAction) (((enum __pyx_t_6ottype_10core_boost_OTTypeAction)-1)*(((((((enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[2]) << PyLong_SHIFT) | (enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[1]) << PyLong_SHIFT) | (enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[0])));
+                        }
+                    }
+                    break;
+                case 3:
+                    if (8 * sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum __pyx_t_6ottype_10core_boost_OTTypeAction, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) - 1 > 3 * PyLong_SHIFT) {
+                            return (enum __pyx_t_6ottype_10core_boost_OTTypeAction) ((((((((enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[2]) << PyLong_SHIFT) | (enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[1]) << PyLong_SHIFT) | (enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[0])));
+                        }
+                    }
+                    break;
+                case -4:
+                    if (8 * sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) - 1 > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum __pyx_t_6ottype_10core_boost_OTTypeAction, long, -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) - 1 > 4 * PyLong_SHIFT) {
+                            return (enum __pyx_t_6ottype_10core_boost_OTTypeAction) (((enum __pyx_t_6ottype_10core_boost_OTTypeAction)-1)*(((((((((enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[3]) << PyLong_SHIFT) | (enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[2]) << PyLong_SHIFT) | (enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[1]) << PyLong_SHIFT) | (enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[0])));
+                        }
+                    }
+                    break;
+                case 4:
+                    if (8 * sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum __pyx_t_6ottype_10core_boost_OTTypeAction, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) - 1 > 4 * PyLong_SHIFT) {
+                            return (enum __pyx_t_6ottype_10core_boost_OTTypeAction) ((((((((((enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[3]) << PyLong_SHIFT) | (enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[2]) << PyLong_SHIFT) | (enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[1]) << PyLong_SHIFT) | (enum __pyx_t_6ottype_10core_boost_OTTypeAction)digits[0])));
+                        }
+                    }
+                    break;
+            }
+#endif
+            if (sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) <= sizeof(long)) {
+                __PYX_VERIFY_RETURN_INT_EXC(enum __pyx_t_6ottype_10core_boost_OTTypeAction, long, PyLong_AsLong(x))
+#ifdef HAVE_LONG_LONG
+            } else if (sizeof(enum __pyx_t_6ottype_10core_boost_OTTypeAction) <= sizeof(PY_LONG_LONG)) {
+                __PYX_VERIFY_RETURN_INT_EXC(enum __pyx_t_6ottype_10core_boost_OTTypeAction, PY_LONG_LONG, PyLong_AsLongLong(x))
+#endif
+            }
+        }
+        {
+#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
+            PyErr_SetString(PyExc_RuntimeError,
+                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
+#else
+            enum __pyx_t_6ottype_10core_boost_OTTypeAction val;
+            PyObject *v = __Pyx_PyNumber_IntOrLong(x);
+ #if PY_MAJOR_VERSION < 3
+            if (likely(v) && !PyLong_Check(v)) {
+                PyObject *tmp = v;
+                v = PyNumber_Long(tmp);
+                Py_DECREF(tmp);
+            }
+ #endif
+            if (likely(v)) {
+                int one = 1; int is_little = (int)*(unsigned char *)&one;
+                unsigned char *bytes = (unsigned char *)&val;
+                int ret = _PyLong_AsByteArray((PyLongObject *)v,
+                                              bytes, sizeof(val),
+                                              is_little, !is_unsigned);
+                Py_DECREF(v);
+                if (likely(!ret))
+                    return val;
+            }
+#endif
+            return (enum __pyx_t_6ottype_10core_boost_OTTypeAction) -1;
+        }
+    } else {
+        enum __pyx_t_6ottype_10core_boost_OTTypeAction val;
+        PyObject *tmp = __Pyx_PyNumber_IntOrLong(x);
+        if (!tmp) return (enum __pyx_t_6ottype_10core_boost_OTTypeAction) -1;
+        val = __Pyx_PyInt_As_enum____pyx_t_6ottype_10core_boost_OTTypeAction(tmp);
+        Py_DECREF(tmp);
+        return val;
+    }
+raise_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "value too large to convert to enum __pyx_t_6ottype_10core_boost_OTTypeAction");
+    return (enum __pyx_t_6ottype_10core_boost_OTTypeAction) -1;
+raise_neg_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "can't convert negative value to enum __pyx_t_6ottype_10core_boost_OTTypeAction");
+    return (enum __pyx_t_6ottype_10core_boost_OTTypeAction) -1;
 }
 
 /* FastTypeChecks */
