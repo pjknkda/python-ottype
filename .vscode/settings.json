@@ -1,0 +1,7 @@
+{
+    "python.pythonPath": "venv/bin/python3",
+    "python.formatting.autopep8Path": "${workspaceFolder}/venv/bin/autopep8",
+    "python.linting.banditPath": "${workspaceFolder}/venv/bin/bandit",
+    "python.linting.flake8Path": "${workspaceFolder}/venv/bin/flake8",
+    "python.linting.mypyPath": "${workspaceFolder}/venv/bin/mypy"
+}
