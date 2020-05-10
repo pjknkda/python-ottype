@@ -108,7 +108,7 @@ assert apply(apply(doc, ots1), ots2) == apply(doc, compose(ots1, ots2))
 ### `apply` function
 
 ```
-=== baseline ===
+=== baseline (extra.old_ottype) ===
 Doc Length :   100, OT Length :   5, Performance :   5.80 ms/loop (  1.00x )
 Doc Length :   100, OT Length :  10, Performance :   8.87 ms/loop (  1.00x )
 Doc Length :   100, OT Length :  20, Performance :  16.47 ms/loop (  1.00x )
@@ -161,7 +161,7 @@ Doc Length : 10000, OT Length : 100, Performance :  10.92 ms/loop (  8.94x )
 ### `inverse_apply` function
 
 ```
-=== baseline ===
+=== baseline (extra.old_ottype) ===
 Doc Length :   100, OT Length :   5, Performance :   8.26 ms/loop (  1.00x )
 Doc Length :   100, OT Length :  10, Performance :  15.00 ms/loop (  1.00x )
 Doc Length :   100, OT Length :  20, Performance :  27.50 ms/loop (  1.00x )
