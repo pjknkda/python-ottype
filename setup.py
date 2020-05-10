@@ -49,14 +49,17 @@ else:
 setup(
     name='python-ottype',
     version=version,
-    description='A python implementation of Operational Transformation (OT).',
+    description='A python implementation of Operational Transformation.',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     keywords='ottype',
 
     author='Jungkook Park',
     author_email='jk@elicer.com',
     url='https://github.com/pjknkda/python-ottype',
     license='MIT',
+
+    packages=['ottype'],
 
     python_requires='>=3.7',
 
