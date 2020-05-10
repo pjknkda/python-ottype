@@ -60,6 +60,8 @@ setup(
     license='MIT',
 
     packages=['ottype'],
+    package_data={'ottype': ['py.typed']},
+    zip_safe=False,
 
     python_requires='>=3.7',
 
