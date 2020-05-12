@@ -5,7 +5,7 @@ A python library for Operational Transformation (OT). Basic idea follows the spe
 ## Installation
 
 ```
-pip install ottype
+pip install python-ottype
 ```
 
 ## OT Operations
