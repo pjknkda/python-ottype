@@ -8,6 +8,15 @@ A python library for Operational Transformation (OT). Basic idea follows the spe
 pip install python-ottype
 ```
 
+Basic usage:
+
+```
+import ottype
+
+assert ottype.apply('asdf', [3, '123', {'d':'f'}]) == 'asd123'
+```
+
+
 ## OT Operations
 
 ### Skip
