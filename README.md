@@ -4,13 +4,13 @@ A python library for Operational Transformation (OT). Basic idea follows the spe
 
 ## Installation
 
-```
+```sh
 pip install python-ottype
 ```
 
 Basic usage:
 
-```
+```python
 import ottype
 
 assert ottype.apply('asdf', [3, '123', {'d':'f'}]) == 'asd123'
