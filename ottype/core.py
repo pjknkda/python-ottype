@@ -107,9 +107,7 @@ class _Taker:
         self._idx = 0
         self._offset = 0
 
-    def take(self,
-             n: int,
-             indivisable: Optional[Literal['d', 'i']] = None) -> Optional[_OTType]:
+    def take(self, n: int, indivisable: Optional[Literal['d', 'i']] = None) -> Optional[_OTType]:
         if self._idx == len(self.ots):
             if n == -1:
                 return None
@@ -225,9 +223,7 @@ def apply(doc: str, ot_raw_list: List[_OTRawType]) -> str:
             assert isinstance(ot_arg, str)
 
             if doc[pos:pos + len(ot_arg)] != ot_arg:
-                raise ValueError('inconsistent delete (doc, OT.arg)',
-                                 doc[pos:pos + len(ot_arg)],
-                                 ot_arg)
+                raise ValueError('inconsistent delete (doc, OT.arg)', doc[pos:pos + len(ot_arg)], ot_arg)
             pos += len(ot_arg)
 
     new_doc.append(doc[pos:])
@@ -279,9 +275,7 @@ def inverse_apply(doc: str, ot_raw_list: List[_OTRawType]) -> str:
             assert isinstance(ot_arg, str)
 
             if doc[last_pos - len(ot_arg):last_pos] != ot_arg:
-                raise ValueError('inconsistent delete (doc, OT.arg)',
-                                 doc[last_pos - len(ot_arg):last_pos],
-                                 ot_arg)
+                raise ValueError('inconsistent delete (doc, OT.arg)', doc[last_pos - len(ot_arg):last_pos], ot_arg)
             last_pos -= len(ot_arg)
 
         elif ot_action == _OTTypeActionDelete:
@@ -313,9 +307,11 @@ def normalize(ot_raw_list: List[_OTRawType]) -> List[_OTRawType]:
     return _to_ot_raw_list(new_ots)
 
 
-def transform(ot_raw_list_1: List[_OTRawType],
-              ot_raw_list_2: List[_OTRawType],
-              side: Literal['left', 'right']) -> List[_OTRawType]:
+def transform(
+    ot_raw_list_1: List[_OTRawType],
+    ot_raw_list_2: List[_OTRawType],
+    side: Literal['left', 'right'],
+) -> List[_OTRawType]:
     '''Transform `ot_raw_list_1` by `ot_raw_list_2`
 
     Transform `ot_raw_list_1` to have same meaning when `ot_raw_list_2` is applied
@@ -381,8 +377,10 @@ def transform(ot_raw_list_1: List[_OTRawType],
 
             n = len(ot_arg)
 
-            if (side == 'left'
-                    and taker.peak_action() == _OTTypeActionInsert):
+            if (
+                side == 'left'
+                and taker.peak_action() == _OTTypeActionInsert
+            ):
                 appender.append(taker.take(-1))
 
             appender.append((_OTTypeActionSkip, n))
@@ -419,8 +417,7 @@ def transform(ot_raw_list_1: List[_OTRawType],
     return _to_ot_raw_list(new_ots)
 
 
-def compose(ot_raw_list_1: List[_OTRawType],
-            ot_raw_list_2: List[_OTRawType]) -> List[_OTRawType]:
+def compose(ot_raw_list_1: List[_OTRawType], ot_raw_list_2: List[_OTRawType]) -> List[_OTRawType]:
     '''Compose `ot_raw_list_1` and `ot_raw_list_2`
 
     The result of compose satisfies
@@ -494,9 +491,11 @@ def compose(ot_raw_list_1: List[_OTRawType],
                     assert isinstance(chunk_ot_arg, str)
 
                     if chunk_ot_arg != ot_arg[offset:offset + len(chunk_ot_arg)]:
-                        raise ValueError('inconsistent delete in the seconds OTs (doc, OT.arg)',
-                                         chunk_ot_arg,
-                                         ot_arg[offset:offset + len(chunk_ot_arg)])
+                        raise ValueError(
+                            'inconsistent delete in the seconds OTs (doc, OT.arg)',
+                            chunk_ot_arg,
+                            ot_arg[offset:offset + len(chunk_ot_arg)],
+                        )
                     offset += len(chunk_ot_arg)
                     n -= len(chunk_ot_arg)
 

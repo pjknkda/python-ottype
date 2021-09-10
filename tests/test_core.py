@@ -359,3 +359,53 @@ def test_compose_fuzz(core_impl) -> None:  # type:ignore
         )
 
         assert doc_3 == doc_3_composed
+
+
+def test_complex_fuzz(core_impl) -> None:  # type:ignore
+    if TYPE_CHECKING:
+        from ottype import core as core_impl
+
+    apply = core_impl.apply
+    compose = core_impl.compose
+    normalize = core_impl.normalize
+    transform = core_impl.transform
+
+    for _ in range(FUZZ_TEST_COUNT):
+        # Situation: A local editor receives `server_ot_raw_list_2` from a server
+        #            while the editor holds `local_ot_raw_list_1` and `local_ot_raw_list_1a` in a buffer
+        #            that is not sended to the server. How does the editor transform the buffer?
+
+        doc = utils.make_random_doc(FUZZ_TEST_INIT_DOC_LENGTH)
+        local_ot_raw_list_1 = utils.make_random_ots(normalize, doc, FUZZ_TEST_OTS_LENGTH)
+        local_ot_raw_list_1a = utils.make_random_ots(normalize, apply(doc, local_ot_raw_list_1), FUZZ_TEST_OTS_LENGTH)
+
+        server_ot_raw_list_2 = utils.make_random_ots(normalize, doc, FUZZ_TEST_OTS_LENGTH)
+
+        left_first_doc = apply(
+            apply(
+                apply(doc, local_ot_raw_list_1),
+                local_ot_raw_list_1a
+            ),
+            transform(
+                server_ot_raw_list_2,
+                compose(
+                    local_ot_raw_list_1,
+                    local_ot_raw_list_1a
+                ),
+                'left'
+            )
+        )
+
+        right_first_doc = apply(
+            apply(doc, server_ot_raw_list_2),
+            transform(
+                compose(
+                    local_ot_raw_list_1,
+                    local_ot_raw_list_1a
+                ),
+                server_ot_raw_list_2,
+                'right'
+            )
+        )
+
+        assert left_first_doc == right_first_doc

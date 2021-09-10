@@ -234,9 +234,11 @@ def apply(str doc not None, list ot_raw_list not None):
             ot_arg_as_str = <str>ot_arg
 
             if doc[pos:pos + len(ot_arg_as_str)] != ot_arg_as_str:
-                raise ValueError('inconsistent delete (doc, OT.arg)',
-                                 doc[pos:pos + len(ot_arg_as_str)],
-                                 ot_arg_as_str)
+                raise ValueError(
+                    'inconsistent delete (doc, OT.arg)',
+                    doc[pos:pos + len(ot_arg_as_str)],
+                    ot_arg_as_str,
+                )
             pos += len(ot_arg_as_str)
 
     new_doc.append(doc[pos:])
@@ -289,9 +291,11 @@ def inverse_apply(str doc not None, list ot_raw_list not None):
             ot_arg_as_str = <str>ot_arg
 
             if doc[last_pos - len(ot_arg_as_str):last_pos] != ot_arg_as_str:
-                raise ValueError('inconsistent delete (doc, OT.arg)',
-                                 doc[last_pos - len(ot_arg_as_str):last_pos],
-                                 ot_arg_as_str)
+                raise ValueError(
+                    'inconsistent delete (doc, OT.arg)',
+                    doc[last_pos - len(ot_arg_as_str):last_pos],
+                    ot_arg_as_str,
+                )
             last_pos -= len(ot_arg_as_str)
 
         elif ot_action == OTTypeAction.delete:
@@ -368,8 +372,10 @@ def transform(list ot_raw_list_1 not None, list ot_raw_list_2 not None, str side
         elif ot_action == OTTypeAction.insert:
             n = len(<str>ot_arg)
 
-            if (side == 'left'
-                    and taker.peak_action() == OTTypeAction.insert):
+            if (
+                side == 'left'
+                and taker.peak_action() == OTTypeAction.insert
+            ):
                 appender.append(taker.take(-1))
 
             appender.append((OTTypeAction.skip, n))
@@ -469,9 +475,11 @@ def compose(list ot_raw_list_1 not None, list ot_raw_list_2 not None):
                     chunk_ot_arg_as_str = <str>chunk_ot_arg
 
                     if chunk_ot_arg_as_str != ot_arg_as_str[offset:offset + len(chunk_ot_arg_as_str)]:
-                        raise ValueError('inconsistent delete in the seconds OTs (doc, OT.arg)',
-                                         chunk_ot_arg_as_str,
-                                         ot_arg_as_str[offset:offset + len(chunk_ot_arg_as_str)])
+                        raise ValueError(
+                            'inconsistent delete in the seconds OTs (doc, OT.arg)',
+                            chunk_ot_arg_as_str,
+                            ot_arg_as_str[offset:offset + len(chunk_ot_arg_as_str)],
+                        )
                     offset += len(chunk_ot_arg_as_str)
                     n -= len(chunk_ot_arg_as_str)
 

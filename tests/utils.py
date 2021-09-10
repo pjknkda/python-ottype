@@ -12,10 +12,12 @@ def make_random_doc(amount: int) -> str:
     return ''.join(random.choices(string.ascii_letters, k=amount))
 
 
-def make_random_ots(normalize: Callable[[OTRawListType], OTRawListType],
-                    doc: str,
-                    n: int,
-                    ids_weights: Tuple[float, float, float] = (0.4, 0.4, 0.2)) -> OTRawListType:
+def make_random_ots(
+    normalize: Callable[[OTRawListType], OTRawListType],
+    doc: str,
+    n: int,
+    ids_weights: Tuple[float, float, float] = (0.4, 0.4, 0.2)
+) -> OTRawListType:
     offset = 0
     ot_raw_list: List[Union[int, str, dict]] = []
     for _ in range(n):
