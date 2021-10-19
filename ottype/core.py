@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, NewType, Optional, Tuple, Union
+from typing import TYPE_CHECKING, Dict, List, NewType, Optional, Tuple, Union
 
 if TYPE_CHECKING:
     from typing_extensions import Literal
@@ -16,7 +16,7 @@ _OTTypeActionDelete = _OTTypeAction(3)
 _OTType = Tuple[_OTTypeAction, Union[int, str]]
 
 
-_OTRawType = Union[int, str, dict]
+_OTRawType = Union[int, str, Dict[str, str]]
 
 
 def _resolve_ot(ot_raw: _OTRawType) -> _OTType:
@@ -188,7 +188,7 @@ def check(ot_raw_list: List[_OTRawType], *, check_unoptimized: bool = True) -> b
     return True
 
 
-def apply(doc: str, ot_raw_list: List[_OTRawType]) -> str:
+def apply(doc: str, ot_raw_list: List[_OTRawType], *, check_unoptimized: bool = True) -> str:
     '''Apply ots to doc
     '''
 
@@ -198,7 +198,7 @@ def apply(doc: str, ot_raw_list: List[_OTRawType]) -> str:
     if not isinstance(ot_raw_list, list):
         raise TypeError('`ot_raw_list` must be list')
 
-    if not check(ot_raw_list):
+    if not check(ot_raw_list, check_unoptimized=check_unoptimized):
         raise ValueError('invalid OTs')
 
     new_doc = []
@@ -231,7 +231,7 @@ def apply(doc: str, ot_raw_list: List[_OTRawType]) -> str:
     return ''.join(new_doc)
 
 
-def inverse_apply(doc: str, ot_raw_list: List[_OTRawType]) -> str:
+def inverse_apply(doc: str, ot_raw_list: List[_OTRawType], *, check_unoptimized: bool = True) -> str:
     '''Inversely apply ots to doc
     '''
 
@@ -241,7 +241,7 @@ def inverse_apply(doc: str, ot_raw_list: List[_OTRawType]) -> str:
     if not isinstance(ot_raw_list, list):
         raise TypeError('`ot_raw_list` must be list')
 
-    if not check(ot_raw_list):
+    if not check(ot_raw_list, check_unoptimized=check_unoptimized):
         raise ValueError('invalid OTs')
 
     ots = _make_iter_ots(ot_raw_list)

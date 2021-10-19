@@ -54,7 +54,7 @@ assert apply('asdf', [1, {'d': 'sd'}]) == 'af'
 ## Supported Functions
 
 ```python
-OT = Union[int, str, dict]
+OT = Union[int, str, Dict[str, str]]
 ```
 
 ### `check(ots: List[OT], *, check_unoptimized: bool = True) -> bool`
@@ -67,7 +67,7 @@ assert not check(['a', 'b'])  # is not normalized
 assert not check([3])  # is not normalized
 ```
 
-### `apply(doc: str, ots: List[OT]) -> str`
+### `apply(doc: str, ots: List[OT], *, check_unoptimized: bool = True) -> str`
 
 Apply a list of OTs to a string.
 
@@ -75,7 +75,7 @@ Apply a list of OTs to a string.
 assert apply('abcde', [2, 'qq', {'d': 'c'}, 1, 'w']) == 'abqqdwe'
 ```
 
-### `inverse_apply(doc: str, ots: List[OT]) -> str`
+### `inverse_apply(doc: str, ots: List[OT], *, check_unoptimized: bool = True) -> str`
 
 Inversely apply a list of OTs to a string.
 

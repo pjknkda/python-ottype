@@ -27,6 +27,7 @@ except ImportError:
     NO_EXTENSIONS = True
 
 dev_install_requires = [
+    'autopep8==1.5.7',
     'bandit==1.7.0',
     'Cython==0.29.24',
     'flake8==3.9.2',
@@ -54,7 +55,7 @@ setup(
     keywords='ottype',
 
     author='Jungkook Park',
-    author_email='jk@elicer.com',
+    author_email='pjknkda@gmail.com',
     url='https://github.com/pjknkda/python-ottype',
     license='MIT',
 
@@ -62,7 +63,7 @@ setup(
     package_data={'ottype': ['py.typed']},
     zip_safe=False,
 
-    python_requires='>=3.7, <3.10',
+    python_requires='>=3.7, <3.11',
 
     extras_require={'dev': dev_install_requires},
 
@@ -78,6 +79,7 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3 :: Only',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],

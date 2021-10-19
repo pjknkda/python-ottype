@@ -7,7 +7,7 @@ from .core import inverse_apply as _inverse_apply_py
 from .core import normalize as _normalize_py
 from .core import transform as _transform_py
 
-__version__ = '20.5.1'
+__version__ = '21.10.0'
 
 NO_EXTENSIONS = bool(os.environ.get('OTTYPE_NO_EXTENSIONS'))
 

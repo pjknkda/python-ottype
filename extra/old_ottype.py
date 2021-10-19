@@ -31,15 +31,6 @@ def _make_op(op_type, op_arg):
     return None
 
 
-def _op_length(op):
-    op_type, op_arg = _resolve_op(op)
-    if op_type == OP_SKIP:
-        return op_arg
-    elif op_type == OP_DELETE or op_type == OP_INSERT:
-        return len(op_arg)
-    return None
-
-
 def check(ops):
     if not isinstance(ops, list):
         return False
@@ -215,9 +206,7 @@ def apply(doc, ops):
         elif op_type == OP_DELETE:
             if doc[:len(op_arg)] != op_arg:
                 # race condition : deleting text was changed by others
-                raise ValueError('inconsistent delete',
-                                 doc[:len(op_arg)],
-                                 op_arg)
+                raise ValueError('inconsistent delete', doc[:len(op_arg)], op_arg)
 
             doc = doc[len(op_arg):]
 
@@ -264,9 +253,7 @@ def inverse_apply(doc, ops):
 
         elif op_type == OP_INSERT:
             if doc[-len(op_arg):] != op_arg:
-                raise ValueError('inconsistent state',
-                                 doc[-len(op_arg):],
-                                 op_arg)
+                raise ValueError('inconsistent state', doc[-len(op_arg):], op_arg)
 
             doc = doc[:-len(op_arg)]
 

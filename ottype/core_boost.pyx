@@ -175,7 +175,7 @@ cdef void _trim(list ots):
         ots.pop()
 
 
-def check(list ot_raw_list not None, bool check_unoptimized not None = True):
+def check(list ot_raw_list not None, *, bool check_unoptimized not None = True):
     cdef:
         OTTypeAction last_ot_action
         OTTypeAction ot_action
@@ -199,7 +199,7 @@ def check(list ot_raw_list not None, bool check_unoptimized not None = True):
     return True
 
 
-def apply(str doc not None, list ot_raw_list not None):
+def apply(str doc not None, list ot_raw_list not None, *, bool check_unoptimized not None = True):
     cdef:
         list new_doc
         int pos
@@ -209,7 +209,7 @@ def apply(str doc not None, list ot_raw_list not None):
         int ot_arg_as_int
         str ot_arg_as_str
 
-    if not check(ot_raw_list):
+    if not check(ot_raw_list, check_unoptimized=check_unoptimized):
         raise ValueError('invalid OTs')
 
     new_doc = []
@@ -246,7 +246,7 @@ def apply(str doc not None, list ot_raw_list not None):
     return ''.join(new_doc)
 
 
-def inverse_apply(str doc not None, list ot_raw_list not None):
+def inverse_apply(str doc not None, list ot_raw_list not None, *, bool check_unoptimized not None = True):
     cdef:
         list ot_list
 
@@ -258,7 +258,7 @@ def inverse_apply(str doc not None, list ot_raw_list not None):
         int ot_arg_as_int
         str ot_arg_as_str
 
-    if not check(ot_raw_list):
+    if not check(ot_raw_list, check_unoptimized=check_unoptimized):
         raise ValueError('invalid OTs')
 
     ot_list = _make_iter_ots(ot_raw_list)
