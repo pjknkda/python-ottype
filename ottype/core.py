@@ -15,42 +15,52 @@ _OTTypeActionDelete = _OTTypeAction(3)
 
 _OTType = Tuple[_OTTypeAction, Union[int, str]]
 
+_OTRawInputType = Union[int, str, Dict[str, str], Tuple[int, Union[int, str]]]
+_OTRawInputList = Union[List[_OTRawInputType], Tuple[_OTRawInputType]]
 
-_OTRawType = Union[int, str, Dict[str, str]]
+_OTRawOutputType = Union[int, str, Dict[str, str]]
 
 
-def _resolve_ot(ot_raw: _OTRawType) -> _OTType:
+def _resolve_ot(ot_raw: _OTRawInputType) -> _OTType:
     if isinstance(ot_raw, int):
         if ot_raw <= 0:
-            raise ValueError('invalid OTSkip')
+            raise ValueError('invalid OT-Skip')
         return (_OTTypeActionSkip, ot_raw)
     elif isinstance(ot_raw, str):
         if ot_raw == '':
-            raise ValueError('invalid OTInsert')
+            raise ValueError('invalid OT-Insert')
         return (_OTTypeActionInsert, ot_raw)
     elif isinstance(ot_raw, dict):
-        s = ot_raw.get('d', '')
+        s = ot_raw.get('d')
         if not isinstance(s, str) or s == '':
-            raise ValueError('invalid OTDelete')
+            raise ValueError('invalid OT-Delete')
         return (_OTTypeActionDelete, s)
+    elif isinstance(ot_raw, tuple):
+        if len(ot_raw) == 2:
+            ot_action, ot_arg = ot_raw
+            if ot_action == 1:
+                assert isinstance(ot_arg, int)
+                if ot_arg <= 0:
+                    raise ValueError('invalid OT-Skip')
+                return ot_raw  # type: ignore
+            elif ot_action == 2:
+                assert isinstance(ot_arg, str)
+                if ot_arg == '':
+                    raise ValueError('invalid OT-Insert')
+                return ot_raw  # type: ignore
+            elif ot_action == 3:
+                assert isinstance(ot_arg, str)
+                if ot_arg == '':
+                    raise ValueError('invalid OT-Delete')
+                return ot_raw  # type: ignore
 
     raise ValueError('unexpected OT structure')
 
 
-def _make_iter_ots(ot_raw_list: List[_OTRawType]) -> List[_OTType]:
-    ots = []
-    try:
-        for ot_raw in ot_raw_list:
-            ots.append(_resolve_ot(ot_raw))
-    except ValueError:
-        pass
-    return ots
-
-
-def _to_ot_raw_list(ots: List[_OTType]) -> List[_OTRawType]:
+def _to_ot_raw_list(ots: List[_OTType]) -> List[_OTRawOutputType]:
     ot_raw_list = []
     for ot_action, ot_arg in ots:
-        ot_raw: _OTRawType
+        ot_raw: _OTRawOutputType
 
         if ot_action == _OTTypeActionSkip:
             assert isinstance(ot_arg, int)
@@ -63,6 +73,9 @@ def _to_ot_raw_list(ots: List[_OTType]) -> List[_OTRawType]:
         elif ot_action == _OTTypeActionDelete:
             assert isinstance(ot_arg, str)
             ot_raw = {'d': ot_arg}
+
+        else:
+            raise ValueError('unexpected OT')
 
         ot_raw_list.append(ot_raw)
 
@@ -101,19 +114,19 @@ class _Appender:
 
 
 class _Taker:
-    def __init__(self, ots: List[_OTType]) -> None:
-        self.ots = ots
+    def __init__(self, ot_raw_list: _OTRawInputList) -> None:
+        self.ot_raw_list = ot_raw_list
 
         self._idx = 0
         self._offset = 0
 
     def take(self, n: int, indivisable: Optional[Literal['d', 'i']] = None) -> Optional[_OTType]:
-        if self._idx == len(self.ots):
+        if self._idx == len(self.ot_raw_list):
             if n == -1:
                 return None
             return (_OTTypeActionSkip, n)
 
-        ot_action, ot_arg = self.ots[self._idx]
+        ot_action, ot_arg = _resolve_ot(self.ot_raw_list[self._idx])
         ret_ot: Optional[_OTType] = None
 
         if ot_action == _OTTypeActionSkip:
@@ -149,8 +162,8 @@ class _Taker:
         return ret_ot
 
     def peak_action(self) -> _OTTypeAction:
-        if 0 <= self._idx < len(self.ots):
-            return self.ots[self._idx][0]
+        if 0 <= self._idx < len(self.ot_raw_list):
+            return _resolve_ot(self.ot_raw_list[self._idx])[0]
         return _OTTypeActionNop
 
 
@@ -164,20 +177,20 @@ def _trim(ots: List[_OTType]) -> None:
         ots.pop()
 
 
-def check(ot_raw_list: List[_OTRawType], *, check_unoptimized: bool = True) -> bool:
-    if not isinstance(ot_raw_list, list):
-        raise TypeError('`ot_raw_list` must be list')
+def check(ot_raw_list: _OTRawInputList, *, check_unoptimized: bool = True) -> bool:
+    if not isinstance(ot_raw_list, (list, tuple)):
+        raise TypeError('`ot_raw_list` must be a list or tuple')
 
     last_ot_action = _OTTypeActionNop
     try:
         for ot_raw in ot_raw_list:
-            resolved_ot = _resolve_ot(ot_raw)
+            ot_action = _resolve_ot(ot_raw)[0]
 
-            if check_unoptimized and last_ot_action == resolved_ot[0]:
+            if check_unoptimized and last_ot_action == ot_action:
                 # un-optimized ots
                 return False
 
-            last_ot_action = resolved_ot[0]
+            last_ot_action = ot_action
 
     except (ValueError, TypeError):
         return False
@@ -188,15 +201,20 @@ def check(ot_raw_list: List[_OTRawType], *, check_unoptimized: bool = True) -> b
     return True
 
 
-def apply(doc: str, ot_raw_list: List[_OTRawType], *, check_unoptimized: bool = True) -> str:
+def apply(
+    doc: str,
+    ot_raw_list: _OTRawInputList,
+    *,
+    check_unoptimized: bool = True,
+) -> str:
     '''Apply ots to doc
     '''
 
     if not isinstance(doc, str):
         raise TypeError('`doc` must be string')
 
-    if not isinstance(ot_raw_list, list):
-        raise TypeError('`ot_raw_list` must be list')
+    if not isinstance(ot_raw_list, (list, tuple)):
+        raise TypeError('`ot_raw_list` must be a list or tuple')
 
     if not check(ot_raw_list, check_unoptimized=check_unoptimized):
         raise ValueError('invalid OTs')
@@ -204,7 +222,9 @@ def apply(doc: str, ot_raw_list: List[_OTRawType], *, check_unoptimized: bool = 
     new_doc = []
     pos = 0
 
-    for ot_action, ot_arg in _make_iter_ots(ot_raw_list):
+    for ot_raw in ot_raw_list:
+        ot_action, ot_arg = _resolve_ot(ot_raw)
+
         if ot_action == _OTTypeActionSkip:
             assert isinstance(ot_arg, int)
 
@@ -231,23 +251,28 @@ def apply(doc: str, ot_raw_list: List[_OTRawType], *, check_unoptimized: bool = 
     return ''.join(new_doc)
 
 
-def inverse_apply(doc: str, ot_raw_list: List[_OTRawType], *, check_unoptimized: bool = True) -> str:
+def inverse_apply(
+    doc: str,
+    ot_raw_list: _OTRawInputList,
+    *,
+    check_unoptimized: bool = True,
+) -> str:
     '''Inversely apply ots to doc
     '''
 
     if not isinstance(doc, str):
         raise TypeError('`doc` must be string')
 
-    if not isinstance(ot_raw_list, list):
-        raise TypeError('`ot_raw_list` must be list')
+    if not isinstance(ot_raw_list, (list, tuple)):
+        raise TypeError('`ot_raw_list` must be a list or tuple')
 
     if not check(ot_raw_list, check_unoptimized=check_unoptimized):
         raise ValueError('invalid OTs')
 
-    ots = _make_iter_ots(ot_raw_list)
-
     last_pos = 0
-    for ot_action, ot_arg in ots:
+    for ot_raw in ot_raw_list:
+        ot_action, ot_arg = _resolve_ot(ot_raw)
+
         if ot_action == _OTTypeActionSkip:
             assert isinstance(ot_arg, int)
             last_pos += ot_arg
@@ -264,7 +289,9 @@ def inverse_apply(doc: str, ot_raw_list: List[_OTRawType], *, check_unoptimized:
 
     old_doc = [doc[last_pos:]]
 
-    for ot_action, ot_arg in reversed(ots):
+    for ot_raw in reversed(ot_raw_list):
+        ot_action, ot_arg = _resolve_ot(ot_raw)
+
         if ot_action == _OTTypeActionSkip:
             assert isinstance(ot_arg, int)
 
@@ -288,19 +315,22 @@ def inverse_apply(doc: str, ot_raw_list: List[_OTRawType], *, check_unoptimized:
     return ''.join(reversed(old_doc))
 
 
-def normalize(ot_raw_list: List[_OTRawType]) -> List[_OTRawType]:
+def normalize(ot_raw_list: _OTRawInputList) -> List[_OTRawOutputType]:
     '''Normalize ots
 
     Merge consecutive operations and trim the result.
     '''
+
+    if not isinstance(ot_raw_list, (list, tuple)):
+        raise TypeError('`ot_raw_list` must be a list or tuple')
 
     if not check(ot_raw_list, check_unoptimized=False):
         raise ValueError('invalid OTs')
 
     new_ots: List[_OTType] = []
     appender = _Appender(new_ots)
-    for ot in _make_iter_ots(ot_raw_list):
-        appender.append(ot)
+    for ot_raw in ot_raw_list:
+        appender.append(_resolve_ot(ot_raw))
 
     _trim(new_ots)
 
@@ -308,10 +338,10 @@ def normalize(ot_raw_list: List[_OTRawType]) -> List[_OTRawType]:
 
 
 def transform(
-    ot_raw_list_1: List[_OTRawType],
-    ot_raw_list_2: List[_OTRawType],
+    ot_raw_list_1: _OTRawInputList,
+    ot_raw_list_2: _OTRawInputList,
     side: Literal['left', 'right'],
-) -> List[_OTRawType]:
+) -> List[_OTRawOutputType]:
     '''Transform `ot_raw_list_1` by `ot_raw_list_2`
 
     Transform `ot_raw_list_1` to have same meaning when `ot_raw_list_2` is applied
@@ -330,11 +360,11 @@ def transform(
             == apply(apply(doc, server_ots), transform(local_ots, server_ots, 'right'))
     '''
 
-    if not isinstance(ot_raw_list_1, list):
-        raise TypeError('`ot_raw_list_1` must be list')
+    if not isinstance(ot_raw_list_1, (list, tuple)):
+        raise TypeError('`ot_raw_list_1` must be a list or tuple')
 
-    if not isinstance(ot_raw_list_2, list):
-        raise TypeError('`ot_raw_list_2` must be list')
+    if not isinstance(ot_raw_list_2, (list, tuple)):
+        raise TypeError('`ot_raw_list_2` must be a list or tuple')
 
     if not isinstance(side, str):
         raise TypeError('`side` must be str')
@@ -347,9 +377,11 @@ def transform(
 
     new_ots: List[_OTType] = []
     appender = _Appender(new_ots)
-    taker = _Taker(_make_iter_ots(ot_raw_list_1))
+    taker = _Taker(ot_raw_list_1)
 
-    for ot_action, ot_arg in _make_iter_ots(ot_raw_list_2):
+    for ot_raw in ot_raw_list_2:
+        ot_action, ot_arg = _resolve_ot(ot_raw)
+
         if ot_action == _OTTypeActionSkip:
             assert isinstance(ot_arg, int)
 
@@ -417,7 +449,10 @@ def transform(
     return _to_ot_raw_list(new_ots)
 
 
-def compose(ot_raw_list_1: List[_OTRawType], ot_raw_list_2: List[_OTRawType]) -> List[_OTRawType]:
+def compose(
+    ot_raw_list_1: _OTRawInputList,
+    ot_raw_list_2: _OTRawInputList,
+) -> List[_OTRawOutputType]:
     '''Compose `ot_raw_list_1` and `ot_raw_list_2`
 
     The result of compose satisfies
@@ -425,21 +460,21 @@ def compose(ot_raw_list_1: List[_OTRawType], ot_raw_list_2: List[_OTRawType]) ->
         apply(apply(doc, ot_raw_list_1), ot_raw_list_2) == apply(doc, compose(ot_raw_list_1, ot_raw_list_2))
     '''
 
-    if not isinstance(ot_raw_list_1, list):
-        raise TypeError('`ot_raw_list_1` must be list')
+    if not isinstance(ot_raw_list_1, (list, tuple)):
+        raise TypeError('`ot_raw_list_1` must be a list or tuple')
 
-    if not isinstance(ot_raw_list_2, list):
-        raise TypeError('`ot_raw_list_2` must be list')
+    if not isinstance(ot_raw_list_2, (list, tuple)):
+        raise TypeError('`ot_raw_list_2` must be a list or tuple')
 
     if not check(ot_raw_list_1) or not check(ot_raw_list_2):
         raise ValueError('invalid OTs')
 
     new_ots: List[_OTType] = []
     appender = _Appender(new_ots)
-    taker = _Taker(_make_iter_ots(ot_raw_list_1))
+    taker = _Taker(ot_raw_list_1)
 
-    for ot in _make_iter_ots(ot_raw_list_2):
-        ot_action, ot_arg = ot
+    for ot_raw in ot_raw_list_2:
+        ot_action, ot_arg = ot = _resolve_ot(ot_raw)
 
         if ot_action == _OTTypeActionSkip:
             assert isinstance(ot_arg, int)

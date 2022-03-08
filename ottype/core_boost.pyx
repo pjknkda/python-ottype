@@ -2,46 +2,46 @@
 from cpython cimport *
 
 cdef enum OTTypeAction:
-    nop, skip, insert, delete
+    nop = 0, skip = 1, insert = 2, delete = 3
 
 
-cdef inline tuple _resolve_ot(object ot_raw):
+def  _resolve_ot(object ot_raw):
     if isinstance(ot_raw, int):
         if ot_raw <= 0:
-            raise ValueError('invalid OTSkip')
+            raise ValueError('invalid OT-Skip')
         return OTTypeAction.skip, ot_raw
     elif isinstance(ot_raw, str):
         if ot_raw == '':
-            raise ValueError('invalid OTInsert')
+            raise ValueError('invalid OT-Insert')
         return OTTypeAction.insert, ot_raw
     elif isinstance(ot_raw, dict):
-        s = ot_raw.get('d', '')
+        s = ot_raw.get('d')
         if not isinstance(s, str) or s == '':
-            raise ValueError('invalid OTDelete')
+            raise ValueError('invalid OT-Delete')
         return OTTypeAction.delete, s
+    elif isinstance(ot_raw, tuple):
+        if len(ot_raw) == 2:
+            ot_action, ot_arg = ot_raw
+            if ot_action == 1:
+                assert isinstance(ot_arg, int)
+                if ot_arg <= 0:
+                    raise ValueError('invalid OT-Skip')
+                return ot_raw
+            elif ot_action == 2:
+                assert isinstance(ot_arg, str)
+                if ot_arg == '':
+                    raise ValueError('invalid OT-Insert')
+                return ot_raw
+            elif ot_action == 3:
+                assert isinstance(ot_arg, str)
+                if ot_arg == '':
+                    raise ValueError('invalid OT-Delete')
+                return ot_raw
 
     raise ValueError('unexpected OT structure')
 
 
-cdef inline list _make_iter_ots(list ot_raw_list):
-    cdef:
-        Py_ssize_t ots_length, i
-
-    ots_length = PyList_Size(ot_raw_list)
-    ots = PyList_New(ots_length)
-
-    try:
-        for i in range(ots_length):
-            resolved_ot = _resolve_ot(<object>PyList_GET_ITEM(ot_raw_list, i))
-            Py_INCREF(resolved_ot)
-            PyList_SET_ITEM(ots, i, resolved_ot)
-    except ValueError:
-        pass
-
-    return ots
-
-
-cdef inline list _to_ot_raw_list(list ots):
+def _to_ot_raw_list(list ots):
     cdef:
         Py_ssize_t ots_length, i
         OTTypeAction ot_action
@@ -72,7 +72,7 @@ cdef class _Appender:
     def __init__(self, list ots):
         self.ots = ots
 
-    cdef void append(self, tuple ot):
+    def append(self, tuple ot):
         cdef:
             OTTypeAction last_ot_action
             object last_ot_arg
@@ -112,8 +112,7 @@ cdef class _Taker:
         self._idx = 0
         self._offset = 0
 
-    cdef tuple take(self, int n, int indivisable = 0):
-        # NOTE : indivisable (0 -> None, 1 -> Insert, 2 -> Delete)
+    def take(self, int n, str indivisable = None):
         cdef:
             tuple ret_ot
             OTTypeAction ot_action
@@ -126,7 +125,7 @@ cdef class _Taker:
                 return None
             return (OTTypeAction.skip, n)
 
-        ot_action, ot_arg = self.ots[self._idx]
+        ot_action, ot_arg = _resolve_ot(self.ots[self._idx])
         ret_ot = None
 
         if ot_action == OTTypeAction.skip:
@@ -143,7 +142,7 @@ cdef class _Taker:
         elif ot_action == OTTypeAction.insert:
             ot_arg_as_str = <str>ot_arg
 
-            if n == -1 or indivisable == 1 or len(ot_arg_as_str) - self._offset <= n:
+            if n == -1 or indivisable == 'i' or len(ot_arg_as_str) - self._offset <= n:
                 ret_ot = (OTTypeAction.insert, ot_arg_as_str[self._offset:])
                 self._idx += 1
                 self._offset = 0
@@ -154,7 +153,7 @@ cdef class _Taker:
         elif ot_action == OTTypeAction.delete:
             ot_arg_as_str = <str>ot_arg
 
-            if n == -1 or indivisable == 2 or len(ot_arg_as_str) - self._offset <= n:
+            if n == -1 or indivisable == 'd' or len(ot_arg_as_str) - self._offset <= n:
                 ret_ot = (OTTypeAction.delete, ot_arg_as_str[self._offset:])
                 self._idx += 1
                 self._offset = 0
@@ -164,13 +163,13 @@ cdef class _Taker:
 
         return ret_ot
 
-    cdef OTTypeAction peak_action(self):
+    def peak_action(self):
         if 0 <= self._idx < len(self.ots):
-            return self.ots[self._idx][0]
+            return _resolve_ot(self.ots[self._idx])[0]
         return OTTypeAction.nop
 
 
-cdef void _trim(list ots):
+def _trim(list ots not None):
     if ots and ots[-1][0] == OTTypeAction.skip:
         ots.pop()
 
@@ -199,7 +198,7 @@ def check(list ot_raw_list not None, *, bool check_unoptimized not None = True):
     return True
 
 
-def apply(str doc not None, list ot_raw_list not None, *, bool check_unoptimized not None = True):
+def apply(str doc not None, object ot_raw_list not None, *, bool check_unoptimized not None = True):
     cdef:
         list new_doc
         int pos
@@ -209,13 +208,18 @@ def apply(str doc not None, list ot_raw_list not None, *, bool check_unoptimized
         int ot_arg_as_int
         str ot_arg_as_str
 
+    if not isinstance(ot_raw_list, (list, tuple)):
+        raise TypeError('`ot_raw_list` must be a list or tuple')
+
     if not check(ot_raw_list, check_unoptimized=check_unoptimized):
         raise ValueError('invalid OTs')
 
     new_doc = []
     pos = 0
 
-    for ot_action, ot_arg in _make_iter_ots(ot_raw_list):
+    for ot_raw in ot_raw_list:
+        ot_action, ot_arg = _resolve_ot(ot_raw)
+
         if ot_action == OTTypeAction.skip:
             ot_arg_as_int = <int>ot_arg
 
@@ -246,7 +250,7 @@ def apply(str doc not None, list ot_raw_list not None, *, bool check_unoptimized
     return ''.join(new_doc)
 
 
-def inverse_apply(str doc not None, list ot_raw_list not None, *, bool check_unoptimized not None = True):
+def inverse_apply(str doc not None, object ot_raw_list not None, *, bool check_unoptimized not None = True):
     cdef:
         list ot_list
 
@@ -258,14 +262,17 @@ def inverse_apply(str doc not None, list ot_raw_list not None, *, bool check_uno
         int ot_arg_as_int
         str ot_arg_as_str
 
+    if not isinstance(ot_raw_list, (list, tuple)):
+        raise TypeError('`ot_raw_list` must be a list or tuple')
+
     if not check(ot_raw_list, check_unoptimized=check_unoptimized):
         raise ValueError('invalid OTs')
 
-    ot_list = _make_iter_ots(ot_raw_list)
-
     last_pos = 0
 
-    for ot_action, ot_arg in ot_list:
+    for ot_raw in ot_raw_list:
+        ot_action, ot_arg = _resolve_ot(ot_raw)
+
         if ot_action == OTTypeAction.skip:
             last_pos += <int>ot_arg
 
@@ -280,7 +287,9 @@ def inverse_apply(str doc not None, list ot_raw_list not None, *, bool check_uno
 
     old_doc = [doc[last_pos:]]
 
-    for ot_action, ot_arg in reversed(ot_list):
+    for ot_raw in reversed(ot_raw_list):
+        ot_action, ot_arg = _resolve_ot(ot_raw)
+
         if ot_action == OTTypeAction.skip:
             ot_arg_as_int = <int>ot_arg
 
@@ -308,24 +317,27 @@ def inverse_apply(str doc not None, list ot_raw_list not None, *, bool check_uno
     return ''.join(reversed(old_doc))
 
 
-def normalize(list ot_raw_list not None):
+def normalize(object ot_raw_list not None):
     cdef:
         list new_ots
+
+    if not isinstance(ot_raw_list, (list, tuple)):
+        raise TypeError('`ot_raw_list` must be a list or tuple')
 
     if not check(ot_raw_list, check_unoptimized=False):
         raise ValueError('invalid OTs')
 
     new_ots = []
     appender = _Appender(new_ots)
-    for ot in _make_iter_ots(ot_raw_list):
-        appender.append(ot)
+    for ot_raw in ot_raw_list:
+        appender.append(_resolve_ot(ot_raw))
 
     _trim(new_ots)
 
     return _to_ot_raw_list(new_ots)
 
 
-def transform(list ot_raw_list_1 not None, list ot_raw_list_2 not None, str side not None):
+def transform(object ot_raw_list_1 not None, object ot_raw_list_2 not None, str side not None):
     cdef:
         list new_ots
         _Appender appender
@@ -339,6 +351,12 @@ def transform(list ot_raw_list_1 not None, list ot_raw_list_2 not None, str side
         OTTypeAction chunk_ot_action
         object chunk_ot_arg
 
+    if not isinstance(ot_raw_list_1, (list, tuple)):
+        raise TypeError('`ot_raw_list_1` must be a list or tuple')
+
+    if not isinstance(ot_raw_list_2, (list, tuple)):
+        raise TypeError('`ot_raw_list_2` must be a list or tuple')
+
     if not check(ot_raw_list_1) or not check(ot_raw_list_2):
         raise ValueError('invalid OTs')
 
@@ -347,14 +365,16 @@ def transform(list ot_raw_list_1 not None, list ot_raw_list_2 not None, str side
 
     new_ots = []
     appender = _Appender(new_ots)
-    taker = _Taker(list(_make_iter_ots(ot_raw_list_1)))
+    taker = _Taker(ot_raw_list_1)
 
-    for ot_action, ot_arg in _make_iter_ots(ot_raw_list_2):
+    for ot_raw in ot_raw_list_2:
+        ot_action, ot_arg = _resolve_ot(ot_raw)
+
         if ot_action == OTTypeAction.skip:
             n = <int>ot_arg
 
             while 0 < n:
-                chunk_ot = taker.take(n, 1)
+                chunk_ot = taker.take(n, 'i')
                 appender.append(chunk_ot)
 
                 if chunk_ot is None:
@@ -384,7 +404,7 @@ def transform(list ot_raw_list_1 not None, list ot_raw_list_2 not None, str side
             n = len(<str>ot_arg)
 
             while 0 < n:
-                chunk_ot = taker.take(n, 1)
+                chunk_ot = taker.take(n, 'i')
                 chunk_ot_action, chunk_ot_arg = chunk_ot
 
                 if chunk_ot_action == OTTypeAction.skip:
@@ -425,21 +445,27 @@ def compose(list ot_raw_list_1 not None, list ot_raw_list_2 not None):
         int chunk_ot_arg_as_int
         str chunk_ot_arg_as_str
 
+    if not isinstance(ot_raw_list_1, (list, tuple)):
+        raise TypeError('`ot_raw_list_1` must be a list or tuple')
+
+    if not isinstance(ot_raw_list_2, (list, tuple)):
+        raise TypeError('`ot_raw_list_2` must be a list or tuple')
+
     if not check(ot_raw_list_1) or not check(ot_raw_list_2):
         raise ValueError('invalid OTs')
 
     new_ots = []
     appender = _Appender(new_ots)
-    taker = _Taker(list(_make_iter_ots(ot_raw_list_1)))
+    taker = _Taker(ot_raw_list_1)
 
-    for ot in _make_iter_ots(ot_raw_list_2):
-        ot_action, ot_arg = ot
+    for ot_raw in ot_raw_list_2:
+        ot_action, ot_arg = ot = _resolve_ot(ot_raw)
 
         if ot_action == OTTypeAction.skip:
             n = <int>ot_arg
 
             while 0 < n:
-                chunk_ot = taker.take(n, 2)
+                chunk_ot = taker.take(n, 'd')
                 appender.append(chunk_ot)
 
                 chunk_ot_action, chunk_ot_arg = chunk_ot
@@ -461,7 +487,7 @@ def compose(list ot_raw_list_1 not None, list ot_raw_list_2 not None):
             n = len(ot_arg)
 
             while 0 < n:
-                chunk_ot = taker.take(n, 2)
+                chunk_ot = taker.take(n, 'd')
                 chunk_ot_action, chunk_ot_arg = chunk_ot
 
                 if chunk_ot_action == OTTypeAction.skip:

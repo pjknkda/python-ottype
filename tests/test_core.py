@@ -37,40 +37,57 @@ def OTDelete(arg: str) -> core._OTType:
     return (core._OTTypeActionDelete, arg)
 
 
-def test__resolve_ot() -> None:
-    from ottype.core import _resolve_ot
+def test__resolve_ot(core_impl) -> None:  # type: ignore
+    if TYPE_CHECKING:
+        from ottype import core as core_impl  # type: ignore
+
+    _resolve_ot = core_impl._resolve_ot
+
+    # OT-Skip
 
     assert _resolve_ot(3) == OTSkip(3)
     with pytest.raises(ValueError):
         _resolve_ot(-3)
 
+    # OT-Insert
+
     assert _resolve_ot('asdf') == OTInsert('asdf')
     with pytest.raises(ValueError):
         _resolve_ot('')
 
+    # OT-Delete
+
     assert _resolve_ot({'d': 'asdf'}) == OTDelete('asdf')
 
+    with pytest.raises(ValueError):
+        _resolve_ot({'a': 'asdf'})
     with pytest.raises(ValueError):
         _resolve_ot({'d': ''})
     with pytest.raises(ValueError):
         _resolve_ot({'d': 4})
 
+    # Raw
+    assert _resolve_ot((1, 3)) == OTSkip(3)
+    assert _resolve_ot((2, 'asdf')) == OTInsert('asdf')
+    assert _resolve_ot((3, 'asdf')) == OTDelete('asdf')
+
+    with pytest.raises(ValueError):
+        _resolve_ot((0, 1234))
+
+    with pytest.raises(ValueError):
+        _resolve_ot((4, 'asdf'))
+
+    # ETC
+
     with pytest.raises(ValueError):
         _resolve_ot(3.141592)  # type: ignore
 
 
-def test__make_iter_ots() -> None:
-    from ottype.core import _make_iter_ots
+def test__Appender(core_impl) -> None:  # type: ignore
+    if TYPE_CHECKING:
+        from ottype import core as core_impl  # type: ignore
 
-    assert list(_make_iter_ots([3, 'asdf', {'d': 'qwer'}])) == \
-        [OTSkip(3), OTInsert('asdf'), OTDelete('qwer')]
-
-    assert list(_make_iter_ots([3, 'asdf', -3, {'d': 'qwer'}])) == \
-        [OTSkip(3), OTInsert('asdf')]
-
-
-def test__Appender() -> None:
-    from ottype.core import _Appender
+    _Appender = core_impl._Appender
 
     ots_1: List[core._OTType] = []
     appender_1 = _Appender(ots_1)
@@ -97,10 +114,13 @@ def test__Appender() -> None:
     assert ots_1 == [OTSkip(7), OTInsert('asdf'), OTDelete('qwer')]
 
 
-def test__Taker() -> None:
-    from ottype.core import _Taker
+def test__Taker(core_impl) -> None:  # type: ignore
+    if TYPE_CHECKING:
+        from ottype import core as core_impl  # type: ignore
 
-    ots_1: List[core._OTType] = [OTSkip(3), OTSkip(4)]
+    _Taker = core_impl._Taker
+
+    ots_1: List[core._OTRawInputType] = [3, 4]
     taker_1 = _Taker(ots_1)
     assert taker_1.take(1) == OTSkip(1)
     assert taker_1.take(4) == OTSkip(2)
@@ -108,7 +128,7 @@ def test__Taker() -> None:
     assert taker_1.take(-1) is None
     assert taker_1.take(5) == OTSkip(5)
 
-    ots_2: List[core._OTType] = [OTInsert('asdf'), OTInsert('qwer'), OTInsert('zxcv')]
+    ots_2: List[core._OTRawInputType] = ['asdf', 'qwer', 'zxcv']
     taker_2 = _Taker(ots_2)
     assert taker_2.take(1) == OTInsert('a')
     assert taker_2.take(1) == OTInsert('s')
@@ -118,7 +138,7 @@ def test__Taker() -> None:
     assert taker_2.take(1, 'i') == OTInsert('er')
     assert taker_2.take(-1) == OTInsert('zxcv')
 
-    ots_3: List[core._OTType] = [OTDelete('asdf'), OTDelete('qwer'), OTDelete('zxcv')]
+    ots_3: List[core._OTRawInputType] = [{'d': 'asdf'}, {'d': 'qwer'}, {'d': 'zxcv'}]
     taker_3 = _Taker(ots_3)
     assert taker_3.take(1) == OTDelete('a')
     assert taker_3.take(1) == OTDelete('s')
@@ -128,7 +148,7 @@ def test__Taker() -> None:
     assert taker_3.take(1, 'd') == OTDelete('er')
     assert taker_3.take(-1) == OTDelete('zxcv')
 
-    ots_4: List[core._OTType] = [OTSkip(3), OTInsert('asdf')]
+    ots_4: List[core._OTRawInputType] = [3, 'asdf']
     taker_4 = _Taker(ots_4)
     assert taker_4.peak_action() == core._OTTypeActionSkip
     taker_4.take(1)
@@ -141,8 +161,11 @@ def test__Taker() -> None:
     assert taker_4.peak_action() == core._OTTypeActionNop
 
 
-def test__trim() -> None:
-    from ottype.core import _trim
+def test__trim(core_impl) -> None:  # type: ignore
+    if TYPE_CHECKING:
+        from ottype import core as core_impl  # type: ignore
+
+    _trim = core_impl._trim
 
     ots_1: List[core._OTType] = []
     _trim(ots_1)
@@ -163,7 +186,7 @@ def test__trim() -> None:
 
 def test_check(core_impl) -> None:  # type:ignore
     if TYPE_CHECKING:
-        from ottype import core as core_impl
+        from ottype import core as core_impl  # type: ignore
 
     check = core_impl.check
 
@@ -178,7 +201,7 @@ def test_check(core_impl) -> None:  # type:ignore
 
 def test_apply(core_impl) -> None:  # type:ignore
     if TYPE_CHECKING:
-        from ottype import core as core_impl
+        from ottype import core as core_impl  # type: ignore
 
     apply = core_impl.apply
 
@@ -202,7 +225,7 @@ def test_apply(core_impl) -> None:  # type:ignore
 
 def test_apply_fuzz(core_impl) -> None:  # type:ignore
     if TYPE_CHECKING:
-        from ottype import core as core_impl
+        from ottype import core as core_impl  # type: ignore
 
     apply = core_impl.apply
     normalize = core_impl.normalize
@@ -216,7 +239,7 @@ def test_apply_fuzz(core_impl) -> None:  # type:ignore
 
 def test_inverse_apply(core_impl) -> None:  # type:ignore
     if TYPE_CHECKING:
-        from ottype import core as core_impl
+        from ottype import core as core_impl  # type: ignore
 
     inverse_apply = core_impl.inverse_apply
 
@@ -240,7 +263,7 @@ def test_inverse_apply(core_impl) -> None:  # type:ignore
 
 def test_inverse_apply_fuzz(core_impl) -> None:  # type:ignore
     if TYPE_CHECKING:
-        from ottype import core as core_impl
+        from ottype import core as core_impl  # type: ignore
 
     apply = core_impl.apply
     inverse_apply = core_impl.inverse_apply
@@ -256,7 +279,7 @@ def test_inverse_apply_fuzz(core_impl) -> None:  # type:ignore
 
 def test_normalize(core_impl) -> None:  # type:ignore
     if TYPE_CHECKING:
-        from ottype import core as core_impl
+        from ottype import core as core_impl  # type: ignore
 
     normalize = core_impl.normalize
 
@@ -276,7 +299,7 @@ def test_normalize(core_impl) -> None:  # type:ignore
 
 def test_transform_fuzz(core_impl) -> None:  # type:ignore
     if TYPE_CHECKING:
-        from ottype import core as core_impl
+        from ottype import core as core_impl  # type: ignore
 
     apply = core_impl.apply
     normalize = core_impl.normalize
@@ -320,7 +343,7 @@ def test_transform_fuzz(core_impl) -> None:  # type:ignore
 
 def test_compose_fuzz(core_impl) -> None:  # type:ignore
     if TYPE_CHECKING:
-        from ottype import core as core_impl
+        from ottype import core as core_impl  # type: ignore
 
     apply = core_impl.apply
     compose = core_impl.compose
@@ -363,7 +386,7 @@ def test_compose_fuzz(core_impl) -> None:  # type:ignore
 
 def test_complex_fuzz(core_impl) -> None:  # type:ignore
     if TYPE_CHECKING:
-        from ottype import core as core_impl
+        from ottype import core as core_impl  # type: ignore
 
     apply = core_impl.apply
     compose = core_impl.compose

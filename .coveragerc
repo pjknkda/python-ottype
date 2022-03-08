@@ -1,8 +1,0 @@
-[run]
-include=ottype/*
-
-[report]
-precision = 2
-exclude_lines =
-    pragma: no cover
-    if TYPE_CHECKING:

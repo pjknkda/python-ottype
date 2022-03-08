@@ -52,7 +52,7 @@ def benchmark_apply() -> None:
                 if exp_ident not in prev_record:
                     prev_record[exp_ident] = perf
 
-                print('Doc Length : %5d, OT Length : %3d, Performance : %6.2lf ms/loop ( %5.2lfx )' % (
+                print('len(doc) : %5d, len(OTs) : %3d, Performance : %6.2lf ms/loop ( %5.2lfx )' % (
                     doc_length, ot_length, perf, 1 / (perf / prev_record[exp_ident])
                 ))
 
@@ -86,7 +86,7 @@ def benchmark_inverse_apply() -> None:
                 if exp_ident not in prev_record:
                     prev_record[exp_ident] = perf
 
-                print('Doc Length : %5d, OT Length : %3d, Performance : %6.2lf ms/loop ( %5.2lfx )' % (
+                print('len(doc) : %5d, len(OTs) : %3d, Performance : %6.2lf ms/loop ( %5.2lfx )' % (
                     doc_length, ot_length, perf, 1 / (perf / prev_record[exp_ident])
                 ))
 

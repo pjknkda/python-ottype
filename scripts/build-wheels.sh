@@ -11,7 +11,7 @@ for PYBIN in "${TARGET_PYBIN[@]}"; do
 done
 
 # Bundle external shared libraries into the wheels
-for whl in /dist/*.whl; do
+for whl in dist/*.whl; do
     auditwheel repair "$whl" --plat $PLAT -w dist/ \
         || echo "Skipping non-platform wheel $whl"
 done
