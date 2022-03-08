@@ -102,12 +102,12 @@ cdef class _Appender:
 
 cdef class _Taker:
     cdef:
-        list ots
+        object ot_raw_list
         int _idx
         int _offset
     
-    def __init__(self, list ots):
-        self.ots = ots
+    def __init__(self, object ot_raw_list):
+        self.ot_raw_list = ot_raw_list
 
         self._idx = 0
         self._offset = 0
@@ -120,12 +120,12 @@ cdef class _Taker:
             int ot_arg_as_int
             str ot_arg_as_str
 
-        if self._idx == len(self.ots):
+        if self._idx == len(self.ot_raw_list):
             if n == -1:
                 return None
             return (OTTypeAction.skip, n)
 
-        ot_action, ot_arg = _resolve_ot(self.ots[self._idx])
+        ot_action, ot_arg = _resolve_ot(self.ot_raw_list[self._idx])
         ret_ot = None
 
         if ot_action == OTTypeAction.skip:
@@ -164,8 +164,8 @@ cdef class _Taker:
         return ret_ot
 
     def peak_action(self):
-        if 0 <= self._idx < len(self.ots):
-            return _resolve_ot(self.ots[self._idx])[0]
+        if 0 <= self._idx < len(self.ot_raw_list):
+            return _resolve_ot(self.ot_raw_list[self._idx])[0]
         return OTTypeAction.nop
 
 
@@ -174,10 +174,13 @@ def _trim(list ots not None):
         ots.pop()
 
 
-def check(list ot_raw_list not None, *, bool check_unoptimized not None = True):
+def check(object ot_raw_list not None, *, bool check_unoptimized not None = True):
     cdef:
         OTTypeAction last_ot_action
         OTTypeAction ot_action
+
+    if not isinstance(ot_raw_list, (list, tuple)):
+        raise TypeError('`ot_raw_list` must be a list or tuple')
 
     last_ot_action = OTTypeAction.nop
     try:
@@ -425,7 +428,7 @@ def transform(object ot_raw_list_1 not None, object ot_raw_list_2 not None, str 
     return _to_ot_raw_list(new_ots)
 
 
-def compose(list ot_raw_list_1 not None, list ot_raw_list_2 not None):
+def compose(object ot_raw_list_1 not None, object ot_raw_list_2 not None):
     cdef:
         list new_ots
         _Appender appender

@@ -25,6 +25,11 @@ def core_impl(request):  # type:ignore
     return request.param
 
 
+@pytest.fixture(params=[list, tuple])
+def input_cls(request):  # type:ignore
+    return request.param
+
+
 def OTSkip(arg: int) -> core._OTType:
     return (core._OTTypeActionSkip, arg)
 
@@ -39,7 +44,7 @@ def OTDelete(arg: str) -> core._OTType:
 
 def test__resolve_ot(core_impl) -> None:  # type: ignore
     if TYPE_CHECKING:
-        from ottype import core as core_impl  # type: ignore
+        core_impl = core
 
     _resolve_ot = core_impl._resolve_ot
 
@@ -85,7 +90,7 @@ def test__resolve_ot(core_impl) -> None:  # type: ignore
 
 def test__Appender(core_impl) -> None:  # type: ignore
     if TYPE_CHECKING:
-        from ottype import core as core_impl  # type: ignore
+        core_impl = core
 
     _Appender = core_impl._Appender
 
@@ -116,7 +121,7 @@ def test__Appender(core_impl) -> None:  # type: ignore
 
 def test__Taker(core_impl) -> None:  # type: ignore
     if TYPE_CHECKING:
-        from ottype import core as core_impl  # type: ignore
+        core_impl = core
 
     _Taker = core_impl._Taker
 
@@ -163,7 +168,7 @@ def test__Taker(core_impl) -> None:  # type: ignore
 
 def test__trim(core_impl) -> None:  # type: ignore
     if TYPE_CHECKING:
-        from ottype import core as core_impl  # type: ignore
+        core_impl = core
 
     _trim = core_impl._trim
 
@@ -184,24 +189,26 @@ def test__trim(core_impl) -> None:  # type: ignore
     assert ots_4 == [OTSkip(4), OTInsert('asdf')]
 
 
-def test_check(core_impl) -> None:  # type:ignore
+def test_check(core_impl, input_cls) -> None:  # type:ignore
     if TYPE_CHECKING:
-        from ottype import core as core_impl  # type: ignore
+        core_impl = core
+        input_cls = list
 
     check = core_impl.check
 
     with pytest.raises(TypeError):
         check(4)  # type: ignore
 
-    assert check([3, 'asdf', {'d': 'qwer'}])
-    assert not check([3, object()])  # type: ignore
-    assert not check([3, 4])
-    assert not check([3])
+    assert check(input_cls([3, 'asdf', {'d': 'qwer'}]))
+    assert not check(input_cls([3, object()]))  # type: ignore
+    assert not check(input_cls([3, 4]))
+    assert not check(input_cls([3]))
 
 
-def test_apply(core_impl) -> None:  # type:ignore
+def test_apply(core_impl, input_cls) -> None:  # type:ignore
     if TYPE_CHECKING:
-        from ottype import core as core_impl  # type: ignore
+        core_impl = core
+        input_cls = list
 
     apply = core_impl.apply
 
@@ -212,34 +219,35 @@ def test_apply(core_impl) -> None:  # type:ignore
         apply('', 12345)  # type: ignore
 
     with pytest.raises(ValueError):
-        apply('', [3, 4])
+        apply('', input_cls([3, 4]))
 
-    assert apply('abcde', [2, 'qq', {'d': 'c'}, 1, 'w']) == 'abqqdwe'
-
-    with pytest.raises(ValueError):
-        apply('aa', [3, 'x'])
+    assert apply('abcde', input_cls([2, 'qq', {'d': 'c'}, 1, 'w'])) == 'abqqdwe'
 
     with pytest.raises(ValueError):
-        apply('aa', [{'d': 'b'}])
+        apply('aa', input_cls([3, 'x']))
+
+    with pytest.raises(ValueError):
+        apply('aa', input_cls([{'d': 'b'}]))
 
 
-def test_apply_fuzz(core_impl) -> None:  # type:ignore
+def test_apply_fuzz(core_impl, input_cls) -> None:  # type:ignore
     if TYPE_CHECKING:
-        from ottype import core as core_impl  # type: ignore
+        core_impl = core
 
     apply = core_impl.apply
     normalize = core_impl.normalize
 
     for _ in range(FUZZ_TEST_COUNT):
         doc = utils.make_random_doc(FUZZ_TEST_INIT_DOC_LENGTH)
-        random_ot_raw_list = utils.make_random_ots(normalize, doc, FUZZ_TEST_OTS_LENGTH)
+        random_ot_raw_list = input_cls(utils.make_random_ots(normalize, doc, FUZZ_TEST_OTS_LENGTH))
 
         apply(doc, random_ot_raw_list)
 
 
-def test_inverse_apply(core_impl) -> None:  # type:ignore
+def test_inverse_apply(core_impl, input_cls) -> None:  # type:ignore
     if TYPE_CHECKING:
-        from ottype import core as core_impl  # type: ignore
+        core_impl = core
+        input_cls = list
 
     inverse_apply = core_impl.inverse_apply
 
@@ -249,21 +257,21 @@ def test_inverse_apply(core_impl) -> None:  # type:ignore
     with pytest.raises(TypeError):
         inverse_apply('', 12345)  # type: ignore
 
-    assert inverse_apply('abqqdwe', [2, 'qq', {'d': 'c'}, 1, 'w']) == 'abcde'
+    assert inverse_apply('abqqdwe', input_cls([2, 'qq', {'d': 'c'}, 1, 'w'])) == 'abcde'
 
     with pytest.raises(ValueError):
-        inverse_apply('', [3, 4])
+        inverse_apply('', input_cls([3, 4]))
 
     with pytest.raises(ValueError):
-        inverse_apply('aa', [3, 'x'])
+        inverse_apply('aa', input_cls([3, 'x']))
 
     with pytest.raises(ValueError):
-        inverse_apply('aa', ['b'])
+        inverse_apply('aa', input_cls(['b']))
 
 
-def test_inverse_apply_fuzz(core_impl) -> None:  # type:ignore
+def test_inverse_apply_fuzz(core_impl, input_cls) -> None:  # type:ignore
     if TYPE_CHECKING:
-        from ottype import core as core_impl  # type: ignore
+        core_impl = core
 
     apply = core_impl.apply
     inverse_apply = core_impl.inverse_apply
@@ -271,15 +279,16 @@ def test_inverse_apply_fuzz(core_impl) -> None:  # type:ignore
 
     for _ in range(FUZZ_TEST_COUNT):
         doc = utils.make_random_doc(FUZZ_TEST_INIT_DOC_LENGTH)
-        random_ot_raw_list = utils.make_random_ots(normalize, doc, FUZZ_TEST_OTS_LENGTH)
+        random_ot_raw_list = input_cls(utils.make_random_ots(normalize, doc, FUZZ_TEST_OTS_LENGTH))
 
         new_doc = apply(doc, random_ot_raw_list)
         assert doc == inverse_apply(new_doc, random_ot_raw_list)
 
 
-def test_normalize(core_impl) -> None:  # type:ignore
+def test_normalize(core_impl, input_cls) -> None:  # type:ignore
     if TYPE_CHECKING:
-        from ottype import core as core_impl  # type: ignore
+        core_impl = core
+        input_cls = list
 
     normalize = core_impl.normalize
 
@@ -287,19 +296,19 @@ def test_normalize(core_impl) -> None:  # type:ignore
         normalize(12345)  # type:ignore
 
     with pytest.raises(ValueError):
-        normalize([-123])
+        normalize(input_cls([-123]))
 
-    assert normalize([
+    assert normalize(input_cls([
         3, 4,
         'as', 'df',
         {'d': 'qw'}, {'d': 'er'},
         5
-    ]) == [7, 'asdf', {'d': 'qwer'}]
+    ])) == [7, 'asdf', {'d': 'qwer'}]
 
 
-def test_transform_fuzz(core_impl) -> None:  # type:ignore
+def test_transform_fuzz(core_impl, input_cls) -> None:  # type:ignore
     if TYPE_CHECKING:
-        from ottype import core as core_impl  # type: ignore
+        core_impl = core
 
     apply = core_impl.apply
     normalize = core_impl.normalize
@@ -325,8 +334,8 @@ def test_transform_fuzz(core_impl) -> None:  # type:ignore
 
     for _ in range(FUZZ_TEST_COUNT):
         doc = utils.make_random_doc(FUZZ_TEST_INIT_DOC_LENGTH)
-        random_ot_raw_list_1 = utils.make_random_ots(normalize, doc, FUZZ_TEST_OTS_LENGTH)
-        random_ot_raw_list_2 = utils.make_random_ots(normalize, doc, FUZZ_TEST_OTS_LENGTH)
+        random_ot_raw_list_1 = input_cls(utils.make_random_ots(normalize, doc, FUZZ_TEST_OTS_LENGTH))
+        random_ot_raw_list_2 = input_cls(utils.make_random_ots(normalize, doc, FUZZ_TEST_OTS_LENGTH))
 
         left_first_doc = apply(
             apply(doc, random_ot_raw_list_1),
@@ -341,9 +350,9 @@ def test_transform_fuzz(core_impl) -> None:  # type:ignore
         assert left_first_doc == right_first_doc
 
 
-def test_compose_fuzz(core_impl) -> None:  # type:ignore
+def test_compose_fuzz(core_impl, input_cls) -> None:  # type:ignore
     if TYPE_CHECKING:
-        from ottype import core as core_impl  # type: ignore
+        core_impl = core
 
     apply = core_impl.apply
     compose = core_impl.compose
@@ -366,10 +375,10 @@ def test_compose_fuzz(core_impl) -> None:  # type:ignore
 
     for _ in range(FUZZ_TEST_COUNT):
         doc_1 = utils.make_random_doc(FUZZ_TEST_INIT_DOC_LENGTH)
-        random_ot_raw_list_1 = utils.make_random_ots(normalize, doc_1, FUZZ_TEST_OTS_LENGTH)
+        random_ot_raw_list_1 = input_cls(utils.make_random_ots(normalize, doc_1, FUZZ_TEST_OTS_LENGTH))
 
         doc_2 = apply(doc_1, random_ot_raw_list_1)
-        random_ot_raw_list_2 = utils.make_random_ots(normalize, doc_2, FUZZ_TEST_OTS_LENGTH)
+        random_ot_raw_list_2 = input_cls(utils.make_random_ots(normalize, doc_2, FUZZ_TEST_OTS_LENGTH))
 
         doc_3 = apply(doc_2, random_ot_raw_list_2)
 
@@ -384,9 +393,9 @@ def test_compose_fuzz(core_impl) -> None:  # type:ignore
         assert doc_3 == doc_3_composed
 
 
-def test_complex_fuzz(core_impl) -> None:  # type:ignore
+def test_complex_fuzz(core_impl, input_cls) -> None:  # type:ignore
     if TYPE_CHECKING:
-        from ottype import core as core_impl  # type: ignore
+        core_impl = core
 
     apply = core_impl.apply
     compose = core_impl.compose
@@ -399,10 +408,12 @@ def test_complex_fuzz(core_impl) -> None:  # type:ignore
         #            that is not sended to the server. How does the editor transform the buffer?
 
         doc = utils.make_random_doc(FUZZ_TEST_INIT_DOC_LENGTH)
-        local_ot_raw_list_1 = utils.make_random_ots(normalize, doc, FUZZ_TEST_OTS_LENGTH)
-        local_ot_raw_list_1a = utils.make_random_ots(normalize, apply(doc, local_ot_raw_list_1), FUZZ_TEST_OTS_LENGTH)
+        local_ot_raw_list_1 = input_cls(utils.make_random_ots(normalize, doc, FUZZ_TEST_OTS_LENGTH))
+        local_ot_raw_list_1a = input_cls(
+            utils.make_random_ots(normalize, apply(doc, local_ot_raw_list_1), FUZZ_TEST_OTS_LENGTH)
+        )
 
-        server_ot_raw_list_2 = utils.make_random_ots(normalize, doc, FUZZ_TEST_OTS_LENGTH)
+        server_ot_raw_list_2 = input_cls(utils.make_random_ots(normalize, doc, FUZZ_TEST_OTS_LENGTH))
 
         left_first_doc = apply(
             apply(
