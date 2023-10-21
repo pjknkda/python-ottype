@@ -117,7 +117,7 @@ assert apply(apply(doc, ots1), ots2) == apply(doc, compose(ots1, ots2))
 
 ## Benchmark (at Python 3.11)
 
-### Bechnmark : `apply` operation
+### Benchmark : `apply` operation
 
 | len(doc) | len(ots) | baseline (op/s) | python (op/s) | cython (op/s) |
 |---:|---:|---:|---:|---:|
@@ -138,7 +138,7 @@ assert apply(apply(doc, ots1), ots2) == apply(doc, compose(ots1, ots2))
 | 10000 | 100 |  18.12 ( 1.00x) |  23.37 ( 1.29x) |  64.85 ( 3.58x) |
 
 
-### Bechnmark : `inverse_apply` operation
+### Benchmark : `inverse_apply` operation
 
 | len(doc) | len(ots) | baseline (op/s) | python (op/s) | cython (op/s) |
 |---:|---:|---:|---:|---:|
