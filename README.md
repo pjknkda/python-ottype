@@ -2,6 +2,9 @@
 
 A python library for Operational Transformation (OT). Basic idea follows the spec at https://github.com/ottypes/docs.
 
+Supported Python versions : CPython 3.8 - 3.11
+
+
 ## Installation
 
 ```sh
@@ -54,10 +57,10 @@ assert apply('asdf', [1, {'d': 'sd'}]) == 'af'
 ## Supported Functions
 
 ```python
-OT = Union[int, str, Dict[str, str]]
+OT = int | str | dict[str, str]
 ```
 
-### `check(ots: List[OT], *, check_unoptimized: bool = True) -> bool`
+### `check(ots: list[OT], *, check_unoptimized: bool = True) -> bool`
 
 Check a list whether it only contains valid OTs. If `check_unoptimized` is `True`, only normalized list of OTs is accepted.
 
@@ -67,7 +70,7 @@ assert not check(['a', 'b'])  # is not normalized
 assert not check([3])  # is not normalized
 ```
 
-### `apply(doc: str, ots: List[OT], *, check_unoptimized: bool = True) -> str`
+### `apply(doc: str, ots: list[OT], *, check_unoptimized: bool = True) -> str`
 
 Apply a list of OTs to a string.
 
@@ -75,7 +78,7 @@ Apply a list of OTs to a string.
 assert apply('abcde', [2, 'qq', {'d': 'c'}, 1, 'w']) == 'abqqdwe'
 ```
 
-### `inverse_apply(doc: str, ots: List[OT], *, check_unoptimized: bool = True) -> str`
+### `inverse_apply(doc: str, ots: list[OT], *, check_unoptimized: bool = True) -> str`
 
 Inversely apply a list of OTs to a string.
 
@@ -83,7 +86,7 @@ Inversely apply a list of OTs to a string.
 assert inverse_apply(apply(doc, ots), ots) == doc
 ```
 
-### `normalize(ots: List[OT]) -> List[OT]`
+### `normalize(ots: list[OT]) -> list[OT]`
 
 Normalize a list of OTs : merge consecutive OTs and trim the last skip operation.
 
@@ -93,7 +96,7 @@ assert normalize([1, 2, 'as', 'df', {'d': 'qw'}, {'d': 'er'}, 3]) \
 ```
 
 
-### `transform(ots1: List[OT], ots2: List[OT]) -> List[OT]`
+### `transform(ots1: list[OT], ots2: list[OT]) -> list[OT]`
 
 Transform a list of OTs with the property:
 
@@ -102,7 +105,7 @@ assert apply(apply(doc, ots1), transform(ots2, ots1, 'left')) \
         == apply(apply(doc, ots2), transform(ots1, ots2, 'right'))
 ```
 
-### `compose(ots1: List[OT], ots2: List[OT]) -> List[OT]`
+### `compose(ots1: list[OT], ots2: list[OT]) -> list[OT]`
 
 Compose two list of OTs with the property:
 
@@ -112,110 +115,45 @@ assert apply(apply(doc, ots1), ots2) == apply(doc, compose(ots1, ots2))
 
 
 
-## Benchmark (at Python 3.7)
+## Benchmark (at Python 3.11)
 
-### `apply` function
+### Bechnmark : `apply` operation
 
-```
-=== baseline (extra.old_ottype) ===
-Doc Length :   100, OT Length :   5, Performance :   5.80 ms/loop (  1.00x )
-Doc Length :   100, OT Length :  10, Performance :   8.87 ms/loop (  1.00x )
-Doc Length :   100, OT Length :  20, Performance :  16.47 ms/loop (  1.00x )
-Doc Length :   100, OT Length :  50, Performance :  39.13 ms/loop (  1.00x )
-Doc Length :   100, OT Length : 100, Performance :  73.84 ms/loop (  1.00x )
-Doc Length :  1000, OT Length :   5, Performance :   4.70 ms/loop (  1.00x )
-Doc Length :  1000, OT Length :  10, Performance :   7.46 ms/loop (  1.00x )
-Doc Length :  1000, OT Length :  20, Performance :  14.55 ms/loop (  1.00x )
-Doc Length :  1000, OT Length :  50, Performance :  50.22 ms/loop (  1.00x )
-Doc Length :  1000, OT Length : 100, Performance :  83.51 ms/loop (  1.00x )
-Doc Length : 10000, OT Length :   5, Performance :   7.43 ms/loop (  1.00x )
-Doc Length : 10000, OT Length :  10, Performance :  13.05 ms/loop (  1.00x )
-Doc Length : 10000, OT Length :  20, Performance :  18.66 ms/loop (  1.00x )
-Doc Length : 10000, OT Length :  50, Performance :  41.28 ms/loop (  1.00x )
-Doc Length : 10000, OT Length : 100, Performance :  97.67 ms/loop (  1.00x )
-=== python ===
-Doc Length :   100, OT Length :   5, Performance :   6.77 ms/loop (  0.86x )
-Doc Length :   100, OT Length :  10, Performance :  15.48 ms/loop (  0.57x )
-Doc Length :   100, OT Length :  20, Performance :  27.14 ms/loop (  0.61x )
-Doc Length :   100, OT Length :  50, Performance :  54.14 ms/loop (  0.72x )
-Doc Length :   100, OT Length : 100, Performance :  84.28 ms/loop (  0.88x )
-Doc Length :  1000, OT Length :   5, Performance :   4.23 ms/loop (  1.11x )
-Doc Length :  1000, OT Length :  10, Performance :   8.74 ms/loop (  0.85x )
-Doc Length :  1000, OT Length :  20, Performance :  18.65 ms/loop (  0.78x )
-Doc Length :  1000, OT Length :  50, Performance :  37.61 ms/loop (  1.34x )
-Doc Length :  1000, OT Length : 100, Performance :  82.60 ms/loop (  1.01x )
-Doc Length : 10000, OT Length :   5, Performance :   8.86 ms/loop (  0.84x )
-Doc Length : 10000, OT Length :  10, Performance :  13.19 ms/loop (  0.99x )
-Doc Length : 10000, OT Length :  20, Performance :  20.43 ms/loop (  0.91x )
-Doc Length : 10000, OT Length :  50, Performance :  48.91 ms/loop (  0.84x )
-Doc Length : 10000, OT Length : 100, Performance : 102.81 ms/loop (  0.95x )
-=== cython ===
-Doc Length :   100, OT Length :   5, Performance :   0.77 ms/loop (  7.55x )
-Doc Length :   100, OT Length :  10, Performance :   1.36 ms/loop (  6.53x )
-Doc Length :   100, OT Length :  20, Performance :   2.34 ms/loop (  7.04x )
-Doc Length :   100, OT Length :  50, Performance :   4.74 ms/loop (  8.25x )
-Doc Length :   100, OT Length : 100, Performance :   9.73 ms/loop (  7.59x )
-Doc Length :  1000, OT Length :   5, Performance :   0.70 ms/loop (  6.75x )
-Doc Length :  1000, OT Length :  10, Performance :   1.61 ms/loop (  4.64x )
-Doc Length :  1000, OT Length :  20, Performance :   2.47 ms/loop (  5.88x )
-Doc Length :  1000, OT Length :  50, Performance :   5.52 ms/loop (  9.10x )
-Doc Length :  1000, OT Length : 100, Performance :   9.02 ms/loop (  9.26x )
-Doc Length : 10000, OT Length :   5, Performance :   2.20 ms/loop (  3.38x )
-Doc Length : 10000, OT Length :  10, Performance :   2.57 ms/loop (  5.07x )
-Doc Length : 10000, OT Length :  20, Performance :   2.95 ms/loop (  6.33x )
-Doc Length : 10000, OT Length :  50, Performance :   5.97 ms/loop (  6.92x )
-Doc Length : 10000, OT Length : 100, Performance :  10.92 ms/loop (  8.94x )
-```
+| len(doc) | len(ots) | baseline (op/s) | python (op/s) | cython (op/s) |
+|---:|---:|---:|---:|---:|
+|   100 |   5 | 310.38 ( 1.00x) | 415.91 ( 1.34x) | 590.83 ( 1.90x) |
+|   100 |  10 | 213.27 ( 1.00x) | 204.82 ( 0.96x) | 469.43 ( 2.20x) |
+|   100 |  20 |  94.72 ( 1.00x) | 112.82 ( 1.19x) | 457.64 ( 4.83x) |
+|   100 |  50 |  52.70 ( 1.00x) |  49.87 ( 0.95x) | 126.20 ( 2.39x) |
+|   100 | 100 |  21.74 ( 1.00x) |  29.78 ( 1.37x) |  78.39 ( 3.61x) |
+|  1000 |   5 | 493.57 ( 1.00x) | 322.84 ( 0.65x) | 638.34 ( 1.29x) |
+|  1000 |  10 | 181.16 ( 1.00x) | 171.70 ( 0.95x) | 438.26 ( 2.42x) |
+|  1000 |  20 |  92.83 ( 1.00x) | 121.60 ( 1.31x) | 331.89 ( 3.58x) |
+|  1000 |  50 |  43.47 ( 1.00x) |  60.56 ( 1.39x) | 121.90 ( 2.80x) |
+|  1000 | 100 |  20.67 ( 1.00x) |  22.46 ( 1.09x) |  77.43 ( 3.75x) |
+| 10000 |   5 | 355.19 ( 1.00x) | 511.89 ( 1.44x) | 360.03 ( 1.01x) |
+| 10000 |  10 | 125.78 ( 1.00x) | 174.76 ( 1.39x) | 313.41 ( 2.49x) |
+| 10000 |  20 |  77.23 ( 1.00x) |  98.21 ( 1.27x) | 246.25 ( 3.19x) |
+| 10000 |  50 |  32.63 ( 1.00x) |  42.51 ( 1.30x) | 114.60 ( 3.51x) |
+| 10000 | 100 |  18.12 ( 1.00x) |  23.37 ( 1.29x) |  64.85 ( 3.58x) |
 
-### `inverse_apply` function
 
-```
-=== baseline (extra.old_ottype) ===
-Doc Length :   100, OT Length :   5, Performance :   8.26 ms/loop (  1.00x )
-Doc Length :   100, OT Length :  10, Performance :  15.00 ms/loop (  1.00x )
-Doc Length :   100, OT Length :  20, Performance :  27.50 ms/loop (  1.00x )
-Doc Length :   100, OT Length :  50, Performance :  56.86 ms/loop (  1.00x )
-Doc Length :   100, OT Length : 100, Performance : 129.10 ms/loop (  1.00x )
-Doc Length :  1000, OT Length :   5, Performance :   6.35 ms/loop (  1.00x )
-Doc Length :  1000, OT Length :  10, Performance :  16.14 ms/loop (  1.00x )
-Doc Length :  1000, OT Length :  20, Performance :  22.65 ms/loop (  1.00x )
-Doc Length :  1000, OT Length :  50, Performance :  67.26 ms/loop (  1.00x )
-Doc Length :  1000, OT Length : 100, Performance : 113.74 ms/loop (  1.00x )
-Doc Length : 10000, OT Length :   5, Performance :   8.79 ms/loop (  1.00x )
-Doc Length : 10000, OT Length :  10, Performance :  10.16 ms/loop (  1.00x )
-Doc Length : 10000, OT Length :  20, Performance :  22.46 ms/loop (  1.00x )
-Doc Length : 10000, OT Length :  50, Performance :  54.26 ms/loop (  1.00x )
-Doc Length : 10000, OT Length : 100, Performance : 129.20 ms/loop (  1.00x )
-=== python ===
-Doc Length :   100, OT Length :   5, Performance :   6.05 ms/loop (  1.37x )
-Doc Length :   100, OT Length :  10, Performance :  11.30 ms/loop (  1.33x )
-Doc Length :   100, OT Length :  20, Performance :  21.16 ms/loop (  1.30x )
-Doc Length :   100, OT Length :  50, Performance :  44.43 ms/loop (  1.28x )
-Doc Length :   100, OT Length : 100, Performance : 101.05 ms/loop (  1.28x )
-Doc Length :  1000, OT Length :   5, Performance :  10.06 ms/loop (  0.63x )
-Doc Length :  1000, OT Length :  10, Performance :  12.38 ms/loop (  1.30x )
-Doc Length :  1000, OT Length :  20, Performance :  24.55 ms/loop (  0.92x )
-Doc Length :  1000, OT Length :  50, Performance :  42.64 ms/loop (  1.58x )
-Doc Length :  1000, OT Length : 100, Performance :  96.43 ms/loop (  1.18x )
-Doc Length : 10000, OT Length :   5, Performance :   9.42 ms/loop (  0.93x )
-Doc Length : 10000, OT Length :  10, Performance :  11.89 ms/loop (  0.85x )
-Doc Length : 10000, OT Length :  20, Performance :  25.74 ms/loop (  0.87x )
-Doc Length : 10000, OT Length :  50, Performance :  58.58 ms/loop (  0.93x )
-Doc Length : 10000, OT Length : 100, Performance :  97.37 ms/loop (  1.33x )
-=== cython ===
-Doc Length :   100, OT Length :   5, Performance :   1.12 ms/loop (  7.37x )
-Doc Length :   100, OT Length :  10, Performance :   1.69 ms/loop (  8.90x )
-Doc Length :   100, OT Length :  20, Performance :   2.80 ms/loop (  9.82x )
-Doc Length :   100, OT Length :  50, Performance :   5.49 ms/loop ( 10.35x )
-Doc Length :   100, OT Length : 100, Performance :  12.22 ms/loop ( 10.56x )
-Doc Length :  1000, OT Length :   5, Performance :   1.36 ms/loop (  4.68x )
-Doc Length :  1000, OT Length :  10, Performance :   2.25 ms/loop (  7.19x )
-Doc Length :  1000, OT Length :  20, Performance :   2.98 ms/loop (  7.61x )
-Doc Length :  1000, OT Length :  50, Performance :   6.26 ms/loop ( 10.75x )
-Doc Length :  1000, OT Length : 100, Performance :  11.14 ms/loop ( 10.21x )
-Doc Length : 10000, OT Length :   5, Performance :   2.35 ms/loop (  3.75x )
-Doc Length : 10000, OT Length :  10, Performance :   3.62 ms/loop (  2.81x )
-Doc Length : 10000, OT Length :  20, Performance :   4.50 ms/loop (  4.99x )
-Doc Length : 10000, OT Length :  50, Performance :   7.07 ms/loop (  7.68x )
-Doc Length : 10000, OT Length : 100, Performance :  14.20 ms/loop (  9.10x )
-```
+### Bechnmark : `inverse_apply` operation
+
+| len(doc) | len(ots) | baseline (op/s) | python (op/s) | cython (op/s) |
+|---:|---:|---:|---:|---:|
+|   100 |   5 | 222.70 ( 1.00x) | 217.16 ( 0.98x) | 600.39 ( 2.70x) |
+|   100 |  10 |  98.34 ( 1.00x) | 154.64 ( 1.57x) | 391.55 ( 3.98x) |
+|   100 |  20 |  82.22 ( 1.00x) |  76.66 ( 0.93x) | 174.17 ( 2.12x) |
+|   100 |  50 |  35.24 ( 1.00x) |  35.82 ( 1.02x) |  92.70 ( 2.63x) |
+|   100 | 100 |  17.57 ( 1.00x) |  19.50 ( 1.11x) |  48.85 ( 2.78x) |
+|  1000 |   5 | 282.72 ( 1.00x) | 270.60 ( 0.96x) | 443.24 ( 1.57x) |
+|  1000 |  10 | 168.26 ( 1.00x) | 119.19 ( 0.71x) | 357.90 ( 2.13x) |
+|  1000 |  20 |  60.79 ( 1.00x) |  64.79 ( 1.07x) | 293.46 ( 4.83x) |
+|  1000 |  50 |  26.98 ( 1.00x) |  29.60 ( 1.10x) |  93.06 ( 3.45x) |
+|  1000 | 100 |  14.38 ( 1.00x) |  18.09 ( 1.26x) |  53.81 ( 3.74x) |
+| 10000 |   5 | 172.21 ( 1.00x) | 178.69 ( 1.04x) | 318.69 ( 1.85x) |
+| 10000 |  10 | 143.82 ( 1.00x) | 120.42 ( 0.84x) | 257.91 ( 1.79x) |
+| 10000 |  20 |  55.85 ( 1.00x) |  99.49 ( 1.78x) | 181.88 ( 3.26x) |
+| 10000 |  50 |  33.09 ( 1.00x) |  31.53 ( 0.95x) |  76.12 ( 2.30x) |
+| 10000 | 100 |  16.76 ( 1.00x) |  17.02 ( 1.02x) |  43.02 ( 2.57x) |

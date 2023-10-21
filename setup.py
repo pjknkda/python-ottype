@@ -27,16 +27,16 @@ except ImportError:
     NO_EXTENSIONS = True
 
 dev_install_requires = [
-    'autopep8==1.6.0',
-    'bandit==1.7.4',
-    'Cython==0.29.28',
-    'flake8==4.0.1',
-    'flake8-bugbear==22.1.11',
-    'flake8-isort==4.1.1',
-    'flake8-quotes==3.3.1',
-    'mypy==0.931',
-    'pytest==7.0.1',
-    'pytest-cov==3.0.0',
+    'autopep8==2.0.4',
+    'bandit==1.7.5',
+    'Cython==3.0.4',
+    'flake8==6.1.0',
+    'flake8-bugbear==23.9.16',
+    'flake8-isort==6.1.0',
+    'flake8-quotes==3.3.2',
+    'mypy==1.6.1',
+    'pytest==7.4.2',
+    'pytest-cov==4.1.0',
 ]
 
 if not NO_EXTENSIONS:
@@ -63,7 +63,7 @@ setup(
     package_data={'ottype': ['py.typed']},
     zip_safe=False,
 
-    python_requires='>=3.7, <3.11',
+    python_requires='>=3.8, <3.12',
 
     extras_require={'dev': dev_install_requires},
 
@@ -76,10 +76,10 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3 :: Only',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],

@@ -1,13 +1,13 @@
 import random
 import time
-from typing import TYPE_CHECKING, Any, List
+from typing import TYPE_CHECKING, Any
 
 from ottype import core
 from tests import utils
 
 NUM_ITERATION = 100_000
 
-CORE_IMPL: List[Any] = [('python', core)]
+CORE_IMPL: list[tuple[str, Any]] = [('python', core)]
 
 try:
     from ottype import core_boost
@@ -25,21 +25,27 @@ random.seed(457700)
 
 
 def benchmark_apply() -> None:
-    print('Target: apply')
+    print('### Bechnmark : `apply` operation')
+    print()
 
-    prev_record = dict()
+    print(
+        "| len(doc) | len(ots) | " 
+        + " | ".join(f"{name} (op/s)" for name, _ in CORE_IMPL) 
+        + " |"
+    )
+    print("|---:|" +  "---:|" * (1 + len(CORE_IMPL)))
 
-    for core_imple_name, core_impl in CORE_IMPL:
-        print(f'=== {core_imple_name} ===')
+    baseline_perf: dict[str, float] = dict()
+    for doc_length in [100, 1_000, 10_000]:
+        doc = utils.make_random_doc(doc_length)
 
-        if TYPE_CHECKING:
-            from ottype import core as core_impl  # type:ignore
+        for ot_length in [5, 10, 20, 50, 100]:
+            test_config = f"{doc_length:5d} | {ot_length:3d}"
 
-        for doc_length in [100, 1_000, 10_000]:
-            doc = utils.make_random_doc(doc_length)
-
-            for ot_length in [5, 10, 20, 50, 100]:
-                exp_ident = (doc_length, ot_length)
+            perfs: list[str] = []
+            for _, core_impl in CORE_IMPL:
+                if TYPE_CHECKING:
+                    from ottype import core as core_impl  # type:ignore
 
                 ots = utils.make_random_ots(core_impl.normalize, doc, ot_length)
 
@@ -48,31 +54,39 @@ def benchmark_apply() -> None:
                     core_impl.apply(doc, ots)
                 ed_time = time.perf_counter_ns()
 
-                perf = (ed_time - st_time) / 1_000 / NUM_ITERATION
-                if exp_ident not in prev_record:
-                    prev_record[exp_ident] = perf
+                perf = NUM_ITERATION / ((ed_time - st_time) / 1_000_000)
+                if test_config not in baseline_perf:
+                    baseline_perf[test_config] = perf
 
-                print('len(doc) : %5d, len(OTs) : %3d, Performance : %6.2lf ms/loop ( %5.2lfx )' % (
-                    doc_length, ot_length, perf, 1 / (perf / prev_record[exp_ident])
-                ))
+                perfs.append(
+                    f"{perf:6.2f} ({perf / baseline_perf[test_config]:5.2f}x)"
+                )
+
+            print(f"| {test_config} | " + " | ".join(perfs) + " |")
 
 
 def benchmark_inverse_apply() -> None:
-    print('Target: inverse_apply')
+    print('### Bechnmark : `inverse_apply` operation')
+    print()
 
-    prev_record = dict()
+    print(
+        "| len(doc) | len(ots) | " 
+        + " | ".join(f"{name} (op/s)" for name, _ in CORE_IMPL) 
+        + " |"
+    )
+    print("|---:|" +  "---:|" * (1 + len(CORE_IMPL)))
 
-    for core_imple_name, core_impl in CORE_IMPL:
-        print(f'=== {core_imple_name} ===')
+    baseline_perf: dict[str, float] = dict()
+    for doc_length in [100, 1_000, 10_000]:
+        doc = utils.make_random_doc(doc_length)
 
-        if TYPE_CHECKING:
-            from ottype import core as core_impl  # type:ignore
+        for ot_length in [5, 10, 20, 50, 100]:
+            test_config = f"{doc_length:5d} | {ot_length:3d}"
 
-        for doc_length in [100, 1_000, 10_000]:
-            doc = utils.make_random_doc(doc_length)
-
-            for ot_length in [5, 10, 20, 50, 100]:
-                exp_ident = (doc_length, ot_length)
+            perfs: list[str] = []
+            for _, core_impl in CORE_IMPL:
+                if TYPE_CHECKING:
+                    from ottype import core as core_impl  # type:ignore
 
                 ots = utils.make_random_ots(core_impl.normalize, doc, ot_length)
                 new_doc = core_impl.apply(doc, ots)
@@ -82,14 +96,15 @@ def benchmark_inverse_apply() -> None:
                     core_impl.inverse_apply(new_doc, ots)
                 ed_time = time.perf_counter_ns()
 
-                perf = (ed_time - st_time) / 1_000 / NUM_ITERATION
-                if exp_ident not in prev_record:
-                    prev_record[exp_ident] = perf
+                perf = NUM_ITERATION / ((ed_time - st_time) / 1_000_000)
+                if test_config not in baseline_perf:
+                    baseline_perf[test_config] = perf
 
-                print('len(doc) : %5d, len(OTs) : %3d, Performance : %6.2lf ms/loop ( %5.2lfx )' % (
-                    doc_length, ot_length, perf, 1 / (perf / prev_record[exp_ident])
-                ))
+                perfs.append(
+                    f"{perf:6.2f} ({perf / baseline_perf[test_config]:5.2f}x)"
+                )
 
+            print(f"| {test_config} | " + " | ".join(perfs) + " |")
 
 benchmark_apply()
 print()
