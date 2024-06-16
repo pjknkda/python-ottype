@@ -1,0 +1,32 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["pypy3.9", "pypy3.10", "3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies  
+        run: |  
+          pip install -U pip build setuptools wheel
+          python -m pip install --no-cache-dir .[dev]
+      - name: Formatting check 
+        run: |  
+          make check
+      - name: Build cython module
+        run: |  
+          python -m build
+          make build_inplace
+      - name: Run test
+        run: |  
+          python -m pytest -v .

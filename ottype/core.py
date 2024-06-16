@@ -1,39 +1,36 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Dict, List, NewType, Optional, Tuple, Union
+from typing import Literal, NewType, Optional, Sequence, Union
 
-if TYPE_CHECKING:
-    from typing_extensions import Literal
-
-
-_OTTypeAction = NewType('_OTTypeAction', int)
+_OTTypeAction = NewType("_OTTypeAction", int)
 
 _OTTypeActionNop = _OTTypeAction(0)
 _OTTypeActionSkip = _OTTypeAction(1)
 _OTTypeActionInsert = _OTTypeAction(2)
 _OTTypeActionDelete = _OTTypeAction(3)
 
-_OTType = Tuple[_OTTypeAction, Union[int, str]]
+_OTType = tuple[_OTTypeAction, Union[int, str]]
 
-_OTRawInputType = Union[int, str, Dict[str, str], Tuple[int, Union[int, str]]]
-_OTRawInputList = Union[List[_OTRawInputType], Tuple[_OTRawInputType]]
+_OTRawInputType = Union[int, str, dict[str, str], tuple[int, Union[int, str]]]
+_OTRawInputSeq = Sequence[_OTRawInputType]
 
-_OTRawOutputType = Union[int, str, Dict[str, str]]
+_OTRawOutputType = Union[int, str, dict[str, str]]
+_OTRawOutputSeq = Sequence[_OTRawOutputType]
 
 
 def _resolve_ot(ot_raw: _OTRawInputType) -> _OTType:
     if isinstance(ot_raw, int):
         if ot_raw <= 0:
-            raise ValueError('invalid OT-Skip')
+            raise ValueError("invalid OT-Skip")
         return (_OTTypeActionSkip, ot_raw)
     elif isinstance(ot_raw, str):
-        if ot_raw == '':
-            raise ValueError('invalid OT-Insert')
+        if ot_raw == "":
+            raise ValueError("invalid OT-Insert")
         return (_OTTypeActionInsert, ot_raw)
     elif isinstance(ot_raw, dict):
-        s = ot_raw.get('d')
-        if not isinstance(s, str) or s == '':
-            raise ValueError('invalid OT-Delete')
+        s = ot_raw.get("d")
+        if not isinstance(s, str) or s == "":
+            raise ValueError("invalid OT-Delete")
         return (_OTTypeActionDelete, s)
     elif isinstance(ot_raw, tuple):
         if len(ot_raw) == 2:
@@ -41,23 +38,23 @@ def _resolve_ot(ot_raw: _OTRawInputType) -> _OTType:
             if ot_action == 1:
                 assert isinstance(ot_arg, int)
                 if ot_arg <= 0:
-                    raise ValueError('invalid OT-Skip')
+                    raise ValueError("invalid OT-Skip")
                 return ot_raw  # type: ignore
             elif ot_action == 2:
                 assert isinstance(ot_arg, str)
-                if ot_arg == '':
-                    raise ValueError('invalid OT-Insert')
+                if ot_arg == "":
+                    raise ValueError("invalid OT-Insert")
                 return ot_raw  # type: ignore
             elif ot_action == 3:
                 assert isinstance(ot_arg, str)
-                if ot_arg == '':
-                    raise ValueError('invalid OT-Delete')
+                if ot_arg == "":
+                    raise ValueError("invalid OT-Delete")
                 return ot_raw  # type: ignore
 
-    raise ValueError('unexpected OT structure')
+    raise ValueError("unexpected OT structure")
 
 
-def _to_ot_raw_list(ots: List[_OTType]) -> List[_OTRawOutputType]:
+def _to_ot_raw_list(ots: Sequence[_OTType]) -> _OTRawOutputSeq:
     ot_raw_list = []
     for ot_action, ot_arg in ots:
         ot_raw: _OTRawOutputType
@@ -72,10 +69,10 @@ def _to_ot_raw_list(ots: List[_OTType]) -> List[_OTRawOutputType]:
 
         elif ot_action == _OTTypeActionDelete:
             assert isinstance(ot_arg, str)
-            ot_raw = {'d': ot_arg}
+            ot_raw = {"d": ot_arg}
 
         else:
-            raise ValueError('unexpected OT')
+            raise ValueError("unexpected OT")
 
         ot_raw_list.append(ot_raw)
 
@@ -83,7 +80,7 @@ def _to_ot_raw_list(ots: List[_OTType]) -> List[_OTRawOutputType]:
 
 
 class _Appender:
-    def __init__(self, ots: List[_OTType]) -> None:
+    def __init__(self, ots: list[_OTType]) -> None:
         self.ots = ots
 
     def append(self, ot: Optional[_OTType]) -> None:
@@ -114,14 +111,17 @@ class _Appender:
 
 
 class _Taker:
-    def __init__(self, ot_raw_list: _OTRawInputList) -> None:
+    def __init__(self, ot_raw_list: _OTRawInputSeq) -> None:
         self.ot_raw_list = ot_raw_list
+        self.ot_raw_list_len = len(ot_raw_list)
 
         self._idx = 0
         self._offset = 0
 
-    def take(self, n: int, indivisable: Optional[Literal['d', 'i']] = None) -> Optional[_OTType]:
-        if self._idx == len(self.ot_raw_list):
+    def take(
+        self, n: int, indivisable: Optional[Literal["d", "i"]] = None
+    ) -> Optional[_OTType]:
+        if self._idx == self.ot_raw_list_len:
             if n == -1:
                 return None
             return (_OTTypeActionSkip, n)
@@ -141,45 +141,45 @@ class _Taker:
 
         elif ot_action == _OTTypeActionInsert:
             assert isinstance(ot_arg, str)
-            if n == -1 or indivisable == 'i' or len(ot_arg) - self._offset <= n:
-                ret_ot = (_OTTypeActionInsert, ot_arg[self._offset:])
+            if n == -1 or indivisable == "i" or len(ot_arg) - self._offset <= n:
+                ret_ot = (_OTTypeActionInsert, ot_arg[self._offset :])
                 self._idx += 1
                 self._offset = 0
             else:
-                ret_ot = (_OTTypeActionInsert, ot_arg[self._offset:self._offset + n])
+                ret_ot = (_OTTypeActionInsert, ot_arg[self._offset : self._offset + n])
                 self._offset += n
 
         elif ot_action == _OTTypeActionDelete:
             assert isinstance(ot_arg, str)
-            if n == -1 or indivisable == 'd' or len(ot_arg) - self._offset <= n:
-                ret_ot = (_OTTypeActionDelete, ot_arg[self._offset:])
+            if n == -1 or indivisable == "d" or len(ot_arg) - self._offset <= n:
+                ret_ot = (_OTTypeActionDelete, ot_arg[self._offset :])
                 self._idx += 1
                 self._offset = 0
             else:
-                ret_ot = (_OTTypeActionDelete, ot_arg[self._offset:self._offset + n])
+                ret_ot = (_OTTypeActionDelete, ot_arg[self._offset : self._offset + n])
                 self._offset += n
 
         return ret_ot
 
     def peak_action(self) -> _OTTypeAction:
-        if 0 <= self._idx < len(self.ot_raw_list):
+        if 0 <= self._idx < self.ot_raw_list_len:
             return _resolve_ot(self.ot_raw_list[self._idx])[0]
         return _OTTypeActionNop
 
 
-def _trim(ots: List[_OTType]) -> None:
-    '''Trim ots in place
+def _trim(ots: list[_OTType]) -> None:
+    """Trim ots in place
 
     Discrade trailing OP_SKIPs in ots.
     `ots` must be normalized.
-    '''
+    """
     if ots and ots[-1][0] == _OTTypeActionSkip:
         ots.pop()
 
 
-def check(ot_raw_list: _OTRawInputList, *, check_unoptimized: bool = True) -> bool:
+def check(ot_raw_list: _OTRawInputSeq, *, check_unoptimized: bool = True) -> bool:
     if not isinstance(ot_raw_list, (list, tuple)):
-        raise TypeError('`ot_raw_list` must be a list or tuple')
+        raise TypeError("`ot_raw_list` must be a list or tuple")
 
     last_ot_action = _OTTypeActionNop
     try:
@@ -203,21 +203,20 @@ def check(ot_raw_list: _OTRawInputList, *, check_unoptimized: bool = True) -> bo
 
 def apply(
     doc: str,
-    ot_raw_list: _OTRawInputList,
+    ot_raw_list: _OTRawInputSeq,
     *,
     check_unoptimized: bool = True,
 ) -> str:
-    '''Apply ots to doc
-    '''
+    """Apply ots to doc"""
 
     if not isinstance(doc, str):
-        raise TypeError('`doc` must be string')
+        raise TypeError("`doc` must be string")
 
     if not isinstance(ot_raw_list, (list, tuple)):
-        raise TypeError('`ot_raw_list` must be a list or tuple')
+        raise TypeError("`ot_raw_list` must be a list or tuple")
 
     if not check(ot_raw_list, check_unoptimized=check_unoptimized):
-        raise ValueError('invalid OTs')
+        raise ValueError("invalid OTs")
 
     new_doc = []
     pos = 0
@@ -229,9 +228,9 @@ def apply(
             assert isinstance(ot_arg, int)
 
             if ot_arg > len(doc) - pos:
-                raise ValueError('skip exceeds doc length')
+                raise ValueError("skip exceeds doc length")
 
-            new_doc.append(doc[pos:pos + ot_arg])
+            new_doc.append(doc[pos : pos + ot_arg])
             pos += ot_arg
 
         elif ot_action == _OTTypeActionInsert:
@@ -242,32 +241,32 @@ def apply(
         elif ot_action == _OTTypeActionDelete:
             assert isinstance(ot_arg, str)
 
-            if doc[pos:pos + len(ot_arg)] != ot_arg:
-                raise ValueError('inconsistent delete (doc, OT.arg)', doc[pos:pos + len(ot_arg)], ot_arg)
+            doc_slice = doc[pos : pos + len(ot_arg)]
+            if doc_slice != ot_arg:
+                raise ValueError("inconsistent delete (doc, OT.arg)", doc_slice, ot_arg)
             pos += len(ot_arg)
 
     new_doc.append(doc[pos:])
 
-    return ''.join(new_doc)
+    return "".join(new_doc)
 
 
 def inverse_apply(
     doc: str,
-    ot_raw_list: _OTRawInputList,
+    ot_raw_list: _OTRawInputSeq,
     *,
     check_unoptimized: bool = True,
 ) -> str:
-    '''Inversely apply ots to doc
-    '''
+    """Inversely apply ots to doc"""
 
     if not isinstance(doc, str):
-        raise TypeError('`doc` must be string')
+        raise TypeError("`doc` must be string")
 
     if not isinstance(ot_raw_list, (list, tuple)):
-        raise TypeError('`ot_raw_list` must be a list or tuple')
+        raise TypeError("`ot_raw_list` must be a list or tuple")
 
     if not check(ot_raw_list, check_unoptimized=check_unoptimized):
-        raise ValueError('invalid OTs')
+        raise ValueError("invalid OTs")
 
     last_pos = 0
     for ot_raw in ot_raw_list:
@@ -285,7 +284,7 @@ def inverse_apply(
             pass
 
     if last_pos > len(doc):
-        raise ValueError('skip exceeds doc length')
+        raise ValueError("skip exceeds doc length")
 
     old_doc = [doc[last_pos:]]
 
@@ -295,14 +294,15 @@ def inverse_apply(
         if ot_action == _OTTypeActionSkip:
             assert isinstance(ot_arg, int)
 
-            old_doc.append(doc[last_pos - ot_arg:last_pos])
+            old_doc.append(doc[last_pos - ot_arg : last_pos])
             last_pos -= ot_arg
 
         elif ot_action == _OTTypeActionInsert:
             assert isinstance(ot_arg, str)
 
-            if doc[last_pos - len(ot_arg):last_pos] != ot_arg:
-                raise ValueError('inconsistent delete (doc, OT.arg)', doc[last_pos - len(ot_arg):last_pos], ot_arg)
+            doc_slice = doc[last_pos - len(ot_arg) : last_pos]
+            if doc_slice != ot_arg:
+                raise ValueError("inconsistent delete (doc, OT.arg)", doc_slice, ot_arg)
             last_pos -= len(ot_arg)
 
         elif ot_action == _OTTypeActionDelete:
@@ -312,22 +312,22 @@ def inverse_apply(
 
     old_doc.append(doc[:last_pos])
 
-    return ''.join(reversed(old_doc))
+    return "".join(reversed(old_doc))
 
 
-def normalize(ot_raw_list: _OTRawInputList) -> List[_OTRawOutputType]:
-    '''Normalize ots
+def normalize(ot_raw_list: _OTRawInputSeq) -> _OTRawOutputSeq:
+    """Normalize ots
 
     Merge consecutive operations and trim the result.
-    '''
+    """
 
     if not isinstance(ot_raw_list, (list, tuple)):
-        raise TypeError('`ot_raw_list` must be a list or tuple')
+        raise TypeError("`ot_raw_list` must be a list or tuple")
 
     if not check(ot_raw_list, check_unoptimized=False):
-        raise ValueError('invalid OTs')
+        raise ValueError("invalid OTs")
 
-    new_ots: List[_OTType] = []
+    new_ots: list[_OTType] = []
     appender = _Appender(new_ots)
     for ot_raw in ot_raw_list:
         appender.append(_resolve_ot(ot_raw))
@@ -338,11 +338,11 @@ def normalize(ot_raw_list: _OTRawInputList) -> List[_OTRawOutputType]:
 
 
 def transform(
-    ot_raw_list_1: _OTRawInputList,
-    ot_raw_list_2: _OTRawInputList,
-    side: Literal['left', 'right'],
-) -> List[_OTRawOutputType]:
-    '''Transform `ot_raw_list_1` by `ot_raw_list_2`
+    ot_raw_list_1: _OTRawInputSeq,
+    ot_raw_list_2: _OTRawInputSeq,
+    side: Literal["left", "right"],
+) -> _OTRawOutputSeq:
+    """Transform `ot_raw_list_1` by `ot_raw_list_2`
 
     Transform `ot_raw_list_1` to have same meaning when `ot_raw_list_2` is applied
     to the doc before `ot_raw_list_1`.
@@ -358,24 +358,24 @@ def transform(
     .. code::
         apply(apply(doc, local_ots), transform(server_ots, local_ots, 'left'))
             == apply(apply(doc, server_ots), transform(local_ots, server_ots, 'right'))
-    '''
+    """
 
     if not isinstance(ot_raw_list_1, (list, tuple)):
-        raise TypeError('`ot_raw_list_1` must be a list or tuple')
+        raise TypeError("`ot_raw_list_1` must be a list or tuple")
 
     if not isinstance(ot_raw_list_2, (list, tuple)):
-        raise TypeError('`ot_raw_list_2` must be a list or tuple')
+        raise TypeError("`ot_raw_list_2` must be a list or tuple")
 
     if not isinstance(side, str):
-        raise TypeError('`side` must be str')
+        raise TypeError("`side` must be str")
 
     if not check(ot_raw_list_1) or not check(ot_raw_list_2):
-        raise ValueError('invalid OTs')
+        raise ValueError("invalid OTs")
 
-    if side not in ['left', 'right']:
-        raise ValueError('invalid side')
+    if side not in ["left", "right"]:
+        raise ValueError("invalid side")
 
-    new_ots: List[_OTType] = []
+    new_ots: list[_OTType] = []
     appender = _Appender(new_ots)
     taker = _Taker(ot_raw_list_1)
 
@@ -387,7 +387,7 @@ def transform(
 
             n = ot_arg
             while 0 < n:
-                chunk_ot = taker.take(n, 'i')
+                chunk_ot = taker.take(n, "i")
                 appender.append(chunk_ot)
 
                 if chunk_ot is None:
@@ -409,10 +409,7 @@ def transform(
 
             n = len(ot_arg)
 
-            if (
-                side == 'left'
-                and taker.peak_action() == _OTTypeActionInsert
-            ):
+            if side == "left" and taker.peak_action() == _OTTypeActionInsert:
                 appender.append(taker.take(-1))
 
             appender.append((_OTTypeActionSkip, n))
@@ -422,7 +419,7 @@ def transform(
 
             n = len(ot_arg)
             while 0 < n:
-                chunk_ot = taker.take(n, 'i')
+                chunk_ot = taker.take(n, "i")
 
                 if chunk_ot is None:
                     break  # pragma: no cover
@@ -450,26 +447,26 @@ def transform(
 
 
 def compose(
-    ot_raw_list_1: _OTRawInputList,
-    ot_raw_list_2: _OTRawInputList,
-) -> List[_OTRawOutputType]:
-    '''Compose `ot_raw_list_1` and `ot_raw_list_2`
+    ot_raw_list_1: _OTRawInputSeq, ot_raw_list_2: _OTRawInputSeq
+) -> _OTRawOutputSeq:
+    """Compose `ot_raw_list_1` and `ot_raw_list_2`
 
     The result of compose satisfies
     .. code::
-        apply(apply(doc, ot_raw_list_1), ot_raw_list_2) == apply(doc, compose(ot_raw_list_1, ot_raw_list_2))
-    '''
+        apply(apply(doc, ot_raw_list_1), ot_raw_list_2)
+            == apply(doc, compose(ot_raw_list_1, ot_raw_list_2))
+    """
 
     if not isinstance(ot_raw_list_1, (list, tuple)):
-        raise TypeError('`ot_raw_list_1` must be a list or tuple')
+        raise TypeError("`ot_raw_list_1` must be a list or tuple")
 
     if not isinstance(ot_raw_list_2, (list, tuple)):
-        raise TypeError('`ot_raw_list_2` must be a list or tuple')
+        raise TypeError("`ot_raw_list_2` must be a list or tuple")
 
     if not check(ot_raw_list_1) or not check(ot_raw_list_2):
-        raise ValueError('invalid OTs')
+        raise ValueError("invalid OTs")
 
-    new_ots: List[_OTType] = []
+    new_ots: list[_OTType] = []
     appender = _Appender(new_ots)
     taker = _Taker(ot_raw_list_1)
 
@@ -481,7 +478,7 @@ def compose(
 
             n = ot_arg
             while 0 < n:
-                chunk_ot = taker.take(n, 'd')
+                chunk_ot = taker.take(n, "d")
                 appender.append(chunk_ot)
 
                 if chunk_ot is None:
@@ -508,7 +505,7 @@ def compose(
             n = len(ot_arg)
 
             while 0 < n:
-                chunk_ot = taker.take(n, 'd')
+                chunk_ot = taker.take(n, "d")
 
                 if chunk_ot is None:
                     break  # pragma: no cover
@@ -518,18 +515,20 @@ def compose(
                 if chunk_ot_action == _OTTypeActionSkip:
                     assert isinstance(chunk_ot_arg, int)
 
-                    appender.append((_OTTypeActionDelete, ot_arg[offset:offset + chunk_ot_arg]))
+                    appender.append(
+                        (_OTTypeActionDelete, ot_arg[offset : offset + chunk_ot_arg])
+                    )
                     offset += chunk_ot_arg
                     n -= chunk_ot_arg
 
                 elif chunk_ot_action == _OTTypeActionInsert:
                     assert isinstance(chunk_ot_arg, str)
 
-                    if chunk_ot_arg != ot_arg[offset:offset + len(chunk_ot_arg)]:
+                    if chunk_ot_arg != ot_arg[offset : offset + len(chunk_ot_arg)]:
                         raise ValueError(
-                            'inconsistent delete in the seconds OTs (doc, OT.arg)',
+                            "inconsistent delete in the seconds OTs (doc, OT.arg)",
                             chunk_ot_arg,
-                            ot_arg[offset:offset + len(chunk_ot_arg)],
+                            ot_arg[offset : offset + len(chunk_ot_arg)],
                         )
                     offset += len(chunk_ot_arg)
                     n -= len(chunk_ot_arg)
