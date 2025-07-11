@@ -403,6 +403,29 @@ def test_compose_fuzz(core_impl, input_cls) -> None:  # type:ignore
         assert doc_3 == doc_3_composed
 
 
+def test_diff() -> None:
+    diff = core.diff
+
+    assert diff("hello world", "bye world!") == [
+        {"d": "h"},
+        "by",
+        1,
+        {"d": "llo"},
+        6,
+        "!",
+    ]
+
+
+def test_diff_fuzz() -> None:
+    apply = core.apply
+    diff = core.diff
+
+    for _ in range(FUZZ_TEST_COUNT):
+        doc1 = utils.make_random_doc(FUZZ_TEST_INIT_DOC_LENGTH)
+        doc2 = utils.make_random_doc(FUZZ_TEST_INIT_DOC_LENGTH)
+        assert apply(doc1, diff(doc1, doc2)) == doc2
+
+
 def test_complex_fuzz(core_impl, input_cls) -> None:  # type:ignore
     if TYPE_CHECKING:
         core_impl = core

@@ -2,7 +2,7 @@
 
 A python library for Operational Transformation (OT). Basic idea follows the spec at https://github.com/ottypes/docs.
 
-Supported Python versions : CPython 3.9 - 3.12, PyPy 3.9 - 3.10
+Supported Python versions : CPython 3.9 - 3.13, PyPy 3.10 - 3.11
 
 
 ## Installation
@@ -53,6 +53,7 @@ Delete a string `s` at the current position is represented as `{'d': s}`
 assert apply('asdf', [{'d': 'as'}]) == 'df'
 assert apply('asdf', [1, {'d': 'sd'}]) == 'af'
 ```
+
 
 ## Supported Functions
 
@@ -113,6 +114,13 @@ Compose two sequences of OTs with the property:
 assert apply(apply(doc, ots1), ots2) == apply(doc, compose(ots1, ots2))
 ```
 
+### `diff(doc1: str, doc2: str) -> Sequence[OT]`
+
+Generate a sequence of OTs required to change `doc1` to `doc2`:
+
+```python
+assert apply(doc1, diff(doc1, doc2)) == doc2
+```
 
 
 ## Benchmark (at CPython 3.12.1)
