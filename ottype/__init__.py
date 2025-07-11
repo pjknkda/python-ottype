@@ -9,7 +9,17 @@ from .core import inverse_apply as _inverse_apply_py
 from .core import normalize as _normalize_py
 from .core import transform as _transform_py
 
-__version__ = "24.6.0"
+try:
+    from setuptools_scm import get_version
+
+    __version__ = get_version(root="..", relative_to=__file__)
+except (LookupError, ModuleNotFoundError):
+    try:
+        from ._version import version
+
+        __version__ = version
+    except ModuleNotFoundError:
+        raise RuntimeError("Cannot determine version")
 
 NO_EXTENSIONS = bool(os.environ.get("OTTYPE_NO_EXTENSIONS"))
 
