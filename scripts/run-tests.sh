@@ -1,7 +1,15 @@
 #!/bin/bash
 set -e -x
 
-TARGET_PYBIN=("cp39-cp39" "cp310-cp310" "cp311-cp311" "cp312-cp312" "pp39-pypy39_pp73" "pp310-pypy310_pp73")
+TARGET_PYBIN=(
+    "cp39-cp39"
+    "cp310-cp310"
+    "cp311-cp311"
+    "cp312-cp312"
+    "cp313-cp313"
+    "pp310-pypy310_pp73"
+    "pp311-pypy311_pp73"
+)
 cd /io
 
 # Install packages and test

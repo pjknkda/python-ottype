@@ -14,6 +14,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: Implementation :: CPython",
     "Operating System :: POSIX",
     "Operating System :: MacOS :: MacOS X",
@@ -23,7 +24,7 @@ license = { text = "MIT License" }
 readme = { file = "README.md", content-type = "text/markdown" }
 urls = { Homepage = "https://github.com/pjknkda/python-ottype" }
 
-requires-python = ">=3.9, <3.13"
+requires-python = ">=3.9, <3.14"
 
 dependencies = []
 optional-dependencies = { dev = [
@@ -60,7 +61,7 @@ virtual_env = "venv"
 
 
 [tool.mypy]
-python_version = "3.12"
+python_version = "3.13"
 
 check_untyped_defs = true
 

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from difflib import SequenceMatcher
 from typing import Literal, NewType, Optional, Sequence, Union
 
 _OTTypeAction = NewType("_OTTypeAction", int)
@@ -545,3 +546,23 @@ def compose(
     _trim(new_ots)
 
     return _to_ot_raw_list(new_ots)
+
+
+def diff(doc1: str, doc2: str) -> _OTRawOutputSeq:
+    seq = SequenceMatcher(None, doc1, doc2)
+    ots: list[_OTType] = []
+
+    for tag, i1, i2, j1, j2 in seq.get_opcodes():
+        if tag == "equal":
+            ots.append((_OTTypeActionSkip, i2 - i1))
+        elif tag == "delete":
+            ots.append((_OTTypeActionDelete, doc1[i1:i2]))
+        elif tag == "insert":
+            ots.append((_OTTypeActionInsert, doc2[j1:j2]))
+        elif tag == "replace":
+            ots.append((_OTTypeActionDelete, doc1[i1:i2]))
+            ots.append((_OTTypeActionInsert, doc2[j1:j2]))
+
+    _trim(ots)
+
+    return _to_ot_raw_list(ots)
